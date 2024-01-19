@@ -1,0 +1,89 @@
+DROP DATABASE IF EXISTS FORO;
+CREATE DATABASE FORO;
+USE FORO;
+DROP TABLE IF EXISTS Usuarios;
+DROP TABLE IF EXISTS Likes;
+DROP TABLE IF EXISTS Publicaciones;
+DROP TABLE IF EXISTS Temas;
+DROP TABLE IF EXISTS Chats;
+
+
+CREATE TABLE Usuarios(
+	idUsuario INTEGER PRIMARY KEY AUTO_INCREMENT,
+	Us_Nombre VARCHAR(20),
+    Us_Mail VARCHAR(20),
+    Us_Contrasena VARCHAR(20)    
+);
+
+
+CREATE TABLE Chat(
+	idUsuarioDestino INTEGER NOT NULL,
+    idUsuarioOrigen INTEGER NOT NULL,
+    fecha DATETIME,
+    contenido VARCHAR(100),
+	FOREIGN KEY (idUsuarioDestino)
+		REFERENCES Usuarios (idUsuario)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE,
+	FOREIGN KEY (idUsuarioOrigen)
+		REFERENCES Usuarios (idUsuario)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE
+);
+
+
+CREATE TABLE Temas(
+	idTema INTEGER PRIMARY KEY AUTO_INCREMENT,
+    Titulo VARCHAR(20)
+);
+
+
+CREATE TABLE Publicaciones(
+	idPublicacion INTEGER PRIMARY KEY AUTO_INCREMENT,
+    idUsuario INTEGER NOT NULL,
+    idTema INTEGER NOT NULL,
+    idPubliRefer INTEGER,
+    fecha DATE,
+    numLikes INTEGER,
+	FOREIGN KEY (idPubliRefer)
+		REFERENCES Publicaciones (idPublicacion)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE,
+	FOREIGN KEY (idTema)
+		REFERENCES Temas (idTema)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE,
+	FOREIGN KEY (idUsuario)
+		REFERENCES Usuarios (idUsuario)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE
+);
+
+
+CREATE TABLE Likes(
+	idPublicacion INTEGER NOT NULL,
+	idUsuario INTEGER NOT NULL,
+    Li_Fecha DATETIME,
+	FOREIGN KEY (idPublicacion)
+		REFERENCES Publicaciones (idPublicacion)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY (idUsuario)
+		REFERENCES Usuarios (idUsuario)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE
+);
+
+
+CREATE TABLE Tema_Usuario(
+	idTema INTEGER NOT NULL,
+    idUsuario INTEGER NOT NULL,
+	FOREIGN KEY (idTema)
+		REFERENCES Temas (idTema)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE,
+	FOREIGN KEY (idUsuario)
+		REFERENCES Usuarios (idUsuario)
+		ON UPDATE CASCADE
+    	ON DELETE CASCADE
+);
