@@ -10,8 +10,10 @@ DROP TABLE IF EXISTS Chats;
 
 CREATE TABLE Usuarios(
 	idUsuario INTEGER PRIMARY KEY AUTO_INCREMENT,
-    edad INTEGER,
+    anioNacimiento INTEGER,
 	Us_Nombre VARCHAR(20),
+    Us_Genero VARCHAR(20),
+    Us_Descripcion VARCHAR(200),
     Us_Mail VARCHAR(20),
     Us_Contrasena VARCHAR(20)    
 );
@@ -64,9 +66,9 @@ CREATE TABLE Publicaciones(
 
 
 CREATE TABLE Likes(
+	idLike INTEGER PRIMARY KEY AUTO_INCREMENT,
 	idPublicacion INTEGER NOT NULL,
 	idUsuario INTEGER NOT NULL,
-    Li_Fecha DATETIME,
 	FOREIGN KEY (idPublicacion)
 		REFERENCES Publicaciones (idPublicacion)
 		ON UPDATE CASCADE

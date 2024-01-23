@@ -54,7 +54,6 @@ public class insertChat {
 					int mes = rm.nextInt(12) + 1;
 					if (mes == 2 && dia > 28) {
 						i--;
-
 					}
 					fecha = rm.nextInt(2000, 2024) + "-" + String.format("%02d", mes) + "-"
 							+ String.format("%02d", dia);
