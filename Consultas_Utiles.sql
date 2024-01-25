@@ -1,14 +1,57 @@
 select * from Chat;
 select * from Usuarios;
 select * from Temas;
-select * from publicaciones;
+select * from publicaciones where idPublicacion > 1000;
 select * from Likes;
 
 
 
+select * from usuarios where (2024 - anioNacimiento) < 18;
 
 select count(*) from publicaciones where idPubliRefer is null;
 
+
+
+DROP PROCEDURE IF EXISTS _tmp_update_numLikes;
+DELIMITER $$
+CREATE PROCEDURE _tmp_update_numLikes()
+BEGIN
+   DECLARE cursor_List_isdone BOOLEAN DEFAULT FALSE;
+   DECLARE cur_numLikes, id INT;
+
+   DECLARE cursor_List CURSOR FOR 
+      select count(l.idPublicacion) 
+      from Likes l right join Publicaciones p 
+      on p.idPublicacion = l.idPublicacion 
+      group by p.idPublicacion;
+
+   DECLARE CONTINUE HANDLER FOR NOT FOUND SET cursor_List_isdone = TRUE;
+
+   OPEN cursor_List;
+	SET id = 0;
+   loop_List: LOOP
+      FETCH cursor_List INTO cur_numLikes;
+      IF cursor_List_isdone THEN
+         LEAVE loop_List;
+      END IF;
+		SET id = id+1;
+		update publicaciones set numLikes = cur_numLikes where idPublicacion = id;
+
+   END LOOP loop_List;
+
+   CLOSE cursor_List;
+END $$
+DELIMITER ;
+CALL _tmp_update_numLikes();
+
+
+
+select p.*, count(l.idPublicacion) as "numberLikes" 
+	from publicaciones p join likes l on p.idPublicacion = l.idPublicacion 
+		where p.numLikes != "numberLikes"
+			group by l.idPublicacion 
+				order by l.idPublicacion;
+                
 
 
 
@@ -26,7 +69,7 @@ UPDATE publicaciones AS p1
     
   
 #Comprobar que ningun menor de edad vea contenido inapropiado
-select us.idUsuario, te.idTema from usuarios us 
+select us.idUsuario, te.idTema, te.Titulo from usuarios us 
 	Join usuario_tema ut on ut.idUsuario = us.idUsuario 
 		join temas te on te.idTema = ut.idTema where te.edadMinima = 18 and (2024 - anioNacimiento < 18);
         

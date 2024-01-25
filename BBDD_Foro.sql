@@ -50,6 +50,7 @@ CREATE TABLE Publicaciones(
     idPubliRefer INTEGER,
     fecha DATE,
     numLikes INTEGER,
+    contenido VARCHAR(300),
 	FOREIGN KEY (idPubliRefer)
 		REFERENCES Publicaciones (idPublicacion)
 		ON UPDATE CASCADE

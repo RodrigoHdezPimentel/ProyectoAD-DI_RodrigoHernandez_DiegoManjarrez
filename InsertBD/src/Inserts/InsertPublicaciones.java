@@ -33,6 +33,9 @@ public class InsertPublicaciones {
 			boolean isComment;
 			String numRef;
 			String query = "";
+			for(String s : listaPublicaciones) {
+				System.out.println(s);
+			}
 			
 			for (int x = 1; x < 2000; x++) {
 
@@ -52,7 +55,7 @@ public class InsertPublicaciones {
 					fecha = rm.nextInt(2020, 2024) + "-" + String.format("%02d", mes) + "-"
 							+ String.format("%02d", dia);
 					
-					query = "(NULL, " + (rm.nextInt(50) + 1) + ", " + (rm.nextInt(32) + 1) + ", " + numRef + ", \"" + fecha + "\", 0),";
+					query = "(NULL, " + (rm.nextInt(50) + 1) + ", " + (rm.nextInt(32) + 1) + ", " + numRef + ", \"" + fecha + "\", 0, \"" + listaPublicaciones[rm.nextInt(listaPublicaciones.length)] + "\"),";
 					pw.println(query);
 					pw.flush();
 				}
