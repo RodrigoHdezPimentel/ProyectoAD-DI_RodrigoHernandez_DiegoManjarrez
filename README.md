@@ -12,35 +12,17 @@ Esta aplicación va dirigida a edades desde los 16 hasta los 50 años debido a l
 Sin embargo cada tema tendrá una paleta de colores personalizada para dicho contenido.\
 Aquí algunas de paletas de colores de los para los 32 temas:
     - Tecnología: 
-<span style="color:#212529">█</span>
-<span style="color:#023e8a">█</span>
-<span style="color:#864AF9">█</span>
-<span style="color:#00b4d8">█</span>
+![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Paletas/PaletaTecnologia.png)
     - Ciencia : 
-<span style="color:#52b69a">█</span>
-<span style="color:#1AACAC">█</span>
-<span style="color:#1a759f">█</span>
-<span style="color:#435585">█</span>
+![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Paletas/PaletaCiencia.png)
     - Programación : 
-<span style="color:#212529">█</span>
-<span style="color:#7D7C7C ">█</span>
-<span style="color:#CCC8AA">█</span>
-<span style="color:#ced4da ">█</span>
-    - Desarrollo Web : 
-<span style="color:#00b4d8">█</span>
-<span style="color:#ACFADF ">█</span>
-<span style="color:#CEE6F3">█</span>
-<span style="color:#F4F2DE ">█</span>
+![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Paletas/PaletaProgramacion.png)
     - Redes Sociales : 
-<span style="color:#FFFFF">█</span>
-<span style="color:#7E2553">█</span>
-<span style="color:#FF004D">█</span>
-<span style="color:#FAEF5D">█</span>
+![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Paletas/PaletaRedesSociales.png)
     - CiberSeguridad : 
-<span style="color:#780000 ">█</span>
-<span style="color:#FC6736 ">█</span>
-<span style="color:#FFB0B0">█</span>
-<span style="color:#003049">█</span>
+![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Paletas/PaletaCiberSeguridad.png)
+    - Diseño Grafico : 
+![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Paletas/PaletaDiseñoGrafico.png)
 
 - ### Fuente
     La fuente elegida es la "Roboto", una letra clara, sin decoracion y perfecta para ser leida, debido a que al ser una app que involucra mucho texto, es necesaria una letra poco serifada.
@@ -70,26 +52,26 @@ Aquí algunas de paletas de colores de los para los 32 temas:
 ## Activities
 - La aplicacion inicia con una pagina de registro para usuarios donde ademas elegirán sus temas de preferencia.
 
-![Activity Register](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/RegisterActivity.png)
+![Activity Register](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/RegisterActivity.png)
 
 
 - Cuando te registras, te llevará a una activity de publicaciones, donde mediante un fragment, elegirás si ver las tendencias o sugerencias en funcion de los temas que elegistes.
 
-![Activity Mian](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/PublishesActivity.png)
+![Activity Mian](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/PublishesActivity.png)
 
 - Al clicar una publicacion tendrás acceso a sus comentarios.
 
-![Activity Coments](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/ComentActivity.png)
+![Activity Coments](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/ComentActivity.png)
 
 - Cuando cliques en tu perfil, tendrás la opcion de modificarlo, ver los likes que has dado y tus publicaicones. 
 
-![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/EditProfileActivity.png)\
-![Activity edit Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/ProfileActivity.png)
+![Activity Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/EditProfileActivity.png)
+![Activity edit Profile](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/ProfileActivity.png)
 
 - En la parte de publicar aparecerán los campos necesarios para realizar una publicacion.
 
-![Activity Chat](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/PublicarActivity.png)
+![Activity Chat](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/PublicarActivity.png)
 
 - En el aprtado de chat se nos abrirá un listado de chats para hablar con otros usuarios.
 
-![Activity ThemesActivity.png](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/ChatActivity.png)
+![Activity ThemesActivity.png](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/ChatActivity.png)
