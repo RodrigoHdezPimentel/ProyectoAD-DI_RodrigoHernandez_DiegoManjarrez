@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Publicacion")
+@RequestMapping("/publicacion")
 public class PublicacionController {
     @Autowired
     private PublicacionService publicacionService;
@@ -25,33 +25,47 @@ public class PublicacionController {
         return publicacionService.getPublicacionById(id);
     }
     @PostMapping("/save")
-    public Publicacion saveUsuario(@RequestBody Publicacion publicacion){
+    public Publicacion savePublicacion(@RequestBody Publicacion publicacion){
         return publicacionService.savePublicacion(publicacion);
     }
-    @GetMapping("/allContent")
-    public List<String> getAllUsuariosName(){
+    @GetMapping("/allContentFromUser/{id}")
+    public List<String> getAllPublishesFromUser(@PathVariable Integer id){
         List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
-        List<String> contenPublicaiones = new ArrayList<String>();
+        List<String> filterPublicaiones = new ArrayList<String>();
 
         for(Publicacion p : publicaciones){
-            contenPublicaiones.add(p.getContenido());}
+            if(p.getIdusuario() == id){
+                filterPublicaiones.add(p.getContenido());
+            }
+        }
+        return  filterPublicaiones;
+    }
+    @GetMapping("/allComentariosFromPublicacion/{id}")
+    public List<String> getAllComentsFromPublish(@PathVariable Integer id){
+        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
+        List<String> filterPublicaiones = new ArrayList<String>();
 
-        return  contenPublicaiones;
+        for(Publicacion p : publicaciones){
+            if(p.getIdpublirefer() == id){
+                filterPublicaiones.add(p.getContenido());
+            }
+        }
+        return  filterPublicaiones;
     }
     @GetMapping("/searchInName/{str}")
     public List<Publicacion> getsearchName(@PathVariable String str){
         List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
-        List<Publicacion> productsFiltered = new ArrayList<Publicacion>();
+        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
 
         for(Publicacion p : publicaciones){
             if(p.getContenido().toLowerCase().contains(str.toLowerCase())){
-                productsFiltered.add(p);
+                publicacionesFiltered.add(p);
             }
         }
-        return  productsFiltered;
+        return  publicacionesFiltered;
     }
     @DeleteMapping("/deleteById/{id}")
-    public Boolean deleteProduct(@PathVariable Integer id){
+    public Boolean deletePublicacion(@PathVariable Integer id){
         return publicacionService.deleteUsuario(id);
     }
 

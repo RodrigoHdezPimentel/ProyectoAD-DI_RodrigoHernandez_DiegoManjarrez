@@ -42,17 +42,17 @@ public class UsuarioController {
     @GetMapping("/searchInName/{str}")
     public List<Usuario> getsearchName(@PathVariable String str){
         List<Usuario> usuarios = usuarioService.getAllUsuarios();
-        List<Usuario> productsFiltered = new ArrayList<Usuario>();
+        List<Usuario> usuariosFiltered = new ArrayList<Usuario>();
 
         for(Usuario p : usuarios){
             if(p.getName().toLowerCase().contains(str.toLowerCase())){
-                productsFiltered.add(p);
+                usuariosFiltered.add(p);
             }
         }
-        return  productsFiltered;
+        return  usuariosFiltered;
     }
     @DeleteMapping("/deleteById/{id}")
-    public Boolean deleteProduct(@PathVariable Integer id){
+    public Boolean deleteUsuario(@PathVariable Integer id){
         return usuarioService.deleteUsuario(id);
     }
 
