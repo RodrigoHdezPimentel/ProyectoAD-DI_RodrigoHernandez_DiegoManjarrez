@@ -3,4 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#6495ed</color>
+    <color name="background_app">#FEFCFB</color>
+    <color name="button_login">#1282A2</color>
+    <color name="button_signUp">#034078</color>
+
+
+
 </resources>
