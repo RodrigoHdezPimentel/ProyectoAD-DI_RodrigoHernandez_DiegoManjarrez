@@ -19,10 +19,10 @@
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/chat_fr"
+            android:id="@+id/home_fr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:icon="@drawable/mensaje" />
+            android:icon="@drawable/casa" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/publish_fr"
@@ -31,10 +31,10 @@
             android:icon="@drawable/agregar" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/home_fr"
+            android:id="@+id/chat_fr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:icon="@drawable/casa"/>
+            android:icon="@drawable/mensaje"/>
 
 
         <com.google.android.material.tabs.TabItem

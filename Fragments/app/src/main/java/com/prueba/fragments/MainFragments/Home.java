@@ -3,22 +3,25 @@ package com.prueba.fragments.MainFragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.prueba.fragments.HomeFragments.MisTemas;
+import com.prueba.fragments.HomeFragments.Tendencias;
 import com.prueba.fragments.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Home#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class Home extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    TabLayout tabLayout;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -27,18 +30,9 @@ public class Home extends Fragment {
     private String mParam2;
 
     public Home() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Home.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Home newInstance(String param1, String param2) {
         Home fragment = new Home();
         Bundle args = new Bundle();
@@ -60,7 +54,44 @@ public class Home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        tabLayout = root.findViewById(R.id.homeFragmentManager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                switch (tab.getPosition()) {
+                    case 0:
+                        Toast.makeText(getContext(), "Tab Mis Temas seleccionado", Toast.LENGTH_SHORT).show();
+                        selectedFragment(new MisTemas());
+                        break;
+                    case 1:
+                        Toast.makeText(getContext(), "Tab Mis Tendencias seleccionado", Toast.LENGTH_SHORT).show();
+                        selectedFragment(new Tendencias());
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                //Acá se puede recargar los "datos" cuando se vuelva a seleccionar el mismo fragment
+            }
+        });
+
+        return root;
+    }
+
+
+    void selectedFragment(Fragment fr){
+        MisTemas misTemas = new MisTemas();
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentView, fr);
+        fragmentTransaction.commit();
     }
 }

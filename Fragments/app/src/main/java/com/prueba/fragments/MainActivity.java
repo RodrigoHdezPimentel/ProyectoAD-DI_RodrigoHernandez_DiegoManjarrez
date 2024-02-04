@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (tab.getPosition()){
                     case 0:
-                        fragment = new Chats();
+                        fragment = new Home();
                         break;
                     case 1:
                         fragment = new Publish();
                         break;
                     case 2:
-                        fragment = new Home();
+                        fragment = new Chats();
                         break;
                     case 3:
                         fragment = new Profile();
