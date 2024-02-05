@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/md_theme_light_onTertiaryContainer"
     tools:context=".Login_SignUP">
 
     <Button
@@ -106,13 +105,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.18004866" />
-
-    <FrameLayout
-        android:id="@+id/RegisterFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

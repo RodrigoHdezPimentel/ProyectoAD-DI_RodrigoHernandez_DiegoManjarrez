@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.prueba.fragments.Registro.Registro;
 
 public class Login_SignUP extends AppCompatActivity {
 Button buttonLogin;
 Button buttonSignUp;
-FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ FrameLayout frameLayout;
 
         }
     });
-    frameLayout = findViewById(R.id.RegisterFragment);
+
     buttonSignUp.setOnClickListener(new View.OnClickListener() {
 
         @Override
