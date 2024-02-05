@@ -17,7 +17,7 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
     @GetMapping("/all")
-    public List<Like> getAllULikes(){
+    public List<Like> getAllLikes(){
         return likeService.getAllLike();
     }
     @GetMapping("/id/{id}")
@@ -25,7 +25,7 @@ public class LikeController {
         return likeService.getLikeById(id);
     }
     @GetMapping("/allUserLikes/{id}")
-    public List<Like> getsearchName(@PathVariable Integer id){
+    public List<Like> getUserLikes(@PathVariable Integer id){
         List<Like> likes = likeService.getAllLike();
         List<Like> likesFiltered = new ArrayList<Like>();
 

@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Chat {
     @Id
+    @Column(name = "idchat")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @Column(name = "idusuariodestino")
     private Integer idDestino;
     @Column(name = "idusuarioorigen")

@@ -29,7 +29,7 @@ public class ChatController {
         return chatService.saveChat(chat);
     }
     @GetMapping("/searchInChat/{id}/{str}")
-    public List<Chat> getsearchName(@PathVariable Integer id, @PathVariable String str){
+    public List<Chat> getsearchChat(@PathVariable Integer id, @PathVariable String str){
         List<Chat> chats = chatService.getAllChats();
         List<Chat> chatsFiltered = new ArrayList<Chat>();
 

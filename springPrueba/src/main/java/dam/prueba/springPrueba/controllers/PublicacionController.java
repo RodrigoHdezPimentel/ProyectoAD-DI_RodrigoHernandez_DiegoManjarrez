@@ -17,15 +17,15 @@ public class PublicacionController {
     @Autowired
     private PublicacionService publicacionService;
     @GetMapping("/all")
-    public List<Publicacion> getAllUsuarios(){
+    public List<Publicacion> getAllPublishes(){
         return publicacionService.getAllPublicaciones();
     }
     @GetMapping("/id/{id}")
-    public Optional<Publicacion> getUsuarioById(@PathVariable Integer id){
+    public Optional<Publicacion> getPublishById(@PathVariable Integer id){
         return publicacionService.getPublicacionById(id);
     }
     @PostMapping("/save")
-    public Publicacion savePublicacion(@RequestBody Publicacion publicacion){
+    public Publicacion savePublish(@RequestBody Publicacion publicacion){
         return publicacionService.savePublicacion(publicacion);
     }
     @GetMapping("/allContentFromUser/{id}")
@@ -65,7 +65,7 @@ public class PublicacionController {
         return  publicacionesFiltered;
     }
     @DeleteMapping("/deleteById/{id}")
-    public Boolean deletePublicacion(@PathVariable Integer id){
+    public Boolean deletePublish(@PathVariable Integer id){
         return publicacionService.deleteUsuario(id);
     }
 
