@@ -18,12 +18,14 @@ public class InsertPublicaciones {
 			BufferedReader br = new BufferedReader(fr);
 
 			String[] listaPublicaciones;
+			String[] listaTitulos;
 			String poemario = "";
 			String texto;
 			while ((texto = br.readLine()) != null) {
 				poemario += texto;
 			}
 			listaPublicaciones = poemario.split(";");
+			listaTitulos = poemario.split(" ");
 			br.close();
 			fr.close();
 
@@ -55,7 +57,7 @@ public class InsertPublicaciones {
 					fecha = rm.nextInt(2020, 2024) + "-" + String.format("%02d", mes) + "-"
 							+ String.format("%02d", dia);
 					
-					query = "(NULL, " + (rm.nextInt(50) + 1) + ", " + (rm.nextInt(32) + 1) + ", " + numRef + ", \"" + fecha + "\", 0, \"" + listaPublicaciones[rm.nextInt(listaPublicaciones.length)] + "\"),";
+					query = "(NULL, " + (rm.nextInt(50) + 1) + ", " + (rm.nextInt(32) + 1) + ", " + numRef + ", \"" + fecha + "\", 0, \""+ listaTitulos[rm.nextInt(listaTitulos.length-1)] + "\", \"" + listaPublicaciones[rm.nextInt(listaPublicaciones.length)] + "\"),";
 					pw.println(query);
 					pw.flush();
 				}

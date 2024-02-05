@@ -20,7 +20,6 @@ CREATE TABLE Usuarios(
 
 
 CREATE TABLE Chat(
-	idChat INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	idUsuarioDestino INTEGER NOT NULL,
     idUsuarioOrigen INTEGER NOT NULL,
     fecha DATE,
@@ -51,6 +50,7 @@ CREATE TABLE Publicaciones(
     idPubliRefer INTEGER,
     fecha DATE,
     numLikes INTEGER,
+    titulo VARCHAR(30),
     contenido VARCHAR(300),
 	FOREIGN KEY (idPubliRefer)
 		REFERENCES Publicaciones (idPublicacion)
