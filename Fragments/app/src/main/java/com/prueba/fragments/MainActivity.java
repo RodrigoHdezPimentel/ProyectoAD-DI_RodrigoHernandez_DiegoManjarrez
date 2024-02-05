@@ -16,6 +16,7 @@ import com.prueba.fragments.MainFragments.Publish;
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -64,11 +64,9 @@ public class Home extends Fragment {
 
                 switch (tab.getPosition()) {
                     case 0:
-                        Toast.makeText(getContext(), "Tab Mis Temas seleccionado", Toast.LENGTH_SHORT).show();
                         selectedFragment(new MisTemas());
                         break;
                     case 1:
-                        Toast.makeText(getContext(), "Tab Mis Tendencias seleccionado", Toast.LENGTH_SHORT).show();
                         selectedFragment(new Tendencias());
                         break;
                 }
@@ -89,7 +87,6 @@ public class Home extends Fragment {
 
 
     void selectedFragment(Fragment fr){
-        MisTemas misTemas = new MisTemas();
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentView, fr);
         fragmentTransaction.commit();

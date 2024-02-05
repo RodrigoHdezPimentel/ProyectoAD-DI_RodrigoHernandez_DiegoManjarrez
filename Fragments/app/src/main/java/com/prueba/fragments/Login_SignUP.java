@@ -6,26 +6,47 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+
+import com.prueba.fragments.Registro.Registro;
 
 public class Login_SignUP extends AppCompatActivity {
 Button buttonLogin;
 Button buttonSignUp;
+FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
     buttonLogin = findViewById(R.id.buttonLogin);
-    buttonLogin.setOnClickListener(new View.OnClickListener() {
+    buttonSignUp = findViewById(R.id.buttonSignUp);
+        //el finish() se utiliza para eliminar la activvity para que no ocupe almacenamiento
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            //metodo de comprobaciçon en la base de datos si el username y el paswword coincide
+            //colocar metodo de comprobaciçon en la base de datos si el username y el paswword coincide
             Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
             startActivity(goMain);
-            //el finish se utiliza para eliminar la activvity para que no ocupe almacenamiento
             finish();
+
         }
     });
-}
+    frameLayout = findViewById(R.id.RegisterFragment);
+    buttonSignUp.setOnClickListener(new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+
+            Intent goMain = new Intent(Login_SignUP.this, Registro.class);
+            startActivity(goMain);
+            finish();
+
+        }
+    });
+
+    }
+
 }
