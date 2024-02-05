@@ -1,7 +1,9 @@
 package com.prueba.fragments.MainFragments;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -61,6 +63,16 @@ public class Publish extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_publish, container, false);
+        View root = inflater.inflate(R.layout.fragment_publish, container, false);
+        ConstraintLayout constraintLayout = root.findViewById(R.id.constraintContenido);
+
+        // Crear un drawable de forma programática para el borde
+        GradientDrawable borderDrawable = new GradientDrawable();
+        int color = getResources().getColor(R.color.black);
+        borderDrawable.setStroke(2, color); // Ancho del borde y color
+
+        // Aplicar el borde al ConstraintLayout
+        constraintLayout.setBackground(borderDrawable);
+        return  root;
     }
 }
