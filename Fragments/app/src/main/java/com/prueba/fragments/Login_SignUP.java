@@ -19,6 +19,8 @@ Button buttonSignUp;
     buttonLogin.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            //metodo de comprobaciçon en la base de datos si el username y el paswword coincide
             Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
             startActivity(goMain);
             //el finish se utiliza para eliminar la activvity para que no ocupe almacenamiento
