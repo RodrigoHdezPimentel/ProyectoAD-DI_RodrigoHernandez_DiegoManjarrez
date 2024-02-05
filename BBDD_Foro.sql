@@ -20,6 +20,7 @@ CREATE TABLE Usuarios(
 
 
 CREATE TABLE Chat(
+	idChat INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	idUsuarioDestino INTEGER NOT NULL,
     idUsuarioOrigen INTEGER NOT NULL,
     fecha DATE,

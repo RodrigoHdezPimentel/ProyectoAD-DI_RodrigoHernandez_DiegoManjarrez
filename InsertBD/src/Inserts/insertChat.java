@@ -58,7 +58,7 @@ public class insertChat {
 					fecha = rm.nextInt(2000, 2024) + "-" + String.format("%02d", mes) + "-"
 							+ String.format("%02d", dia);
 					contenido = textoSplit[(rm.nextInt(textoSplit.length - 1))];
-					pw.print("(" + origen + ", " + destino + ", \'" + fecha + "\', \'" + contenido + "\'),\n");
+					pw.print("(NULL, " + origen + ", " + destino + ", \'" + fecha + "\', \'" + contenido + "\'),\n");
 				}
 			}
 			pw.flush();
