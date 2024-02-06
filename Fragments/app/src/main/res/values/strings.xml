@@ -5,4 +5,34 @@
     <string name="userName_text"> User Name</string>
     <string name="password_text"> Password</string>
 
+    <string-array name="listaThemes">
+        <item>Naturaleza</item>
+        <item>Medio Ambiente</item>
+        <item>Economía</item>
+        <item>Política</item>
+        <item>Deportes</item>
+        <item>Moda</item>
+        <item>Arte</item>
+        <item>Literatura</item>
+        <item>Música</item>
+        <item>Cine y televisión</item>
+        <item>Fotografía</item>
+        <item>Viajes</item>
+        <item>Psicología</item>
+        <item>Nutrición</item>
+        <item>Fitness y Ejercicio</item>
+        <item>Salud y Bienestar</item>
+        <item>Educacion</item>
+        <item>Sistemas Operativos</item>
+        <item>Video Juegos</item>
+        <item>Diseño Gráfico</item>
+        <item>Ciber Seguridad</item>
+        <item>Inteligencia Artificial</item>
+        <item>Redes Sociales</item>
+        <item>Desarrollo Web</item>
+        <item>Programación</item>
+        <item>Ciencia</item>
+        <item>Tecnología</item>
+    </string-array>
+
 </resources>

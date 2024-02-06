@@ -29,16 +29,9 @@ ImageView screenSplash;
         buttonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                screenSplash.setVisibility(View.VISIBLE);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(Registro.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                }, 500);
+                Intent toThemes = new Intent(Registro.this, SelectTopic.class);
+                startActivity(toThemes);
+                finish();
             }
         });
 
