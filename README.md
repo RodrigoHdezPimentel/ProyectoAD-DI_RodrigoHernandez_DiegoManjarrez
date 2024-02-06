@@ -31,13 +31,13 @@ Aquí algunas de paletas de colores de los para los 32 temas:
 
 ## Casos de uso
 - ### Usuarios
-    1. Los usuarios podrán registrarse.
+    1. Los usuarios deberán registrarse.
     2. Los usuarios podrán elegir temas de preferencia.
     3. Los usuarios podrán hacer publicaciones sobre temas.
     4. Los usuarios podrán comentar publiaciones y otros comentarios.
     5. Los usuarios podrán dar "like" a publicaciones.
     6. Los usuarios podrán ver los los likes que han dado.
-    7. Los usuarios podrán sus publicaciones en su perfil.
+    7. Los usuarios podrán ver sus publicaciones en su perfil.
     8. Actualizar su perfil.
     9. Los usuarios podrán Chatear con otros usuarios.
 - ### Publicaciones o comentarios
@@ -75,3 +75,20 @@ Aquí algunas de paletas de colores de los para los 32 temas:
 - En el aprtado de chat se nos abrirá un listado de chats para hablar con otros usuarios.
 
 ![Activity ThemesActivity.png](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/ChatActivity.png)
+![Activity ThemesActivity.png](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/ConversacionActivity.png)
+
+## Base de datos.
+La base de datos se compone de 6 tablas:
+- Usuarios
+- Temas
+- Publicaciones
+- Chats
+- Y la tabla intermedia de Temas con Usuarios
+- Likes
+Todas las relaciones son 1:N salvo la de Usuarios con Temas, que es N:M.
+### Modelo físico
+![Activity ThemesActivity.png](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_Base_de_datos/Modelo_Fisico_BD_Foro.png)
+### Datos de prueba
+Para la implementacion del foro, vamos a necesitar un rango muy amplio de datos entre los que encontramos, en la rama de BBDD, un .sql con 50 usuarios, 32 temas, 1000 publicaicones y unos 3000 likes. 
+Para ello, encontramos un proyecto java en la misma branch para crear de forma aleatoria datos. Ante el problema de concordancia de datos por la generacion aleatoria, hemos creado un documento Consultas_Interesantes.sql donde podemos corregir esos desperfectos.
+
