@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.google.android.material.tabs.TabLayout;
-import com.prueba.fragments.MainFragments.Chats;
-import com.prueba.fragments.MainFragments.Home;
-import com.prueba.fragments.MainFragments.Profile;
-import com.prueba.fragments.MainFragments.Publish;
+import com.prueba.fragments.Fragments.MainFragment.Chats;
+import com.prueba.fragments.Fragments.MainFragment.Home;
+import com.prueba.fragments.Fragments.MainFragment.Profile;
+import com.prueba.fragments.Fragments.MainFragment.Publish;
 
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
