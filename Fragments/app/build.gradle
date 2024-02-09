@@ -1,10 +1,18 @@
 plugins {
     id("com.android.application")
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 android {
     namespace = "com.prueba.fragments"
     compileSdk = 34
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+        excludes += '/notice.txt'
+        excludes += '/license.txt'
+    }
 
     defaultConfig {
         applicationId = "com.prueba.fragments"
@@ -36,4 +44,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core")
     implementation("androidx.fragment:fragment:1.6.2")
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.projectlombok:lombok'
 }

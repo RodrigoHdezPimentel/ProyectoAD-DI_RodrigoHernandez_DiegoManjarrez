@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
-import com.prueba.fragments.ProfileFragments.misLikes;
-import com.prueba.fragments.ProfileFragments.misPublicaciones;
+import com.prueba.fragments.Fragments.ProfileFragment.misLikes;
+import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
 import com.prueba.fragments.R;
 
 public class Profile extends Fragment {

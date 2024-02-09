@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
-import com.prueba.fragments.HomeFragments.MisTemas;
-import com.prueba.fragments.HomeFragments.Tendencias;
+import com.prueba.fragments.Fragments.HomeFragment.MisTemas;
+import com.prueba.fragments.Fragments.HomeFragment.Tendencias;
 import com.prueba.fragments.R;
 
 

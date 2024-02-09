@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragments.Home">
+    tools:context=".Fragments.MainFragment.Home">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -39,7 +39,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentView"
-        android:name="com.prueba.fragments.HomeFragments.MisTemas"
+        android:name="com.prueba.fragments.Fragments.HomeFragment.MisTemas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
