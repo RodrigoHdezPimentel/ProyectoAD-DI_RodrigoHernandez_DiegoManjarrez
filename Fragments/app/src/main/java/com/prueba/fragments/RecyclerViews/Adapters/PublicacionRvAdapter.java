@@ -39,9 +39,9 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.Tema.setText(publicacionModels.get(position).getIdtema());
+        holder.Tema.setText(publicacionModels.get(position).getIdtema().toString());
         holder.Contenido.setText(publicacionModels.get(position).getContenido());
-        holder.numLikes.setText(publicacionModels.get(position).getNumlikes());
+        holder.numLikes.setText(publicacionModels.get(position).getNumlikes().toString());
         holder.numComentarios.setText("query");
     }
 
