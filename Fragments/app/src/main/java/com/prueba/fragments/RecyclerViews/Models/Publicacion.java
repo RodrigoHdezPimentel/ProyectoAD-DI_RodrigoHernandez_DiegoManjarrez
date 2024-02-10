@@ -38,6 +38,7 @@ public class Publicacion {
     @Column(name = "contenido")
     private String contenido;
 
+
     public Publicacion(Integer idusuario, Integer idtema, Integer idpublirefer, Integer numlikes, String contenido) {
         this.idusuario = idusuario;
         this.idtema = idtema;

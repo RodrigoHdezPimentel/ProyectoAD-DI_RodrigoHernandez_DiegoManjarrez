@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RecyclerViews.Models.Publicacion;
@@ -63,24 +64,16 @@ public class Tendencias extends Fragment {
         }
     }
     //Cambiar esto por los datos retornados de la BD
-    public static ArrayList<Publicacion> listaPublicaciones = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tendencias, container, false);
-        listaPublicaciones.add(
-                new Publicacion(1,1,64,32,"contenido 1"));
-        listaPublicaciones.add(
-                new Publicacion(9,14,12,2647,"contenido 2"));
-        listaPublicaciones.add(
-                new Publicacion(5,16,43,5638,"contenido 3"));
-        listaPublicaciones.add(
-                new Publicacion(12,21,11,86,"contenido 4"));
 
         RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
 
-        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), listaPublicaciones);
+        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Login_SignUP.listaPublicaciones);
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

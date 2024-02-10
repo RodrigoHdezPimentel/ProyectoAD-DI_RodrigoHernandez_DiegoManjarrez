@@ -9,16 +9,30 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.prueba.fragments.RecyclerViews.Models.Publicacion;
 import com.prueba.fragments.Registro.Registro;
 
+import java.util.ArrayList;
+
 public class Login_SignUP extends AppCompatActivity {
-Button buttonLogin;
-Button buttonSignUp;
+    public static ArrayList<Publicacion> listaPublicaciones = new ArrayList<>();
+    Button buttonLogin;
+    Button buttonSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
+        //Relleno temporal para las publicaciones
+        listaPublicaciones.add(
+                new Publicacion(1,1,64,32,"contenido 1"));
+        listaPublicaciones.add(
+                new Publicacion(9,14,12,2647,"contenido 2"));
+        listaPublicaciones.add(
+                new Publicacion(5,16,43,5638,"contenido 3"));
+        listaPublicaciones.add(
+                new Publicacion(12,21,11,86,"contenido 4"));
+
     buttonLogin = findViewById(R.id.buttonLogin);
     buttonSignUp = findViewById(R.id.buttonSignUp);
         //el finish() se utiliza para eliminar la activvity para que no ocupe almacenamiento

@@ -6,16 +6,10 @@
     tools:context=".Fragments.HomeFragment.MisTemas">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
-
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/MisTemasRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="TEMASSSSS" />
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>

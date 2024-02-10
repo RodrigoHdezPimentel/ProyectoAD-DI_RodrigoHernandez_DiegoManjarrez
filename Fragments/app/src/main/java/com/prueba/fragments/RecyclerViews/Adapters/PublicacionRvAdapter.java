@@ -23,9 +23,9 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
     ArrayList<Publicacion> publicacionModels;
     int posicionMarcada = 999999;
 
-    public PublicacionRvAdapter(Context context, ArrayList<Publicacion> divisaModels) {
+    public PublicacionRvAdapter(Context context, ArrayList<Publicacion> publicacionModels) {
         this.context = context;
-        this.publicacionModels = divisaModels;
+        this.publicacionModels = publicacionModels;
     }
 
     @NonNull
@@ -36,7 +36,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         return new MyViewHolder(view);
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.Tema.setText(publicacionModels.get(position).getIdtema().toString());
