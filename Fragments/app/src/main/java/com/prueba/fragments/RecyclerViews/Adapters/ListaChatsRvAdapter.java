@@ -27,7 +27,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
     ArrayList<Chat> chatModels;
-    int posicionMarcada = 999999;
+    int posicionMarcada = -1;
 
     public ListaChatsRvAdapter(Context context, ArrayList<Chat> chatModels) {
         this.context = context;

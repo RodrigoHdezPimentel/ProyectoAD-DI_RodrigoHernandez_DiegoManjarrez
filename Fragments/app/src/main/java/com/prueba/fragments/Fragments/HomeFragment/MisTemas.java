@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,16 +62,20 @@ public class MisTemas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    public static List<Publicacion> listaPublicaciones;
+    //VARIABLES
+    List<Publicacion> listaPublicaciones;
     PublicacionInterface publicacionInterface;
     LinearLayout l;
     View view;
+    ProgressBar progressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_mis_temas, container, false);
-        //l = view.findViewById(R.id.listaPublicacion);
+        //La barra de progreso
+        progressBar = view.findViewById(R.id.progressBar);
 
         getAllPubliacion();
 
@@ -95,6 +100,8 @@ public class MisTemas extends Fragment {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setVisibility(View.GONE);
+
                         RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
                         PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
                         MyRecyclerView.setAdapter(adapter);

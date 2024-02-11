@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
     ArrayList<Chat> chatModels;
-    int posicionMarcada = 999999;
+    int posicionMarcada = -1;
 
     public ChatRvAdapter(Context context, ArrayList<Chat> chatModels) {
         this.context = context;

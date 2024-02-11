@@ -20,7 +20,7 @@ import java.util.List;
 public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdapter.MyViewHolder> {
     Context context;
     List<Publicacion> publicacionModels;
-    int posicionMarcada = 999999;
+    int posicionMarcada = -1;
 
     public PublicacionRvAdapter(Context context, List<Publicacion> publicacionModels) {
         this.context = context;

@@ -33,15 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
-//        listaPublicaciones.add(
-//                new Publicacion(1,1,64,32,"contenido 1"));
-//        listaPublicaciones.add(
-//                new Publicacion(9,14,12,2647,"contenido 2"));
-//        listaPublicaciones.add(
-//                new Publicacion(5,16,43,5638,"contenido 3"));
-//        listaPublicaciones.add(
-//                new Publicacion(12,21,11,86,"contenido 4"));
-//
 
         chatConversation.add(new Chat(1,2,"hola","fecha"));
         chatConversation.add(new Chat(2,1,"hola, ¿que tal?","fecha"));
