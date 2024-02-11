@@ -10,6 +10,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.

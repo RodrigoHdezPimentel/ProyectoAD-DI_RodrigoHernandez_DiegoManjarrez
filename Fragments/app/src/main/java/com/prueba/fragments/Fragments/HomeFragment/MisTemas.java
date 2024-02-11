@@ -1,9 +1,13 @@
 package com.prueba.fragments.Fragments.HomeFragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,8 +17,16 @@ import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
+import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MisTemas extends Fragment {
@@ -49,19 +61,53 @@ public class MisTemas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    public static List<Publicacion> listaPublicaciones;
+    PublicacionInterface publicacionInterface;
+    LinearLayout l;
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_mis_temas, container, false);
+        view = inflater.inflate(R.layout.fragment_mis_temas, container, false);
+        //l = view.findViewById(R.id.listaPublicacion);
 
-       RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
-        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), MainActivity.listaPublicaciones);
-        MyRecyclerView.setAdapter(adapter);
-        MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        getAllPubliacion();
 
         return view;
     }
+    private void getAllPubliacion() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.56.1:8086/publicacion/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        publicacionInterface = retrofit.create(PublicacionInterface.class);
+        Call<List<Publicacion>> call = publicacionInterface.getAll();
+        call.enqueue(new Callback<List<Publicacion>>() {
+            @Override
+            public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Response err: ", response.message());
+                    return;
+                }
+                listaPublicaciones = response.body();
+                listaPublicaciones.forEach(u -> Log.i("Usaurio err: ", u.toString()));
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
+                        PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
+                        MyRecyclerView.setAdapter(adapter);
+                        MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    }
+                });
+            }
 
+            @Override
+            public void onFailure(Call<List<Publicacion>> call, Throwable t) {
+                Log.e("Failure", "Error en la solicitud HTTP: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
 }

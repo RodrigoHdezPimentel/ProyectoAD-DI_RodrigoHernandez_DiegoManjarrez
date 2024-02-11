@@ -1,4 +1,4 @@
-package com.prueba.fragments.RetrofitConnection.Models;
+package com.example.pruebaconexion;
 
 public class Publicacion {
     private Integer id;

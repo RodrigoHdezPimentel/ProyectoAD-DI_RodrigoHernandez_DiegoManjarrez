@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -60,16 +61,13 @@ public class Home extends Fragment {
         }
     }
     ///////VARIABLES/////////
-    public static List<Publicacion> listaPublicaciones;
-    PublicacionInterface publicacionInterface;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        getAllPubliacion();
+       View root = inflater.inflate(R.layout.fragment_home, container, false);
+
         tabLayout = root.findViewById(R.id.homeFragmentManager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -103,33 +101,6 @@ public class Home extends Fragment {
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentView, fr);
         fragmentTransaction.commit();
-    }
-    private void getAllPubliacion(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.56.1:8086/publicacion/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-       publicacionInterface  = retrofit.create(PublicacionInterface.class);
-        Call<List<com.prueba.fragments.RetrofitConnection.Models.Publicacion>> call = publicacionInterface.getAll();
-        call.enqueue(new Callback<List<Publicacion>>() {
-            @Override
-            public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {
-                if(!response.isSuccessful()){
-                    Log.e("Response err: ", response.message());
-                    return;
-                }
-                listaPublicaciones = response.body();
-                listaPublicaciones.forEach(u -> Log.i("publicacion err: ", u.toString()));
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Publicacion>> call, Throwable t) {
-                Log.e("Thorw err: ", t.getMessage());
-
-            }
-        });
-
     }
 
 }

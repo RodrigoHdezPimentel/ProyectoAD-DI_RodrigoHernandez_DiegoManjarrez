@@ -7,19 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.prueba.fragments.Fragments.MainFragment.Home;
-import com.prueba.fragments.Login_SignUP;
-import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
-import com.prueba.fragments.RecyclerViews.Models.Publicacion;
 
-import org.jboss.jandex.Main;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,11 +65,11 @@ public class Tendencias extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tendencias, container, false);
 
-        RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
+       // RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
 
-       PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), MainActivity.listaPublicaciones);
-        MyRecyclerView.setAdapter(adapter);
-       MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//       PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Home.getListaPublicaciones());
+//        MyRecyclerView.setAdapter(adapter);
+//       MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         return view;
     }
