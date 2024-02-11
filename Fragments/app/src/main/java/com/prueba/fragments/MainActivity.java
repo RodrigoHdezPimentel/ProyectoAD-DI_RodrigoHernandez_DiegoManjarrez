@@ -12,10 +12,19 @@ import com.prueba.fragments.Fragments.MainFragment.Chats;
 import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Fragments.MainFragment.Publish;
+import com.prueba.fragments.RecyclerViews.Models.Chat;
+import com.prueba.fragments.RecyclerViews.Models.Publicacion;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     TabLayout tabLayout;
+    public static ArrayList<Publicacion> listaPublicaciones = new ArrayList<>();
+    public static ArrayList<Chat> listaChats = new ArrayList<>();
+    public static ArrayList<Chat> chatConversation = new ArrayList<>();
+    public static int idRegistrado = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +33,26 @@ public class MainActivity extends AppCompatActivity {
 
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
+
+        listaPublicaciones.add(
+                new Publicacion(1,1,64,32,"contenido 1"));
+        listaPublicaciones.add(
+                new Publicacion(9,14,12,2647,"contenido 2"));
+        listaPublicaciones.add(
+                new Publicacion(5,16,43,5638,"contenido 3"));
+        listaPublicaciones.add(
+                new Publicacion(12,21,11,86,"contenido 4"));
+
+
+        chatConversation.add(new Chat(1,2,"hola","fecha"));
+        chatConversation.add(new Chat(2,1,"hola, ¿que tal?","fecha"));
+        chatConversation.add(new Chat(1,2,"Bien, y tu?","fecha"));
+        chatConversation.add(new Chat(2,1,"A mi se me ha muerto el perro","fecha"));
+        chatConversation.add(new Chat(1,2,"jajajaja","fecha"));
+        chatConversation.add(new Chat(1,2,"perdon, chat equivocado","fecha"));
+        chatConversation.add(new Chat(1,2,"ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp","fecha"));
+
+        listaChats.add(new Chat(2,1,"ppppppppppppppppp", "fecha"));
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, new Home())
                 .addToBackStack(null)

@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RecyclerViews.Models.Publicacion;
+
+import org.jboss.jandex.Main;
 
 import java.util.ArrayList;
 
@@ -73,7 +76,7 @@ public class Tendencias extends Fragment {
 
         RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
 
-        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Login_SignUP.listaPublicaciones);
+        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), MainActivity.listaPublicaciones);
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

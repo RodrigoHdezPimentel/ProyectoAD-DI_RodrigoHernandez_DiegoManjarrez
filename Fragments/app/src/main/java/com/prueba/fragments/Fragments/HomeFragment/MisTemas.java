@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 
@@ -68,7 +69,7 @@ public class MisTemas extends Fragment {
 
         RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
 
-        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Login_SignUP.listaPublicaciones);
+        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), MainActivity.listaPublicaciones);
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

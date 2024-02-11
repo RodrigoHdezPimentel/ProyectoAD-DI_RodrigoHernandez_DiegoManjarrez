@@ -45,7 +45,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        if(chatModels.get(position).getIdDestino() == Login_SignUP.idRegistrado){
+        if(chatModels.get(position).getIdDestino() == MainActivity.idRegistrado){
             holder.personaChat.setText(chatModels.get(position).getIdOrigen().toString());
         }else{
             holder.personaChat.setText(chatModels.get(position).getIdDestino().toString());

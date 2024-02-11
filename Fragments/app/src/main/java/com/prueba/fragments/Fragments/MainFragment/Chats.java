@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ListaChatsRvAdapter;
@@ -70,7 +71,7 @@ public class Chats extends Fragment {
 
         RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
 
-        ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(this.getContext(), Login_SignUP.listaChats);
+        ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(this.getContext(), MainActivity.listaChats);
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
