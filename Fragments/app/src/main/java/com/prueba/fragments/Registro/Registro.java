@@ -16,7 +16,6 @@ import com.prueba.fragments.R;
 
 public class Registro extends AppCompatActivity {
 Button buttonRegistrar;
-ImageView screenSplash;
 
 
     @Override
@@ -24,7 +23,6 @@ ImageView screenSplash;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         buttonRegistrar = findViewById(R.id.buttonRegistrar);
-        screenSplash = findViewById(R.id.backgroundScreen);
 
         buttonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override

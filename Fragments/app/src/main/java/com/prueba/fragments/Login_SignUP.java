@@ -48,7 +48,6 @@ public class Login_SignUP extends AppCompatActivity {
 
             Intent goMain = new Intent(Login_SignUP.this, Registro.class);
             startActivity(goMain);
-            finish();
 
         }
     });

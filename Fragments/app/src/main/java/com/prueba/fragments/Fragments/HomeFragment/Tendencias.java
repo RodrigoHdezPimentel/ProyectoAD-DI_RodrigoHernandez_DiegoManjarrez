@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
@@ -76,7 +77,7 @@ public class Tendencias extends Fragment {
 
         RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
 
-        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), MainActivity.listaPublicaciones);
+        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Home.listaPublicaciones);
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
