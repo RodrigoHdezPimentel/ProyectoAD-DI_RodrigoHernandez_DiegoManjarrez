@@ -6,10 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="17dp">
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/agregar"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nombre de la otra persona"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ConversationListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/chatBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
     </androidx.recyclerview.widget.RecyclerView>
 
+    <LinearLayout
+        android:id="@+id/chatBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="10dp"
+        android:gravity="right">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter text here..."
+            android:layout_weight="3"
+            app:layout_constraintEnd_toStartOf="@id/send"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="10dp"/>
+
+        <ImageView
+            android:id="@+id/send"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/agregar"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
