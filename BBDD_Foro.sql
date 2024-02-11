@@ -14,7 +14,7 @@ CREATE TABLE Usuarios(
 	Us_Nombre VARCHAR(20),
     Us_Genero VARCHAR(20),
     Us_Descripcion VARCHAR(200),
-    Us_Mail VARCHAR(20),
+    Us_Mail VARCHAR(40),
     Us_Contrasena VARCHAR(20)    
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE Chat(
 	idUsuarioDestino INTEGER NOT NULL,
     idUsuarioOrigen INTEGER NOT NULL,
     fecha DATE,
-    contenido VARCHAR(100),
+    contenido VARCHAR(300),
 	FOREIGN KEY (idUsuarioDestino)
 		REFERENCES Usuarios (idUsuario)
 		ON UPDATE CASCADE
@@ -51,7 +51,7 @@ CREATE TABLE Publicaciones(
     fecha DATE,
     numLikes INTEGER,
     titulo VARCHAR(30),
-    contenido VARCHAR(300),
+    contenido VARCHAR(700),
 	FOREIGN KEY (idPubliRefer)
 		REFERENCES Publicaciones (idPublicacion)
 		ON UPDATE CASCADE
