@@ -13,16 +13,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RecyclerViews.Models.Publicacion;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdapter.MyViewHolder> {
     Context context;
-    List<Publicacion> publicacionModels;
+    ArrayList<Publicacion> publicacionModels;
     int posicionMarcada = 999999;
 
-    public PublicacionRvAdapter(Context context, List<Publicacion> publicacionModels) {
+    public PublicacionRvAdapter(Context context, ArrayList<Publicacion> publicacionModels) {
         this.context = context;
         this.publicacionModels = publicacionModels;
     }

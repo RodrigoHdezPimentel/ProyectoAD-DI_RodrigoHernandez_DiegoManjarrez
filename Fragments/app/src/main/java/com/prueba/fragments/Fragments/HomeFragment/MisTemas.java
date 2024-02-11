@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.Fragments.MainFragment.Home;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 
@@ -55,10 +56,10 @@ public class MisTemas extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mis_temas, container, false);
 
-//        RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
-//        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Home.listaPublicaciones);
-//        MyRecyclerView.setAdapter(adapter);
-//        MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+       RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
+        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), MainActivity.listaPublicaciones);
+        MyRecyclerView.setAdapter(adapter);
+        MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         return view;
     }
