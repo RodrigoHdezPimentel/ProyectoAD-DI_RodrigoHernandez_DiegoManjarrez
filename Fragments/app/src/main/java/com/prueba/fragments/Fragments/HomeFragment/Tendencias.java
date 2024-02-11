@@ -77,9 +77,9 @@ public class Tendencias extends Fragment {
 
         RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
 
-        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Home.listaPublicaciones);
-        MyRecyclerView.setAdapter(adapter);
-        MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Home.listaPublicaciones);
+//        MyRecyclerView.setAdapter(adapter);
+//        MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         return view;
     }
