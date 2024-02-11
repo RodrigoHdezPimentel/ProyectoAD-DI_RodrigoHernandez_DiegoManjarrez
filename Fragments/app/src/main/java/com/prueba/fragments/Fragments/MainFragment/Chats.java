@@ -6,8 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
+import com.prueba.fragments.RecyclerViews.Adapters.ListaChatsRvAdapter;
+import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +66,14 @@ public class Chats extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chats, container, false);
+        View view = inflater.inflate(R.layout.fragment_chats, container, false);
+
+        RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
+
+        ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(this.getContext(), Login_SignUP.listaChats);
+        MyRecyclerView.setAdapter(adapter);
+        MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        return  view;
     }
 }
