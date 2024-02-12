@@ -45,12 +45,14 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipComentarios"
+                        app:chipCornerRadius="30dp"
                         android:layout_width="33dp"
                         android:layout_height="wrap_content"
-                        app:chipIcon="@drawable/agregar"
+                        app:chipIcon="@drawable/mensajero"
                         android:layout_gravity="right"
                         tools:ignore="RtlHardcoded" />
                     <TextView

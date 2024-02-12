@@ -19,8 +19,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@color/md_theme_light_tertiaryContainer"
-        app:layout_constraintTop_toTopOf="parent">
+        android:backgroundTint="@color/seed"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="15dp">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/misTemasTabItem"

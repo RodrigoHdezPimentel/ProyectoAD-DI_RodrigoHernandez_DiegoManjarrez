@@ -9,22 +9,27 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/vector"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_app"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
-        android:id="@+id/imageView4"
+    <TextView
+        android:id="@+id/publishTextLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_nombre_app"
+        android:fontFamily="@font/caviardreams"
+        android:text="@string/app_name"
+        android:textColor="#006A64"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"
@@ -36,20 +41,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/cardview_light_background"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toStartOf="@+id/guideline17"
         app:layout_constraintStart_toStartOf="@+id/guideline16"
-        app:layout_constraintTop_toTopOf="@+id/guideline15">
+        app:layout_constraintTop_toBottomOf="@id/publishTextLogo">
 
 
         <Button
             android:id="@+id/buttonPublicar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/md_theme_dark_tertiary"
             android:text="Publicar"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toTopOf="@+id/guideline25" />
@@ -58,26 +60,42 @@
             android:id="@+id/buttonCanelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/button_Cancelar"
             android:text="Cancelar"
-            android:textColor="@color/black"
+            android:backgroundTint="@color/md_theme_dark_surfaceTint"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline22"
             app:layout_constraintTop_toTopOf="@+id/guideline25" />
 
-        <EditText
-            android:id="@+id/editTextText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="5"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:hint="Tema"
-            android:inputType="text"
-            android:textColor="@color/cardview_dark_background"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/etTitulo" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_flecha"/>
+
+                <HorizontalScrollView
+                    android:id="@+id/ScrollTemas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_flecha"
+                android:scaleX="-1"/>
+
+        </LinearLayout>
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -87,16 +105,17 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.26" />
 
-        <TextView
-            android:id="@+id/textView4"
+        <EditText
+            android:id="@+id/etTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Título"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline20"
+            android:hint="Título"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintContenido"
@@ -105,16 +124,19 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline25"
             app:layout_constraintEnd_toStartOf="@+id/guideline21"
             app:layout_constraintStart_toStartOf="@+id/guideline22"
-            app:layout_constraintTop_toTopOf="@+id/guideline20"
-            >
+            app:layout_constraintTop_toTopOf="@+id/guideline20">
 
-            <TextView
+            <EditText
                 android:id="@+id/PublishContenido"
-                android:text="Contenido"
-                android:gravity="center"
-
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:hint="Contenido"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -155,7 +177,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.87" />
+        app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline15"
