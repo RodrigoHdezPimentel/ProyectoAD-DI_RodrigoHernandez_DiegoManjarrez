@@ -80,20 +80,31 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_flecha"/>
+                android:src="@drawable/simplearrow"
+                android:scaleX="-1"/>
 
                 <HorizontalScrollView
                     android:id="@+id/ScrollTemas"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/linlayTemas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_flecha"
-                android:scaleX="-1"/>
+                android:src="@drawable/simplearrow"/>
 
         </LinearLayout>
 

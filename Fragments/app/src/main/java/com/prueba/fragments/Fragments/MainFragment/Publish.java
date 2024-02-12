@@ -1,18 +1,22 @@
 package com.prueba.fragments.Fragments.MainFragment;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,8 +69,8 @@ public class Publish extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_publish, container, false);
-        ConstraintLayout constraintLayout = root.findViewById(R.id.constraintContenido);
+        View view = inflater.inflate(R.layout.fragment_publish, container, false);
+        ConstraintLayout constraintLayout = view.findViewById(R.id.constraintContenido);
 
         // Crear un drawable de forma programática para el borde
         GradientDrawable borderDrawable = new GradientDrawable();
@@ -75,6 +79,34 @@ public class Publish extends Fragment {
 
         // Aplicar el borde al ConstraintLayout
         constraintLayout.setBackground(borderDrawable);
-        return  root;
+
+
+        //ScrollView in loop
+        HorizontalScrollView scrollView = (HorizontalScrollView) view.findViewById(R.id.ScrollTemas);
+        LinearLayout liLayTemas = view.findViewById(R.id.linlayTemas);
+        liLayTemas.removeAllViews();
+
+        ArrayList<TextView> listaTvTemas = new ArrayList<>();
+        String[] listaTemas = {"tema1","tema2","tema3","tema4","tema5","tema6","tema7","tema8","tema9","tema10"};
+        for(String t : listaTemas){
+            TextView tema = new TextView(view.getContext());
+            tema.setText(t);
+            tema.setTextSize(27f);
+            tema.setWidth(500);
+            tema.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tema.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for(TextView tv : listaTvTemas){
+                        tv.setTypeface(null, Typeface.NORMAL);
+                    }
+                    tema.setTypeface(null, Typeface.BOLD);
+                }
+            });
+            liLayTemas.addView(tema);
+            listaTvTemas.add(tema);
+        }
+
+        return view;
     }
 }
