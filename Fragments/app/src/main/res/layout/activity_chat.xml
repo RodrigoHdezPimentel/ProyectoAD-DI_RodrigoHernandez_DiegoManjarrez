@@ -14,20 +14,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="17dp">
+        android:padding="10dp"
+        android:background="@color/seed">
 
         <ImageView
             android:id="@+id/arrow"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/agregar"/>
+            android:layout_gravity="center"
+            android:scaleX="-1"
+            android:src="@drawable/simplearrow"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Nombre de la otra persona"
             android:textSize="20sp"
             android:layout_margin="5dp"
-            android:layout_gravity="right"
+            android:layout_gravity="center"
             android:gravity="right"
             android:layout_weight="1"/>
 
@@ -52,8 +55,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:padding="10dp"
-        android:gravity="right">
+        android:padding="3dp"
+        android:gravity="right"
+        android:background="@color/seed">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"

@@ -6,6 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".Registro.SelectTopic">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/SclashScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintVertical_weight="1">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="50dp"
+            android:src="@drawable/ic_app" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/check"
+            app:layout_constraintBottom_toTopOf="@+id/GuideLineTextCompletado"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/GuideLineForCheck1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/caviardreams"
+            android:text="Registro Completado!!!"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/GuideLineTextCompletado" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/GuideLineTextCompletado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.42"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/GuideLineForCheck1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ContenidoParaOcultar">
     <ScrollView
         android:id="@+id/scrollViewSelectTopic"
         android:layout_width="match_parent"
@@ -26,13 +78,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_app"></ImageView>
+                android:src="@drawable/ic_app" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Selecciona los tamas que le gusta"></TextView>
+                android:text="Seleccione los temas que le gustan" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupThemes"
@@ -40,10 +92,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:chipSpacingHorizontal="50dp"
-                app:chipSpacingVertical="30dp"></com.google.android.material.chip.ChipGroup>
+                app:chipSpacingVertical="30dp" />
         </LinearLayout>
     </ScrollView>
-
 
 
     <Button
@@ -52,9 +103,21 @@
         android:layout_height="wrap_content"
         android:text="Confirmar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCancell"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@color/md_theme_light_tertiary"
+        app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+    <Button
+        android:id="@+id/buttonCancell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonConfirmar"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -64,14 +127,5 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85" />
 
-    <ImageView
-        android:id="@+id/backgroundScreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/screensplash"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

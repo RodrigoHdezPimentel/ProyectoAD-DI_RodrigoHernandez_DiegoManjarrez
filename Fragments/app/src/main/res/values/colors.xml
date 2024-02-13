@@ -3,7 +3,7 @@
     <color name="seed">#bcf5ee</color>
     <color name="md_theme_light_primary">#006A64</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
-    <color name="md_theme_light_primaryContainer">#71F7EC</color>
+    <color name="md_theme_light_primaryContainer">#bcf5ee</color>
     <color name="md_theme_light_onPrimaryContainer">#00201E</color>
     <color name="md_theme_light_secondary">#006A64</color>
     <color name="md_theme_light_onSecondary">#FFFFFF</color>

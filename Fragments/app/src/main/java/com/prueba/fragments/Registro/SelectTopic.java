@@ -1,6 +1,7 @@
 package com.prueba.fragments.Registro;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,23 +20,23 @@ import com.prueba.fragments.R;
 
 public class SelectTopic extends AppCompatActivity {
     public ChipGroup chipGroup;
-    ImageView screenSplash;
     Button buttonConfirmar;
-    ScrollView scrollView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_topic);
         chipGroup = findViewById(R.id.chipGroupThemes);
-        screenSplash = findViewById(R.id.backgroundScreen);
+        ConstraintLayout splashCreen = findViewById(R.id.SclashScreen);
+        ConstraintLayout selectTopic = findViewById(R.id.ContenidoParaOcultar);
         buttonConfirmar = findViewById(R.id.buttonConfirmar);
-        scrollView = findViewById(R.id.scrollViewSelectTopic);
+        splashCreen.setVisibility(View.INVISIBLE);
+        selectTopic.setVisibility(View.VISIBLE);
         cargarThemes();
         buttonConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                screenSplash.setVisibility(View.VISIBLE);
-                scrollView.setVisibility(View.INVISIBLE);
+                splashCreen.setVisibility(View.VISIBLE);
+                selectTopic.setVisibility(View.INVISIBLE);
 
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override

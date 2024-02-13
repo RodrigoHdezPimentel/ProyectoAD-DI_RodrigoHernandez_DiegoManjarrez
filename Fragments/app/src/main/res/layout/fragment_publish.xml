@@ -53,58 +53,61 @@
             android:layout_height="wrap_content"
             android:text="Publicar"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline21"
+            app:layout_constraintEnd_toStartOf="@+id/buttonCanelar"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline25" />
 
         <Button
             android:id="@+id/buttonCanelar"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancelar"
-            android:backgroundTint="@color/md_theme_dark_surfaceTint"
-
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline22"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/buttonPublicar"
             app:layout_constraintTop_toTopOf="@+id/guideline25" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="250dp"
             android:layout_height="40dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/guideline20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etTitulo" >
+            app:layout_constraintTop_toBottomOf="@+id/etTitulo">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/simplearrow"
-                android:scaleX="-1"/>
+                android:scaleX="-1"
+                android:src="@drawable/simplearrow" />
 
-                <HorizontalScrollView
-                    android:id="@+id/ScrollTemas"
-                    android:layout_width="0dp"
+            <HorizontalScrollView
+                android:id="@+id/ScrollTemas"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/linlayTemas"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scrollbars="none">
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/linlayTemas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                    </LinearLayout>
-                </HorizontalScrollView>
+                </LinearLayout>
+            </HorizontalScrollView>
 
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/simplearrow"/>
+                android:src="@drawable/simplearrow" />
 
         </LinearLayout>
 
@@ -114,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.26" />
+            app:layout_constraintGuide_percent="0.29" />
 
         <EditText
             android:id="@+id/etTitulo"
@@ -141,9 +144,9 @@
                 android:id="@+id/PublishContenido"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@null"
                 android:gravity="center"
                 android:hint="Contenido"
-                android:background="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
