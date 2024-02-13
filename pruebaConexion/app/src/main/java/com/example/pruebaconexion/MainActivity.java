@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         //getAllUser();
-        getAllPubliacion();
+        //getAllPubliacion();
+
+        getUSerOne(2);
         scrollView = findViewById(R.id.vistaName);
         l = findViewById(R.id.listaName);
     }
@@ -112,6 +115,50 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
                 Log.e("Thorw err: ", t.getMessage());
 
+            }
+        });
+    }
+    private void getUSerOne(Integer id) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.56.1:8086/Usuario/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        crudUsuarioInterface = retrofit.create(CRUD_UsuarioInterface.class);
+        Call <Optional<Usuario>> call = crudUsuarioInterface.getUserOne(id);
+        call.enqueue(new Callback<Optional<Usuario>>() {
+
+            @Override
+            public void onResponse(Call<Optional<Usuario>> call, Response<Optional<Usuario>> response) {
+                if(!response.isSuccessful()) {
+                    Log.e("Response err: ", response.message());
+                    return;
+                }
+                progressBar.setVisibility(View.GONE);
+                Log.d("Response", response.toString());
+                Optional<Usuario> user = response.body();
+
+                if (user.isPresent()) {
+                    Usuario usuario = user.get();
+
+                } else {
+                    Toast.makeText(MainActivity.this, ""+response.body(), Toast.LENGTH_SHORT).show();
+
+                }
+//                Toast.makeText(MainActivity.this, user.get().getName(), Toast.LENGTH_SHORT).show();
+//                if(user.isPresent()) {
+//                    progressBar.setVisibility(View.GONE);
+//                    // Verificamos si el objeto Optional<Usuario> no es nulo
+//                    TextView t2 = new TextView(MainActivity.this);
+//                    t2.setText(user.get().getName());
+//                    l.addView(t2);
+//                } else {
+//                    Log.e("User not found: ", "User with id " + id + " not found");
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<Optional<Usuario>> call, Throwable t) {
+                Log.e("Thorw err: ", t.getMessage());
             }
         });
     }
