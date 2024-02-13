@@ -12,5 +12,5 @@ public interface CRUD_UsuarioInterface {
     Call<List<Usuario>> getAll();
 
     @GET("id/{id}")
-    Call<Optional<Usuario>> getUserOne(@Path("id") Integer id);
+    Call<Usuario> getUserOne(@Path("id") Integer id);
 }
