@@ -21,6 +21,7 @@ import com.prueba.fragments.R;
 public class SelectTopic extends AppCompatActivity {
     public ChipGroup chipGroup;
     Button buttonConfirmar;
+    Button buttonCancelar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,8 @@ public class SelectTopic extends AppCompatActivity {
         chipGroup = findViewById(R.id.chipGroupThemes);
         ConstraintLayout splashCreen = findViewById(R.id.SclashScreen);
         ConstraintLayout selectTopic = findViewById(R.id.ContenidoParaOcultar);
-        buttonConfirmar = findViewById(R.id.buttonConfirmar);
+        buttonConfirmar = findViewById(R.id.buttonConfirmarTopic);
+        buttonCancelar = findViewById(R.id.buttonCancellTopic);
         splashCreen.setVisibility(View.INVISIBLE);
         selectTopic.setVisibility(View.VISIBLE);
         cargarThemes();
@@ -41,7 +43,7 @@ public class SelectTopic extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(SelectTopic.this, Login_SignUP.class);
+                        Intent intent = new Intent(SelectTopic.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -49,7 +51,16 @@ public class SelectTopic extends AppCompatActivity {
                 }, 500);
             }
         });
+
+        buttonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goRegistro = new Intent(SelectTopic.this, Registro.class);
+                startActivity(goRegistro);
+            }
+        });
     }
+
     public void cargarThemes(){
         String[] themesName = getResources().getStringArray(R.array.listaThemes);
         for(String s : themesName){

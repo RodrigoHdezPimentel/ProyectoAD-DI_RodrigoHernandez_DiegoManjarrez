@@ -98,18 +98,18 @@
 
 
     <Button
-        android:id="@+id/buttonConfirmar"
+        android:id="@+id/buttonConfirmarTopic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirmar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonCancell"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCancellTopic"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
     <Button
-        android:id="@+id/buttonCancell"
+        android:id="@+id/buttonCancellTopic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancelar"
@@ -117,7 +117,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonConfirmar"
+        app:layout_constraintStart_toEndOf="@+id/buttonConfirmarTopic"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
     <androidx.constraintlayout.widget.Guideline
