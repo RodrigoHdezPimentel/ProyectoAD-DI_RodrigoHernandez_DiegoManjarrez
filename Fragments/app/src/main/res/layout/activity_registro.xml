@@ -115,18 +115,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/buttonRegistrar"
+        android:id="@+id/buttonRegistrarRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registrar"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCancel"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCancellRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText7" />
 
     <Button
-        android:id="@+id/buttonCancel"
+        android:id="@+id/buttonCancellRegister"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegistrar" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegistrarRegister" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"

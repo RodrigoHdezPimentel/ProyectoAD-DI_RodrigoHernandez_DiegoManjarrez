@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static ArrayList<Chat> listaChats = new ArrayList<>();
     public static ArrayList<Chat> chatConversation = new ArrayList<>();
+    //ID DEL USAURIO QUE ENTRA EN SESION
     public static int idRegistrado = 1;
 
 

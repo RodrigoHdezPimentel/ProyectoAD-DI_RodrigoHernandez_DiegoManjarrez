@@ -16,23 +16,31 @@ import com.prueba.fragments.R;
 
 public class Registro extends AppCompatActivity {
 Button buttonRegistrar;
+Button buttonCancelar;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        buttonRegistrar = findViewById(R.id.buttonRegistrar);
-
+        buttonRegistrar = findViewById(R.id.buttonRegistrarRegister);
+        buttonCancelar = findViewById(R.id.buttonCancellRegister);
         buttonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent toThemes = new Intent(Registro.this, SelectTopic.class);
                 startActivity(toThemes);
-                finish();
+
             }
         });
-
+        buttonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toLoginSignUp = new Intent(Registro.this, Login_SignUP.class);
+                startActivity(toLoginSignUp);
+            }
+        });
 
     }
 }
