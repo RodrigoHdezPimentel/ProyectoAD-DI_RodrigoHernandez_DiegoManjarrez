@@ -119,12 +119,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.google.android.material.textfield.TextInputEditText
+    <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:hint="Descripcion"
-        android:background="@null"
+        android:hint="Descripción"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"

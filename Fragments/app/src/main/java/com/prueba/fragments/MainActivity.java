@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
 
+        chatConversation.removeAll(chatConversation);
         chatConversation.add(new Chat(1,2,"hola","fecha"));
         chatConversation.add(new Chat(2,1,"hola, ¿que tal?","fecha"));
         chatConversation.add(new Chat(1,2,"Bien, y tu?","fecha"));
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         chatConversation.add(new Chat(1,2,"perdon, chat equivocado","fecha"));
         chatConversation.add(new Chat(1,2,"ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp","fecha"));
 
+        listaChats.removeAll(listaChats);
         listaChats.add(new Chat(2,1,"ppppppppppppppppp", "fecha"));
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, new Home())

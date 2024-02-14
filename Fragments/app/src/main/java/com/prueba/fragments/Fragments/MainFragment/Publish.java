@@ -3,9 +3,11 @@ package com.prueba.fragments.Fragments.MainFragment;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
@@ -14,8 +16,11 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.prueba.fragments.R;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 /**
@@ -72,13 +77,19 @@ public class Publish extends Fragment {
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
         ConstraintLayout constraintLayout = view.findViewById(R.id.constraintContenido);
 
-        // Crear un drawable de forma programática para el borde
-        GradientDrawable borderDrawable = new GradientDrawable();
-        int color = getResources().getColor(R.color.black);
-        borderDrawable.setStroke(2, color); // Ancho del borde y color
-
-        // Aplicar el borde al ConstraintLayout
-        constraintLayout.setBackground(borderDrawable);
+        TextInputEditText contenido = view.findViewById(R.id.PublishContenido);
+        contenido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       @Override
+       public void onFocusChange(View view, boolean b) {
+           if (contenido.hasFocus()){
+               contenido.setGravity(Gravity.LEFT);
+               contenido.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+           } else {
+               contenido.setGravity(Gravity.CENTER);
+               contenido.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+           }
+       }
+   });
 
 
         //ScrollView in loop
