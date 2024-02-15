@@ -6,25 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".EditProfile">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/seed"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/seed">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/profile_menu"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="Nombre Persona" />
+        <ImageView
+            android:id="@+id/backEditProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:src="@drawable/ic_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:text="Nombre de usuario"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="20dp"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <ImageView
+            android:id="@+id/espaciado"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:src="@drawable/ic_back"
+            android:visibility="invisible"/>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView4"
@@ -35,15 +52,14 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline19"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
+        app:layout_constraintGuide_percent="0.25" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextText"
@@ -51,9 +67,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         style="@style/Widget.Material3.TextInputEditText.FilledBox"
-        app:startIconDrawable="@drawable/ic_user"
         android:inputType="text"
         android:hint="Nombre"
+        android:padding="0dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextText2"
         app:layout_constraintEnd_toStartOf="@+id/guideline26"
         app:layout_constraintHorizontal_bias="0.5"
@@ -69,6 +85,7 @@
         android:id="@+id/editTextText2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="0dp"
         android:ems="10"
         android:inputType="text"
         style="@style/Widget.Material3.TextInputEditText.FilledBox"
@@ -89,9 +106,11 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextText4"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@null"
         android:ems="10"
+        style="@style/Widget.Material3.TextInputEditText.FilledBox"
+        android:padding="0dp"
         android:gravity="center"
         android:inputType="text"
         android:text="Descripcion"
@@ -99,10 +118,14 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline26"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline24"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText2">
+        app:layout_constraintTop_toBottomOf="@+id/editTextText2"
+        app:counterEnabled="true"
+        app:counterMaxLength="200"
+        android:maxHeight="150dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="150dp"
+            android:scrollbars="vertical"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/button2"
@@ -130,6 +153,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline24"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline24"

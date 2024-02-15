@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.MainFragment.Profile">
+    tools:context=".Fragments.MainFragment.Profile"
+    android:background="@color/md_theme_light_primary"
+    >
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -51,6 +53,7 @@
         android:id="@+id/frameLayoutProfile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,6 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User Name"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,20 +104,22 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/caviardreams"
         android:text="@string/app_name"
-        android:textColor="#006A64"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/updateProfile"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginRight="10dp"
         android:text="Editar Perfil"
-        android:textSize="10dp"
+        android:textSize="12dp"
+        style="@style/Widget.Material3.Button.TonalButton"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -124,9 +130,11 @@
         android:layout_height="0dp"
         android:layout_margin="20dp"
         android:hint="Descripción"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/updateProfile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

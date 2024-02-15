@@ -75,9 +75,8 @@ public class Publish extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
-        ConstraintLayout constraintLayout = view.findViewById(R.id.constraintContenido);
 
-        TextInputEditText contenido = view.findViewById(R.id.PublishContenido);
+        TextInputLayout contenido = view.findViewById(R.id.PublishContenido);
         contenido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
        @Override
        public void onFocusChange(View view, boolean b) {

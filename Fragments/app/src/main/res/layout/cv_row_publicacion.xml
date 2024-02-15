@@ -40,49 +40,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     >
-                    <com.google.android.material.chip.Chip
+                    <ImageView
                         android:id="@+id/chipComentarios"
-                        app:chipCornerRadius="30dp"
-                        android:layout_width="33dp"
+                        android:minHeight="35dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_coment"
                         android:layout_height="wrap_content"
                         app:chipIcon="@drawable/mensajero"
                         android:layout_gravity="right"
-                        tools:ignore="RtlHardcoded" />
+                        android:layout_width="30dp"/>
+
                     <TextView
                         android:id="@+id/numComentarios"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="100"
-                        android:layout_gravity="bottom"
-                        android:paddingBottom="5dp"/>
+                        android:layout_gravity="bottom"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:gravity="right"
                     tools:ignore="RtlHardcoded">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipLikes"
-                    android:layout_width="33dp"
-                    android:layout_height="wrap_content"
-                    app:chipIcon="@drawable/agregar"
-                    android:layout_gravity="right"/>
-                <TextView
-                    android:id="@+id/numLikes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100"
-                    android:layout_gravity="bottom"
-                    android:paddingBottom="5dp"/>
+
+                    <ImageView
+                        android:id="@+id/liekButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:minHeight="35dp"
+                        android:padding="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_like"/>
+                    <TextView
+                        android:id="@+id/numLikes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:layout_gravity="bottom"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

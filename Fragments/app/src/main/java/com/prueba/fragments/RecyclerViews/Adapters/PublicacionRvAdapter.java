@@ -2,13 +2,19 @@ package com.prueba.fragments.RecyclerViews.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.R;
@@ -41,8 +47,29 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         holder.Tema.setText(publicacionModels.get(position).getIdtema().toString());
         holder.Contenido.setText(publicacionModels.get(position).getContenido());
         holder.numLikes.setText(publicacionModels.get(position).getNumlikes().toString());
-        holder.numComentarios.setText("query");
+        holder.numComentarios.setText("0");
+
+        holder.likeImg.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, (holder.liked)+ "", Toast.LENGTH_SHORT).show();
+
+                if (holder.liked) {
+                    holder.liked = false;
+                    holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString()))-1 + "");
+                    holder.likeImg.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.black), PorterDuff.Mode.MULTIPLY);
+
+                }else{
+                    holder.liked = true;
+                    holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString()))+1 + "");
+                    holder.likeImg.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.seed), PorterDuff.Mode.MULTIPLY);
+
+                }
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -50,10 +77,13 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+        Integer idTema;
+        boolean liked;
         TextView Tema;
         TextView Contenido;
         TextView numLikes;
         TextView numComentarios;
+        ImageView likeImg;
         CardView cv;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -63,6 +93,8 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
             this.Contenido = itemView.findViewById(R.id.contenidoPublicacion);
             this.numLikes = itemView.findViewById(R.id.numLikes);
             this.numComentarios = itemView.findViewById(R.id.numComentarios);
+            this.likeImg = itemView.findViewById(R.id.liekButton);
+            liked = false;
         }
     }
 }
