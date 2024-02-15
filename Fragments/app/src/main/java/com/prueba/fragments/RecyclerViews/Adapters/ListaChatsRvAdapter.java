@@ -13,16 +13,11 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
-import com.prueba.fragments.Fragments.MainFragment.Profile;
-import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RecyclerViews.Models.Chat;
-import com.prueba.fragments.RecyclerViews.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Models.Chat;
 
 import java.util.ArrayList;
-
-import javax.persistence.criteria.CriteriaBuilder;
 
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
