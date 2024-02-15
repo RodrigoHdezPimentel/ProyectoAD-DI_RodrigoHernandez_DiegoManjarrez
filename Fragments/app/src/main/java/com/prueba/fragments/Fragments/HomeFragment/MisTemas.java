@@ -97,17 +97,13 @@ public class MisTemas extends Fragment {
                 }
                 listaPublicaciones = response.body();
                 listaPublicaciones.forEach(u -> Log.i("Usaurio err: ", u.toString()));
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
                         progressBar.setVisibility(View.GONE);
 
                         RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
                         PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
                         MyRecyclerView.setAdapter(adapter);
                         MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    }
-                });
+
             }
 
             @Override

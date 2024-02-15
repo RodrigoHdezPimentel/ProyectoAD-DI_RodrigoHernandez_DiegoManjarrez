@@ -28,5 +28,7 @@ public class Publicacion {
     private Integer numlikes;
     @Column(name = "contenido")
     private String contenido;
+    @Column(name = "titulo")
+    private String titulo;
 
 }

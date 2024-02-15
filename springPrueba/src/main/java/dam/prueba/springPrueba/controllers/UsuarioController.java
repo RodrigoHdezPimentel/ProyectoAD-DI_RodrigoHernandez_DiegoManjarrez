@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Usuario")
+@RequestMapping("/usuario")
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
@@ -62,4 +62,9 @@ public class UsuarioController {
     }
 
 
+    @GetMapping("/searchSelect/{str}")
+    public List<String> getByName(@PathVariable String str){
+
+        return  usuarioService.getByName(str);
+    }
 }

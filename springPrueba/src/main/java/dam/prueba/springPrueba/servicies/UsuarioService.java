@@ -33,6 +33,8 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
         return usuarioRepository.findById(id).isEmpty();
     }
-
+    public List<String> getByName(String nombre) {
+       return usuarioRepository.getByNombre(nombre);
+    }
 
 }
