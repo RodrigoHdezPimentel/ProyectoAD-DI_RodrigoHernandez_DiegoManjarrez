@@ -12,8 +12,8 @@ public class Usuario {
     private String mail;
     private String pass;
 
-    public Usuario(Integer id, Integer year, String name, String genero, String descripcion, String mail, String pass) {
-        this.id = id;
+    public Usuario( Integer year, String name, String genero, String descripcion, String mail, String pass) {
+
         this.year = year;
         this.name = name;
         this.genero = genero;

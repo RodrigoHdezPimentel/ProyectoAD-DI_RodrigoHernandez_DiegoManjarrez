@@ -29,6 +29,11 @@ public class UsuarioController {
     public Usuario saveUsuario(@RequestBody Usuario usuario){
         return usuarioService.saveUsuario(usuario);
     }
+    @PutMapping("/update")
+    public Usuario updateUsuario(@PathVariable Integer id , @RequestBody Usuario usuario){
+        return usuarioService.updateUsuario(usuario);
+    }
+
     @GetMapping("/allName")
     public List<String> getAllUsuariosName(){
         List<Usuario> usuarios = usuarioService.getAllUsuarios();

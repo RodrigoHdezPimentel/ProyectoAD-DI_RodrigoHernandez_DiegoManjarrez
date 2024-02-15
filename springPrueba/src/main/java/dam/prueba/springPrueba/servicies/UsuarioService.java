@@ -26,6 +26,9 @@ public class UsuarioService {
     public Usuario saveUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
     }
+    public Usuario updateUsuario(Usuario usuario){
+        return usuarioRepository.save(usuario);
+    }
     public Boolean deleteUsuario(Integer id){
         usuarioRepository.deleteById(id);
         return usuarioRepository.findById(id).isEmpty();
