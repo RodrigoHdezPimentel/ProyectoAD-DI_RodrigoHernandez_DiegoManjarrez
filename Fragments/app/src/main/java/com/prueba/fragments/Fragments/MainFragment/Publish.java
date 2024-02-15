@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -100,6 +101,7 @@ public class Publish extends Fragment {
         String[] listaTemas = {"tema1","tema2","tema3","tema4","tema5","tema6","tema7","tema8","tema9","tema10"};
         for(String t : listaTemas){
             TextView tema = new TextView(view.getContext());
+            tema.setTypeface(ResourcesCompat.getFont(view.getContext(), R.font.caviardreams));
             tema.setText(t);
             tema.setTextSize(27f);
             tema.setWidth(500);

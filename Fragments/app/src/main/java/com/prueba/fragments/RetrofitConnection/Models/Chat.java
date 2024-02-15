@@ -11,7 +11,7 @@ public class Chat {
     public Chat() {
     }
 
-    public Chat(Integer id, Integer idDestino, Integer idOrigen, String fecha, String contenido) {
+    public Chat(Integer id, Integer idDestino, Integer idOrigen, String contenido, String fecha) {
         this.id = id;
         this.idDestino = idDestino;
         this.idOrigen = idOrigen;

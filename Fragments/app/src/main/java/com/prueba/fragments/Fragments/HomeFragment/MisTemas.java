@@ -7,14 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
@@ -26,8 +23,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MisTemas extends Fragment {
@@ -82,11 +77,8 @@ public class MisTemas extends Fragment {
         return view;
     }
     private void getAllPubliacion() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.56.1:8086/publicacion/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        publicacionInterface = retrofit.create(PublicacionInterface.class);
+
+        publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
         Call<List<Publicacion>> call = publicacionInterface.getAll();
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
@@ -95,6 +87,12 @@ public class MisTemas extends Fragment {
                     Log.e("Response err: ", response.message());
                     return;
                 }
+                /*     ArrayList<Publicacion> listaTemporal = (ArrayList<Publicacion>) response.body();
+                for(Publicacion p : listaTemporal){
+                    if(p.getIdpublirefer() != null){
+                       listaPublicaciones.add(p);
+                    }*/
+
                 listaPublicaciones = response.body();
                 listaPublicaciones.forEach(u -> Log.i("Usaurio err: ", u.toString()));
                 requireActivity().runOnUiThread(new Runnable() {
@@ -108,6 +106,7 @@ public class MisTemas extends Fragment {
                         MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     }
                 });
+                return;
             }
 
             @Override
