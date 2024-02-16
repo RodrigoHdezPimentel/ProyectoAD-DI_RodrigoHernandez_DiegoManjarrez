@@ -35,4 +35,10 @@
         <item>Tecnología</item>
     </string-array>
 
+     <string-array name="Gender">
+         <item>Hombre</item>
+         <item>Mujer</item>
+     </string-array>
+
+
 </resources>

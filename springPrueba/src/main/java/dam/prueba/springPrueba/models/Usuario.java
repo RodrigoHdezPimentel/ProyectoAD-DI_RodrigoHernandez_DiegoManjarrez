@@ -1,9 +1,9 @@
 package dam.prueba.springPrueba.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -31,4 +31,7 @@ public class Usuario {
     @Column(name = "Us_Contrasena")
     private String pass;
 
+//    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Publicacion> publicaciones;
 }

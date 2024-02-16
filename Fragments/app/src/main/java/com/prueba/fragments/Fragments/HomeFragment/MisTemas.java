@@ -103,10 +103,10 @@ public class MisTemas extends Fragment {
 
             @Override
             public void onFailure(Call<List<Publicacion>> call, Throwable t) {
-                Log.e("Failure", "Error en la solicitud HTTP: " + t.getMessage());
-                t.printStackTrace();
+
             }
         });
     }
 }
+
     
