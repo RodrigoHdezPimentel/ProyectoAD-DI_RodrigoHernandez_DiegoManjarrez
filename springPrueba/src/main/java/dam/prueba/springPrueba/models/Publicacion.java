@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,20 +34,24 @@ public class Publicacion {
     @Column(name = "titulo")
     private String titulo;
 
-    @ManyToOne(targetEntity = Usuario.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "idusuario")
-    private Usuario usuario;
+//    @ManyToOne(targetEntity = Usuario.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "idusuario")
+//    private Usuario usuario;
 
-    @ManyToOne(targetEntity = Tema.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "idtema")
-    private Tema tema;
+//    @ManyToOne(targetEntity = Tema.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "idtema")
+//    private Tema tema;
+//
+//    @OneToMany(targetEntity = Like.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "idpublicacion")
+//    private List<Like> likes;
+//
+//    @OneToMany(targetEntity = Publicacion.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "idpublirefer")
+//    private List<Publicacion> comentarios;
 
-    @OneToMany(targetEntity = Like.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "idpublicacion")
-    private List<Like> likes;
-
-    @OneToMany(targetEntity = Publicacion.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "idpublirefer")
-    private List<Publicacion> comentarios;
-
+//    @ManyToOne
+//    @JsonBackReference
+//    @JoinColumn(name = "idusuario")
+//    private Usuario usuario;
 }

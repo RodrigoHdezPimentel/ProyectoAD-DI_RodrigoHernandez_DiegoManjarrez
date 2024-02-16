@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Chat> chatConversation = new ArrayList<>();
     //ID DEL USAURIO QUE ENTRA EN SESION
     public static int idRegistrado = 1;
-    private static final String IP_DIEGO = "192.168.56.1";
-    private static final String IP_RODRIGO = "172.29.144.1";
+    public static final String IP_DIEGO = "192.168.56.1";
+    public static final String IP_RODRIGO = "172.29.144.1";
 
 
     @Override

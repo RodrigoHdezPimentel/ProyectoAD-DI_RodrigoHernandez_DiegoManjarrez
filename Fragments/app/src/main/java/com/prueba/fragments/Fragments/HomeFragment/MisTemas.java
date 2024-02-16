@@ -57,6 +57,7 @@ public class MisTemas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     //VARIABLES
     List<Publicacion> listaPublicaciones;
     PublicacionInterface publicacionInterface;
@@ -76,6 +77,7 @@ public class MisTemas extends Fragment {
 
         return view;
     }
+
     private void getAllPubliacion() {
 
         publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
@@ -87,29 +89,25 @@ public class MisTemas extends Fragment {
                     Log.e("Response err: ", response.message());
                     return;
                 }
-                /*     ArrayList<Publicacion> listaTemporal = (ArrayList<Publicacion>) response.body();
-                for(Publicacion p : listaTemporal){
-                    if(p.getIdpublirefer() != null){
-                       listaPublicaciones.add(p);
-                    }*/
 
                 listaPublicaciones = response.body();
                 listaPublicaciones.forEach(u -> Log.i("Usaurio err: ", u.toString()));
-                        progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
-                        RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
-                        PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
-                        MyRecyclerView.setAdapter(adapter);
-                        MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-          }
-                });
-                return;
+                RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
+                PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
+                MyRecyclerView.setAdapter(adapter);
+                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
 
             @Override
             public void onFailure(Call<List<Publicacion>> call, Throwable t) {
-                Log.e("Failure", "Error en la solicitud HTTP: " + t.getMessage());
-                t.printStackTrace();
+
             }
-        }
+        });
+
+    }
+
+}
+
     
