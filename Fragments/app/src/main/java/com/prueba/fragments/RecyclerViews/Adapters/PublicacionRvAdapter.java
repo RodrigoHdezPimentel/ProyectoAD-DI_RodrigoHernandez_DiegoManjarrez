@@ -64,6 +64,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         holder.numLikes.setText(publicacionModels.get(position).getNumlikes().toString());
         holder.numComentarios.setText("0");
         holder.idPublicacion = publicacionModels.get(position).getId();
+        holder.idPubliRef = publicacionModels.get(position).getIdpublirefer();
         holder.Titulo.setText(publicacionModels.get(position).getTitulo());
         //holder.userName.setText(getUserName(publicacionModels.get(position).getIdusuario()).getName());
         getUserName(publicacionModels.get(position).getIdusuario(), new Callback<Usuario>() {
@@ -109,7 +110,6 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         });
     }
 
-
     @Override
     public int getItemCount() {
         return publicacionModels.size();
@@ -117,6 +117,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         Integer idPublicacion;
+        Integer idPubliRef;
         boolean liked;
         TextView Tema;
         TextView Contenido;
@@ -144,31 +145,6 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
 
         }
     }
-    /*public Usuario getUserName(Integer idUsuario){
-        final Usuario[] newUser = new Usuario[1];
-        UsuarioInterface UserInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = UserInterface.getUserById(idUsuario);
-        call.enqueue(new Callback<Usuario>() {
-
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (!response.isSuccessful()) {
-                    Log.e("Response err: ", response.message());
-                    return;
-                }
-                newUser[0] = response.body();
-
-            }
-
-
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                return;
-            }
-
-        });
-        return newUser[0];
-    }*/
     public void getUserName(Integer idUsuario, final Callback<Usuario> callback) {
         UsuarioInterface UserInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
         Call<Usuario> call = UserInterface.getUserById(idUsuario);

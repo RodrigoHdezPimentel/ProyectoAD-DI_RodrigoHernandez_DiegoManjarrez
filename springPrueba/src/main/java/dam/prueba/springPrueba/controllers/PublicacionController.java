@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -17,7 +18,7 @@ public class PublicacionController {
     @Autowired
     private PublicacionService publicacionService;
     @GetMapping("/all")
-    public List<Publicacion> getAllPublishes(){
+    public List<Publicacion> getAll(){
         return publicacionService.getAllPublicaciones();
     }
     @GetMapping("/id/{id}")
@@ -34,20 +35,20 @@ public class PublicacionController {
         List<String> filterPublicaiones = new ArrayList<String>();
 
         for(Publicacion p : publicaciones){
-            if(p.getIdusuario() == id){
+            if(Objects.equals(p.getIdusuario(), id)){
                 filterPublicaiones.add(p.getContenido());
             }
         }
         return  filterPublicaiones;
     }
     @GetMapping("/allComentariosFromPublicacion/{id}")
-    public List<String> getAllComentsFromPublish(@PathVariable Integer id){
+    public List<Publicacion> getAllComentsFromPublish(@PathVariable Integer id){
         List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
-        List<String> filterPublicaiones = new ArrayList<String>();
+        List<Publicacion> filterPublicaiones = new ArrayList<Publicacion>();
 
         for(Publicacion p : publicaciones){
-            if(p.getIdpublirefer() == id){
-                filterPublicaiones.add(p.getContenido());
+            if(Objects.equals(p.getIdpublirefer(), id)){
+                filterPublicaiones.add(p);
             }
         }
         return  filterPublicaiones;
@@ -64,10 +65,51 @@ public class PublicacionController {
         }
         return  publicacionesFiltered;
     }
+    @GetMapping("/getUserPublication/{id}")
+    public List<Publicacion> getUserPublications(@PathVariable Integer id){
+        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
+        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
+
+        for(Publicacion p : publicaciones){
+            if(Objects.equals(p.getIdusuario(), id)){
+                if (p.getIdpublirefer() == null){
+                    publicacionesFiltered.add(p);
+                }
+
+            }
+        }
+        return  publicacionesFiltered;
+    }
+    @GetMapping("/getAllPublication")
+    public List<Publicacion> getUserPublications(){
+        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
+        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
+
+        for(Publicacion p : publicaciones){
+            if (p.getIdpublirefer() == null){
+                publicacionesFiltered.add(p);
+            }
+        }
+        return  publicacionesFiltered;
+    }
+    @GetMapping("/getUserComments/{id}")
+    public List<Publicacion> getUserComments(@PathVariable Integer id){
+        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
+        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
+
+        for(Publicacion p : publicaciones){
+            if(Objects.equals(p.getIdusuario(), id)){
+                if (p.getIdpublirefer() != null){
+                    publicacionesFiltered.add(p);
+                }
+
+            }
+        }
+        return  publicacionesFiltered;
+    }
     @DeleteMapping("/deleteById/{id}")
     public Boolean deletePublish(@PathVariable Integer id){
         return publicacionService.deleteUsuario(id);
     }
-
 
 }

@@ -19,6 +19,10 @@ public class PublicacionService {
         return publicacionRepository.findAll();
     }
 
+    public List<Publicacion> getAllPublicacionesByUser(Integer id) {
+        return publicacionRepository.findAll();
+    }
+
     public Optional<Publicacion> getPublicacionById(Integer id) {
         return publicacionRepository.findById(id);
     }
