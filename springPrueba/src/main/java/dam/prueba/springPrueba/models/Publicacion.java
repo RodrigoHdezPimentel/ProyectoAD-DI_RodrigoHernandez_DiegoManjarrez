@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Publicaciones") //Nombre de la tabla en la BD
 @NoArgsConstructor
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Publicacion {
     @Id
-    @Column(name = "idpublicacion")
+    @Column(name = "idpublicacion", insertable=false, updatable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "idusuario", insertable=false, updatable=false)
@@ -38,5 +40,13 @@ public class Publicacion {
     @ManyToOne(targetEntity = Tema.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "idtema")
     private Tema tema;
+
+    @OneToMany(targetEntity = Like.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idpublicacion")
+    private List<Like> likes;
+
+    @OneToMany(targetEntity = Publicacion.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idpublirefer")
+    private List<Publicacion> comentarios;
 
 }
