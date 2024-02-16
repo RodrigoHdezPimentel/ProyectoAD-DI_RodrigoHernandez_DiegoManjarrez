@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "Usuarios") //Nombre de la tabla en la BD
@@ -29,4 +30,5 @@ public class Usuario {
     private String mail;
     @Column(name = "Us_Contrasena")
     private String pass;
+
 }
