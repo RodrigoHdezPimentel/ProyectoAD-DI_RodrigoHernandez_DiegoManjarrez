@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.prueba.fragments.Fragments.MainFragment.Chats;
@@ -33,28 +34,14 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     TabLayout tabLayout;
     //ID DEL USAURIO QUE ENTRA EN SESION
-    public static int idRegistrado = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
-
-        Login_SignUP.chatConversation.removeAll(Login_SignUP.chatConversation);
-        Login_SignUP.chatConversation.add(new Chat(null,1,2,"hola","fecha"));
-        Login_SignUP.chatConversation.add(new Chat(null,2,1,"hola, ¿que tal?","fecha"));
-        Login_SignUP.chatConversation.add(new Chat(null,1,2,"Bien, y tu?","fecha"));
-        Login_SignUP.chatConversation.add(new Chat(null,2,1,"A mi se me ha muerto el perro","fecha"));
-        Login_SignUP.chatConversation.add(new Chat(null,1,2,"jajajaja","fecha"));
-        Login_SignUP.chatConversation.add(new Chat(null,1,2,"perdon, chat equivocado","fecha"));
-        Login_SignUP.chatConversation.add(new Chat(null,1,2,"ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp","fecha"));
-
-        Login_SignUP.listaChats.removeAll(Login_SignUP.listaChats);
-        Login_SignUP.listaChats.add(new Chat(null,2,1,"ppppppppppppppppp", "fecha"));
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, new Home())
                 .addToBackStack(null)

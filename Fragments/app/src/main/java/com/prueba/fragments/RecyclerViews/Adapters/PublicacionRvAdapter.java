@@ -30,6 +30,7 @@ import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -60,29 +61,15 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.Tema.setText(Login_SignUP.listaTemas.get(position).getTitulo());
+        holder.Tema.setText(publicacionModels.get(position).getTema().getTitulo());
         holder.Contenido.setText(publicacionModels.get(position).getContenido());
         holder.numLikes.setText(publicacionModels.get(position).getNumlikes().toString());
         holder.numComentarios.setText("0");
         holder.idPublicacion = publicacionModels.get(position).getId();
         holder.idPubliRef = publicacionModels.get(position).getIdpublirefer();
         holder.Titulo.setText(publicacionModels.get(position).getTitulo());
-        //holder.userName.setText(getUserName(publicacionModels.get(position).getIdusuario()).getName());
-        getUserName(publicacionModels.get(position).getIdusuario(), new Callback<Usuario>() {
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                Usuario usuario = response.body();
-                if (usuario != null) {
-                    holder.userName.setText(usuario.getName());
-                }
-            }
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                // Manejar el error
-                Log.e("Error al cargar usuario", t.getMessage());
-            }
-        });
-
+        holder.numComentarios.setText(publicacionModels.get(position).getComentarios().length+"");
+        holder.userName.setText(publicacionModels.get(position).getUsuario().getName().toString());
         holder.likeImg.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -129,6 +116,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         TextView Titulo;
         CardView cv;
         TextView userName;
+        ArrayList<Publicacion> comentarios;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,35 +127,11 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
             this.numComentarios = itemView.findViewById(R.id.numComentarios);
             this.likeImg = itemView.findViewById(R.id.liekButton);
             this.comentarioImg = itemView.findViewById(R.id.ImgComentarios);
-            this.idPublicacion = 0;
             this.Titulo = itemView.findViewById(R.id.titulo);
             liked = false;
+            this.comentarios = new ArrayList<>();
             this.userName = itemView.findViewById(R.id.textViewUserName);
 
         }
     }
-    public void getUserName(Integer idUsuario, final Callback<Usuario> callback) {
-        UsuarioInterface UserInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = UserInterface.getUserById(idUsuario);
-        call.enqueue(new Callback<Usuario>() {
-
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (!response.isSuccessful()) {
-                    Log.e("Response err: ", response.message());
-                    callback.onFailure(call, new Throwable("Error al cargar el usuario"));
-                    return;
-                }
-                callback.onResponse(call, response);
-            }
-
-
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                callback.onFailure(call, t);
-            }
-
-        });
-    }
-
 }

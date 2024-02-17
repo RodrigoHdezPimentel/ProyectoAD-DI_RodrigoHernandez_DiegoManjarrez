@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Chat;
@@ -40,7 +41,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        if(chatModels.get(position).getIdDestino() == MainActivity.idRegistrado){
+        if(chatModels.get(position).getIdDestino() == Login_SignUP.idRegistrado){
             holder.personaChat.setText(chatModels.get(position).getIdOrigen().toString());
         }else{
             holder.personaChat.setText(chatModels.get(position).getIdDestino().toString());

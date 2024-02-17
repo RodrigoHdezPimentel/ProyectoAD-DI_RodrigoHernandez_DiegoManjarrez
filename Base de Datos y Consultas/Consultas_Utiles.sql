@@ -97,7 +97,5 @@ union
 select  distinct(idUsuarioOrigen) as "recibido", IdUsuarioDestino as "mandado" 
 	from Chat where IdUsuarioDestino = 1;
     
-/*select * from Chat a join Chat b
-	on a.idUsuarioOrigen = b.IdUsuarioDestino and a.IdUsuarioDestino = b.idUsuarioOrigen 
-		where a.idUsuarioOrigen = 1 or a.IdUsuarioDestino = 1;*/
+update publicaciones set numLikes = () where idPublicacion = 1;
 

@@ -24,6 +24,8 @@ import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +37,10 @@ ImageView back;
     Integer idRef;
     Publicacion newPublication;
     TextView contenidoTv;
+    TextView numComentarios;
+    TextView numLikes;
+    TextView titulo;
+    ImageView home;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +48,32 @@ ImageView back;
         Intent getId = getIntent();
         id = getId.getIntExtra("id", 0);
 
+        numLikes = findViewById(R.id.numLikes);
         back = findViewById(R.id.arrow);
+        numComentarios = findViewById(R.id.numComentarios);
+        contenidoTv = findViewById(R.id.contenido);
+        titulo = findViewById(R.id.titulo);
+        home = findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toHome = new Intent(ComentariosActivity.this, MainActivity.class);
+                startActivity(toHome);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent back = null;
+                if(newPublication.getIdpublirefer() == null){
+                    back = new Intent(ComentariosActivity.this, MainActivity.class);
+                }else{
+                    back = new Intent(ComentariosActivity.this, ComentariosActivity.class);
+                    back.putExtra("id", newPublication.getIdpublirefer());
+                }
+                startActivity(back);
+            }
+        });
 
         cargarPublicacion(id);
 
@@ -59,25 +90,15 @@ ImageView back;
                 }
 
                 newPublication = response.body();
-                TextView titulo = findViewById(R.id.titulo);
+
                 titulo.setText(newPublication.getTitulo());
-                contenidoTv = findViewById(R.id.contenido);
                 contenidoTv.setMovementMethod(new ScrollingMovementMethod());
                 contenidoTv.setText(newPublication.getContenido());
+                numComentarios.setText(newPublication.getComentarios().length+"");
+                numLikes.setText(newPublication.getNumlikes()+"");
 
-                back.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent back = null;
-                        if(newPublication.getIdpublirefer() == null){
-                            back = new Intent(ComentariosActivity.this, MainActivity.class);
-                        }else{
-                            back = new Intent(ComentariosActivity.this, ComentariosActivity.class);
-                            back.putExtra("id", newPublication.getIdpublirefer());
-                        }
-                        startActivity(back);
-                    }
-                });
+
+
 
                 getComentarios(newPublication.getId());
             }
@@ -98,7 +119,6 @@ ImageView back;
                     Log.e("Response err: ", response.message());
                     return;
                 }
-
                 listaComentarios = (ArrayList<Publicacion>) response.body();
 
                 RecyclerView Contenidos = findViewById(R.id.commentRecycler);
@@ -123,12 +143,10 @@ ImageView back;
                     }
                 });
             }
-
             @Override
             public void onFailure(Call<List<Publicacion>> call, Throwable t) {
                 Toast.makeText(ComentariosActivity.this, "error", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 }

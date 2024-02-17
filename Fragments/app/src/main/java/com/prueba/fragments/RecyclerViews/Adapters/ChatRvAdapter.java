@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Chat;
@@ -45,7 +46,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         holder.idDestino = chatModels.get(position).getIdDestino();
         holder.idOrigen = chatModels.get(position).getIdOrigen();
 
-        if(holder.idOrigen != MainActivity.idRegistrado){
+        if(holder.idOrigen != Login_SignUP.idRegistrado){
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(holder.constraintLayout);
             constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);

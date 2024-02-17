@@ -34,24 +34,20 @@ public class Publicacion {
     @Column(name = "titulo")
     private String titulo;
 
-//    @ManyToOne(targetEntity = Usuario.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "idusuario")
-//    private Usuario usuario;
+    @ManyToOne(targetEntity = Usuario.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idusuario")
+    private Usuario usuario;
 
-//    @ManyToOne(targetEntity = Tema.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "idtema")
-//    private Tema tema;
-//
-//    @OneToMany(targetEntity = Like.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "idpublicacion")
-//    private List<Like> likes;
-//
-//    @OneToMany(targetEntity = Publicacion.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "idpublirefer")
-//    private List<Publicacion> comentarios;
+    @ManyToOne(targetEntity = Tema.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idtema")
+    private Tema tema;
 
-//    @ManyToOne
-//    @JsonBackReference
-//    @JoinColumn(name = "idusuario")
-//    private Usuario usuario;
+    @OneToMany(targetEntity = Like.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idpublicacion")
+    private List<Like> likes;
+
+    @OneToMany(targetEntity = Publicacion.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idpublirefer")
+    private List<Publicacion> comentarios;
+
 }

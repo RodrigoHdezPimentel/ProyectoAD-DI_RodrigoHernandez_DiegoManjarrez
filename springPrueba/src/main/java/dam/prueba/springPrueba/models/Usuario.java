@@ -31,7 +31,5 @@ public class Usuario {
     @Column(name = "Us_Contrasena")
     private String pass;
 
-//    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<Publicacion> publicaciones;
+
 }

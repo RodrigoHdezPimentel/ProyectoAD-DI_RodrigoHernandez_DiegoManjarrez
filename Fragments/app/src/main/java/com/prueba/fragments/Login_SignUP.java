@@ -36,11 +36,10 @@ public class Login_SignUP extends AppCompatActivity {
     public static ArrayList<Chat> chatConversation = new ArrayList<>();
     public static final String IP_DIEGO = "192.168.56.1";
     public static final String[] IP_RODRIGO = {"172.29.144.1", "192.168.0.251"};
+    public static int idRegistrado;
     Button buttonLogin;
     Button buttonSignUp;
     UsuarioInterface usuarioInterface;
-    String[] userData = new String[2];
-
     TextView userName;
     TextView password;
 
@@ -96,13 +95,17 @@ public class Login_SignUP extends AppCompatActivity {
                     Log.e("Response err: ", response.message());
                     return;
                 }
+                String[] userData = new String[3];
                 boolean datoEncontrado= false;
                 for (Usuario u : response.body()){
                     userData[0] = u.getName();
                     userData[1] = u.getPass();
+                    userData[2] = u.getId()+"";
+
                     if(userName.getText().toString().equals(userData[0])
                             && password.getText().toString().equals(userData[1])){
                         datoEncontrado = true;
+                        idRegistrado = Integer.parseInt(userData[2]);
                         break;
                     }
                 }

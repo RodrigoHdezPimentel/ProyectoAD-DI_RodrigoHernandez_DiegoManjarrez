@@ -92,7 +92,6 @@ public class MisTemas extends Fragment {
                     return;
                 }
                 listaPublicaciones = response.body();
-                listaPublicaciones.forEach(u -> Log.i("Usaurio err: ", u.toString()));
                 progressBar.setVisibility(View.GONE);
 
                 RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
@@ -100,8 +99,6 @@ public class MisTemas extends Fragment {
                 MyRecyclerView.setAdapter(adapter);
                 MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
-
-
             @Override
             public void onFailure(Call<List<Publicacion>> call, Throwable t) {
 
