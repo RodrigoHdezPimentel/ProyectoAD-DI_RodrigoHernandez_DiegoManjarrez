@@ -7,7 +7,10 @@ public class Tema {
 
     public Tema() {
     }
-
+    public Tema(Integer id, String titulo){
+        this.id = id;
+        this.titulo = titulo;
+    }
     public Tema(Integer id, String titulo, Integer edadMinima) {
         this.id = id;
         this.titulo = titulo;

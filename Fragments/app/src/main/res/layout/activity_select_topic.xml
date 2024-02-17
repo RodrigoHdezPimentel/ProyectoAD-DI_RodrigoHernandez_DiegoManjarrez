@@ -10,7 +10,8 @@
         android:id="@+id/SclashScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintVertical_weight="1">
+        app:layout_constraintVertical_weight="1"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -57,7 +58,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ContenidoParaOcultar">
+        android:id="@+id/ContenidoParaOcultar"
+        >
     <ScrollView
         android:id="@+id/scrollViewSelectTopic"
         android:layout_width="match_parent"
@@ -92,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:chipSpacingHorizontal="50dp"
-                app:chipSpacingVertical="30dp" />
+                app:chipSpacingVertical="30dp"
+                android:padding="20dp"/>
         </LinearLayout>
     </ScrollView>
 

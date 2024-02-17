@@ -11,8 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prueba.fragments.Registro.Registro;
+import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Chat;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
@@ -25,7 +28,14 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login_SignUP extends AppCompatActivity {
-
+    public static Retrofit retrofitPublicacion;
+    public static Retrofit retrofitTemas;
+    public static Retrofit retrofitUser;
+    public static ArrayList<Tema> listaTemas = new ArrayList<>();
+    public static ArrayList<Chat> listaChats = new ArrayList<>();
+    public static ArrayList<Chat> chatConversation = new ArrayList<>();
+    public static final String IP_DIEGO = "192.168.56.1";
+    public static final String[] IP_RODRIGO = {"172.29.144.1", "192.168.0.251"};
     Button buttonLogin;
     Button buttonSignUp;
     UsuarioInterface usuarioInterface;
@@ -39,17 +49,26 @@ public class Login_SignUP extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
-        userName = findViewById(R.id.inputUserName);
-        password = findViewById(R.id.inputPassword);
 
-        //conexion con retrofit
-        MainActivity.retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + MainActivity.IP_DIEGO +":8086/usuario/")
+        retrofitPublicacion = new Retrofit.Builder()
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitTemas = new Retrofit.Builder()
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitUser = new Retrofit.Builder()
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        userName = findViewById(R.id.inputUserName);
+        password = findViewById(R.id.inputPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonSignUp = findViewById(R.id.buttonSignUp);
+
+        getTemas();
 
         //Inicio de sesion
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +87,7 @@ public class Login_SignUP extends AppCompatActivity {
 
     }
     private void iniciarSesion(){
-        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
+        usuarioInterface = retrofitUser.create(UsuarioInterface.class);
         Call<List<Usuario>> call = usuarioInterface.getAll();
         call.enqueue(new Callback<List<Usuario>>() {
             @Override
@@ -103,5 +122,30 @@ public class Login_SignUP extends AppCompatActivity {
             }
         });
     }
+    public void getTemas(){
+        TemaInterface temaInterface = Login_SignUP.retrofitTemas.create(TemaInterface.class);
+        Call<List<Tema>> call = temaInterface.getAll();
+        call.enqueue(new Callback<List<Tema>>() {
+
+            @Override
+            public void onResponse(Call<List<Tema>> call, Response<List<Tema>> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Response err: ", response.message());
+                    return;
+                }
+                List<Tema> temporalList = response.body();
+                for(Tema t : temporalList){
+                    listaTemas.add(t);
+                }
+                return;
+            }
+
+            @Override
+            public void onFailure(Call<List<Tema>> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 }

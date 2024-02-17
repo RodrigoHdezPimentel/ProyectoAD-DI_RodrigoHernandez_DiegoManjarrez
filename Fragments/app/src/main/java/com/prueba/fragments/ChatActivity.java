@@ -23,7 +23,7 @@ public class ChatActivity extends AppCompatActivity {
 
         RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
 
-        ChatRvAdapter adapter = new ChatRvAdapter(this, MainActivity.chatConversation);
+        ChatRvAdapter adapter = new ChatRvAdapter(this, Login_SignUP.chatConversation);
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 

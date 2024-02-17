@@ -70,7 +70,7 @@ Spinner spinnerGender;
 
     }
     public void cargarGender(){
-        String[] themesName = getResources().getStringArray(R.array.listaThemes);
+        String[] themesName = getResources().getStringArray(R.array.Gender);
         for(String s : themesName){
             Chip newChip = new Chip(this);
             newChip.setText(s);

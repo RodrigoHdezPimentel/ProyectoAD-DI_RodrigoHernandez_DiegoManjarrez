@@ -48,7 +48,7 @@ ImageView back;
 
     }
     public void cargarPublicacion(Integer idComent){
-        PublicacionInterface publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
+        PublicacionInterface publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
         Call<Publicacion> call = publicacionInterface.getPublicationById(idComent);
         call.enqueue(new Callback<Publicacion>() {
 
@@ -88,7 +88,7 @@ ImageView back;
     }
 
     public void getComentarios(Integer id){
-        PublicacionInterface publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
+        PublicacionInterface publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
         Call<List<Publicacion>> call = publicacionInterface.getAllComentsFromPublish(id);
         call.enqueue(new Callback<List<Publicacion>>() {
 

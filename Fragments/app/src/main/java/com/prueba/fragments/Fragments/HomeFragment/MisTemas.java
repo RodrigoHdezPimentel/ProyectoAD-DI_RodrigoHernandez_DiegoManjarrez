@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
@@ -81,7 +82,7 @@ public class MisTemas extends Fragment {
 
     private void getAllPubliacion() {
 
-        publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
+        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
         Call<List<Publicacion>> call = publicacionInterface.getAllPublications();
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override

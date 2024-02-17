@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ComentariosActivity;
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
@@ -59,7 +60,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.Tema.setText(MainActivity.listaTemas.get(publicacionModels.get(position).getIdtema()-1));
+        holder.Tema.setText(Login_SignUP.listaTemas.get(position).getTitulo());
         holder.Contenido.setText(publicacionModels.get(position).getContenido());
         holder.numLikes.setText(publicacionModels.get(position).getNumlikes().toString());
         holder.numComentarios.setText("0");
@@ -146,7 +147,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         }
     }
     public void getUserName(Integer idUsuario, final Callback<Usuario> callback) {
-        UsuarioInterface UserInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
+        UsuarioInterface UserInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
         Call<Usuario> call = UserInterface.getUserById(idUsuario);
         call.enqueue(new Callback<Usuario>() {
 
