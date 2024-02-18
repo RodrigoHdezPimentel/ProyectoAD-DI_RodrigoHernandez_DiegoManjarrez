@@ -86,7 +86,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Seleccione los temas que le gustan" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/caviardreams"
+                android:text="Seleccione los temas que te gustan" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupThemes"

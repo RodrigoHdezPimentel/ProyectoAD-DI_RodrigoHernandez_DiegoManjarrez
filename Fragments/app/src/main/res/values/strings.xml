@@ -6,8 +6,8 @@
     <string name="password_text"> Password</string>
 
      <string-array name="Gender">
-         <item>Hombre</item>
-         <item>Mujer</item>
+         <item>Male</item>
+         <item>Female</item>
      </string-array>
 
 

@@ -6,29 +6,44 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
-import java.util.ArrayList;
-import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class Registro extends AppCompatActivity {
 Button buttonRegistrar;
 Button buttonCancelar;
 
-Spinner spinnerGender;
-
-
+TextInputEditText userName;
+TextInputEditText  password;
+TextInputEditText  yearsOdl;
+TextInputEditText  email;
+AutoCompleteTextView  gender;
 
 
     @Override
@@ -37,27 +52,30 @@ Spinner spinnerGender;
         setContentView(R.layout.activity_registro);
         buttonRegistrar = findViewById(R.id.buttonRegistrarRegister);
         buttonCancelar = findViewById(R.id.buttonCancellRegister);
-        //spinnerGender = findViewById(R.id.spinner_gender);
 
-        // Crear una lista de opciones
-//        List<String> genderOptions = new ArrayList<>();
-//        genderOptions.add("Hombre");
-//        genderOptions.add("Mujer");
-//
-//        // Crear un adaptador para el Spinner
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genderOptions);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        // Asignar el adaptador al Spinner
-//        spinnerGender.setAdapter(adapter);
+        userName = findViewById(R.id.inputUserNameRegister);
+        password = findViewById(R.id.inputPasswordRegister);
+        yearsOdl = findViewById(R.id.inputYearsOldRegister);
+        email = findViewById(R.id.inputEmailRegister);
+
+        //Cargar la el Array de Gender y colocarlo en el xml
+        gender = findViewById(R.id.listaGender);
+        String[] items = getResources().getStringArray(R.array.Gender);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, items);
+        gender.setAdapter(adapter);
 
 
         buttonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent toThemes = new Intent(Registro.this, SelectTopic.class);
+                toThemes.putExtra("userName", userName.getText().toString());
+                toThemes.putExtra("password", password.getText().toString());
+                toThemes.putExtra("gender", gender.getText().toString());
+                toThemes.putExtra("email", email.getText().toString());
+                //Toast.makeText(Registro.this, email.getText().toString(), Toast.LENGTH_SHORT).show();
+                toThemes.putExtra("yearsOld", yearsOdl.getText().toString());
                 startActivity(toThemes);
-
             }
         });
         buttonCancelar.setOnClickListener(new View.OnClickListener() {
@@ -69,15 +87,7 @@ Spinner spinnerGender;
         });
 
     }
-    public void cargarGender(){
-        String[] themesName = getResources().getStringArray(R.array.Gender);
-        for(String s : themesName){
-            Chip newChip = new Chip(this);
-            newChip.setText(s);
 
-           // chipGroup.addView(newChip);
 
-        }
 
-    }
 }

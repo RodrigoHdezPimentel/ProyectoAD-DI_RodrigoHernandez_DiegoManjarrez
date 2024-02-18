@@ -6,16 +6,15 @@ public class Usuario {
     private String name;
 
     private String genero;
-    private String descripcion;
+    private String descripcion = "";
     private String mail;
     private String pass;
 
-    public Usuario(Integer id, Integer year, String name, String genero, String descripcion, String mail, String pass) {
+    public Usuario(Integer id, Integer year, String name, String genero, String mail, String pass) {
         this.id = id;
         this.year = year;
         this.name = name;
         this.genero = genero;
-        this.descripcion = descripcion;
         this.mail = mail;
         this.pass = pass;
     }

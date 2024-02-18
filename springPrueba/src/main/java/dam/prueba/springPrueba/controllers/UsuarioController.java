@@ -68,7 +68,7 @@ public class UsuarioController {
 
         return  usuarioService.getByName(str);
     }
-    @GetMapping("/getUserPublications/{id}")
+    @GetMapping("/getUserPublication/{id}")
     public List<Publicacion> getUserPublicacion(@PathVariable Integer id){
         return  usuarioService.getUserPublicacion(id);
     }

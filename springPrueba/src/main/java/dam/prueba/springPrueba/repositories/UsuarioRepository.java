@@ -17,6 +17,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("SELECT p FROM Publicacion p WHERE p.idusuario = ?1")
     List<Publicacion> getUserPublicacion(Integer userId);
+
 //    @Query("SELECT p FROM Publicacion p JOIN p.Usuario u JOIN u.UsuarioTema ut WHERE ut.idUsuario = ?1")
 //    List<Publicacion> getUserPublicacion(Integer userId);
 }

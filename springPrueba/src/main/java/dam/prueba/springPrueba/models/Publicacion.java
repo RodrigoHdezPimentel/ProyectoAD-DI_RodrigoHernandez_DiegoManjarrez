@@ -50,4 +50,5 @@ public class Publicacion {
     @JoinColumn(name = "idpublirefer")
     private List<Publicacion> comentarios;
 
+
 }

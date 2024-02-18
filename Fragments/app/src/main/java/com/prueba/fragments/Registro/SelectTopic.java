@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -24,19 +25,43 @@ import com.google.android.material.chip.ChipGroup;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SelectTopic extends AppCompatActivity {
     public ChipGroup chipGroup;
     public ArrayList<Integer> temasUserId = new ArrayList<>();
     Button buttonConfirmar;
     Button buttonCancelar;
+    ArrayList<Chip> listChip = new ArrayList<>();
+
+
+    String userName;
+    String password;
+    String email;
+    String gender;
+    int yearsOld;
+    UsuarioInterface usuarioInterface;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_topic);
+        cargarDatosRegister();
+
+        Toast.makeText(this, userName, Toast.LENGTH_SHORT).show();
 
         chipGroup = findViewById(R.id.chipGroupThemes);
         ConstraintLayout splashCreen = findViewById(R.id.SclashScreen);
@@ -51,18 +76,27 @@ public class SelectTopic extends AppCompatActivity {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View view) {
-                splashCreen.setVisibility(View.VISIBLE);
-                selectTopic.setVisibility(View.INVISIBLE);
 
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(SelectTopic.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                //Comprovacion de chip seleccionados
+                for (Chip c : listChip){
+                    if (c.isChecked()){
+                        temasUserId.add(c.getId());
                     }
-                }, 500);
+                }
+                createUser();
+//                splashCreen.setVisibility(View.VISIBLE);
+//                selectTopic.setVisibility(View.INVISIBLE);
+
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Intent intent = new Intent(SelectTopic.this, MainActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(intent);
+//                    }
+//                }, 800);
+                Toast.makeText(SelectTopic.this, temasUserId.size()+"", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -83,26 +117,37 @@ public class SelectTopic extends AppCompatActivity {
             ChipDrawable chipDrawable = ChipDrawable.createFromAttributes(this, null, 0, com.google.android.material.R.style.Widget_Material3_Chip_Filter);
             newChip.setId(t.getId());
             newChip.setChipDrawable(chipDrawable);
-
-            newChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
-                        temasUserId.add(newChip.getId());
-                    }else{
-                        for (int x=0; x < temasUserId.size(); x++){
-                            if(temasUserId.get(x) == newChip.getId()){
-                                temasUserId.remove(x);
-                                break;
-                            }
-                        }
-                    }
-                }
-            });
-
+            newChip.isChecked();
+            listChip.add(newChip);
             chipGroup.addView(newChip);
-
         }
+
+    }
+    public void cargarDatosRegister(){
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
+        password = intent.getStringExtra("password");
+        yearsOld = Integer.parseInt(intent.getStringExtra("yearsOld"));
+        email = intent.getStringExtra("email");
+        gender = intent.getStringExtra("gender");
+    }
+    public void createUser(){
+        Usuario user = new Usuario(null, yearsOld, userName, gender, email,password );
+         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+        Call<Usuario> call = usuarioInterface.create(user);
+        call.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(SelectTopic.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                Log.e("Thorw err: ", t.getMessage());
+            }
+        });
 
     }
 }
