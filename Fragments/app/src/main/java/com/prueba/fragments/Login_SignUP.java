@@ -50,15 +50,15 @@ public class Login_SignUP extends AppCompatActivity {
         setContentView(R.layout.activity_login_sign_up);
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/publicacion/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/tema/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuario/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

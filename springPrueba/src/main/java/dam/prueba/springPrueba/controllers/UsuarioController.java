@@ -72,5 +72,9 @@ public class UsuarioController {
     public List<Publicacion> getUserPublicacion(@PathVariable Integer id){
         return  usuarioService.getUserPublicacion(id);
     }
+    /*@GetMapping("/getUserLikes/{id}")
+    public List<Publicacion> getUserLike(@PathVariable Integer id){
+        return  usuarioService.getUserLike(id);
+    }*/
 
 }

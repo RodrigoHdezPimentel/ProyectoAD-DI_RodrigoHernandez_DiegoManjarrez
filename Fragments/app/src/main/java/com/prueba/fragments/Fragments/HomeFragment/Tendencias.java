@@ -2,13 +2,30 @@ package com.prueba.fragments.Fragments.HomeFragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.prueba.fragments.Fragments.MainFragment.Home;
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
+import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -58,19 +75,49 @@ public class Tendencias extends Fragment {
         }
     }
     //Cambiar esto por los datos retornados de la BD
+    ProgressBar progressBar;
+    List<Publicacion> listaPublicaciones;
+    PublicacionInterface publicacionInterface;
+    LinearLayout l;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tendencias, container, false);
+        view = inflater.inflate(R.layout.fragment_tendencias, container, false);
 
-       // RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
+        progressBar = view.findViewById(R.id.progressBar);
 
-//       PublicacionRvAdapter adapter = new PublicacionRvAdapter(this.getContext(), Home.getListaPublicaciones());
-//        MyRecyclerView.setAdapter(adapter);
-//       MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        getAllPubliacionFromUser(Login_SignUP.idRegistrado);
 
         return view;
+    }
+
+    private void getAllPubliacionFromUser(int id) {
+
+        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        Call<List<Publicacion>> call = publicacionInterface.getAllPublications();
+        call.enqueue(new Callback<List<Publicacion>>() {
+            @Override
+            public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {
+                if (!response.isSuccessful()) {
+                    //Log.e("Response err: ", response.message());
+                    return;
+                }
+
+                listaPublicaciones = response.body();
+                progressBar.setVisibility(View.GONE);
+
+                RecyclerView MyRecyclerView = view.findViewById(R.id.tendenciasRecyclerView);
+                PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
+                MyRecyclerView.setAdapter(adapter);
+                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+            @Override
+            public void onFailure(Call<List<Publicacion>> call, Throwable t) {
+
+            }
+        });
     }
 }
