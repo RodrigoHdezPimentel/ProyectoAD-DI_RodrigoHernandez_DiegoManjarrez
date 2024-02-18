@@ -64,7 +64,6 @@ public class MisTemas extends Fragment {
     //VARIABLES
     List<Publicacion> listaPublicaciones;
     UsuarioInterface usuarioInterface;
-    LinearLayout l;
     View view;
     ProgressBar progressBar;
 
