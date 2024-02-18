@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.servicies;
 
+import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -36,5 +37,6 @@ public class UsuarioService {
     public List<String> getByName(String nombre) {
        return usuarioRepository.getByNombre(nombre);
     }
+    public List<Publicacion> getUserPublicacion (Integer id){ return  usuarioRepository.getUserPublicacion(id);}
 
 }

@@ -1,6 +1,7 @@
 package dam.prueba.springPrueba.controllers;
 
 
+import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.servicies.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,4 +68,9 @@ public class UsuarioController {
 
         return  usuarioService.getByName(str);
     }
+    @GetMapping("/getUserPublications/{id}")
+    public List<Publicacion> getUserPublicacion(@PathVariable Integer id){
+        return  usuarioService.getUserPublicacion(id);
+    }
+
 }

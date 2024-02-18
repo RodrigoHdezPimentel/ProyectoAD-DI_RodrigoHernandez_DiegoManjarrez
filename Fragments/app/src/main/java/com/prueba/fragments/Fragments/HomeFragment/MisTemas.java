@@ -18,6 +18,7 @@ import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 
 import java.util.List;
@@ -62,7 +63,7 @@ public class MisTemas extends Fragment {
 
     //VARIABLES
     List<Publicacion> listaPublicaciones;
-    PublicacionInterface publicacionInterface;
+    UsuarioInterface usuarioInterface;
     LinearLayout l;
     View view;
     ProgressBar progressBar;
@@ -75,15 +76,15 @@ public class MisTemas extends Fragment {
         //La barra de progreso
         progressBar = view.findViewById(R.id.progressBar);
 
-        getAllPubliacion();
+        getAllPubliacionFromUser(Login_SignUP.idRegistrado);
 
         return view;
     }
 
-    private void getAllPubliacion() {
+    private void getAllPubliacionFromUser(int id) {
 
-        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
-        Call<List<Publicacion>> call = publicacionInterface.getAllPublications();
+        usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Login_SignUP.idRegistrado);
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {
@@ -91,6 +92,7 @@ public class MisTemas extends Fragment {
                     Log.e("Response err: ", response.message());
                     return;
                 }
+
                 listaPublicaciones = response.body();
                 progressBar.setVisibility(View.GONE);
 

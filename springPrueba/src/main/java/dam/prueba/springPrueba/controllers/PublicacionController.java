@@ -65,21 +65,21 @@ public class PublicacionController {
         }
         return  publicacionesFiltered;
     }
-    @GetMapping("/getUserPublication/{id}")
-    public List<Publicacion> getUserPublications(@PathVariable Integer id){
-        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
-        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
-
-        for(Publicacion p : publicaciones){
-            if(Objects.equals(p.getIdusuario(), id)){
-                if (p.getIdpublirefer() == null){
-                    publicacionesFiltered.add(p);
-                }
-
-            }
-        }
-        return  publicacionesFiltered;
-    }
+//    @GetMapping("/getUserPublication/{id}")
+//    public List<Publicacion> getUserPublications(@PathVariable Integer id){
+//        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
+//        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
+//
+//        for(Publicacion p : publicaciones){
+//            if(Objects.equals(p.getIdusuario(), id)){
+//                if (p.getIdpublirefer() == null){
+//                    publicacionesFiltered.add(p);
+//                }
+//
+//            }
+//        }
+//        return  publicacionesFiltered;
+//    }
     @GetMapping("/getAllPublication")
     public List<Publicacion> getUserPublications(){
         List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();

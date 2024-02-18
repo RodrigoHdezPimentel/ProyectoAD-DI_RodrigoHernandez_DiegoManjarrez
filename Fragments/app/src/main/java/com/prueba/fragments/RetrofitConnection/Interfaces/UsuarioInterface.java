@@ -1,5 +1,6 @@
 package com.prueba.fragments.RetrofitConnection.Interfaces;
 
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface UsuarioInterface {
 
     @GET("id/{id}")
     Call<Usuario> getUserById(@Path("id") Integer id);
+
+    @GET("getUserPublications/{id}")
+    Call<List<Publicacion>> getPublicationsFromUser(@Path("id") Integer id);
 }
