@@ -73,7 +73,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:hint="@string/password_text"
-        android:inputType="textPassword"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/editTextText6">
@@ -81,7 +81,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPasswordRegister"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
