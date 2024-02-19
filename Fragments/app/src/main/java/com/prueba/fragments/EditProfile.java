@@ -94,7 +94,7 @@ public class EditProfile extends AppCompatActivity {
     }
     public void cargarUserResgitrado(){
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.getUserById(Login_SignUP.idRegistrado);
+        Call<Usuario> call = usuarioInterface.getUserById(Usuario.getInstance().getId());
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -116,7 +116,7 @@ public class EditProfile extends AppCompatActivity {
     }
     public void deleteUser(Integer id){
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Boolean> call = usuarioInterface.delete(Login_SignUP.idRegistrado);
+        Call<Boolean> call = usuarioInterface.delete(Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -154,7 +154,7 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
                 // Acciones al confirmar
                 // Por ejemplo: actualizarPerfil();
-                deleteUser(Login_SignUP.idRegistrado);
+                deleteUser(Usuario.getInstance().getId());
                 Intent toLogIn = new Intent(EditProfile.this, Login_SignUP.class);
                 startActivity(toLogIn);
             }

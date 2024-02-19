@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import com.prueba.fragments.EditProfile;
 import com.prueba.fragments.Fragments.ProfileFragment.misLikes;
 import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 public class Profile extends Fragment {
     FrameLayout frameLayout;
@@ -47,7 +49,8 @@ public class Profile extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    TextView userName;
+    TextView descripcion;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +58,10 @@ public class Profile extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        userName = view.findViewById(R.id.UserNameProfile);
+        descripcion = view.findViewById(R.id.descripcionProfile);
+        userName.setText(Usuario.getInstance().getName());
+        descripcion.setText(Usuario.getInstance().getDescripcion());
 
         Button editProfile = view.findViewById(R.id.updateProfile);
         editProfile.setOnClickListener(new View.OnClickListener() {

@@ -36,7 +36,7 @@ public class Login_SignUP extends AppCompatActivity {
     public static ArrayList<Chat> chatConversation = new ArrayList<>();
     public static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
     public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251"};
-    public static int idRegistrado;
+
     Button buttonLogin;
     Button buttonSignUp;
     UsuarioInterface usuarioInterface;
@@ -48,6 +48,8 @@ public class Login_SignUP extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
+        Usuario.getInstance();
+
 
         retrofitPublicacion = new Retrofit.Builder()
                 .baseUrl("http://" + IP_RODRIGO[0] +":8086/publicacion/")
@@ -104,11 +106,12 @@ public class Login_SignUP extends AppCompatActivity {
                     if(userName.getText().toString().equals(userData[0])
                             && password.getText().toString().equals(userData[1])){
                         datoEncontrado = true;
-                        idRegistrado = Integer.parseInt(u.getId().toString());
+                        Usuario.setInstance(u);
                         break;
                     }
                 }
                 if(datoEncontrado){
+                    Toast.makeText(Login_SignUP.this, Usuario.getInstance().getName()+"", Toast.LENGTH_SHORT).show();
                     Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
                     startActivity(goMain);
                 }else{

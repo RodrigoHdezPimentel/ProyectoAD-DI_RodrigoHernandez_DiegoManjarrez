@@ -17,6 +17,7 @@ import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Chat;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        if(chatModels.get(position).getIdDestino() == Login_SignUP.idRegistrado){
+        if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
             holder.personaChat.setText(chatModels.get(position).getIdOrigen().toString());
         }else{
             holder.personaChat.setText(chatModels.get(position).getIdDestino().toString());

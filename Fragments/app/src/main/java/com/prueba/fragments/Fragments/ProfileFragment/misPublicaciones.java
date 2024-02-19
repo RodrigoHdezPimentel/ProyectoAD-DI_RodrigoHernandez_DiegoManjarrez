@@ -17,6 +17,7 @@ import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.List;
 
@@ -72,15 +73,14 @@ public class misPublicaciones extends Fragment {
         //La barra de progreso
         progressBar = view.findViewById(R.id.progressBar);
 
-        getAllPubliacionFromUser(Login_SignUP.idRegistrado);
-
+        getAllPubliacionFromUser(Usuario.getInstance().getId());
         return view;
     }
 
     private void getAllPubliacionFromUser(int id) {
 
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Login_SignUP.idRegistrado);
+        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {
