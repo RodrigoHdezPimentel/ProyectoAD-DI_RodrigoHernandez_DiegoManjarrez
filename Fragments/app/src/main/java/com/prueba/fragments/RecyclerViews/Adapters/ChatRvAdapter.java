@@ -46,7 +46,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         holder.Contenido.setText(chatModels.get(position).getContenido());
         holder.idDestino = chatModels.get(position).getIdDestino();
         holder.idOrigen = chatModels.get(position).getIdOrigen();
-
+        //Orientar el mensaje dependiendo de su procedencia
         if(holder.idOrigen != Usuario.getInstance().getId()){
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(holder.constraintLayout);
