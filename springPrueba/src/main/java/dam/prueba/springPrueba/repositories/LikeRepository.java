@@ -11,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Integer> {
-    /*@Query("SELECT p FROM Publicacion p JOIN p.idusuario = ?1")
-    List<Publicacion> getUserPublicacion(Integer userId);*/
+
+//    @Query("SELECT p FROM Publicacion p JOIN p.idusuario = ?1")
+//    List<Publicacion> getUserPublicacion(Integer userId);
+
 }

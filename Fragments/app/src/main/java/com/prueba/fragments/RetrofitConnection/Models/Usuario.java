@@ -1,6 +1,8 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
 public class Usuario {
+    private static Usuario instance;
+
     private Integer id;
     private Integer year;
     private String name;
@@ -20,6 +22,13 @@ public class Usuario {
     }
 
     public Usuario() {
+    }
+
+    public static  Usuario getInstance() {
+        if (instance == null) {
+            instance = new Usuario();
+        }
+        return instance;
     }
 
     public Integer getId() {
@@ -89,5 +98,9 @@ public class Usuario {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public static void setInstance(Usuario instance) {
+        Usuario.instance = instance;
     }
 }

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
 
@@ -81,5 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
+
+
 }

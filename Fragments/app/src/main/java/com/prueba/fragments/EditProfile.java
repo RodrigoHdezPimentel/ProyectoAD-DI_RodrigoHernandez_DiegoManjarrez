@@ -86,7 +86,7 @@ public class EditProfile extends AppCompatActivity {
     }
     public void cargarUserResgitrado(){
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.getUserById(Login_SignUP.idRegistrado);
+        Call<Usuario> call = usuarioInterface.getUserById(Usuario.getInstance().getId());
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {

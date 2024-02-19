@@ -20,6 +20,7 @@ import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class MisTemas extends Fragment {
         //La barra de progreso
         progressBar = view.findViewById(R.id.progressBar);
 
-        getAllPubliacionFromUser(Login_SignUP.idRegistrado);
+        getAllPubliacionFromUser(Usuario.getInstance().getId());
 
         return view;
     }
@@ -83,7 +84,7 @@ public class MisTemas extends Fragment {
     private void getAllPubliacionFromUser(int id) {
 
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Login_SignUP.idRegistrado);
+        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {
@@ -94,7 +95,7 @@ public class MisTemas extends Fragment {
 
                 listaPublicaciones = response.body();
                 progressBar.setVisibility(View.GONE);
-
+                
                 RecyclerView MyRecyclerView = view.findViewById(R.id.MisTemasRecyclerView);
                 PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
                 MyRecyclerView.setAdapter(adapter);
