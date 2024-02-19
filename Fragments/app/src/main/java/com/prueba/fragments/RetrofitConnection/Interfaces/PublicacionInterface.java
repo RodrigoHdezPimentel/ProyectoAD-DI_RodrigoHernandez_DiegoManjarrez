@@ -22,6 +22,8 @@ public interface PublicacionInterface {
     @GET("allComentariosFromPublicacion/{id}")
     Call<List<Publicacion>> getAllComentsFromPublish(@Path("id") Integer id);
 
+
+
     @GET("id/{id}")
     Call<Publicacion> getPublicationById(@Path("id") Integer id);
 }

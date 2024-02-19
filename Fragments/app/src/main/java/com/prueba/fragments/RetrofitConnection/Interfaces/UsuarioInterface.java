@@ -24,12 +24,18 @@ public interface UsuarioInterface {
     @GET("getUserPublication/{id}")
     Call<List<Publicacion>> getPublicationsFromUser(@Path("id") Integer id);
 
+    //HAcer más comprobaciones por si las dudas de este resultado
+    @GET("getUserPublicacionFromTema/{id}")
+    Call<List<Publicacion>> getPublicationsFromUserTema(@Path("id") Integer id);
+
     @POST("save")
     Call<Usuario> create(@Body Usuario user);
 
     @PUT("update")
     Call<Usuario> update(@Body Usuario user);
 
+
     @DELETE("deleteById/{id}")
     Call<Boolean> delete(@Path("id") Integer id);
+
 }

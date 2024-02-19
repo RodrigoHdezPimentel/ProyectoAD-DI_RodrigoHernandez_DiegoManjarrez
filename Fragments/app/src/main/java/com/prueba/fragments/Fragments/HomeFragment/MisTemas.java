@@ -83,7 +83,7 @@ public class MisTemas extends Fragment {
     private void getAllPubliacionFromUser(int id) {
 
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Usuario.getInstance().getId());
+        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUserTema(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {

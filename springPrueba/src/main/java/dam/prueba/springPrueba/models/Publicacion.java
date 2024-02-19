@@ -27,6 +27,10 @@ public class Publicacion {
 
     @Column(name = "idpublirefer", insertable=false, updatable=false)
     private Integer idpublirefer;
+
+    @Column(name = "fecha")
+    private String fecha;
+
     @Column(name = "numlikes")
     private Integer numlikes;
     @Column(name = "contenido")
