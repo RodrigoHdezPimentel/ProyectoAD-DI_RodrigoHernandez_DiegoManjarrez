@@ -29,7 +29,6 @@ public class EditProfile extends AppCompatActivity {
 
     UsuarioInterface usuarioInterface;
 
-    Usuario user;
 
 
     @Override
@@ -40,7 +39,10 @@ public class EditProfile extends AppCompatActivity {
         password = findViewById(R.id.inputPasswordUpdate);
         descripcion = findViewById(R.id.inputDescripcionUpdate);
 
-        cargarUserResgitrado();
+        //se rellena los datos en los texView
+        userName.setText(Usuario.getInstance().getName());
+        password.setText(Usuario.getInstance().getPass());
+        descripcion.setText(Usuario.getInstance().getDescripcion());
 
         ImageView back = findViewById(R.id.backEditProfile);
         back.setOnClickListener(new View.OnClickListener() {
@@ -54,10 +56,10 @@ public class EditProfile extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user.setName(userName.getText().toString());
-                user.setDescripcion(descripcion.getText().toString());
-                user.setPass(password.getText().toString());
-                updateUser(user);
+                Usuario.getInstance().setName(userName.getText().toString());
+                Usuario.getInstance().setDescripcion(descripcion.getText().toString());
+                Usuario.getInstance().setPass(password.getText().toString());
+                updateUser();
                 Intent toMain = new Intent(EditProfile.this, MainActivity.class);
                 startActivity(toMain);
             }
@@ -71,9 +73,9 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    public void updateUser(Usuario user){
+    public void updateUser(){
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.update(user);
+        Call<Usuario> call = usuarioInterface.update(Usuario.getInstance());
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -92,29 +94,8 @@ public class EditProfile extends AppCompatActivity {
         });
 
     }
-    public void cargarUserResgitrado(){
-        usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.getUserById(Usuario.getInstance().getId());
-        call.enqueue(new Callback<Usuario>() {
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(EditProfile.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
-                }
-                //Toast.makeText(EditProfile.this, response.body().getName(), Toast.LENGTH_SHORT).show();
-                user = response.body();
-                userName.setText(user.getName());
-                password.setText(user.getPass());
-                descripcion.setText(user.getDescripcion());
-            }
 
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                Log.e("Thorw err: ", t.getMessage());
-            }
-        });
-    }
-    public void deleteUser(Integer id){
+    public void deleteUser(){
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
         Call<Boolean> call = usuarioInterface.delete(Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
@@ -154,7 +135,7 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
                 // Acciones al confirmar
                 // Por ejemplo: actualizarPerfil();
-                deleteUser(Usuario.getInstance().getId());
+                deleteUser();
                 Intent toLogIn = new Intent(EditProfile.this, Login_SignUP.class);
                 startActivity(toLogIn);
             }

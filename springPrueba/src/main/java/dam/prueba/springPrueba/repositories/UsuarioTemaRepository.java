@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UsuarioTemaRepository extends JpaRepository<UsuarioTema, UsuarioTemaFK> {
 
+
 }

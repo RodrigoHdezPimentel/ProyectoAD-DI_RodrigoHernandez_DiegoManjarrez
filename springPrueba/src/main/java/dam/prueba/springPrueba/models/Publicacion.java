@@ -19,7 +19,7 @@ public class Publicacion {
     @Id
     @Column(name = "idpublicacion", insertable=false, updatable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idpublicacion;
     @Column(name = "idusuario", insertable=false, updatable=false)
     private Integer idusuario;
     @Column(name = "idtema", insertable=false, updatable=false)
