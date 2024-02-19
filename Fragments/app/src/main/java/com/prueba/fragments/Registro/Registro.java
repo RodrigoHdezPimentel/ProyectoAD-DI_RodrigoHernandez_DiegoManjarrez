@@ -19,6 +19,8 @@ import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Registro extends AppCompatActivity {
@@ -55,6 +57,7 @@ AutoCompleteTextView  gender;
             @Override
             public void onClick(View view) {
                 Intent toThemes = new Intent(Registro.this, SelectTopic.class);
+                Map<String, String> user = new HashMap<>();
                 toThemes.putExtra("userName", userName.getText().toString());
                 toThemes.putExtra("password", password.getText().toString());
                 toThemes.putExtra("gender", gender.getText().toString());

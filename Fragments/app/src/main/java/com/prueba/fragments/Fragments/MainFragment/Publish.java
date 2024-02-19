@@ -19,7 +19,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Models.Tema;
 
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -98,12 +100,12 @@ public class Publish extends Fragment {
         liLayTemas.removeAllViews();
 
         ArrayList<TextView> listaTvTemas = new ArrayList<>();
-        String[] listaTemas = {"tema1","tema2","tema3","tema4","tema5","tema6","tema7","tema8","tema9","tema10"};
-        for(String t : listaTemas){
+
+        for(Tema t : Login_SignUP.listaTemas){
             TextView tema = new TextView(view.getContext());
             tema.setTypeface(ResourcesCompat.getFont(view.getContext(), R.font.caviardreams));
-            tema.setText(t);
-            tema.setTextSize(27f);
+            tema.setText(t.getTitulo().toString());
+            tema.setTextSize(24f);
             tema.setWidth(500);
             tema.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tema.setOnClickListener(new View.OnClickListener() {

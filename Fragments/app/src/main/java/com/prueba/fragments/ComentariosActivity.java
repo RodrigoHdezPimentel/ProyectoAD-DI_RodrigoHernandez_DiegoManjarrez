@@ -1,9 +1,11 @@
 package com.prueba.fragments;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -64,11 +66,12 @@ ImageView back;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent back = null;
+                Intent back;
                 if(newPublication.getIdpublirefer() == null){
                     back = new Intent(ComentariosActivity.this, MainActivity.class);
                 }else{
                     back = new Intent(ComentariosActivity.this, ComentariosActivity.class);
+                    Toast.makeText(ComentariosActivity.this, newPublication.getIdpublirefer()+"", Toast.LENGTH_SHORT).show();
                     back.putExtra("id", newPublication.getIdpublirefer());
                 }
                 startActivity(back);
@@ -83,8 +86,9 @@ ImageView back;
         Call<Publicacion> call = publicacionInterface.getPublicationById(idComent);
         call.enqueue(new Callback<Publicacion>() {
 
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call<Publicacion> call, Response<Publicacion> response) {
+            public void onResponse(@NonNull Call<Publicacion> call, @NonNull Response<Publicacion> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }

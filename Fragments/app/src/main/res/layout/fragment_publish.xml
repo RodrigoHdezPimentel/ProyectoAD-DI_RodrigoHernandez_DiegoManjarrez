@@ -73,7 +73,7 @@
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="250dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/guideline20"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +90,7 @@
             <HorizontalScrollView
                 android:id="@+id/ScrollTemas"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scrollbars="none">
 

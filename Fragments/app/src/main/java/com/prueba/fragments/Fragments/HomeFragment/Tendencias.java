@@ -89,12 +89,12 @@ public class Tendencias extends Fragment {
 
         progressBar = view.findViewById(R.id.progressBar);
 
-        getAllPubliacionFromUser(Login_SignUP.idRegistrado);
+        getAllPubliacion();
 
         return view;
     }
 
-    private void getAllPubliacionFromUser(int id) {
+    private void getAllPubliacion() {
 
         publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
         Call<List<Publicacion>> call = publicacionInterface.getAllPublications();
