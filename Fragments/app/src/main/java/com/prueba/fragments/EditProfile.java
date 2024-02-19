@@ -1,18 +1,20 @@
 package com.prueba.fragments;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.prueba.fragments.Registro.SelectTopic;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
@@ -21,10 +23,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditProfile extends AppCompatActivity {
-    Button buttonRegistrar;
-    Button buttonConfirmar;
-    Button buttonEliminar;
-
     TextInputEditText userName;
     TextInputEditText password;
     TextInputEditText descripcion;
@@ -44,16 +42,6 @@ public class EditProfile extends AppCompatActivity {
 
         cargarUserResgitrado();
 
-        //Dentro de un buton de confirmar
-//        user.setName(userName.getText().toString());
-//        user.setDescripcion(descripcion.getText().toString());
-//        user.setPass(password.getText().toString());
-//        updateUser(user);
-        //----------------------------------
-
-//        userName.setText(user.getName());
-//        password.setText(user.getPass());
-//        descripcion.setText(user.getDescripcion());
         ImageView back = findViewById(R.id.backEditProfile);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +50,25 @@ public class EditProfile extends AppCompatActivity {
                 startActivity(toMain);
             }
         });
-
+        ImageView confirm = findViewById(R.id.check);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.setName(userName.getText().toString());
+                user.setDescripcion(descripcion.getText().toString());
+                user.setPass(password.getText().toString());
+                updateUser(user);
+                Intent toMain = new Intent(EditProfile.this, MainActivity.class);
+                startActivity(toMain);
+            }
+        });
+        Button delete = findViewById(R.id.deleteBut);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarAlertDialog();
+            }
+        });
     }
 
     public void updateUser(Usuario user){
@@ -72,7 +78,9 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if(!response.isSuccessful()){
-                    Toast.makeText(EditProfile.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
+                return;
+                }else{
+                    Toast.makeText(EditProfile.this, "Datos actualizados", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -105,5 +113,62 @@ public class EditProfile extends AppCompatActivity {
                 Log.e("Thorw err: ", t.getMessage());
             }
         });
+    }
+    public void deleteUser(Integer id){
+        usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+        Call<Boolean> call = usuarioInterface.delete(Login_SignUP.idRegistrado);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(EditProfile.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(EditProfile.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("Thorw err: ", t.getMessage());
+            }
+        });
+    }
+    private AlertDialog alertDialog;
+
+    private void mostrarAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Inflar el diseño personalizado
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog_delete_account, null);
+        builder.setView(dialogView);
+
+        // Obtener referencias de los botones personalizados
+        Button buttonConfirmar = dialogView.findViewById(R.id.confirmDelete);
+        Button buttonCancelar = dialogView.findViewById(R.id.cancelDelete);
+
+        // Configurar controladores de clic para los botones
+        buttonConfirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Acciones al confirmar
+                // Por ejemplo: actualizarPerfil();
+                deleteUser(Login_SignUP.idRegistrado);
+                Intent toLogIn = new Intent(EditProfile.this, Login_SignUP.class);
+                startActivity(toLogIn);
+            }
+        });
+
+        buttonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Acciones al cancelar
+               alertDialog.dismiss();  // Dismiss the dialog when Cancel button is clicked
+
+            }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 }

@@ -71,7 +71,6 @@ ImageView back;
                     back = new Intent(ComentariosActivity.this, MainActivity.class);
                 }else{
                     back = new Intent(ComentariosActivity.this, ComentariosActivity.class);
-                    Toast.makeText(ComentariosActivity.this, newPublication.getIdpublirefer()+"", Toast.LENGTH_SHORT).show();
                     back.putExtra("id", newPublication.getIdpublirefer());
                 }
                 startActivity(back);

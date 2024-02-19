@@ -140,14 +140,14 @@
         android:text="Editar Temas"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/deleteBut"
         app:layout_constraintEnd_toStartOf="@+id/guideline26"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline24"
         app:layout_constraintTop_toBottomOf="@+id/editTextText4" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/deleteBut"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

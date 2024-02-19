@@ -31,7 +31,7 @@ public class UsuarioController {
         return usuarioService.saveUsuario(usuario);
     }
     @PutMapping("/update")
-    public Usuario updateUsuario(@PathVariable Integer id , @RequestBody Usuario usuario){
+    public Usuario updateUsuario(@RequestBody Usuario usuario){
         return usuarioService.updateUsuario(usuario);
     }
 
@@ -70,7 +70,15 @@ public class UsuarioController {
     }
     @GetMapping("/getUserPublication/{id}")
     public List<Publicacion> getUserPublicacion(@PathVariable Integer id){
-        return  usuarioService.getUserPublicacion(id);
+//        ArrayList<Publicacion> listaPublicaciones = (ArrayList<Publicacion>) usuarioService.getUserPublicacion(id);
+//        ArrayList<Publicacion> listaPublicacionesFiltered = new ArrayList<>();
+//        for(Publicacion l: listaPublicaciones){
+//            if (l.getIdpublirefer() == null){
+//                listaPublicacionesFiltered.add(l);
+//            }
+//        }
+//        return listaPublicacionesFiltered;
+        return usuarioService.getUserPublicacion(id);
     }
     /*@GetMapping("/getUserLikes/{id}")
     public List<Publicacion> getUserLike(@PathVariable Integer id){
