@@ -5,30 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.prueba.fragments.Fragments.MainFragment.Chats;
 import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Fragments.MainFragment.Publish;
-import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Chat;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
-import com.prueba.fragments.RetrofitConnection.Models.Tema;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
@@ -69,15 +52,12 @@ public class MainActivity extends AppCompatActivity {
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
