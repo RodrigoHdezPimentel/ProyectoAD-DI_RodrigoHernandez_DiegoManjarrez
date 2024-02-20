@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,13 +58,18 @@ AutoCompleteTextView  gender;
             @Override
             public void onClick(View view) {
                 Intent toThemes = new Intent(Registro.this, SelectTopic.class);
-                Map<String, String> user = new HashMap<>();
-                toThemes.putExtra("userName", userName.getText().toString());
-                toThemes.putExtra("password", password.getText().toString());
-                toThemes.putExtra("gender", gender.getText().toString());
-                toThemes.putExtra("email", email.getText().toString());
-                //Toast.makeText(Registro.this, email.getText().toString(), Toast.LENGTH_SHORT).show();
-                toThemes.putExtra("yearsOld", yearsOdl.getText().toString());
+                Usuario.getInstance().setName(userName.getText().toString());
+                Usuario.getInstance().setName(password.getText().toString());
+                Usuario.getInstance().setName(gender.getText().toString());
+                Usuario.getInstance().setName(email.getText().toString());
+                Usuario.getInstance().setYear(Integer.parseInt(yearsOdl.getText().toString()));
+
+//                toThemes.putExtra("userName", userName.getText().toString());
+//                toThemes.putExtra("password", password.getText().toString());
+//                toThemes.putExtra("gender", gender.getText().toString());
+//                toThemes.putExtra("email", email.getText().toString());
+//                //Toast.makeText(Registro.this, email.getText().toString(), Toast.LENGTH_SHORT).show();
+//                toThemes.putExtra("yearsOld", yearsOdl.getText().toString());
                 startActivity(toThemes);
             }
         });

@@ -26,8 +26,10 @@ import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
+import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,13 +47,8 @@ public class SelectTopic extends AppCompatActivity {
     Button buttonCancelar;
     ArrayList<Chip> listChip = new ArrayList<>();
 
-
-    String userName;
-    String password;
-    String email;
-    String gender;
-    int yearsOld;
     UsuarioInterface usuarioInterface;
+    UsuarioTemaInterface usuarioTemaInterface;
 
 
 
@@ -59,9 +56,8 @@ public class SelectTopic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_topic);
-        cargarDatosRegister();
+//       cargarDatosRegister();
 
-        Toast.makeText(this, userName, Toast.LENGTH_SHORT).show();
 
         chipGroup = findViewById(R.id.chipGroupThemes);
         ConstraintLayout splashCreen = findViewById(R.id.SclashScreen);
@@ -84,6 +80,20 @@ public class SelectTopic extends AppCompatActivity {
                     }
                 }
                 createUser();
+                UsuarioTema userTema = new UsuarioTema();
+
+                Toast.makeText(SelectTopic.this, listChip.get(0).getId()+"", Toast.LENGTH_SHORT).show();
+
+                for (int i = 0; i < listChip.size(); i++) {
+
+                    userTema.getId().setIdTema(listChip.get(i).getId());
+                    Log.d("user tema idTema :",userTema.getId().getIdTema()+"");
+                    userTema.getId().setIdUsuario(Usuario.getInstance().getId());
+                    Log.d("user tema idUsuario :",userTema.getId().getIdUsuario()+"");
+//                    createUserTema(userTema);
+
+                }
+
 //                splashCreen.setVisibility(View.VISIBLE);
 //                selectTopic.setVisibility(View.INVISIBLE);
 
@@ -96,7 +106,7 @@ public class SelectTopic extends AppCompatActivity {
 //                        startActivity(intent);
 //                    }
 //                }, 800);
-                Toast.makeText(SelectTopic.this, temasUserId.size()+"", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -117,29 +127,28 @@ public class SelectTopic extends AppCompatActivity {
             ChipDrawable chipDrawable = ChipDrawable.createFromAttributes(this, null, 0, com.google.android.material.R.style.Widget_Material3_Chip_Filter);
             newChip.setId(t.getId());
             newChip.setChipDrawable(chipDrawable);
-            newChip.isChecked();
             listChip.add(newChip);
             chipGroup.addView(newChip);
         }
 
     }
-    public void cargarDatosRegister(){
-        Intent intent = getIntent();
-        userName = intent.getStringExtra("userName");
-        password = intent.getStringExtra("password");
-        yearsOld = Integer.parseInt(intent.getStringExtra("yearsOld"));
-        email = intent.getStringExtra("email");
-        gender = intent.getStringExtra("gender");
-    }
+//    public void cargarDatosRegister(){
+//        Intent intent = getIntent();
+//        userName = intent.getStringExtra("userName");
+//        password = intent.getStringExtra("password");
+//        yearsOld = Integer.parseInt(intent.getStringExtra("yearsOld"));
+//        email = intent.getStringExtra("email");
+//        gender = intent.getStringExtra("gender");
+//    }
     public void createUser(){
-        Usuario user = new Usuario(null, yearsOld, userName, gender, email,password );
          usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.create(user);
+        Call<Usuario> call = usuarioInterface.create(Usuario.getInstance());
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if(!response.isSuccessful()){
                     Toast.makeText(SelectTopic.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
 
@@ -148,6 +157,37 @@ public class SelectTopic extends AppCompatActivity {
                 Log.e("Thorw err: ", t.getMessage());
             }
         });
+
+    }
+
+    public void createUserTema(UsuarioTema userTema){
+
+        Retrofit retrofit =  new Retrofit.Builder()
+                .baseUrl("http://" + Login_SignUP.IP_DIEGO[0] +":8086/publicacion/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        usuarioTemaInterface = retrofit.create(UsuarioTemaInterface.class);
+        Call<UsuarioTema> call = usuarioTemaInterface.create(userTema);
+
+
+            call.enqueue(new Callback<UsuarioTema>() {
+                @Override
+                public void onResponse(Call<UsuarioTema> call, Response<UsuarioTema> response) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(SelectTopic.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(SelectTopic.this, "Se ha añadido userTema exitosamente", Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void onFailure(Call<UsuarioTema> call, Throwable t) {
+
+                }
+            });
+
+
 
     }
 }

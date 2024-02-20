@@ -1,12 +1,10 @@
 package dam.prueba.springPrueba.controllers;
 
+import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.models.UsuarioTema;
 import dam.prueba.springPrueba.servicies.UsuarioTemaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +17,12 @@ public class UsuarioTemaController {
     @GetMapping("/all")
     public List<UsuarioTema> getAllUsuarioTema(){
         return usuarioTemaService.getAllUsuarioTema();
+    }
+
+
+    @PostMapping("/save")
+    public UsuarioTema saveUserTema(@RequestBody UsuarioTema userTema){
+        return usuarioTemaService.saveUserTema(userTema);
     }
 
 }

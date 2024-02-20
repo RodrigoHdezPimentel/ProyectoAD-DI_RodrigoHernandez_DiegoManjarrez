@@ -13,5 +13,5 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Intege
     @Query(value = "SELECT c.name, c.genero FROM Usuario c WHERE c.name = ?1")
     public List<String> getByNombre (String nombre);
 
-
+        //HAcer una query que muestres las tendencias de las publicaciones
 }

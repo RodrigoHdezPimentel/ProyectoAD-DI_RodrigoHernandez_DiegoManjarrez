@@ -18,5 +18,10 @@ public class UsuarioTemaService {
         return usuarioTemaRepository.findAll();
     }
 
+    public UsuarioTema saveUserTema(UsuarioTema userTema){
+        return usuarioTemaRepository.save(userTema);
+    }
+
+
 
 }
