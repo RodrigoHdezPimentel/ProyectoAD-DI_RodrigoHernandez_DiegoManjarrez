@@ -156,15 +156,11 @@ public class Publish extends Fragment {
         return view;
     }
     public void publicar(){
-        Toast.makeText(view.getContext(), "llama funcion", Toast.LENGTH_SHORT).show();
         if(temaSeleccionado != null &&  !contenido.getText().toString().equals("") && !titulo.getText().toString().equals("")){
-            Toast.makeText(view.getContext(), "pasa filtro", Toast.LENGTH_SHORT).show();
 
             Date date = new Date();
             long timeInMilliSeconds = date.getTime();
             java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
-
-            Toast.makeText(view.getContext(), temaSeleccionado.toString(), Toast.LENGTH_LONG).show();
 
             Publicacion newPublicacion = new Publicacion(
                     Usuario.getInstance().getId(), temaSeleccionado.getId(), null, date1.toString(),

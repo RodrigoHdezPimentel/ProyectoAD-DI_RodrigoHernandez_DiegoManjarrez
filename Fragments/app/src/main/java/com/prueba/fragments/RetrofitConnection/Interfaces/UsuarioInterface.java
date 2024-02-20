@@ -28,6 +28,9 @@ public interface UsuarioInterface {
     @GET("getUserPublicacionFromTema/{id}")
     Call<List<Publicacion>> getPublicationsFromUserTema(@Path("id") Integer id);
 
+    @GET("getUserPublicacionFromLike/{id}")
+    Call<List<Publicacion>> getPublicationsFromUserLike(@Path("id") Integer id);
+
     @POST("save")
     Call<Usuario> create(@Body Usuario user);
 

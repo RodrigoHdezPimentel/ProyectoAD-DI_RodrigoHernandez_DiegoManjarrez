@@ -1,6 +1,7 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
 
+import java.util.ArrayList;
 
 public class Publicacion {
     private Integer idpublicacion;
@@ -14,6 +15,7 @@ public class Publicacion {
     private Tema tema;
     private Usuario usuario;
     private Publicacion[] comentarios;
+    private ArrayList<Like> likes;
 
     public Publicacion() {
     }
@@ -52,6 +54,20 @@ public class Publicacion {
         this.tema = tema;
         this.usuario = usuario;
         this.comentarios = comentarios;
+    }
+    public Publicacion(Integer id, Integer idusuario, Integer idtema, Integer idpublirefer,String fecha, Integer numlikes, String contenido, String titulo, Tema tema, Usuario usuario, Publicacion[] comentarios, ArrayList<Like> likes) {
+        this.idpublicacion = id;
+        this.idusuario = idusuario;
+        this.idtema = idtema;
+        this.idpublirefer = idpublirefer;
+        this.fecha = fecha;
+        this.numlikes = numlikes;
+        this.contenido = contenido;
+        this.titulo = titulo;
+        this.tema = tema;
+        this.usuario = usuario;
+        this.comentarios = comentarios;
+        this.likes = likes;
     }
 
 
@@ -133,5 +149,13 @@ public class Publicacion {
 
     public void setComentarios(Publicacion[] comentarios) {
         this.comentarios = comentarios;
+    }
+
+    public ArrayList<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(ArrayList<Like> likes) {
+        this.likes = likes;
     }
 }

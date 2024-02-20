@@ -26,6 +26,7 @@ import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
@@ -54,9 +55,11 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.cv_row_publicacion, parent, false);
+        view = inflater.inflate(R.layout.cv_row_publicacion, parent, false);
         return new MyViewHolder(view);
     }
+
+    View view;
 
     @SuppressLint({"SetTextI18n"})
     @Override
@@ -68,7 +71,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         holder.idPublicacion = publicacionModels.get(position).getId();
         holder.idPubliRef = publicacionModels.get(position).getIdpublirefer();
         holder.Titulo.setText(publicacionModels.get(position).getTitulo());
-        holder.numComentarios.setText(publicacionModels.get(position).getComentarios().length+"");
+        holder.numComentarios.setText(publicacionModels.get(position).getComentarios().length + "");
         holder.userName.setText(publicacionModels.get(position).getUsuario().getName().toString());
         holder.likeImg.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
@@ -76,17 +79,18 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
             public void onClick(View view) {
                 if (holder.liked) {
                     holder.liked = false;
-                    holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString()))-1 + "");
+                    holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString())) - 1 + "");
                     holder.likeImg.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.black), PorterDuff.Mode.MULTIPLY);
 
-                }else{
+                } else {
                     holder.liked = true;
-                    holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString()))+1 + "");
+                    holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString())) + 1 + "");
                     holder.likeImg.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.seed), PorterDuff.Mode.MULTIPLY);
 
                 }
             }
         });
+
         holder.comentarioImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +100,16 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
 
             }
         });
+
+        holder.listaLikes = publicacionModels.get(position).getLikes();
+        for (Like l : holder.listaLikes) {
+
+            if (l.getIdUsuario() == Usuario.getInstance().getId()) {
+                holder.likeImg.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.seed), PorterDuff.Mode.MULTIPLY);
+                holder.liked = true;
+            }
+        }
+
     }
 
     @Override
@@ -117,6 +131,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
         CardView cv;
         TextView userName;
         ArrayList<Publicacion> comentarios;
+        ArrayList<Like> listaLikes;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -1,13 +1,28 @@
 package com.prueba.fragments.Fragments.ProfileFragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,11 +70,45 @@ public class misLikes extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    List<Publicacion> listaPublicaciones;
+    View view;
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mis_likes, container, false);
+       view = inflater.inflate(R.layout.fragment_mis_likes, container, false);
+
+        progressBar = view.findViewById(R.id.progressBar);
+
+        getAllPubliacionFromUser(Usuario.getInstance().getId());
+        return view;
+}
+
+    private void getAllPubliacionFromUser(int id) {
+
+        UsuarioInterface usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUserLike(Usuario.getInstance().getId());
+        call.enqueue(new Callback<List<Publicacion>>() {
+            @Override
+            public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Response err: ", response.message());
+                    return;
+                }
+
+                listaPublicaciones = response.body();
+                progressBar.setVisibility(View.GONE);
+
+                RecyclerView MyRecyclerView = view.findViewById(R.id.misLikesRecyclerView);
+                PublicacionRvAdapter adapter = new PublicacionRvAdapter(getContext(), listaPublicaciones);
+                MyRecyclerView.setAdapter(adapter);
+                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+            @Override
+            public void onFailure(Call<List<Publicacion>> call, Throwable t) {
+
+            }
+        });
     }
 }
