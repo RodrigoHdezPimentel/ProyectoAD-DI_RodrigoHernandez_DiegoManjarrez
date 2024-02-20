@@ -52,15 +52,15 @@ public class Login_SignUP extends AppCompatActivity {
 
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[0] +":8086/publicacion/")
+                .baseUrl("http://" + IP_RODRIGO[0] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[0] +":8086/tema/")
+                .baseUrl("http://" + IP_RODRIGO[0] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[0] +":8086/usuario/")
+                .baseUrl("http://" + IP_RODRIGO[0] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -100,7 +100,6 @@ public class Login_SignUP extends AppCompatActivity {
                 String[] userData = new String[2];
                 boolean datoEncontrado= false;
 
-                //EL ERROR ESTÄ ACÄ PORQUE LA RESPUESTA DE USUARIOS SU ID ES NULL
                 for (Usuario u : response.body()){
                     userData[0] = u.getName();
                     userData[1] = u.getPass();
@@ -108,14 +107,13 @@ public class Login_SignUP extends AppCompatActivity {
                     if(userName.getText().toString().equals(userData[0])
                             && password.getText().toString().equals(userData[1])){
                         datoEncontrado = true;
-                        Toast.makeText(Login_SignUP.this, u.toString(), Toast.LENGTH_SHORT).show();
                         Usuario.setInstance(u);
                         break;
                     }
                 }
                 if(datoEncontrado){
-//                    Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
-//                    startActivity(goMain);
+                    Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
+                    startActivity(goMain);
                 }else{
                     Toast.makeText(Login_SignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();
                 }

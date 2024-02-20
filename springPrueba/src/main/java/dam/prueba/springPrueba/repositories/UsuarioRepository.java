@@ -26,7 +26,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 //            " FROM Publicacion p INNER JOIN  Usuario u ON u.id =" +
 //            "    p.id INNER JOIN UsuarioTemaFK ut ON ut.idTema = p.idtema WHERE p.idpublirefer IS NULL and u.id = ?1
     @Query("SELECT DISTINCT p FROM Publicacion p INNER JOIN Usuario u ON p.idusuario = u.id" +
-                " INNER JOIN UsuarioTema ut ON ut.id.idTema = p.idtema WHERE ut.id.idUsuario = ?1 and p.idpublirefer is null")
+                " INNER JOIN UsuarioTema ut ON ut.id.idTema = p.idtema WHERE ut.id.idUsuario = ?1 and p.idpublirefer is null ORDER BY p.numlikes DESC")
     List<Publicacion> getUserPublicacionFromTema(Integer userId);
 
 }

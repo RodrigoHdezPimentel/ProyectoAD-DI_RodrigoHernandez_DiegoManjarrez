@@ -2,7 +2,7 @@ package com.prueba.fragments.RetrofitConnection.Models;
 
 public class Usuario {
     private static Usuario instance;
-    private Integer id;
+    private Integer idusuario;
     private Integer year;
     private String name;
 
@@ -12,7 +12,7 @@ public class Usuario {
     private String pass;
 
     public Usuario(Integer id, Integer year, String name, String genero, String mail, String pass) {
-        this.id = id;
+        this.idusuario = id;
         this.year = year;
         this.name = name;
         this.genero = genero;
@@ -29,7 +29,7 @@ public class Usuario {
         return instance;
     }
     public Integer getId() {
-        return id;
+        return idusuario;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Usuario {
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idusuario = id;
     }
 
     public Integer getYear() {

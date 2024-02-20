@@ -2,7 +2,7 @@ package com.prueba.fragments.RetrofitConnection.Models;
 
 public class Chat {
 
-    private Integer id;
+    private Integer idchat;
     private Integer idDestino;
     private Integer idOrigen;
     private String fecha;
@@ -12,7 +12,7 @@ public class Chat {
     }
 
     public Chat(Integer id, Integer idDestino, Integer idOrigen, String contenido, String fecha) {
-        this.id = id;
+        this.idchat = id;
         this.idDestino = idDestino;
         this.idOrigen = idOrigen;
         this.fecha = fecha;
@@ -20,11 +20,11 @@ public class Chat {
     }
 
     public Integer getId() {
-        return id;
+        return idchat;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idchat = id;
     }
 
     public Integer getIdDestino() {

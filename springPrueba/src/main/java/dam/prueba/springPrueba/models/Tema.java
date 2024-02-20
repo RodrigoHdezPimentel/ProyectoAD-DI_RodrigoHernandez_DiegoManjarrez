@@ -18,7 +18,7 @@ public class Tema {
     @Id
     @Column(name = "idtema")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idtema;
     @Column(name = "Titulo")
     private String titulo;
     @Column(name = "edadminima")

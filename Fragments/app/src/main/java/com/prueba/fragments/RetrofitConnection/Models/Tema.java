@@ -1,28 +1,28 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
 public class Tema {
-    private Integer id;
+    private Integer idtema;
     private String titulo;
     private Integer edadMinima;
 
     public Tema() {
     }
     public Tema(Integer id, String titulo){
-        this.id = id;
+        this.idtema = id;
         this.titulo = titulo;
     }
     public Tema(Integer id, String titulo, Integer edadMinima) {
-        this.id = id;
+        this.idtema = id;
         this.titulo = titulo;
         this.edadMinima = edadMinima;
     }
 
     public Integer getId() {
-        return id;
+        return idtema;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idtema = id;
     }
 
     public String getTitulo() {
