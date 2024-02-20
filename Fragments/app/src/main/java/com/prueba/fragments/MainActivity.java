@@ -33,7 +33,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     TabLayout tabLayout;
-    //ID DEL USAURIO QUE ENTRA EN SESION
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
