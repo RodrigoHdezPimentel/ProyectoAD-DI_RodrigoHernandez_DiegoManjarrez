@@ -40,6 +40,7 @@ public class UsuarioService {
     public List<Publicacion> getUserPublicacion (Integer id){ return  usuarioRepository.getUserPublicacion(id);}
 
     public List<Publicacion> getUserPublicacionFromTema(Integer id){ return  usuarioRepository.getUserPublicacionFromTema(id);}
+    public List<Publicacion> getUserPublicacionFromLike(Integer id){ return  usuarioRepository.getUserPublicacionFromLike(id);}
 
 
     //public List<Publicacion> getUserLike (Integer id){ return  usuarioRepository.getUserLike(id);}

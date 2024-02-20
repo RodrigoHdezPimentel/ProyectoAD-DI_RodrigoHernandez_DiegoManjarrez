@@ -70,14 +70,7 @@ public class UsuarioController {
     }
     @GetMapping("/getUserPublication/{id}")
     public List<Publicacion> getUserPublicacion(@PathVariable Integer id){
-//        ArrayList<Publicacion> listaPublicaciones = (ArrayList<Publicacion>) usuarioService.getUserPublicacion(id);
-//        ArrayList<Publicacion> listaPublicacionesFiltered = new ArrayList<>();
-//        for(Publicacion l: listaPublicaciones){
-//            if (l.getIdpublirefer() == null){
-//                listaPublicacionesFiltered.add(l);
-//            }
-//        }
-//        return listaPublicacionesFiltered;
+
         return usuarioService.getUserPublicacion(id);
     }
     /*@GetMapping("/getUserLikes/{id}")
@@ -88,6 +81,10 @@ public class UsuarioController {
     @GetMapping("/getUserPublicacionFromTema/{id}")
     public List<Publicacion> getUserPublicacionFromTema(@PathVariable Integer id){
         return  usuarioService.getUserPublicacionFromTema(id);
+    }
+    @GetMapping("/getUserPublicacionFromLike/{id}")
+    public List<Publicacion> getUserPublicacionFromLike(@PathVariable Integer id){
+        return  usuarioService.getUserPublicacionFromLike(id);
     }
 
 }

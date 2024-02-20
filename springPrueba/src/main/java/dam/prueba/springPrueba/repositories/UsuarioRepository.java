@@ -19,14 +19,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     List<Publicacion> getUserPublicacion(Integer userId);
 
 
-//    @Query("SELECT p FROM Publicacion p JOIN p.Usuario u JOIN u.UsuarioTema ut WHERE ut.idUsuario = ?1")
-//    List<Publicacion> getUserPublicacion(Integer userId);
-
-//    SELECT DISTINCT p.id, p.idusuario, p.idtema, p.idpublirefer, p.fecha, p.numlikes, p.contenido, p.titulo " +
-//            " FROM Publicacion p INNER JOIN  Usuario u ON u.id =" +
-//            "    p.id INNER JOIN UsuarioTemaFK ut ON ut.idTema = p.idtema WHERE p.idpublirefer IS NULL and u.id = ?1
-    @Query("SELECT DISTINCT p FROM Publicacion p INNER JOIN Usuario u ON p.idusuario = u.id" +
+    @Query("SELECT DISTINCT p FROM Publicacion p INNER JOIN Usuario u ON p.idusuario = u.idusuario" +
                 " INNER JOIN UsuarioTema ut ON ut.id.idTema = p.idtema WHERE ut.id.idUsuario = ?1 and p.idpublirefer is null ORDER BY p.numlikes DESC")
     List<Publicacion> getUserPublicacionFromTema(Integer userId);
+
+//    SELECT p.* fROM likes l inner JOIN publicaciones p ON p.idPublicacion = l.idPublicacion where p.idPubliRefer is null AND l.idUsuario = 1
+//    group by p.idPublicacion
+
+    @Query("SElECT p FROM Like l INNER JOIN Publicacion p ON p.idpublicacion = l.idPublicacion WHERE p.idpublirefer is null and l.idUsuario = ?1 group by p.idpublicacion")
+    List<Publicacion> getUserPublicacionFromLike(Integer userId);
+
+
 
 }
