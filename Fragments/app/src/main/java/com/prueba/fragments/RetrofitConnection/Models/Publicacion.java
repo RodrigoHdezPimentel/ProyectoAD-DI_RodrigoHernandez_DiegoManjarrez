@@ -1,10 +1,13 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
+
+
 public class Publicacion {
     private Integer idpublicacion;
     private Integer idusuario;
     private Integer idtema;
     private Integer idpublirefer;
+    private String fecha;
     private Integer numlikes;
     private String contenido;
     private String titulo;
@@ -25,11 +28,24 @@ public class Publicacion {
         this.contenido = contenido;
         this.titulo = titulo;
     }
-    public Publicacion(Integer id, Integer idusuario, Integer idtema, Integer idpublirefer, Integer numlikes, String contenido, String titulo, Tema tema, Usuario usuario, Publicacion[] comentarios) {
+    public Publicacion(Integer idusuario, Integer idtema, Integer idpublirefer,String fecha, Integer numlikes, String contenido, String titulo, Tema tema, Usuario usuario, Publicacion[] comentarios) {
+        this.idusuario = idusuario;
+        this.idtema = idtema;
+        this.idpublirefer = idpublirefer;
+        this.fecha = fecha;
+        this.numlikes = numlikes;
+        this.contenido = contenido;
+        this.titulo = titulo;
+        this.tema = tema;
+        this.usuario = usuario;
+        this.comentarios = comentarios;
+    }
+    public Publicacion(Integer id, Integer idusuario, Integer idtema, Integer idpublirefer,String fecha, Integer numlikes, String contenido, String titulo, Tema tema, Usuario usuario, Publicacion[] comentarios) {
         this.idpublicacion = id;
         this.idusuario = idusuario;
         this.idtema = idtema;
         this.idpublirefer = idpublirefer;
+        this.fecha = fecha;
         this.numlikes = numlikes;
         this.contenido = contenido;
         this.titulo = titulo;

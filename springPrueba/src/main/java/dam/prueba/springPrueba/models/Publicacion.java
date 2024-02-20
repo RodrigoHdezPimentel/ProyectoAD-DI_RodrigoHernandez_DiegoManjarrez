@@ -38,11 +38,11 @@ public class Publicacion {
     @Column(name = "titulo")
     private String titulo;
 
-    @ManyToOne(targetEntity = Usuario.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Usuario.class)
     @JoinColumn(name = "idusuario")
     private Usuario usuario;
 
-    @ManyToOne(targetEntity = Tema.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Tema.class)
     @JoinColumn(name = "idtema")
     private Tema tema;
 

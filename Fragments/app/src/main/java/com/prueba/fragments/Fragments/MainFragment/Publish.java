@@ -1,17 +1,21 @@
 package com.prueba.fragments.Fragments.MainFragment;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
@@ -20,11 +24,22 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
-import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,14 +87,31 @@ public class Publish extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    Tema temaSeleccionado = null;
+    TextInputEditText titulo;
+    TextInputEditText contenido;
+    Button publish;
+    Button cancel;
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_publish, container, false);
+        view = inflater.inflate(R.layout.fragment_publish, container, false);
 
-        TextInputLayout contenido = view.findViewById(R.id.PublishContenido);
+        titulo = view.findViewById(R.id.tietTitulo);
+        contenido = view.findViewById(R.id.tietContenido);
+
+        publish = view.findViewById(R.id.buttonPublicar);
+        cancel = view.findViewById(R.id.buttonCanelar);
+
+        publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                publicar();
+            }
+        });
+
         contenido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
        @Override
        public void onFocusChange(View view, boolean b) {
@@ -95,7 +127,6 @@ public class Publish extends Fragment {
 
 
         //ScrollView in loop
-        HorizontalScrollView scrollView = (HorizontalScrollView) view.findViewById(R.id.ScrollTemas);
         LinearLayout liLayTemas = view.findViewById(R.id.linlayTemas);
         liLayTemas.removeAllViews();
 
@@ -115,6 +146,7 @@ public class Publish extends Fragment {
                         tv.setTypeface(null, Typeface.NORMAL);
                     }
                     tema.setTypeface(null, Typeface.BOLD);
+                    temaSeleccionado = t;
                 }
             });
             liLayTemas.addView(tema);
@@ -122,5 +154,39 @@ public class Publish extends Fragment {
         }
 
         return view;
+    }
+    public void publicar(){
+        Toast.makeText(view.getContext(), "llama funcion", Toast.LENGTH_SHORT).show();
+        if(temaSeleccionado != null &&  !contenido.getText().toString().equals("") && !titulo.getText().toString().equals("")){
+            Toast.makeText(view.getContext(), "pasa filtro", Toast.LENGTH_SHORT).show();
+
+            Date date = new Date();
+            long timeInMilliSeconds = date.getTime();
+            java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
+
+            Toast.makeText(view.getContext(), temaSeleccionado.toString(), Toast.LENGTH_LONG).show();
+
+            Publicacion newPublicacion = new Publicacion(
+                    Usuario.getInstance().getId(), temaSeleccionado.getId(), null, date1.toString(),
+                    0, contenido.getText().toString(), titulo.getText().toString(), temaSeleccionado, Usuario.getInstance(), new Publicacion[0]);
+
+            PublicacionInterface publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+            Call<Publicacion> call = publicacionInterface.save(newPublicacion);
+            call.enqueue(new Callback<Publicacion>() {
+                @Override
+                public void onResponse(Call<Publicacion> call, Response<Publicacion> response) {
+                    if (!response.isSuccessful()) {
+                        Log.e("Response err: ", response.message());
+                        return;
+                    }
+                    Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onFailure(Call<Publicacion> call, Throwable t) {
+
+                }
+            });
+        }
+
     }
 }
