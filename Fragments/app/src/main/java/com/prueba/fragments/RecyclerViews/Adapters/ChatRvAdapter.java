@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
-import com.prueba.fragments.Login_SignUP;
-import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Chat;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;

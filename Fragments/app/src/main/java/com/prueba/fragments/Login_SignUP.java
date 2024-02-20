@@ -14,7 +14,6 @@ import com.prueba.fragments.Registro.Registro;
 import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Chat;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 

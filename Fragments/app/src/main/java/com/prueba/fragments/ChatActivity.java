@@ -7,12 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.prueba.fragments.Fragments.MainFragment.Chats;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
-import com.prueba.fragments.RecyclerViews.Adapters.ListaChatsRvAdapter;
 
 public class ChatActivity extends AppCompatActivity {
 
