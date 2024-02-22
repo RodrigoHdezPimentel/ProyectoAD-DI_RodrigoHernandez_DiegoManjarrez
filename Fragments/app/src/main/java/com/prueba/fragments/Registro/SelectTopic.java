@@ -6,6 +6,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,22 +17,26 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
+import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SelectTopic extends AppCompatActivity {
     public ChipGroup chipGroup;
-    public ArrayList<Integer> temasUserId = new ArrayList<>();
+    //public ArrayList<Integer> temaId = new ArrayList<>();
     Button buttonConfirmar;
     Button buttonCancelar;
     ArrayList<Chip> listChip = new ArrayList<>();
@@ -44,8 +50,6 @@ public class SelectTopic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_topic);
-//       cargarDatosRegister();
-
 
         chipGroup = findViewById(R.id.chipGroupThemes);
         ConstraintLayout splashCreen = findViewById(R.id.SclashScreen);
@@ -62,38 +66,26 @@ public class SelectTopic extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Comprovacion de chip seleccionados
-                for (Chip c : listChip){
-                    if (c.isChecked()){
-                        temasUserId.add(c.getId());
-                    }
-                }
-                createUser();
-                UsuarioTema userTema = new UsuarioTema();
-
-                Toast.makeText(SelectTopic.this, listChip.get(0).getId()+"", Toast.LENGTH_SHORT).show();
-
-                for (int i = 0; i < listChip.size(); i++) {
-
-                    userTema.getId().setIdTema(listChip.get(i).getId());
-                    Log.d("user tema idTema :",userTema.getId().getIdTema()+"");
-                    userTema.getId().setIdUsuario(Usuario.getInstance().getId());
-                    Log.d("user tema idUsuario :",userTema.getId().getIdUsuario()+"");
-//                    createUserTema(userTema);
-
-                }
-
-//                splashCreen.setVisibility(View.VISIBLE);
-//                selectTopic.setVisibility(View.INVISIBLE);
-
-//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Intent intent = new Intent(SelectTopic.this, MainActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                        startActivity(intent);
+//                for (Chip c : listChip){
+//                    if (c.isChecked()){
+//                        temasUserId.add(c.getId());
 //                    }
-//                }, 800);
+//                }
+
+                createUser();
+
+                splashCreen.setVisibility(View.VISIBLE);
+                selectTopic.setVisibility(View.INVISIBLE);
+
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(SelectTopic.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                }, 800);
 
             }
         });
@@ -120,14 +112,7 @@ public class SelectTopic extends AppCompatActivity {
         }
 
     }
-//    public void cargarDatosRegister(){
-//        Intent intent = getIntent();
-//        userName = intent.getStringExtra("userName");
-//        password = intent.getStringExtra("password");
-//        yearsOld = Integer.parseInt(intent.getStringExtra("yearsOld"));
-//        email = intent.getStringExtra("email");
-//        gender = intent.getStringExtra("gender");
-//    }
+
     public void createUser(){
          usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
         Call<Usuario> call = usuarioInterface.create(Usuario.getInstance());
@@ -137,6 +122,20 @@ public class SelectTopic extends AppCompatActivity {
                 if(!response.isSuccessful()){
                     Toast.makeText(SelectTopic.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                UsuarioTemaFK idTemaUser = new UsuarioTemaFK();
+                UsuarioTema userTema = new UsuarioTema(idTemaUser);
+                //Actualizar el ID de la instancia singleton
+                Usuario.getInstance().setId(response.body().getId());
+
+                //Comprobacion de chips que están seleccionado y pasarlos para crear el userTema
+                for (int i = 0; i < listChip.size(); i++) {
+
+                    if(listChip.get(i).isChecked()){
+                        userTema.getId().setIdTema(listChip.get(i).getId());
+                        userTema.getId().setIdUsuario(Usuario.getInstance().getId());
+                        createUserTema(userTema);
+                    }
                 }
             }
 
@@ -149,9 +148,8 @@ public class SelectTopic extends AppCompatActivity {
     }
 
     public void createUserTema(UsuarioTema userTema){
-
         Retrofit retrofit =  new Retrofit.Builder()
-                .baseUrl("http://" + Login_SignUP.IP_DIEGO[0] +":8086/publicacion/")
+                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/usuarioTema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         usuarioTemaInterface = retrofit.create(UsuarioTemaInterface.class);
