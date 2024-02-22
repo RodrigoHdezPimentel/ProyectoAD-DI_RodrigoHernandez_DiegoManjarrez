@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Login_SignUP;
@@ -54,17 +55,10 @@ AutoCompleteTextView  gender;
             public void onClick(View view) {
                 Intent toThemes = new Intent(Registro.this, SelectTopic.class);
                 Usuario.getInstance().setName(userName.getText().toString());
-                Usuario.getInstance().setName(password.getText().toString());
-                Usuario.getInstance().setName(gender.getText().toString());
-                Usuario.getInstance().setName(email.getText().toString());
+                Usuario.getInstance().setPass(password.getText().toString());
+                Usuario.getInstance().setGenero(gender.getText().toString());
+                Usuario.getInstance().setMail(email.getText().toString());
                 Usuario.getInstance().setYear(Integer.parseInt(yearsOdl.getText().toString()));
-
-//                toThemes.putExtra("userName", userName.getText().toString());
-//                toThemes.putExtra("password", password.getText().toString());
-//                toThemes.putExtra("gender", gender.getText().toString());
-//                toThemes.putExtra("email", email.getText().toString());
-//                //Toast.makeText(Registro.this, email.getText().toString(), Toast.LENGTH_SHORT).show();
-//                toThemes.putExtra("yearsOld", yearsOdl.getText().toString());
                 startActivity(toThemes);
             }
         });

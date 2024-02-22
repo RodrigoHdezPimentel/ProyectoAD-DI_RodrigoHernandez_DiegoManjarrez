@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
+    }
+    public static void quitarLike(Integer idPublicacion){
 
     }
 }
