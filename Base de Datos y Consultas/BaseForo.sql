@@ -176,6 +176,32 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`idUsuario`)
 );
 
+DELIMITER //
+
+CREATE TRIGGER actualizar_likes AFTER INSERT ON likes
+FOR EACH ROW
+BEGIN
+    UPDATE publicaciones
+    SET numLikes = numLikes + 1
+    WHERE idPublicacion = NEW.idPublicacion;
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER restar_like AFTER DELETE ON likes
+FOR EACH ROW
+BEGIN
+    UPDATE publicaciones
+    SET numLikes = numLikes - 1
+    WHERE idPublicacion = OLD.idPublicacion;
+END;
+//
+
+DELIMITER ;
+
 --
 -- Dumping data for table `usuarios`
 --
