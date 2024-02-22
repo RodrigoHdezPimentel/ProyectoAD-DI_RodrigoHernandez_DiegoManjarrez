@@ -30,6 +30,8 @@ public class LikeService {
         likeRepository.deleteById(id);
         return likeRepository.findById(id).isEmpty();
     }
-
+    public Boolean  removeLikeUser(Integer idP, Integer idU){
+         return likeRepository.removeLikeUser(idP, idU) > 0 ;
+    }
 
 }

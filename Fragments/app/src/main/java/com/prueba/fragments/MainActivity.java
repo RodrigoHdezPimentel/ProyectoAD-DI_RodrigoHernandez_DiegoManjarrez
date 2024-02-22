@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:
                         fragment = new Profile();
+
                         break;
                 }
 
@@ -95,7 +96,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    public static void quitarLike(Integer idPublicacion){
-
+    public static void quitarLike(int idPublicacion){
+        LikeInterface likeInterface = Login_SignUP.retrofitLike.create(LikeInterface.class);
+        Call <Boolean> call = likeInterface.removeLikeUser(idPublicacion, Usuario.getInstance().getId());
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Response err: ", response.message());
+                    return;
+                }
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+            }
+        });
     }
+
 }

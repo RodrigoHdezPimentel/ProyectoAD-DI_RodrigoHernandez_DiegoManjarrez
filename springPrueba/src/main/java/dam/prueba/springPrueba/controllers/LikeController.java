@@ -44,6 +44,9 @@ public class LikeController {
     public Boolean deleteLike(@PathVariable Integer id){
         return likeService.deleteLike(id);
     }
-
+    @DeleteMapping("/removeLikeUser/{idP}/{idU}")
+    public Boolean removeLikeUser(@PathVariable Integer idP, @PathVariable Integer idU){
+        return likeService.removeLikeUser(idP, idU);
+    }
 
 }

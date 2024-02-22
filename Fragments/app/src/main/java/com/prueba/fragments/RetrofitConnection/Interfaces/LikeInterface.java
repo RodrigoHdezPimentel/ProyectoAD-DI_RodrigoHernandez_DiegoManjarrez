@@ -5,6 +5,7 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -18,6 +19,8 @@ public interface LikeInterface {
 
     @POST("save")
     Call<Like> create(@Body Like like);
-    @DELETE("deleteById/{id}")
-    Call<Boolean> delete(@Path("id") Integer id);
+
+    @DELETE("removeLikeUser/{idP}/{idU}")
+    Call<Boolean> removeLikeUser(@Path("idP") Integer idP, @Path("idU") Integer idU);
+
 }

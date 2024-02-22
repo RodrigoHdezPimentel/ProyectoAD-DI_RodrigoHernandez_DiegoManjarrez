@@ -35,28 +35,6 @@ public class UsuarioController {
         return usuarioService.updateUsuario(usuario);
     }
 
-    @GetMapping("/allName")
-    public List<String> getAllUsuariosName(){
-        List<Usuario> usuarios = usuarioService.getAllUsuarios();
-        List<String> namesProducts = new ArrayList<String>();
-
-        for(Usuario p : usuarios){
-            namesProducts.add(p.getName());}
-
-        return  namesProducts;
-    }
-    @GetMapping("/searchInName/{str}")
-    public List<Usuario> getsearchName(@PathVariable String str){
-        List<Usuario> usuarios = usuarioService.getAllUsuarios();
-        List<Usuario> usuariosFiltered = new ArrayList<Usuario>();
-
-        for(Usuario p : usuarios){
-            if(p.getName().toLowerCase().contains(str.toLowerCase())){
-                usuariosFiltered.add(p);
-            }
-        }
-        return  usuariosFiltered;
-    }
     @DeleteMapping("/deleteById/{id}")
     public Boolean deleteUsuario(@PathVariable Integer id){
         return usuarioService.deleteUsuario(id);

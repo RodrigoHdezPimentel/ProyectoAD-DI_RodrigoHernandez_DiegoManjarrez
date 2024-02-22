@@ -13,7 +13,7 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(value = "SELECT c.name, c.genero FROM Usuario c WHERE c.name = ?1")
-    public List<String> getByNombre (String nombre);
+     List<String> getByNombre (String nombre);
 
     @Query("SELECT p FROM Publicacion p WHERE p.idusuario = ?1 and idpublirefer is null")
     List<Publicacion> getUserPublicacion(Integer userId);
@@ -25,9 +25,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 //    SELECT p.* fROM likes l inner JOIN publicaciones p ON p.idPublicacion = l.idPublicacion where p.idPubliRefer is null AND l.idUsuario = 1
 //    group by p.idPublicacion
-
     @Query("SElECT p FROM Like l INNER JOIN Publicacion p ON p.idpublicacion = l.idPublicacion WHERE p.idpublirefer is null and l.idUsuario = ?1 group by p.idpublicacion")
     List<Publicacion> getUserPublicacionFromLike(Integer userId);
+
 
 
 

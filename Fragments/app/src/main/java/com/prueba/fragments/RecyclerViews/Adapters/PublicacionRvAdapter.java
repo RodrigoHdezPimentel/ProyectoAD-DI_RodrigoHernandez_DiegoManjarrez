@@ -67,6 +67,8 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
                     holder.liked = false;
                     holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString())) - 1 + "");
                     holder.likeImg.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.black), PorterDuff.Mode.MULTIPLY);
+                    //Metodo para quitar el like
+                    MainActivity.quitarLike(publicacionModels.get(position).getId());
 
                 } else {
                     holder.liked = true;
@@ -137,4 +139,5 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
 
         }
     }
+
 }
