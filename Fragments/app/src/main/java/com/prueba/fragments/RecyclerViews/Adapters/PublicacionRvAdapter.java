@@ -16,10 +16,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ComentariosActivity;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
+
+import org.jboss.jandex.Main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +72,8 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
                     holder.liked = true;
                     holder.numLikes.setText((Integer.parseInt(holder.numLikes.getText().toString())) + 1 + "");
                     holder.likeImg.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.seed), PorterDuff.Mode.MULTIPLY);
+                    //Metodo para dar like
+                    MainActivity.darLike(publicacionModels.get(position).getId());
 
                 }
             }

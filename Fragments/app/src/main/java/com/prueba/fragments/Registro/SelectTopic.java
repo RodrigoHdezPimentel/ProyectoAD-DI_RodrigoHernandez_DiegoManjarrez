@@ -65,13 +65,6 @@ public class SelectTopic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Comprovacion de chip seleccionados
-//                for (Chip c : listChip){
-//                    if (c.isChecked()){
-//                        temasUserId.add(c.getId());
-//                    }
-//                }
-
                 createUser();
 
                 splashCreen.setVisibility(View.VISIBLE);
@@ -148,11 +141,8 @@ public class SelectTopic extends AppCompatActivity {
     }
 
     public void createUserTema(UsuarioTema userTema){
-        Retrofit retrofit =  new Retrofit.Builder()
-                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/usuarioTema/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        usuarioTemaInterface = retrofit.create(UsuarioTemaInterface.class);
+
+        usuarioTemaInterface = Login_SignUP.retrofitUserTema.create(UsuarioTemaInterface.class);
         Call<UsuarioTema> call = usuarioTemaInterface.create(userTema);
 
 

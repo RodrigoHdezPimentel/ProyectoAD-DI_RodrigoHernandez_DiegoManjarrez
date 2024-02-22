@@ -30,6 +30,8 @@ public class Login_SignUP extends AppCompatActivity {
     public static Retrofit retrofitPublicacion;
     public static Retrofit retrofitTemas;
     public static Retrofit retrofitUser;
+    public static Retrofit retrofitUserTema;
+    public static Retrofit retrofitLike;
     public static ArrayList<Tema> listaTemas = new ArrayList<>();
     public static ArrayList<Chat> listaChats = new ArrayList<>();
     public static ArrayList<Chat> chatConversation = new ArrayList<>();
@@ -60,6 +62,14 @@ public class Login_SignUP extends AppCompatActivity {
                 .build();
         retrofitUser = new Retrofit.Builder()
                 .baseUrl("http://" + IP_DIEGO[1] +":8086/usuario/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitUserTema =  new Retrofit.Builder()
+                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/usuarioTema/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitLike = new Retrofit.Builder()
+                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/like/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -1,9 +1,6 @@
 package dam.prueba.springPrueba.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class Like {
     @Id
     @Column(name = "idlike")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idLike;
     @Column(name = "idpublicacion")
     private Integer idPublicacion;
