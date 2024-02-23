@@ -19,10 +19,14 @@ public interface PublicacionInterface {
 
     @GET("getAllPublication")
     Call<List<Publicacion>> getAllPublications();
+    @GET("getPublishTrending")
+    Call<List<Publicacion>> getPublishTrending();
 
     @GET("allComentariosFromPublicacion/{id}")
     Call<List<Publicacion>> getAllComentsFromPublish(@Path("id") Integer id);
 
     @GET("id/{id}")
     Call<Publicacion> getPublicationById(@Path("id") Integer id);
+
+
 }

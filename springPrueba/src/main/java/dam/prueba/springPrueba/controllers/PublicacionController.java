@@ -81,5 +81,9 @@ public class PublicacionController {
     public Boolean deletePublish(@PathVariable Integer id){
         return publicacionService.deleteUsuario(id);
     }
+    @GetMapping("/getPublishTrending")
+    public List<Publicacion> getPublishTrending(){
+        return  publicacionService.getPublishTrending();
+    }
 
 }

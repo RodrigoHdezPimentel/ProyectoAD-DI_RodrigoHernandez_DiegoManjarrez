@@ -40,6 +40,10 @@ public class PublicacionService {
     public List<Publicacion> getAllComentsFromPublish(Integer id){
         return publicacionRepository.getAllComentsFromPublish(id);
     }
+    public List<Publicacion> getPublishTrending(){
+        return publicacionRepository.getPublishTrending();
+    }
+
 
 
 }
