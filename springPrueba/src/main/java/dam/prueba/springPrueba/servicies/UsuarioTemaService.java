@@ -17,9 +17,15 @@ public class UsuarioTemaService {
     public List<UsuarioTema> getAllUsuarioTema() {
         return usuarioTemaRepository.findAll();
     }
+    public List<UsuarioTema> getAllTemaFromId(Integer id) {
+        return usuarioTemaRepository.getAllTemaFromId(id);
+    }
 
     public UsuarioTema saveUserTema(UsuarioTema userTema){
         return usuarioTemaRepository.save(userTema);
+    }
+    public Boolean  removeTemaUser(Integer idT, Integer idU){
+        return usuarioTemaRepository.removeTemaUser(idT, idU) > 0 ;
     }
 
 

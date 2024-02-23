@@ -19,10 +19,17 @@ public class UsuarioTemaController {
         return usuarioTemaService.getAllUsuarioTema();
     }
 
-
+    @GetMapping("/getAllUserTema/{id}")
+    public List<UsuarioTema> getAllTemaFromId(@PathVariable Integer id){
+        return usuarioTemaService.getAllTemaFromId(id);
+    }
     @PostMapping("/save")
     public UsuarioTema saveUserTema(@RequestBody UsuarioTema userTema){
         return usuarioTemaService.saveUserTema(userTema);
+    }
+    @DeleteMapping("/removeTemaUser/{idT}/{idU}")
+    public Boolean removeTemaUser(@PathVariable Integer idT, @PathVariable Integer idU){
+        return usuarioTemaService.removeTemaUser(idT, idU);
     }
 
 }

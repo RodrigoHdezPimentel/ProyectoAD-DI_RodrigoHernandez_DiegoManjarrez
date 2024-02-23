@@ -49,7 +49,7 @@ public class PublicacionRvAdapter extends RecyclerView.Adapter<PublicacionRvAdap
 
     @SuppressLint({"SetTextI18n"})
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.Tema.setText(publicacionModels.get(position).getTema().getTitulo());
         holder.Contenido.setText(publicacionModels.get(position).getContenido());
         holder.numLikes.setText(publicacionModels.get(position).getNumlikes().toString());

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, Integer> {
 
-//    @Query("SELECT DISTINCT c " +
+    //    @Query("SELECT DISTINCT c " +
 //            "FROM Chat c WHERE c.idOrigen = ?1 " +
 //            "UNION " +
 //            "SELECT DISTINCT c " +
@@ -23,8 +23,5 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
         "SELECT c " +
         "FROM Chat c WHERE c.idDestino = ?1 GROUP BY c.idOrigen")
     public List<Chat> getUserChats (Integer id);
-
-
-
 
 }
