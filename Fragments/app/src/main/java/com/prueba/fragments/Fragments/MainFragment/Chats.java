@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,10 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.ListaChatsRvAdapter;
+import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ChatInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Chat;
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Chats extends Fragment {
@@ -43,8 +53,6 @@ public class Chats extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    public static List<Chat> chatConversation = new ArrayList<>();
-    public static ArrayList<Chat> listaChats = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,19 +62,43 @@ public class Chats extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    View view;
+    ArrayList<Chat> ListaChats = new ArrayList<>();
+    ChatInterface chatInterface;
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_chats, container, false);
-
-        RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
-
-        ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(this.getContext(), Login_SignUP.listaChats);
-        MyRecyclerView.setAdapter(adapter);
-        MyRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
+        view = inflater.inflate(R.layout.fragment_chats, container, false);
+        progressBar = view.findViewById(R.id.progressBar);
         return  view;
+    }
+
+    public void cargarChats(){
+        chatInterface = Login_SignUP.retrofitChat.create(ChatInterface.class);
+        Call<List<Chat>> call = chatInterface.getUserChats(Usuario.getInstance().getId());
+        call.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                if (!response.isSuccessful()) {
+                    //Log.e("Response err: ", response.message());
+                    return;
+                }
+
+                ListaChats = (ArrayList<Chat>) response.body();
+                progressBar.setVisibility(View.GONE);
+
+                // Inflate the layout for this fragment
+                RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
+
+                ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(view.getContext(), ListaChats);
+                MyRecyclerView.setAdapter(adapter);
+                MyRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            }
+            @Override
+            public void onFailure(Call<List<Chat>> call, Throwable t) {
+
+            }
+        });
     }
 }

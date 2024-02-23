@@ -2,6 +2,7 @@ package dam.prueba.springPrueba.controllers;
 
 
 import dam.prueba.springPrueba.models.Chat;
+import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.servicies.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +43,23 @@ public class ChatController {
         }
         return  chatsFiltered;
     }
+
+    @GetMapping("/getUserChats/{id}")
+    public List<Usuario> getUserChats(@PathVariable Integer id){
+        ArrayList<Usuario> listaUser = (ArrayList<Usuario>) chatService.getUserChats(id);
+        ArrayList<Usuario> listaUserFiltered = new ArrayList<>();
+
+        for(Usuario u : listaUser){
+            if(!listaUserFiltered.contains(u)){
+                listaUserFiltered.add(u);
+            }
+        }
+        return listaUserFiltered;
+    }
+
     @DeleteMapping("/deleteById/{id}")
     public Boolean deleteChat(@PathVariable Integer id){
         return chatService.deleteChat(id);
     }
-
 
 }

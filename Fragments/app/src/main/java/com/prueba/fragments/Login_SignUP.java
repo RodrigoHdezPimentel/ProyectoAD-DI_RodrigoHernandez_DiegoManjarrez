@@ -32,6 +32,7 @@ public class Login_SignUP extends AppCompatActivity {
     public static Retrofit retrofitUser;
     public static Retrofit retrofitUserTema;
     public static Retrofit retrofitLike;
+    public static Retrofit retrofitChat;
     public static ArrayList<Tema> listaTemas = new ArrayList<>();
     public static ArrayList<Chat> listaChats = new ArrayList<>();
     public static ArrayList<Chat> chatConversation = new ArrayList<>();
@@ -53,23 +54,27 @@ public class Login_SignUP extends AppCompatActivity {
 
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/publicacion/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/tema/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuario/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUserTema =  new Retrofit.Builder()
-                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/usuarioTema/")
+                .baseUrl("http://" + Login_SignUP.IP_RODRIGO[1] +":8086/usuarioTema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitLike = new Retrofit.Builder()
-                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/like/")
+                .baseUrl("http://" + Login_SignUP.IP_RODRIGO[1] +":8086/like/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitChat = new Retrofit.Builder()
+                .baseUrl("http://" + Login_SignUP.IP_RODRIGO[1] +":8086/chat/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

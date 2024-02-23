@@ -1,6 +1,7 @@
 package dam.prueba.springPrueba.servicies;
 
 import dam.prueba.springPrueba.models.Chat;
+import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.repositories.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class ChatService {
     public Boolean deleteChat(Integer id){
         chatRepository.deleteById(id);
         return chatRepository.findById(id).isEmpty();
+    }
+    public List<Usuario> getUserChats(Integer id){
+        return chatRepository.getUserChats(id);
     }
 
 

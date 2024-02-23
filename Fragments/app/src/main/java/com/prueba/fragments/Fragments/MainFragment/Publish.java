@@ -77,6 +77,7 @@ public class Publish extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    ArrayList<TextView> listaTvTemas = new ArrayList<>();
     Tema temaSeleccionado = null;
     TextInputEditText titulo;
     TextInputEditText contenido;
@@ -101,26 +102,26 @@ public class Publish extends Fragment {
                 publicar();
             }
         });
-
         contenido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-       @Override
-       public void onFocusChange(View view, boolean b) {
-           if (contenido.hasFocus()){
-               contenido.setGravity(Gravity.LEFT);
-               contenido.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-           } else {
-               contenido.setGravity(Gravity.CENTER);
-               contenido.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+           @Override
+           public void onFocusChange(View view, boolean b) {
+               if (contenido.hasFocus()){
+                   contenido.setGravity(Gravity.LEFT);
+                   contenido.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+               } else {
+                   contenido.setGravity(Gravity.CENTER);
+                   contenido.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+               }
            }
-       }
-   });
+        });
+        setThemesLinearLayout();
+        return view;
+    }
 
-
+    public void setThemesLinearLayout(){
         //ScrollView in loop
         LinearLayout liLayTemas = view.findViewById(R.id.linlayTemas);
         liLayTemas.removeAllViews();
-
-        ArrayList<TextView> listaTvTemas = new ArrayList<>();
 
         for(Tema t : Login_SignUP.listaTemas){
             TextView tema = new TextView(view.getContext());
@@ -142,8 +143,6 @@ public class Publish extends Fragment {
             liLayTemas.addView(tema);
             listaTvTemas.add(tema);
         }
-
-        return view;
     }
     public void publicar(){
         if(temaSeleccionado != null &&  !contenido.getText().toString().equals("") && !titulo.getText().toString().equals("")){
@@ -166,7 +165,13 @@ public class Publish extends Fragment {
                         Log.e("Response err: ", response.message());
                         return;
                     }
-                    Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                    titulo.setText("");
+                    contenido.setText("");
+                    for(TextView tv : listaTvTemas){
+                        tv.setTypeface(null, Typeface.NORMAL);
+                    }
+
                 }
                 @Override
                 public void onFailure(Call<Publicacion> call, Throwable t) {
