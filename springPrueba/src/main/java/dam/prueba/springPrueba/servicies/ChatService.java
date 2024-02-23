@@ -29,7 +29,7 @@ public class ChatService {
         chatRepository.deleteById(id);
         return chatRepository.findById(id).isEmpty();
     }
-    public List<Usuario> getUserChats(Integer id){
+    public List<Chat> getUserChats(Integer id){
         return chatRepository.getUserChats(id);
     }
 

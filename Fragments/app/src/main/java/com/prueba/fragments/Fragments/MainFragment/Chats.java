@@ -71,6 +71,7 @@ public class Chats extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_chats, container, false);
         progressBar = view.findViewById(R.id.progressBar);
+        cargarChats();
         return  view;
     }
 

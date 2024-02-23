@@ -7,6 +7,8 @@ public class Chat {
     private Integer idOrigen;
     private String fecha;
     private String contenido ;
+    private Usuario usuarioOr;
+    private Usuario usuarioDes;
 
     public Chat() {
     }
@@ -17,6 +19,16 @@ public class Chat {
         this.idOrigen = idOrigen;
         this.fecha = fecha;
         this.contenido = contenido;
+    }
+
+    public Chat(Integer id, Integer idDestino, Integer idOrigen, String contenido, String fecha, Usuario usuarioOr, Usuario usuarioDes) {
+        this.idchat = id;
+        this.idDestino = idDestino;
+        this.idOrigen = idOrigen;
+        this.fecha = fecha;
+        this.contenido = contenido;
+        this.usuarioOr = usuarioOr;
+        this.usuarioDes = usuarioDes;
     }
 
     public Integer getId() {
@@ -57,5 +69,11 @@ public class Chat {
 
     public void setContenido(String contenido) {
         this.contenido = contenido;
+    }
+    public Usuario getUsuarioOr(){
+        return this.usuarioOr;
+    }
+    public Usuario getUsuarioDes(){
+        return this.usuarioDes;
     }
 }

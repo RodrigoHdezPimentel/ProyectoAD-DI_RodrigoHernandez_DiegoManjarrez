@@ -17,12 +17,20 @@ public class Chat {
     @Column(name = "idchat")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idchat;
-    @Column(name = "idusuariodestino")
+    @Column(name = "idusuariodestino", insertable=false, updatable=false)
     private Integer idDestino;
-    @Column(name = "idusuarioorigen")
+    @Column(name = "idusuarioorigen", insertable=false, updatable=false)
     private Integer idOrigen;
     @Column(name = "fecha")
     private String fecha;
     @Column(name = "contenido")
     private String contenido ;
+
+    @ManyToOne(targetEntity = Usuario.class)
+    @JoinColumn(name = "idusuariodestino")
+    private Usuario usuarioDes;
+
+    @ManyToOne(targetEntity = Usuario.class)
+    @JoinColumn(name = "idusuarioorigen")
+    private Usuario usuarioOr;
 }

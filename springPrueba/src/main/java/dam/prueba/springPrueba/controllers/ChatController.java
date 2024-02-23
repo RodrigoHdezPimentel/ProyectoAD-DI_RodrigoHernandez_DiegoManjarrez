@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -45,16 +46,38 @@ public class ChatController {
     }
 
     @GetMapping("/getUserChats/{id}")
-    public List<Usuario> getUserChats(@PathVariable Integer id){
-        ArrayList<Usuario> listaUser = (ArrayList<Usuario>) chatService.getUserChats(id);
-        ArrayList<Usuario> listaUserFiltered = new ArrayList<>();
+    public List<Chat> getUserChats(@PathVariable Integer id){
+        ArrayList<Chat> listaChat = (ArrayList<Chat>) chatService.getUserChats(id);
+        ArrayList<Chat> listaChatFilter = new ArrayList<>();
 
-        for(Usuario u : listaUser){
-            if(!listaUserFiltered.contains(u)){
-                listaUserFiltered.add(u);
+        listaChatFilter.add(listaChat.get(0));
+
+        for(int x = 0; x < listaChat.size(); x++){
+            if(Objects.equals(listaChat.get(x).getIdDestino(), id)){
+                for(int y = 0; y < listaChatFilter.size(); y++){
+                    if(listaChat.get(x).getUsuarioOr() == listaChatFilter.get(y).getUsuarioDes()){
+                        break;
+                    }else{
+                        if(y == listaChatFilter.size() - 1){
+                            listaChatFilter.add(listaChat.get(x));
+                            break;
+                        }
+                    }
+                }
+            }else{
+                for(int y = 0; y < listaChatFilter.size(); y++){
+                    if(listaChat.get(x).getUsuarioDes() == listaChatFilter.get(y).getUsuarioOr()){
+                        break;
+                    }else{
+                        if(y == listaChat.size() - 1){
+                            listaChatFilter.add(listaChat.get(x));
+                            break;
+                        }
+                    }
+                }
             }
         }
-        return listaUserFiltered;
+        return listaChatFilter;
     }
 
     @DeleteMapping("/deleteById/{id}")

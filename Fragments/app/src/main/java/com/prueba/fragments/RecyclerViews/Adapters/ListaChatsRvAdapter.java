@@ -41,9 +41,9 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
-            holder.personaChat.setText(chatModels.get(position).getIdOrigen().toString());
+            holder.personaChat.setText(chatModels.get(position).getUsuarioOr().getName().toString());
         }else{
-            holder.personaChat.setText(chatModels.get(position).getIdDestino().toString());
+            holder.personaChat.setText(chatModels.get(position).getUsuarioDes().getName().toString());
 
         }
         holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha());
