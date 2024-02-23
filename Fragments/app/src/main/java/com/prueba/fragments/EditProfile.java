@@ -42,13 +42,9 @@ public class EditProfile extends AppCompatActivity {
    //para el fondo de la activity
     ConstraintLayout con;
     ProgressBar progressBar;
-
     //los ids de los temas que ya tiene el usaurio regsitrado en la tabla
     List<UsuarioTema> UsuarioTemasIds;
     UsuarioTemaInterface usuarioTemaInterface;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

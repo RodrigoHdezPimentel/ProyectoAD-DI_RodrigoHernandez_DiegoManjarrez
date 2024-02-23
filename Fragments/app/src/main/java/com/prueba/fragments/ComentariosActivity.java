@@ -37,13 +37,14 @@ ImageView back;
     TextView numLikes;
     TextView titulo;
     ImageView home;
+    TextView userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comentarios);
         Intent getId = getIntent();
         id = getId.getIntExtra("id", 0);
-
+        userName = findViewById(R.id.UserName);
         numLikes = findViewById(R.id.numLikes);
         back = findViewById(R.id.arrow);
         numComentarios = findViewById(R.id.numComentarios);
@@ -87,15 +88,12 @@ ImageView back;
                 }
 
                 newPublication = response.body();
-
+                userName.setText(newPublication.getUsuario().getName());
                 titulo.setText(newPublication.getTitulo());
                 contenidoTv.setMovementMethod(new ScrollingMovementMethod());
                 contenidoTv.setText(newPublication.getContenido());
                 numComentarios.setText(newPublication.getComentarios().length+"");
                 numLikes.setText(newPublication.getNumlikes()+"");
-
-
-
 
                 getComentarios(newPublication.getId());
             }

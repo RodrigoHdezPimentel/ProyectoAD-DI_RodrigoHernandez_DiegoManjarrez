@@ -43,15 +43,7 @@ public class PublicacionController {
     }
     @GetMapping("/allComentariosFromPublicacion/{id}")
     public List<Publicacion> getAllComentsFromPublish(@PathVariable Integer id){
-        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
-        List<Publicacion> filterPublicaiones = new ArrayList<Publicacion>();
-
-        for(Publicacion p : publicaciones){
-            if(Objects.equals(p.getIdpublirefer(), id)){
-                filterPublicaiones.add(p);
-            }
-        }
-        return  filterPublicaiones;
+        return  publicacionService.getAllComentsFromPublish(id);
     }
     @GetMapping("/searchInName/{str}")
     public List<Publicacion> getsearchName(@PathVariable String str){
@@ -65,32 +57,10 @@ public class PublicacionController {
         }
         return  publicacionesFiltered;
     }
-//    @GetMapping("/getUserPublication/{id}")
-//    public List<Publicacion> getUserPublications(@PathVariable Integer id){
-//        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
-//        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
-//
-//        for(Publicacion p : publicaciones){
-//            if(Objects.equals(p.getIdusuario(), id)){
-//                if (p.getIdpublirefer() == null){
-//                    publicacionesFiltered.add(p);
-//                }
-//
-//            }
-//        }
-//        return  publicacionesFiltered;
-//    }
+
     @GetMapping("/getAllPublication")
     public List<Publicacion> getUserPublications(){
-        List<Publicacion> publicaciones = publicacionService.getAllPublicaciones();
-        List<Publicacion> publicacionesFiltered = new ArrayList<Publicacion>();
-
-        for(Publicacion p : publicaciones){
-            if (p.getIdpublirefer() == null){
-                publicacionesFiltered.add(p);
-            }
-        }
-        return  publicacionesFiltered;
+        return  publicacionService.getUserPublications();
     }
     @GetMapping("/getUserComments/{id}")
     public List<Publicacion> getUserComments(@PathVariable Integer id){

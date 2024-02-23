@@ -32,6 +32,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:textStyle="bold"
+                   android:layout_marginTop="5dp"
                    android:text="Titulo publicacion"
                    android:layout_weight="2"
                    android:id="@+id/titulo"/>
@@ -39,7 +40,7 @@
                    android:id="@+id/CardTema"
                    android:layout_width="wrap_content"
                    android:layout_height="20dp"
-                   android:textSize="15sp"
+                   android:textSize="16sp"
                    android:text="Tema de la publicacion"
                    tools:ignore="SmallSp" />
 
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="texto"
                 android:textSize="20sp"
-                android:textAlignment="center" />
+                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +114,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre User"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:gravity="right"
         android:paddingRight="10dp"
         app:layout_constraintEnd_toEndOf="@+id/cardPublicacion"

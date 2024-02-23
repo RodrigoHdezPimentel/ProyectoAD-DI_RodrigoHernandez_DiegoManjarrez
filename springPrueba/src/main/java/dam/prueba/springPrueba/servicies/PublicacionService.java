@@ -34,6 +34,12 @@ public class PublicacionService {
         publicacionRepository.deleteById(id);
         return publicacionRepository.findById(id).isEmpty();
     }
+    public List<Publicacion> getUserPublications(){
+        return publicacionRepository.getUserPublications();
+    }
+    public List<Publicacion> getAllComentsFromPublish(Integer id){
+        return publicacionRepository.getAllComentsFromPublish(id);
+    }
 
 
 }
