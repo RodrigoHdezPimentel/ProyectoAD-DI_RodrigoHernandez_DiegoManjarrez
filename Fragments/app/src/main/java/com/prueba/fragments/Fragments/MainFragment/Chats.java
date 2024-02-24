@@ -85,16 +85,15 @@ public class Chats extends Fragment {
                     //Log.e("Response err: ", response.message());
                     return;
                 }
-
                 ListaChats = (ArrayList<Chat>) response.body();
                 progressBar.setVisibility(View.GONE);
 
                 // Inflate the layout for this fragment
                 RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
 
-                ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(view.getContext(), ListaChats);
+                ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), ListaChats);
                 MyRecyclerView.setAdapter(adapter);
-                MyRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
             @Override
             public void onFailure(Call<List<Chat>> call, Throwable t) {

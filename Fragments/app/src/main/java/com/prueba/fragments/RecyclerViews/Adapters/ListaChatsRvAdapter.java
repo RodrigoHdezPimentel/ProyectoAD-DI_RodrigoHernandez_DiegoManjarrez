@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
     ArrayList<Chat> chatModels;
-    int posicionMarcada = -1;
+    Intent toChat;
 
     public ListaChatsRvAdapter(Context context, ArrayList<Chat> chatModels) {
         this.context = context;
@@ -40,11 +40,13 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        toChat = new Intent(context, ChatActivity.class);
         if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
             holder.personaChat.setText(chatModels.get(position).getUsuarioOr().getName().toString());
+            toChat.putExtra("id", chatModels.get(position).getIdOrigen());
         }else{
             holder.personaChat.setText(chatModels.get(position).getUsuarioDes().getName().toString());
-
+            toChat.putExtra("id", chatModels.get(position).getIdDestino());
         }
         holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha());
 
@@ -57,7 +59,6 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toChat = new Intent(context, ChatActivity.class);
                 context.startActivity(toChat);
             }
         });

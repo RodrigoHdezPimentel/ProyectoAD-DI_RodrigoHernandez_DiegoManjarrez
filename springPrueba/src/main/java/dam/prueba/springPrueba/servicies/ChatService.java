@@ -33,5 +33,9 @@ public class ChatService {
         return chatRepository.getUserChats(id);
     }
 
+    public  List<Chat> getUsersConversation(Integer id1){
+        return  chatRepository.getUsersConversation(id1);
+    }
+
 
 }

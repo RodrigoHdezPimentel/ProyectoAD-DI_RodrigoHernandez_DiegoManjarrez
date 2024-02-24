@@ -14,4 +14,8 @@ public interface ChatInterface {
     Call<List<Chat>> getAll();
     @GET("getUserChats/{id}")
     Call<List<Chat>> getUserChats(@Path("id") Integer id);
+
+    @GET("getUsersConversation/{id}/{id1}")
+    Call<List<Chat>> getUsersConversation(@Path("id") Integer id1, @Path("id1") Integer id2);
+
 }

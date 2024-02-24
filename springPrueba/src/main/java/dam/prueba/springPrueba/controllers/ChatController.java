@@ -80,6 +80,25 @@ public class ChatController {
         return listaChatFilter;
     }
 
+    @GetMapping("/getUsersConversation/{id1}/{id2}")
+    public  List<Chat> getUsersConversation(@PathVariable Integer id1, @PathVariable Integer id2){
+        ArrayList<Chat> listaChat = (ArrayList<Chat>) chatService.getUsersConversation(id1);
+        ArrayList<Chat> listaChatFilter = new ArrayList<>();
+
+        for(Chat c : listaChat){
+            if(Objects.equals(c.getIdDestino(), id1)){
+                if(Objects.equals(c.getIdOrigen(), id2)){
+                    listaChatFilter.add(c);
+                }
+            }else{
+                if(Objects.equals(c.getIdDestino(), id2)){
+                    listaChatFilter.add(c);
+                }
+            }
+        }
+        return  listaChatFilter;
+    }
+
     @DeleteMapping("/deleteById/{id}")
     public Boolean deleteChat(@PathVariable Integer id){
         return chatService.deleteChat(id);

@@ -21,7 +21,7 @@
             android:name=".EditProfile"
             android:exported="false" />
         <activity
-            android:name=".Chat.ChatActivity"
+            android:name=".ChatActivity"
             android:exported="false" />
         <activity
             android:name=".Registro.SelectTopic"
