@@ -6,7 +6,9 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ChatInterface {
@@ -18,4 +20,6 @@ public interface ChatInterface {
     @GET("getUsersConversation/{id}/{id1}")
     Call<List<Chat>> getUsersConversation(@Path("id") Integer id1, @Path("id1") Integer id2);
 
+    @POST("save")
+    Call<Chat> create(@Body Chat chat);
 }

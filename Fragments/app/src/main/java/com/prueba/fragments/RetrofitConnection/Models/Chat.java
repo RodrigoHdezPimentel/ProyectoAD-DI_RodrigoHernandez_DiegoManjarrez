@@ -21,6 +21,15 @@ public class Chat {
         this.contenido = contenido;
     }
 
+    public Chat(Integer idDestino, Integer idOrigen, String contenido, String fecha, Usuario usuarioOr, Usuario usuarioDes) {
+        this.idDestino = idDestino;
+        this.idOrigen = idOrigen;
+        this.fecha = fecha;
+        this.contenido = contenido;
+        this.usuarioOr = usuarioOr;
+        this.usuarioDes = usuarioDes;
+    }
+
     public Chat(Integer id, Integer idDestino, Integer idOrigen, String contenido, String fecha, Usuario usuarioOr, Usuario usuarioDes) {
         this.idchat = id;
         this.idDestino = idDestino;

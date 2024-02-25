@@ -40,6 +40,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.cv.setElevation(10f);
         holder.fecha.setText(chatModels.get(position).getFecha().toString());
         holder.Contenido.setText(chatModels.get(position).getContenido());
         holder.idDestino = chatModels.get(position).getIdDestino();
