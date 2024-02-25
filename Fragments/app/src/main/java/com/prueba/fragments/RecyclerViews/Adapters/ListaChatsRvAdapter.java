@@ -41,14 +41,17 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         toChat = new Intent(context, ChatActivity.class);
+
         if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
             holder.personaChat.setText(chatModels.get(position).getUsuarioOr().getName().toString());
-            toChat.putExtra("id", chatModels.get(position).getIdOrigen());
+            holder.fechaUltimoMensaje.setText(chatModels.get(position).getUsuarioOr().getId().toString());
+            toChat.putExtra("idConv", holder.fechaUltimoMensaje.getText().toString());
         }else{
             holder.personaChat.setText(chatModels.get(position).getUsuarioDes().getName().toString());
-            toChat.putExtra("id", chatModels.get(position).getIdDestino());
+            holder.fechaUltimoMensaje.setText(chatModels.get(position).getUsuarioDes().getId().toString());
+            toChat.putExtra("idConv", holder.fechaUltimoMensaje.getText().toString());
         }
-        holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha());
+        //holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha());
 
         //No funciona el limite de caracteres
         if(holder.ultimoContenido.getText().length() > 20){

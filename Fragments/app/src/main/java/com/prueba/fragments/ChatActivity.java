@@ -12,6 +12,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -36,17 +37,23 @@ public class ChatActivity extends AppCompatActivity {
     Integer idConversacion;
     ArrayList<Chat> Conversation = new ArrayList<>();
     TextInputEditText texto;
-
+    Usuario ConverUser;
+    TextView name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
         Intent getId = getIntent();
-        idConversacion = getId.getIntExtra("id", 0);
+        idConversacion = Integer.parseInt(getId.getStringExtra("idConv"));
+        Toast.makeText(this, idConversacion+"", Toast.LENGTH_SHORT).show();
 
         texto = findViewById(R.id.editText);
         ImageView send = findViewById(R.id.send);
+
+        CargarUser();
+        name = findViewById(R.id.nameTv);
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,24 +63,9 @@ public class ChatActivity extends AppCompatActivity {
                     long timeInMilliSeconds = date.getTime();
                     java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
 
-                    final Usuario[] ConverUser = new Usuario[1];
-                    UsuarioInterface usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-                    Call<Usuario> call = usuarioInterface.getUserById(idConversacion);
-                    call.enqueue(new Callback<Usuario>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Usuario> call, @NonNull Response<Usuario> response) {
-                            if (!response.isSuccessful()) {
-                                return;
-                            }
-                            ConverUser[0] = response.body();
-                            GuardarChat(new Chat(idConversacion, Usuario.getInstance().getId(),
-                                    texto.getText().toString(), date1.toString(), ConverUser[0], Usuario.getInstance()));
+                    GuardarChat(new Chat(idConversacion, Usuario.getInstance().getId(),
+                            texto.getText().toString(), date1.toString(), ConverUser, Usuario.getInstance()));
 
-                        }
-                        @Override
-                        public void onFailure(Call<Usuario> call, Throwable t) {
-                        }
-                    });
                 }
             }
         });
@@ -128,5 +120,22 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         cargarChat();
+    }
+    public void CargarUser(){
+        UsuarioInterface usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+        Call<Usuario> call = usuarioInterface.getUserById(idConversacion);
+        call.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(@NonNull Call<Usuario> call, @NonNull Response<Usuario> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                ConverUser = response.body();
+                name.setText(ConverUser.getName().toString());
+            }
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+            }
+        });
     }
 }
