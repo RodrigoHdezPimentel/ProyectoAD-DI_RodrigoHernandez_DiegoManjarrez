@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -36,8 +37,24 @@ public class MainActivity extends AppCompatActivity {
 
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, new Home())
+        Intent getFragment = getIntent();
+        int fragmentNum = getFragment.getIntExtra("numFrgMain", 0);
+        Fragment fragmentMain = null;
+        switch (fragmentNum){
+            case 0:
+                fragmentMain = new Home();
+                break;
+            case 1:
+                fragmentMain = new Publish();
+                break;
+            case 2:
+                fragmentMain = new Chats();
+                break;
+            case 3:
+                fragmentMain = new Profile();
+                break;
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, fragmentMain)
                 .addToBackStack(null)
                 .commit();
 

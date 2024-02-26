@@ -171,6 +171,7 @@ public class Publish extends Fragment {
                     for(TextView tv : listaTvTemas){
                         tv.setTypeface(null, Typeface.NORMAL);
                     }
+                    Toast.makeText(getContext(), "Publicacion realizada con exito", Toast.LENGTH_SHORT).show();
 
                 }
                 @Override

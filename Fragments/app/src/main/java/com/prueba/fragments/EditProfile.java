@@ -65,6 +65,7 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent toMain = new Intent(EditProfile.this, MainActivity.class);
+                toMain.putExtra("numFrgMain", 3);
                 startActivity(toMain);
             }
         });
@@ -77,6 +78,7 @@ public class EditProfile extends AppCompatActivity {
                 Usuario.getInstance().setPass(password.getText().toString());
                 updateUser();
                 Intent toMain = new Intent(EditProfile.this, MainActivity.class);
+                toMain.putExtra("numFrgMain", 3);
                 startActivity(toMain);
             }
         });

@@ -76,6 +76,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent listChat = new Intent(ChatActivity.this, MainActivity.class);
+                listChat.putExtra("numFrgMain", 2);
                 startActivity(listChat);
             }
         });
