@@ -25,7 +25,7 @@ public class Publicacion {
     @Column(name = "idtema", insertable=false, updatable=false)
     private Integer idtema;
 
-    @Column(name = "idpublirefer", insertable=false, updatable=false)
+    @Column(name = "idpublirefer")
     private Integer idpublirefer;
 
     @Column(name = "fecha")

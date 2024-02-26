@@ -62,7 +62,7 @@
     </FrameLayout>
 
     <ImageView
-        android:id="@+id/imgFoto"
+        android:id="@+id/iconFragmentProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
@@ -129,8 +129,9 @@
         android:id="@+id/descripcionProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:hint="Descripción"
+        android:textSize="17dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"

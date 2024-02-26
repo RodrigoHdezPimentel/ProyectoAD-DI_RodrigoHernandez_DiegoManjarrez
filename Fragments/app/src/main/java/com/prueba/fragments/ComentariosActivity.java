@@ -21,9 +21,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +37,7 @@ public class ComentariosActivity extends AppCompatActivity {
 ArrayList<Publicacion> listaComentarios = new ArrayList<>();
 ImageView back;
     int id;
+    ImageView iconUserPublish;
     Publicacion newPublication;
     TextView contenidoTv;
     TextView numComentarios;
@@ -46,6 +50,7 @@ ImageView back;
     FloatingActionButton commentBut;
     LinearLayout commentInputField;
     RecyclerView recyclerView;
+    PublicacionInterface publicacionInterface;
     ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,7 @@ ImageView back;
         recyclerView = findViewById(R.id.commentRecycler);
         constraintLayout = findViewById(R.id.constraintLayout);
         CommnetInput = findViewById(R.id.CommnetInput);
-
+        iconUserPublish = findViewById(R.id.iconUserPublish);
         commentBut = findViewById(R.id.commentButt);
         back = findViewById(R.id.arrow);
         home = findViewById(R.id.home);
@@ -115,15 +120,14 @@ ImageView back;
             public void onClick(View view) {
                 commentBut.setVisibility(View.VISIBLE);
                 commentInputField.setVisibility(View.GONE);
-
-                GuardarComentario();
+                enviarComentario();
             }
         });
 
         cargarPublicacion(id);
     }
     public void cargarPublicacion(Integer idComent){
-        PublicacionInterface publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
         Call<Publicacion> call = publicacionInterface.getPublicationById(idComent);
         call.enqueue(new Callback<Publicacion>() {
 
@@ -141,7 +145,8 @@ ImageView back;
                 contenidoTv.setText(newPublication.getContenido());
                 numComentarios.setText(newPublication.getComentarios().length+"");
                 numLikes.setText(newPublication.getNumlikes()+"");
-
+                //cargar icon
+                iconAdd(newPublication.getUsuario().getGenero());
                 getComentarios(newPublication.getId());
             }
             @Override
@@ -151,7 +156,7 @@ ImageView back;
     }
 
     public void getComentarios(Integer id){
-        PublicacionInterface publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
         Call<List<Publicacion>> call = publicacionInterface.getAllComentsFromPublish(id);
         call.enqueue(new Callback<List<Publicacion>>() {
 
@@ -192,9 +197,46 @@ ImageView back;
         });
     }
 
-    public void GuardarComentario(){
+    public void enviarComentario(){
+        Date date = new Date();
+        long timeInMilliSeconds = date.getTime();
+        java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
+        Publicacion p = new Publicacion(null, Usuario.getInstance().getId(),
+                newPublication.getIdtema(), newPublication.getId(),date1.toString(),0,
+                CommnetInput.getText().toString(), "", newPublication.getTema(), Usuario.getInstance(), new Publicacion[0]);
 
+        Toast.makeText(this, newPublication.getId()+" asda", Toast.LENGTH_SHORT).show();
+        //añadimos el comentario con el ide de referencia del comentario o publicacion
+        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        Call<Publicacion> call = publicacionInterface.save(p);
+        call.enqueue(new Callback<Publicacion>() {
+            @Override
+            public void onResponse(Call<Publicacion> call, Response<Publicacion> response) {
+                if(!response.isSuccessful()){
+                  return;
+                }
+                // Toast.makeText(ComentariosActivity.this, "SE HA ENVIADO"+ newPublication.getId().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ComentariosActivity.this, response.body().getIdpublirefer()+" referenciaaaa", Toast.LENGTH_SHORT).show();
+                CommnetInput.setText("");
+                //volver a recargar los comentarios de la publicacion en el que estamos posicionados
+                getComentarios(response.body().getIdpublirefer());
+            }
+            @Override
+            public void onFailure(Call<Publicacion> call, Throwable t) {
 
-        CommnetInput.setText("");
+            }
+        });
+
+    }
+    public void iconAdd(String gender){
+        if(gender.equals("Femal")){
+            iconUserPublish.setImageResource(R.drawable.ic_mujer);
+
+        } else if (gender.equals("Male")) {
+            iconUserPublish.setImageResource(R.drawable.ic_hombre);
+
+        }else {
+            iconUserPublish.setImageResource(R.drawable.ic_app);
+        }
     }
 }

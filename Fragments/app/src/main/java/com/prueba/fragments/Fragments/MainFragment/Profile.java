@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -51,6 +52,7 @@ public class Profile extends Fragment {
     }
     TextView userName;
     TextView descripcion;
+    ImageView iconProfile;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,10 +61,12 @@ public class Profile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         userName = view.findViewById(R.id.UserNameProfile);
+        iconProfile = view.findViewById(R.id.iconFragmentProfile);
         descripcion = view.findViewById(R.id.descripcionProfile);
         userName.setText(Usuario.getInstance().getName());
         descripcion.setText(Usuario.getInstance().getDescripcion());
 
+        iconAdd();
         Button editProfile = view.findViewById(R.id.updateProfile);
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,5 +112,15 @@ public class Profile extends Fragment {
             }
         });
         return view;
+    }
+
+    public void iconAdd(){
+        if(Usuario.getInstance().getGenero().equals("Female")){
+            iconProfile.setImageResource(R.drawable.ic_mujer);
+        } else if (Usuario.getInstance().getGenero().equals("Male")) {
+            iconProfile.setImageResource(R.drawable.ic_hombre);
+        }else {
+            iconProfile.setImageResource(R.drawable.ic_app);
+        }
     }
 }

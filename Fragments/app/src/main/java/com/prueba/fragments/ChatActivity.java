@@ -49,7 +49,7 @@ public class ChatActivity extends AppCompatActivity {
         String gender = getIntent().getStringExtra("gender");
 
         iconUserChat = findViewById(R.id.iconChat);
-        colocarIcon(gender);
+        iconAdd(gender);
         idConversacion = getId.getIntExtra("idConv",0);
         Toast.makeText(this, idConversacion+"", Toast.LENGTH_SHORT).show();
 
@@ -145,7 +145,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-    public void colocarIcon(String gender){
+    public void iconAdd(String gender){
         if (gender.equals("Female")) {
             iconUserChat.setImageResource(R.drawable.ic_mujer);
             ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();

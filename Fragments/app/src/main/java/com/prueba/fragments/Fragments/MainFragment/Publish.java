@@ -95,11 +95,22 @@ public class Publish extends Fragment {
 
         publish = view.findViewById(R.id.buttonPublicar);
         cancel = view.findViewById(R.id.buttonCanelar);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contenido.setText("");
+                titulo.setText("");
 
+            }
+        });
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                publicar();
+                if(titulo.getText().toString().trim().isEmpty() || contenido.getText().toString().trim().isEmpty()){
+                    Toast.makeText(getContext(), "Por favor rellena los campos", Toast.LENGTH_SHORT).show();
+                }else{
+                    publicar();
+                }
             }
         });
         contenido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -151,7 +162,7 @@ public class Publish extends Fragment {
             long timeInMilliSeconds = date.getTime();
             java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
 
-            Publicacion newPublicacion = new Publicacion(
+            Publicacion newPublicacion = new Publicacion(null,
                     Usuario.getInstance().getId(), temaSeleccionado.getId(), null, date1.toString(),
                     0, contenido.getText().toString(), titulo.getText().toString(),
                     temaSeleccionado, Usuario.getInstance(), new Publicacion[0]);
@@ -182,4 +193,5 @@ public class Publish extends Fragment {
         }
 
     }
+
 }
