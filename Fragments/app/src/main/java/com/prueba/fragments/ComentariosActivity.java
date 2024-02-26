@@ -2,6 +2,7 @@ package com.prueba.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,9 +13,12 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
@@ -30,27 +34,41 @@ public class ComentariosActivity extends AppCompatActivity {
 ArrayList<Publicacion> listaComentarios = new ArrayList<>();
 ImageView back;
     int id;
-    Integer idRef;
     Publicacion newPublication;
     TextView contenidoTv;
     TextView numComentarios;
     TextView numLikes;
     TextView titulo;
-    ImageView home;
     TextView userName;
+    ImageView home;
+    ImageView send;
+    TextInputEditText CommnetInput;
+    FloatingActionButton commentBut;
+    LinearLayout commentInputField;
+    RecyclerView recyclerView;
+    ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_comentarios);
         Intent getId = getIntent();
         id = getId.getIntExtra("id", 0);
         userName = findViewById(R.id.UserName);
         numLikes = findViewById(R.id.numLikes);
-        back = findViewById(R.id.arrow);
         numComentarios = findViewById(R.id.numComentarios);
         contenidoTv = findViewById(R.id.contenido);
         titulo = findViewById(R.id.titulo);
+        commentInputField = findViewById(R.id.LLcommentBar);
+        recyclerView = findViewById(R.id.commentRecycler);
+        constraintLayout = findViewById(R.id.constraintLayout);
+        CommnetInput = findViewById(R.id.CommnetInput);
+
+        commentBut = findViewById(R.id.commentButt);
+        back = findViewById(R.id.arrow);
         home = findViewById(R.id.home);
+        send = findViewById(R.id.sendComm);
+
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,9 +89,38 @@ ImageView back;
                 startActivity(back);
             }
         });
+        commentBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentBut.setVisibility(View.GONE);
+                commentInputField.setVisibility(View.VISIBLE);
+            }
+        });
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentBut.setVisibility(View.VISIBLE);
+                commentInputField.setVisibility(View.GONE);
+            }
+        });
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentBut.setVisibility(View.VISIBLE);
+                commentInputField.setVisibility(View.GONE);
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentBut.setVisibility(View.VISIBLE);
+                commentInputField.setVisibility(View.GONE);
+
+                GuardarComentario();
+            }
+        });
 
         cargarPublicacion(id);
-
     }
     public void cargarPublicacion(Integer idComent){
         PublicacionInterface publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
@@ -143,5 +190,11 @@ ImageView back;
                 Toast.makeText(ComentariosActivity.this, "error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void GuardarComentario(){
+
+
+        CommnetInput.setText("");
     }
 }

@@ -25,17 +25,17 @@
         android:layout_gravity="center"
         android:scaleX="-1"
         android:src="@drawable/simplearrow"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="end">
 
             <ImageView
                 android:id="@+id/home"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/home"
-                />
+                android:src="@drawable/home"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:text="Titulo"
             android:textAlignment="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imageView5"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="UserName"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/imageView5"
@@ -97,7 +97,7 @@
             android:padding="20dp"
             android:scrollbars="vertical"
             android:text="Contenido"
-            android:textSize="17dp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/UserName" />
@@ -142,7 +142,6 @@
             android:layout_gravity="bottom"
             android:paddingRight="20dp"
             android:text="100"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -154,10 +153,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/commentButt"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_margin="30dp"
@@ -165,6 +165,43 @@
         android:padding="5dp"
         app:fabCustomSize="65dp"
         app:layout_constraintBottom_toBottomOf="@+id/commentRecycler"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Comentar" />
+
+
+    <LinearLayout
+        android:id="@+id/LLcommentBar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="3dp"
+        android:gravity="end"
+        android:background="@color/seed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/CommnetInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter text here..."
+            android:layout_weight="3"
+            app:layout_constraintEnd_toStartOf="@id/send"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="10dp"
+            android:maxHeight="80dp"
+            android:scrollbars="vertical"/>
+
+        <ImageView
+            android:id="@+id/sendComm"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_send"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
