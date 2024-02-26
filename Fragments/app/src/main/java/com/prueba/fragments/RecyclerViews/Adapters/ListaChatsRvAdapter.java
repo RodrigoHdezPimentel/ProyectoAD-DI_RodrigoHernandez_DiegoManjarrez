@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,16 +40,18 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
 
     @SuppressLint({"SetTextI18n"})
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         toChat = new Intent(context, ChatActivity.class);
 
         if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
             holder.personaChat.setText(chatModels.get(position).getUsuarioOr().getName().toString());
-            holder.fechaUltimoMensaje.setText(chatModels.get(position).getUsuarioOr().getId().toString());
+            holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha().toString());
             toChat.putExtra("idConv", chatModels.get(position).getUsuarioOr().getId());
+            iconAdd(chatModels.get(position).getUsuarioOr().getGenero(), holder);
         }else{
             holder.personaChat.setText(chatModels.get(position).getUsuarioDes().getName().toString());
-            holder.fechaUltimoMensaje.setText(chatModels.get(position).getUsuarioDes().getId().toString());
+            holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha().toString());
+            iconAdd(chatModels.get(position).getUsuarioDes().getGenero(), holder);
             toChat.putExtra("idConv", chatModels.get(position).getUsuarioDes().getId());
         }
         //holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha());
@@ -63,8 +66,10 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
             @Override
             public void onClick(View v) {
                 if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
+                    toChat.putExtra("gender",chatModels.get(position).getUsuarioOr().getGenero());
                     toChat.putExtra("idConv", chatModels.get(position).getUsuarioOr().getId());
                 }else{
+                    toChat.putExtra("gender",chatModels.get(position).getUsuarioDes().getGenero());
                     toChat.putExtra("idConv", chatModels.get(position).getUsuarioDes().getId());
                 }
                 context.startActivity(toChat);
@@ -81,14 +86,32 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         TextView ultimoContenido;
         TextView fechaUltimoMensaje;
         CardView cv;
+       ImageView iconUser;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.iconUser = itemView.findViewById(R.id.iconListChat);
             this.cv = itemView.findViewById(R.id.cardChat);
             this.personaChat = itemView.findViewById(R.id.personaChat);
             this.ultimoContenido = itemView.findViewById(R.id.contenidoMensaje);
             this.fechaUltimoMensaje = itemView.findViewById(R.id.CardChatFecha);
 
         }
+
     }
+    public void iconAdd(String gender, MyViewHolder holder) {
+        if (gender.equals("Female")) {
+            holder.iconUser.setImageResource(R.drawable.ic_mujer);
+            ViewGroup.LayoutParams layoutParams = holder.iconUser.getLayoutParams();
+            layoutParams.height = 200; // Altura en píxeles
+            layoutParams.width = 200; // Anchura en píxeles
+            holder.iconUser.setLayoutParams(layoutParams);
+        } else if (gender.equals("Male")) {
+            holder.iconUser.setImageResource(R.drawable.ic_hombre);
+        } else {
+            holder.iconUser.setImageResource(R.drawable.ic_app);
+        }
+    }
+
+
 }

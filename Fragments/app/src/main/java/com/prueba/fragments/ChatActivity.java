@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,12 +40,16 @@ public class ChatActivity extends AppCompatActivity {
     TextInputEditText texto;
     Usuario ConverUser;
     TextView name;
+    ImageView iconUserChat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
         Intent getId = getIntent();
+        String gender = getIntent().getStringExtra("gender");
+
+        iconUserChat = findViewById(R.id.iconChat);
+        colocarIcon(gender);
         idConversacion = getId.getIntExtra("idConv",0);
         Toast.makeText(this, idConversacion+"", Toast.LENGTH_SHORT).show();
 
@@ -139,5 +144,18 @@ public class ChatActivity extends AppCompatActivity {
             public void onFailure(Call<Usuario> call, Throwable t) {
             }
         });
+    }
+    public void colocarIcon(String gender){
+        if (gender.equals("Female")) {
+            iconUserChat.setImageResource(R.drawable.ic_mujer);
+            ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();
+            layoutParams.height = 100; // Altura
+            layoutParams.width = 100; // Anchura
+            iconUserChat.setLayoutParams(layoutParams);
+        } else if (gender.equals("Male")) {
+            iconUserChat.setImageResource(R.drawable.ic_hombre);
+        } else {
+            iconUserChat.setImageResource(R.drawable.ic_app);
+        }
     }
 }
