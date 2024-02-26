@@ -45,7 +45,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         Intent getId = getIntent();
-        idConversacion = Integer.parseInt(getId.getStringExtra("idConv"));
+        idConversacion = getId.getIntExtra("idConv",0);
         Toast.makeText(this, idConversacion+"", Toast.LENGTH_SHORT).show();
 
         texto = findViewById(R.id.editText);
@@ -114,12 +114,13 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 }
                 texto.setText("");
+                cargarChat();
             }
             @Override
             public void onFailure(Call<Chat> call, Throwable t) {
             }
         });
-        cargarChat();
+
     }
     public void CargarUser(){
         UsuarioInterface usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);

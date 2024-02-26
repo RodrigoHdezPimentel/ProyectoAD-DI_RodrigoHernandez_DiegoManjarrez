@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
     ArrayList<Chat> chatModels;
-    Intent toChat;
+    Intent toChat = null;
 
     public ListaChatsRvAdapter(Context context, ArrayList<Chat> chatModels) {
         this.context = context;
@@ -45,11 +45,11 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
             holder.personaChat.setText(chatModels.get(position).getUsuarioOr().getName().toString());
             holder.fechaUltimoMensaje.setText(chatModels.get(position).getUsuarioOr().getId().toString());
-            toChat.putExtra("idConv", holder.fechaUltimoMensaje.getText().toString());
+            toChat.putExtra("idConv", chatModels.get(position).getUsuarioOr().getId());
         }else{
             holder.personaChat.setText(chatModels.get(position).getUsuarioDes().getName().toString());
             holder.fechaUltimoMensaje.setText(chatModels.get(position).getUsuarioDes().getId().toString());
-            toChat.putExtra("idConv", holder.fechaUltimoMensaje.getText().toString());
+            toChat.putExtra("idConv", chatModels.get(position).getUsuarioDes().getId());
         }
         //holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha());
 
@@ -62,6 +62,11 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
+                    toChat.putExtra("idConv", chatModels.get(position).getUsuarioOr().getId());
+                }else{
+                    toChat.putExtra("idConv", chatModels.get(position).getUsuarioDes().getId());
+                }
                 context.startActivity(toChat);
             }
         });
