@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Foroex</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="userName_text"> User Name</string>
+    <string name="password_text"> Password</string>
+
+     <string-array name="Gender">
+         <item>Male</item>
+         <item>Female</item>
+     </string-array>
+
+
+</resources>
