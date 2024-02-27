@@ -51,7 +51,6 @@ public class ChatActivity extends AppCompatActivity {
         iconUserChat = findViewById(R.id.iconChat);
         iconAdd(gender);
         idConversacion = getId.getIntExtra("idConv",0);
-        Toast.makeText(this, idConversacion+"", Toast.LENGTH_SHORT).show();
 
         texto = findViewById(R.id.editText);
         ImageView send = findViewById(R.id.send);

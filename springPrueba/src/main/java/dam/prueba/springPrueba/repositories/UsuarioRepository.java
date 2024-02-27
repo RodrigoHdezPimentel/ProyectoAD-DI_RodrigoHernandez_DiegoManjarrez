@@ -25,7 +25,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 //    SELECT p.* fROM likes l inner JOIN publicaciones p ON p.idPublicacion = l.idPublicacion where p.idPubliRefer is null AND l.idUsuario = 1
 //    group by p.idPublicacion
-    @Query("SElECT p FROM Like l INNER JOIN Publicacion p ON p.idpublicacion = l.idPublicacion WHERE p.idpublirefer is null and l.idUsuario = ?1 group by p.idpublicacion" +
+    @Query("SElECT p FROM Like l INNER JOIN Publicacion p ON p.idpublicacion = l.idPublicacion WHERE l.idUsuario = ?1 group by p.idpublicacion" +
             " ORDER BY l.idLike DESC")
     List<Publicacion> getUserPublicacionFromLike(Integer userId);
 

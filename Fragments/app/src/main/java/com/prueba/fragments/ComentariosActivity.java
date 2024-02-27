@@ -74,6 +74,7 @@ ImageView back;
         home = findViewById(R.id.home);
         send = findViewById(R.id.sendComm);
 
+
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,13 +181,14 @@ ImageView back;
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
 
+                        //HAY UN FALLO AQUÏ
                         // Check if the RecyclerView has reached the top
-                        if (layoutManager.findFirstVisibleItemPosition() == 0) {
-                            // The RecyclerView has reached the top
-                            contenidoTv.setVisibility(View.VISIBLE);
-                        }else{
-                            contenidoTv.setVisibility(View.GONE);
-                        }
+//                        if (layoutManager.findFirstVisibleItemPosition() == 0) {
+//                            // The RecyclerView has reached the top
+//                            contenidoTv.setVisibility(View.VISIBLE);
+//                        }else{
+//                            contenidoTv.setVisibility(View.GONE);
+//                        }
                     }
                 });
             }
@@ -205,7 +207,6 @@ ImageView back;
                 newPublication.getIdtema(), newPublication.getId(),date1.toString(),0,
                 CommnetInput.getText().toString(), "", newPublication.getTema(), Usuario.getInstance(), new Publicacion[0]);
 
-        Toast.makeText(this, newPublication.getId()+" asda", Toast.LENGTH_SHORT).show();
         //añadimos el comentario con el ide de referencia del comentario o publicacion
         publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
         Call<Publicacion> call = publicacionInterface.save(p);
@@ -216,10 +217,10 @@ ImageView back;
                   return;
                 }
                 // Toast.makeText(ComentariosActivity.this, "SE HA ENVIADO"+ newPublication.getId().toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(ComentariosActivity.this, response.body().getIdpublirefer()+" referenciaaaa", Toast.LENGTH_SHORT).show();
                 CommnetInput.setText("");
+
                 //volver a recargar los comentarios de la publicacion en el que estamos posicionados
-                getComentarios(response.body().getIdpublirefer());
+                cargarPublicacion(response.body().getIdpublirefer());
             }
             @Override
             public void onFailure(Call<Publicacion> call, Throwable t) {
