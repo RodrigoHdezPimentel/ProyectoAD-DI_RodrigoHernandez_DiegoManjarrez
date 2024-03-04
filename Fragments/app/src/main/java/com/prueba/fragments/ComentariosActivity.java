@@ -36,7 +36,8 @@ import retrofit2.Response;
 public class ComentariosActivity extends AppCompatActivity {
 ArrayList<Publicacion> listaComentarios = new ArrayList<>();
 ImageView back;
-    int id;
+    int idP;
+    int idU;
     ImageView iconUserPublish;
     Publicacion newPublication;
     TextView contenidoTv;
@@ -58,7 +59,8 @@ ImageView back;
 
         setContentView(R.layout.activity_comentarios);
         Intent getId = getIntent();
-        id = getId.getIntExtra("id", 0);
+        idP = getId.getIntExtra("id", 0);
+        idU = getId.getIntExtra("idUser", 0);
         userName = findViewById(R.id.UserName);
         numLikes = findViewById(R.id.numLikes);
         numComentarios = findViewById(R.id.numComentarios);
@@ -82,6 +84,7 @@ ImageView back;
                 startActivity(toHome);
             }
         });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +98,7 @@ ImageView back;
                 startActivity(back);
             }
         });
+
         commentBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +106,7 @@ ImageView back;
                 commentInputField.setVisibility(View.VISIBLE);
             }
         });
+
         recyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +114,7 @@ ImageView back;
                 commentInputField.setVisibility(View.GONE);
             }
         });
+
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,6 +122,7 @@ ImageView back;
                 commentInputField.setVisibility(View.GONE);
             }
         });
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +132,16 @@ ImageView back;
             }
         });
 
-        cargarPublicacion(id);
+        iconUserPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toUserProfile = new Intent(ComentariosActivity.this, userProfileView.class);
+                toUserProfile.putExtra("idUser", idU);
+                startActivity(toUserProfile);
+            }
+        });
+
+        cargarPublicacion(idP);
     }
     public void cargarPublicacion(Integer idComent){
         publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
@@ -176,21 +192,21 @@ ImageView back;
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) Contenidos.getLayoutManager();
 
+/*               //HAY UN FALLO AQUÏ
                 Contenidos.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
 
-                        //HAY UN FALLO AQUÏ
-                        // Check if the RecyclerView has reached the top
-//                        if (layoutManager.findFirstVisibleItemPosition() == 0) {
-//                            // The RecyclerView has reached the top
-//                            contenidoTv.setVisibility(View.VISIBLE);
-//                        }else{
-//                            contenidoTv.setVisibility(View.GONE);
-//                        }
+                         //Check if the RecyclerView has reached the top
+                        if (layoutManager.findFirstVisibleItemPosition() == 0) {
+                            // The RecyclerView has reached the top
+                            contenidoTv.setVisibility(View.VISIBLE);
+                        }else{
+                            contenidoTv.setVisibility(View.GONE);
+                        }
                     }
-                });
+                });*/
             }
             @Override
             public void onFailure(Call<List<Publicacion>> call, Throwable t) {

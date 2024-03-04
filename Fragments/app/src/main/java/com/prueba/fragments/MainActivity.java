@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
         Intent getFragment = getIntent();
         int fragmentNum = getFragment.getIntExtra("numFrgMain", 0);
-        Fragment fragmentMain = null;
+
+        /*Fragment fragmentMain = null;
         switch (fragmentNum){
             case 0:
                 fragmentMain = new Home();
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, fragmentMain)
                 .addToBackStack(null)
-                .commit();
+                .commit();*/
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
     public static void quitarLike(int idPublicacion){
         LikeInterface likeInterface = Login_SignUP.retrofitLike.create(LikeInterface.class);

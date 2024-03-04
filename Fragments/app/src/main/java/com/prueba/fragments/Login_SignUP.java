@@ -36,7 +36,7 @@ public class Login_SignUP extends AppCompatActivity {
     public static ArrayList<Tema> listaTemas = new ArrayList<>();
 
     public static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
-    public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251"};
+    public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251"};//clase-casa
 
     Button buttonLogin;
     Button buttonSignUp;
