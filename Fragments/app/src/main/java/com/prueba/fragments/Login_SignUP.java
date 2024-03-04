@@ -34,8 +34,7 @@ public class Login_SignUP extends AppCompatActivity {
     public static Retrofit retrofitLike;
     public static Retrofit retrofitChat;
     public static ArrayList<Tema> listaTemas = new ArrayList<>();
-    public static ArrayList<Chat> listaChats = new ArrayList<>();
-    public static ArrayList<Chat> chatConversation = new ArrayList<>();
+
     public static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
     public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251"};
 
@@ -54,27 +53,27 @@ public class Login_SignUP extends AppCompatActivity {
 
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/publicacion/")
+                .baseUrl("http://" + IP_RODRIGO[0] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/tema/")
+                .baseUrl("http://" + IP_RODRIGO[0] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuario/")
+                .baseUrl("http://" + IP_RODRIGO[0] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUserTema =  new Retrofit.Builder()
-                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/usuarioTema/")
+                .baseUrl("http://" + Login_SignUP.IP_RODRIGO[0] +":8086/usuarioTema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitLike = new Retrofit.Builder()
-                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/like/")
+                .baseUrl("http://" + Login_SignUP.IP_RODRIGO[0] +":8086/like/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitChat = new Retrofit.Builder()
-                .baseUrl("http://" + Login_SignUP.IP_DIEGO[1] +":8086/chat/")
+                .baseUrl("http://" + Login_SignUP.IP_RODRIGO[0] +":8086/chat/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -88,54 +87,44 @@ public class Login_SignUP extends AppCompatActivity {
         //Inicio de sesion
         buttonLogin.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View v) {iniciarSesion();}});
-
+        public void onClick(View v) {
+            iniciarSesion();
+        }
+        });
 
         //Go Registro.java
-         buttonSignUp.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent goMain = new Intent(Login_SignUP.this, Registro.class);
-            startActivity(goMain);
-        }
-    });
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goMain = new Intent(Login_SignUP.this, Registro.class);
+                startActivity(goMain);
+            }
+        });
 
     }
     private void iniciarSesion(){
         usuarioInterface = retrofitUser.create(UsuarioInterface.class);
-        Call<List<Usuario>> call = usuarioInterface.getAll();
-        call.enqueue(new Callback<List<Usuario>>() {
+        Call<Usuario> call = usuarioInterface.getUserRegister(userName.getText().toString(),password.getText().toString() );
+        call.enqueue(new Callback<Usuario>() {
             @Override
-            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("Response err: ", response.message());
+                    Log.e("Response err: fallo en logIn", response.message());
                     return;
                 }
-                String[] userData = new String[2];
-                boolean datoEncontrado= false;
+                Usuario userData = response.body();
+                if(userData != null){
+                    Usuario.setInstance(userData);
 
-                for (Usuario u : response.body()){
-                    userData[0] = u.getName();
-                    userData[1] = u.getPass();
-
-                    if(userName.getText().toString().equals(userData[0])
-                            && password.getText().toString().equals(userData[1])){
-                        datoEncontrado = true;
-                        Usuario.setInstance(u);
-                        break;
-                    }
-                }
-                if(datoEncontrado){
                     Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
                     startActivity(goMain);
                 }else{
                     Toast.makeText(Login_SignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();
                 }
-
             }
 
             @Override
-            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+            public void onFailure(Call<Usuario> call, Throwable t) {
 
             }
         });
@@ -153,9 +142,8 @@ public class Login_SignUP extends AppCompatActivity {
                     return;
                 }
                 List<Tema> temporalList = response.body();
-                for(Tema t : temporalList){
-                    listaTemas.add(t);
-                }
+                assert temporalList != null;
+                listaTemas.addAll(temporalList);
             }
 
             @Override

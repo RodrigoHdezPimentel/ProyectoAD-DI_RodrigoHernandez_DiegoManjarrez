@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
@@ -28,6 +29,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SElECT p FROM Like l INNER JOIN Publicacion p ON p.idpublicacion = l.idPublicacion WHERE l.idUsuario = ?1 group by p.idpublicacion" +
             " ORDER BY l.idLike DESC")
     List<Publicacion> getUserPublicacionFromLike(Integer userId);
+
+    @Query("SElECT c FROM Usuario c WHERE c.name = ?1 AND c.pass = ?2")
+    Optional<Usuario> getUserRegister(String name, String pass);
 
 
 

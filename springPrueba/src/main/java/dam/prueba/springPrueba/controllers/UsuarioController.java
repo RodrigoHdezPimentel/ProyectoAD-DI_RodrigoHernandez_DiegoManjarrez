@@ -64,5 +64,7 @@ public class UsuarioController {
     public List<Publicacion> getUserPublicacionFromLike(@PathVariable Integer id){
         return  usuarioService.getUserPublicacionFromLike(id);
     }
+    @GetMapping("/getUserRegister/{name}/{pass}")
+    public Optional<Usuario> getUserRegister(@PathVariable String name, @PathVariable String pass){ return  usuarioService.getUserRegister(name, pass);}
 
 }

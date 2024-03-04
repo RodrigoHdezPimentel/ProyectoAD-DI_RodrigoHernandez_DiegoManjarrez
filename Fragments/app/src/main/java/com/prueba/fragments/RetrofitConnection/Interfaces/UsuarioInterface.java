@@ -27,6 +27,9 @@ public interface UsuarioInterface {
     @GET("getUserPublicacionFromTema/{id}")
     Call<List<Publicacion>> getPublicationsFromUserTema(@Path("id") Integer id);
 
+    @GET("getUserRegister/{name}/{pass}")
+    Call<Usuario> getUserRegister(@Path("name") String name, @Path("pass") String pass);
+
     @GET("getUserPublicacionFromLike/{id}")
     Call<List<Publicacion>> getPublicationsFromUserLike(@Path("id") Integer id);
 
