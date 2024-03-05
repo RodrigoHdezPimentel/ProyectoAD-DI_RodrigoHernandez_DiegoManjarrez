@@ -22,7 +22,16 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
         "UNION " +
         "SELECT c " +
         "FROM Chat c WHERE c.idDestino = ?1 GROUP BY c.idOrigen")
-    public List<Chat> getUserChats (Integer id);
-@Query("SELECT c FROM Chat c Where c.idDestino = ?1 or idOrigen = ?1")
-public  List<Chat> getUsersConversation(Integer id1);
+    List<Chat> getUserChats (Integer id);
+
+//    SELECT * FROM `chat` WHERE idUsuarioOrigen = 1 and idUsuarioDestino = 48 and
+//            fecha = (SELECT max(fecha) from chat WHERE idUsuarioOrigen = 1 and idUsuarioDestino = 48)
+    
+    @Query("SELECT c " +
+        "FROM Chat c WHERE c.idOrigen = ?1 and c.fecha = (SELECT max(fecha)) FROM Chat WHERE idOrigen = ?1)" )
+        Chat getUserChatsFilter (Integer id);
+    @Query("SELECT c FROM Chat c Where c.idDestino = ?1 or idOrigen = ?1")
+    List<Chat> getUsersConversation(Integer id1);
+
+
 }

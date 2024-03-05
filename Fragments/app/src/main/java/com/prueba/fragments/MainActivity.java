@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentMain = new Profile();
                 break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, fragmentMain)
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayoutMain, fragmentMain)
                 .addToBackStack(null)
                 .commit();
         TabLayout.Tab tab = tabLayout.getTabAt(fragmentNum);
