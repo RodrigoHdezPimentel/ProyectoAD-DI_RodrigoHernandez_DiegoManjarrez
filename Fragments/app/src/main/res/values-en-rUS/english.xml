@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Foroex</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="userName"> User Name</string>
-    <string name="password"> Password</string>
+    <string name="usuario">User Name</string>
+    <string name="password">Password</string>
+    <string name="genero">Gender</string>
+    <string name="edad">Age</string>
+    <string name="correo">Email</string>
+    <string name="cancelar">Cancel</string>
+    <string name="confirmar">Confirm</string>
+    <string name="resgistro_mensaje">Select the topics you like</string>
 
     <string-array name="Gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
-
 
 </resources>

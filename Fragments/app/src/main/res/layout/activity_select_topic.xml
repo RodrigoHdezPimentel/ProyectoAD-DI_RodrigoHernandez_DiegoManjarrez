@@ -89,7 +89,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/caviardreams"
-                android:text="Seleccione los temas que te gustan" />
+                android:text="@string/resgistro_mensaje" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupThemes"

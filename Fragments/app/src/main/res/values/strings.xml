@@ -2,13 +2,20 @@
     <string name="app_name">Foroex</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="userName"> User Name</string>
-    <string name="password"> Password</string>
+    <string name="usuario" translatable="false"></string>
+    <string name="password" translatable="false"></string>
+    <string name="genero" translatable="false"></string>
+    <string name="edad" translatable="false"></string>
+    <string name="correo" translatable="false"></string>
+    <string name="cancelar" translatable="false"></string>
+    <string name="confirmar" translatable="false"></string>
+    <string name="resgistro_mensaje" translatable="false"></string>
 
     <string-array name="Gender">
-        <item>Male</item>
-        <item>Female</item>
+        <item></item>
+        <item></item>
     </string-array>
+
 
 
 </resources>
