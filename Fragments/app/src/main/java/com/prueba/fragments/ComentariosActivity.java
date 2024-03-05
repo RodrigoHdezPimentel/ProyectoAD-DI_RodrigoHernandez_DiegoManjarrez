@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,11 +57,12 @@ ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_comentarios);
+
         Intent getId = getIntent();
         idP = getId.getIntExtra("id", 0);
         idU = getId.getIntExtra("idUser", 0);
+
         userName = findViewById(R.id.UserName);
         numLikes = findViewById(R.id.numLikes);
         numComentarios = findViewById(R.id.numComentarios);
@@ -76,7 +78,19 @@ ImageView back;
         home = findViewById(R.id.home);
         send = findViewById(R.id.sendComm);
 
+        contenidoTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int currentHeight = contenidoTv.getLayoutParams().height;
 
+                if (currentHeight == ViewGroup.LayoutParams.WRAP_CONTENT) {
+                    contenidoTv.getLayoutParams().height = 160;
+                } else {
+                    contenidoTv.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                }
+                contenidoTv.requestLayout();
+            }
+        });
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +151,7 @@ ImageView back;
             public void onClick(View view) {
                 Intent toUserProfile = new Intent(ComentariosActivity.this, userProfileView.class);
                 toUserProfile.putExtra("idUser", idU);
+                toUserProfile.putExtra("id", idP);
                 startActivity(toUserProfile);
             }
         });

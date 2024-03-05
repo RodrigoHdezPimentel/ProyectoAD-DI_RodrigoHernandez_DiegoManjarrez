@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
         Intent getFragment = getIntent();
-        int fragmentNum = getFragment.getIntExtra("numFrgMain", 0);
 
-        /*Fragment fragmentMain = null;
+        int fragmentNum = getFragment.getIntExtra("numFrgMain", 0);
+        Fragment fragmentMain = null;
         switch (fragmentNum){
             case 0:
                 fragmentMain = new Home();
@@ -57,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, fragmentMain)
                 .addToBackStack(null)
-                .commit();*/
+                .commit();
+        TabLayout.Tab tab = tabLayout.getTabAt(fragmentNum);
+        tab.select();
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
