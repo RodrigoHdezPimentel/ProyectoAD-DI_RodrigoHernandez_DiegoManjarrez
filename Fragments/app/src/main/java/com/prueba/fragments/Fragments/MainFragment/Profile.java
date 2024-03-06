@@ -53,18 +53,27 @@ public class Profile extends Fragment {
     TextView userName;
     TextView descripcion;
     ImageView iconProfile;
+    //por default va a ser el usuario resgitrado
+    public static Usuario perfil;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        //ecibir el objeto Usuario desde otras fragments o activitis
+        Bundle args = getArguments();
+        if (args != null) {
+            perfil = (Usuario) args.getSerializable("perfil");
+        }else {
+            perfil = Usuario.getInstance();
+        }
+
         userName = view.findViewById(R.id.UserNameProfile);
         iconProfile = view.findViewById(R.id.iconFragmentProfile);
         descripcion = view.findViewById(R.id.descripcionProfile);
-        userName.setText(Usuario.getInstance().getName());
-        descripcion.setText(Usuario.getInstance().getDescripcion());
+        userName.setText(perfil.getName());
+        descripcion.setText(perfil.getDescripcion());
 
         iconAdd();
         Button editProfile = view.findViewById(R.id.updateProfile);

@@ -1,6 +1,8 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private static Usuario instance;
     private Integer idusuario;
     private Integer year;

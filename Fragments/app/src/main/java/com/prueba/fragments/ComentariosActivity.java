@@ -3,6 +3,7 @@ package com.prueba.fragments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,12 +21,14 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -157,6 +160,7 @@ ImageView back;
         });
 
         cargarPublicacion(idP);
+        visitarPerfil();
     }
     public void cargarPublicacion(Integer idComent){
         publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
@@ -270,5 +274,22 @@ ImageView back;
         }else {
             iconUserPublish.setImageResource(R.drawable.ic_app);
         }
+    }
+    //visitar el perfil del usuario cuando le das click a la foto de su perfil en la publicacion
+    public void visitarPerfil(){
+        iconUserPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewProfile = new Intent(ComentariosActivity.this, MainActivity.class);
+                viewProfile.putExtra("numFrgMain", 3);
+               //Le pasamos por argumento el objeto
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("perfil", newPublication.getUsuario());
+                viewProfile.putExtra("perfilBundle", bundle);
+
+                startActivity(viewProfile);
+            }
+        });
+
     }
 }
