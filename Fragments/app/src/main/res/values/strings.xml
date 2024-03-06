@@ -10,6 +10,10 @@
     <string name="cancelar" translatable="false"></string>
     <string name="confirmar" translatable="false"></string>
     <string name="resgistro_mensaje" translatable="false"></string>
+    <string name="iniciar_sesion" translatable="false"></string>
+    <string name="resgistrarse" translatable="false"></string>
+
+
 
     <string-array name="Gender">
         <item></item>

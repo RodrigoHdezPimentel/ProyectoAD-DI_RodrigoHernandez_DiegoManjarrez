@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Foroex</string>
-    <string name="usuario">User Name</string>
+    <string name="usuario">User name</string>
     <string name="password">Password</string>
     <string name="genero">Gender</string>
     <string name="edad">Age</string>
@@ -9,10 +9,13 @@
     <string name="cancelar">Cancel</string>
     <string name="confirmar">Confirm</string>
     <string name="resgistro_mensaje">Select the topics you like</string>
+    <string name="iniciar_sesion" >Log in</string>
+    <string name="resgistrarse" >Sign up</string>
 
     <string-array name="Gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
 
 </resources>

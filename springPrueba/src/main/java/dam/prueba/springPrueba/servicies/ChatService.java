@@ -32,9 +32,9 @@ public class ChatService {
     public List<Chat> getUserChats(Integer id){
         return chatRepository.getUserChats(id);
     }
-    public Chat getUserChatsFilter(Integer id){
-        return chatRepository.getUserChatsFilter(id);
-    }
+//    public Chat getUserChatsFilter(Integer id){
+//        return chatRepository.getUserChatsFilter(id);
+//    }
 
     public  List<Chat> getUsersConversation(Integer id1){
         return  chatRepository.getUsersConversation(id1);

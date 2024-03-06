@@ -5,14 +5,17 @@
     <string name="password">Contraseña</string>
     <string name="genero">Genero</string>
     <string name="edad">Edad</string>
-    <string name="correo">Correo Electronico</string>
+    <string name="correo">Correo electrónico</string>
     <string name="cancelar">Cancelar</string>
     <string name="confirmar">Confirmar</string>
     <string name="resgistro_mensaje">Seleccione los temas que te gustan</string>
+    <string name="iniciar_sesion" >Iniciar sesión</string>
+    <string name="resgistrarse" >Resgistrarse</string>
 
     <string-array name="Gender">
         <item>Hombre</item>
         <item>Mujer</item>
     </string-array>
+
 
 </resources>

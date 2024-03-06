@@ -27,9 +27,9 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
 //    SELECT * FROM `chat` WHERE idUsuarioOrigen = 1 and idUsuarioDestino = 48 and
 //            fecha = (SELECT max(fecha) from chat WHERE idUsuarioOrigen = 1 and idUsuarioDestino = 48)
     
-    @Query("SELECT c " +
-        "FROM Chat c WHERE c.idOrigen = ?1 and c.fecha = (SELECT max(fecha)) FROM Chat WHERE idOrigen = ?1)" )
-        Chat getUserChatsFilter (Integer id);
+//    @Query("SELECT c " +
+//        "FROM Chat c WHERE c.idOrigen = ?1 and c.fecha = (SELECT max(fecha)) FROM Chat WHERE idOrigen = ?1)" )
+//        Chat getUserChatsFilter (Integer id);
     @Query("SELECT c FROM Chat c Where c.idDestino = ?1 or idOrigen = ?1")
     List<Chat> getUsersConversation(Integer id1);
 
