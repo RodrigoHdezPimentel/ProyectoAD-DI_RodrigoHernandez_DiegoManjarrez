@@ -64,9 +64,9 @@
 
     <Button
         android:id="@+id/confirmarButtoneEditTheme"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Confirmar"
+        android:text="@string/boton_confirmar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cancellButtonEditTheme"
         app:layout_constraintHorizontal_bias="0.5"
@@ -76,9 +76,9 @@
     <Button
         android:id="@+id/cancellButtonEditTheme"
         style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Cancelar"
+        android:text="@string/boton_cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline27"
         app:layout_constraintHorizontal_bias="0.5"

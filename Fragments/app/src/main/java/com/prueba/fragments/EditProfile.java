@@ -262,6 +262,7 @@ public class EditProfile extends AppCompatActivity {
             idTemaChipEncontrado=false;
             View child = chipGroup.getChildAt(i);
             if(((Chip) child).isChecked()) {
+
                 //se hace la comparacion de los chips que están seleccionados con
                 //los idTemas que ya está dentro de la tabla del user
                 for (int ut = 0; ut < UsuarioTemasIds.size(); ut++) {

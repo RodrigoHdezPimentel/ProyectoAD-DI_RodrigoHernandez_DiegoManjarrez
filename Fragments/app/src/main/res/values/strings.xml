@@ -7,11 +7,25 @@
     <string name="genero" translatable="false"></string>
     <string name="edad" translatable="false"></string>
     <string name="correo" translatable="false"></string>
-    <string name="cancelar" translatable="false"></string>
-    <string name="confirmar" translatable="false"></string>
+    <string name="boton_cancelar" translatable="false"></string>
+    <string name="boton_confirmar" translatable="false"></string>
     <string name="resgistro_mensaje" translatable="false"></string>
-    <string name="iniciar_sesion" translatable="false"></string>
-    <string name="resgistrarse" translatable="false"></string>
+    <string name="boton_iniciar_sesion" translatable="false"></string>
+    <string name="boton_resgistrarse" translatable="false"></string>
+
+    <string name="mis_temas" translatable="false"></string>
+    <string name="tendencias" translatable="false"></string>
+    <string name="titulo" translatable="false"></string>
+    <string name="contenido" translatable="false"></string>
+    <string name="boton_publicar" translatable="false"></string>
+    <string name="boton_editar_perfil" translatable="false"></string>
+    <string name="mis_publicaciones" translatable="false"></string>
+    <string name="mis_likes" translatable="false"></string>
+    <string name="boton_editar_temas" translatable="false"></string>
+    <string name="boton_eliminar_cuenta" translatable="false"></string>
+
+
+
 
 
 
