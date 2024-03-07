@@ -3,12 +3,14 @@ package com.prueba.fragments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -43,6 +45,7 @@ ImageView back;
     int idP;
     int idU;
     ImageView iconUserPublish;
+    ImageView iconLike;
     Publicacion newPublication;
     TextView contenidoTv;
     TextView numComentarios;
@@ -57,6 +60,7 @@ ImageView back;
     RecyclerView recyclerView;
     PublicacionInterface publicacionInterface;
     ConstraintLayout constraintLayout;
+    boolean liked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +80,27 @@ ImageView back;
         constraintLayout = findViewById(R.id.constraintLayout);
         CommnetInput = findViewById(R.id.CommnetInput);
         iconUserPublish = findViewById(R.id.iconUserPublish);
+        iconLike = findViewById(R.id.liekButton);
         commentBut = findViewById(R.id.commentButt);
         back = findViewById(R.id.arrow);
         home = findViewById(R.id.home);
         send = findViewById(R.id.sendComm);
+
+        iconLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(liked){
+                    numLikes.setText((newPublication.getNumlikes()+1) + "");
+                    iconLike.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.seed), PorterDuff.Mode.MULTIPLY);
+                    liked = false;
+                }else {
+                    numLikes.setText(newPublication.getNumlikes()+"");
+                    iconLike.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.black), PorterDuff.Mode.MULTIPLY);
+                    liked = true;
+                }
+
+            }
+        });
 
         contenidoTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,15 +170,6 @@ ImageView back;
             }
         });
 
-        iconUserPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent toUserProfile = new Intent(ComentariosActivity.this, userProfileView.class);
-                toUserProfile.putExtra("idUser", idU);
-                toUserProfile.putExtra("id", idP);
-                startActivity(toUserProfile);
-            }
-        });
 
         cargarPublicacion(idP);
         visitarPerfil();
@@ -211,21 +223,7 @@ ImageView back;
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) Contenidos.getLayoutManager();
 
-/*               //HAY UN FALLO AQUÏ
-                Contenidos.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
 
-                         //Check if the RecyclerView has reached the top
-                        if (layoutManager.findFirstVisibleItemPosition() == 0) {
-                            // The RecyclerView has reached the top
-                            contenidoTv.setVisibility(View.VISIBLE);
-                        }else{
-                            contenidoTv.setVisibility(View.GONE);
-                        }
-                    }
-                });*/
             }
             @Override
             public void onFailure(Call<List<Publicacion>> call, Throwable t) {
@@ -268,10 +266,10 @@ ImageView back;
         if(gender.equals("Female")){
 
             iconUserPublish.setImageResource(R.drawable.ic_mujer);
-            ViewGroup.LayoutParams layoutParams = iconUserPublish.getLayoutParams();
-            layoutParams.height = 200; // Altura
-            layoutParams.width = 200; // Anchura
-            iconUserPublish.setLayoutParams(layoutParams);
+//            ViewGroup.LayoutParams layoutParams = iconUserPublish.getLayoutParams();
+//            layoutParams.height = 200; // Altura
+//            layoutParams.width = 200; // Anchura
+//            iconUserPublish.setLayoutParams(layoutParams);
 
         } else if (gender.equals("Male")) {
             iconUserPublish.setImageResource(R.drawable.ic_hombre);

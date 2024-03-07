@@ -7,7 +7,16 @@
     tools:context=".Fragments.MainFragment.Profile"
     android:background="@color/md_theme_light_primary"
     >
-
+   <de.hdodenhof.circleimageview.CircleImageView
+       android:id="@+id/toMyProfile"
+       android:layout_width="50dp"
+       android:layout_height="50dp"
+       android:src="@drawable/ic_hombre"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:civ_border_width="1dp"
+       app:civ_border_color="@color/black"
+       tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -61,7 +70,7 @@
 
     </FrameLayout>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iconFragmentProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -71,7 +80,9 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/black"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

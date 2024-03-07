@@ -25,6 +25,7 @@ public class Profile extends Fragment {
     FrameLayout frameLayout;
     TabLayout tabLayout;
 
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -54,6 +55,7 @@ public class Profile extends Fragment {
     TextView userName;
     TextView descripcion;
     ImageView iconProfile;
+    ImageView iconMyProfile;
     boolean viewUser;
     Button editProfile;
     //por default va a ser el usuario resgitrado
@@ -68,11 +70,13 @@ public class Profile extends Fragment {
         editProfile = view.findViewById(R.id.updateProfile);
         userName = view.findViewById(R.id.UserNameProfile);
         iconProfile = view.findViewById(R.id.iconFragmentProfile);
+        iconMyProfile = view.findViewById(R.id.toMyProfile);
         descripcion = view.findViewById(R.id.descripcionProfile);
-
 
         cargarPerfil();
         iconAdd();
+        toMyProfile();
+
         userName.setText(perfil.getName());
         descripcion.setText(perfil.getDescripcion());
 
@@ -144,6 +148,18 @@ public class Profile extends Fragment {
             editProfile.setVisibility(View.INVISIBLE);
         }else {
             perfil = Usuario.getInstance();
+            iconMyProfile.setVisibility(View.INVISIBLE);
         }
+    }
+    //Metodo para ir nuestro perfil
+    public void toMyProfile(){
+        iconMyProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toMain = new Intent(getContext(), MainActivity.class);
+                toMain.putExtra("numFrgMain", 3);
+                startActivity(toMain);
+            }
+        });
     }
 }

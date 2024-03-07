@@ -15,9 +15,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".userProfileView"
-            android:exported="false" />
-        <activity
             android:name=".ComentariosActivity"
             android:exported="false" />
         <activity
