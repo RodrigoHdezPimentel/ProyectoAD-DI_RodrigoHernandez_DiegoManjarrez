@@ -33,7 +33,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SElECT c FROM Usuario c WHERE c.name = ?1 AND c.pass = ?2")
     Optional<Usuario> getUserRegister(String name, String pass);
 
+//verficficacion si el user ya le dio like a una publicaion en concreto
 
-
+    @Query("SElECT COUNT (l) FROM Like l INNER JOIN Usuario u ON u.idusuario = l.idUsuario WHERE u.idusuario = ?1 AND l.idPublicacion = ?2")
+    Integer userLikedPublish(Integer idU, Integer idP);
 
 }

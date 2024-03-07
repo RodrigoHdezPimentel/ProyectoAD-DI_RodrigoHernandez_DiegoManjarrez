@@ -26,6 +26,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
@@ -58,9 +59,13 @@ ImageView back;
     FloatingActionButton commentBut;
     LinearLayout commentInputField;
     RecyclerView recyclerView;
+
     PublicacionInterface publicacionInterface;
+    UsuarioInterface usuarioInterface;
+
     ConstraintLayout constraintLayout;
     boolean liked;
+    int numLikePublish;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,17 +91,23 @@ ImageView back;
         home = findViewById(R.id.home);
         send = findViewById(R.id.sendComm);
 
+        //Para dar like o quitar el like
         iconLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(liked){
-                    numLikes.setText((newPublication.getNumlikes()+1) + "");
-                    iconLike.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.seed), PorterDuff.Mode.MULTIPLY);
+                    numLikePublish --;
+                    numLikes.setText(numLikePublish+"");
+                    iconLike.getDrawable().setColorFilter(ContextCompat.getColor(ComentariosActivity.this, R.color.black), PorterDuff.Mode.MULTIPLY);
                     liked = false;
+                    MainActivity.quitarLike(newPublication.getId());
                 }else {
-                    numLikes.setText(newPublication.getNumlikes()+"");
-                    iconLike.getDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.black), PorterDuff.Mode.MULTIPLY);
+                    numLikePublish ++;
+                    numLikes.setText(numLikePublish + "");
+                    iconLike.getDrawable().setColorFilter(ContextCompat.getColor(ComentariosActivity.this, R.color.md_theme_light_primary), PorterDuff.Mode.MULTIPLY);
                     liked = true;
+                    Toast.makeText(ComentariosActivity.this, "primer click", Toast.LENGTH_SHORT).show();
+                    MainActivity.darLike(newPublication.getId());
                 }
 
             }
@@ -192,10 +203,15 @@ ImageView back;
                 contenidoTv.setMovementMethod(new ScrollingMovementMethod());
                 contenidoTv.setText(newPublication.getContenido());
                 numComentarios.setText(newPublication.getComentarios().length+"");
-                numLikes.setText(newPublication.getNumlikes()+"");
+                numLikePublish = newPublication.getNumlikes();
+                numLikes.setText(numLikePublish+"");
+
                 //cargar icon
                 iconAdd(newPublication.getUsuario().getGenero());
                 getComentarios(newPublication.getId());
+
+                //cargamos el like de la publicacion
+                cargarLike();
             }
             @Override
             public void onFailure(Call<Publicacion> call, Throwable t) {
@@ -293,6 +309,30 @@ ImageView back;
                 startActivity(viewProfile);
             }
         });
+
+    }
+    //para colocar el color del like cuando este ya está en la tabla likes
+    public void cargarLike(){
+    usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+
+    Call <Boolean> call = usuarioInterface.userLikedPublish(Usuario.getInstance().getId(), newPublication.getId());
+    call.enqueue(new Callback<Boolean>() {
+        @Override
+        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            if(!response.isSuccessful()){
+                return;
+            }
+            if(response.body()){
+                iconLike.getDrawable().setColorFilter(ContextCompat.getColor(ComentariosActivity.this, R.color.md_theme_light_primary), PorterDuff.Mode.MULTIPLY);
+                liked=true;
+            }
+        }
+
+        @Override
+        public void onFailure(Call<Boolean> call, Throwable t) {
+
+        }
+    });
 
     }
 }
