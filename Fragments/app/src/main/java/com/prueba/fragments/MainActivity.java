@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 3:
                 fragmentMain = new Profile();
+                //Obtenemos el objeto que se envió para ver el perfil.
+                fragmentMain.setArguments(getIntent().getBundleExtra("perfilBundle"));
                 break;
         }
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayoutMain, fragmentMain)

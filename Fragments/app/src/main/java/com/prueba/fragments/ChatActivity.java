@@ -147,10 +147,10 @@ public class ChatActivity extends AppCompatActivity {
     public void iconAdd(String gender){
         if (gender.equals("Female")) {
             iconUserChat.setImageResource(R.drawable.ic_mujer);
-            ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();
-            layoutParams.height = 100; // Altura
-            layoutParams.width = 100; // Anchura
-            iconUserChat.setLayoutParams(layoutParams);
+//            ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();
+//            layoutParams.height = 100; // Altura
+//            layoutParams.width = 100; // Anchura
+//            iconUserChat.setLayoutParams(layoutParams);
         } else if (gender.equals("Male")) {
             iconUserChat.setImageResource(R.drawable.ic_hombre);
         } else {

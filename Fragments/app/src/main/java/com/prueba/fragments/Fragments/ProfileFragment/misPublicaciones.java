@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
@@ -72,14 +73,14 @@ public class misPublicaciones extends Fragment {
         //La barra de progreso
         progressBar = view.findViewById(R.id.progressBar);
 
-        getAllPubliacionFromUser(Usuario.getInstance().getId());
+        getAllPubliacionFromUser();
         return view;
     }
 
-    private void getAllPubliacionFromUser(int id) {
+    private void getAllPubliacionFromUser() {
 
         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Usuario.getInstance().getId());
+        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Profile.perfil.getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {

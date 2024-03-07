@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,12 +18,14 @@ import com.google.android.material.tabs.TabLayout;
 import com.prueba.fragments.EditProfile;
 import com.prueba.fragments.Fragments.ProfileFragment.misLikes;
 import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 public class Profile extends Fragment {
     FrameLayout frameLayout;
     TabLayout tabLayout;
+
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -53,28 +56,42 @@ public class Profile extends Fragment {
     TextView userName;
     TextView descripcion;
     ImageView iconProfile;
+    ImageView iconMyProfile;
+    boolean viewUser;
+    Button editProfile;
+    //por default va a ser el usuario resgitrado
+    public static Usuario perfil;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        editProfile = view.findViewById(R.id.updateProfile);
         userName = view.findViewById(R.id.UserNameProfile);
         iconProfile = view.findViewById(R.id.iconFragmentProfile);
+        iconMyProfile = view.findViewById(R.id.toMyProfile);
         descripcion = view.findViewById(R.id.descripcionProfile);
-        userName.setText(Usuario.getInstance().getName());
-        descripcion.setText(Usuario.getInstance().getDescripcion());
 
+        cargarPerfil();
         iconAdd();
-        Button editProfile = view.findViewById(R.id.updateProfile);
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent toEditProfile = new Intent(getActivity(), EditProfile.class);
-                startActivity(toEditProfile);
-            }
-        });
+        toMyProfile();
+
+        userName.setText(perfil.getName());
+        descripcion.setText(perfil.getDescripcion());
+
+        if(!viewUser){
+
+            editProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent toEditProfile = new Intent(getActivity(), EditProfile.class);
+                    startActivity(toEditProfile);
+                }
+            });
+        }
+
 
         frameLayout = (FrameLayout) view.findViewById(R.id.frameLayoutProfile);
         tabLayout = (TabLayout) view.findViewById(R.id.ProfileFragmentManager);
@@ -115,12 +132,35 @@ public class Profile extends Fragment {
     }
 
     public void iconAdd(){
-        if(Usuario.getInstance().getGenero().equals("Female")){
+        if(Profile.perfil.getGenero().equals("Female")){
             iconProfile.setImageResource(R.drawable.ic_mujer);
-        } else if (Usuario.getInstance().getGenero().equals("Male")) {
+        } else if (Profile.perfil.getGenero().equals("Male")) {
             iconProfile.setImageResource(R.drawable.ic_hombre);
         }else {
             iconProfile.setImageResource(R.drawable.ic_app);
         }
+    }
+    public void cargarPerfil(){
+        //ecibir el objeto Usuario desde otras fragments o activitis
+        Bundle args = getArguments();
+        if (args != null) {
+            perfil = (Usuario) args.getSerializable("perfil");
+            viewUser = true;
+            editProfile.setVisibility(View.INVISIBLE);
+        }else {
+            perfil = Usuario.getInstance();
+            iconMyProfile.setVisibility(View.INVISIBLE);
+        }
+    }
+    //Metodo para ir nuestro perfil
+    public void toMyProfile(){
+        iconMyProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toMain = new Intent(getContext(), MainActivity.class);
+                toMain.putExtra("numFrgMain", 3);
+                startActivity(toMain);
+            }
+        });
     }
 }

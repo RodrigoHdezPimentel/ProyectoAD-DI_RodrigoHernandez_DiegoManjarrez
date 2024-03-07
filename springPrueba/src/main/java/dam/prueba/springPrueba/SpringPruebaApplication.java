@@ -8,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringPruebaApplication {
 
 	public static void main(String[] args) {
+		//Arrancar el hilo server chat
 		SpringApplication.run(SpringPruebaApplication.class, args);
+
 	}
 
 

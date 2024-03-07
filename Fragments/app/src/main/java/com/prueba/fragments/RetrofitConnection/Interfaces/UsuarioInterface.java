@@ -39,7 +39,8 @@ public interface UsuarioInterface {
     @PUT("update")
     Call<Usuario> update(@Body Usuario user);
 
-
+    @GET("userLikedPublish/{idU}/{idP}")
+    Call <Boolean> userLikedPublish(@Path("idU") Integer idU, @Path("idP") Integer idP);
     @DELETE("deleteById/{id}")
     Call<Boolean> delete(@Path("id") Integer id);
 

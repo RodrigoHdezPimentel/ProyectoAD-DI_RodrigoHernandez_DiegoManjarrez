@@ -8,6 +8,18 @@
     android:background="@color/md_theme_light_primary"
     >
 
+ <de.hdodenhof.circleimageview.CircleImageView
+     android:id="@+id/toMyProfile"
+     android:layout_width="50dp"
+     android:layout_height="50dp"
+     android:src="@drawable/ic_hombre"
+     android:layout_marginTop="5dp"
+     android:layout_marginLeft="5dp"
+     app:civ_border_color="@color/black"
+     app:civ_border_width="1dp"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -61,17 +73,34 @@
 
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/iconFragmentProfile"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_hombre"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+ <LinearLayout
+     android:id="@+id/linearLayout4"
+     android:layout_width="0dp"
+     android:layout_height="0dp"
+     android:orientation="horizontal"
+     app:layout_constraintBottom_toTopOf="@+id/guideline2"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.497"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="@+id/guideline32"
+     app:layout_constraintVertical_bias="0.493">
+
+
+ </LinearLayout>
+
+ <de.hdodenhof.circleimageview.CircleImageView
+     android:id="@+id/iconFragmentProfile"
+     android:layout_width="0dp"
+     android:layout_height="0dp"
+     android:layout_marginLeft="20dp"
+     android:src="@drawable/ic_hombre"
+     app:civ_border_color="@color/black"
+     app:civ_border_width="1dp"
+     app:layout_constraintBottom_toTopOf="@+id/guideline2"
+     app:layout_constraintEnd_toStartOf="@+id/guideline3"
+
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="@+id/guideline32" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -80,23 +109,23 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.3" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
+ <androidx.constraintlayout.widget.Guideline
+     android:id="@+id/guideline5"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:orientation="horizontal"
+     app:layout_constraintGuide_percent="0.26" />
 
-    <TextView
-        android:id="@+id/UserNameProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User Name"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+ <TextView
+     android:id="@+id/UserNameProfile"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="User Name"
+     android:textColor="@color/white"
+     app:layout_constraintBottom_toTopOf="@+id/guideline2"
+     app:layout_constraintEnd_toStartOf="@+id/guideline3"
+     app:layout_constraintStart_toStartOf="@+id/iconFragmentProfile"
+     app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <TextView
         android:id="@+id/publishTextLogo"
@@ -138,5 +167,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/updateProfile" />
+
+ <androidx.constraintlayout.widget.Guideline
+     android:id="@+id/guideline32"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:orientation="horizontal"
+     app:layout_constraintGuide_percent="0.08" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
