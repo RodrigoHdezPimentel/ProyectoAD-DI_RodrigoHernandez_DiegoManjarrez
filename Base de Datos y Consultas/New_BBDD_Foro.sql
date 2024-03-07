@@ -5,21 +5,25 @@ DROP TABLE IF EXISTS Usuarios;
 DROP TABLE IF EXISTS Likes;
 DROP TABLE IF EXISTS Publicaciones;
 DROP TABLE IF EXISTS Temas;
-DROP TABLE IF EXISTS Chats;
 
 
 CREATE TABLE Usuarios(
 	idUsuario INTEGER PRIMARY KEY AUTO_INCREMENT,
     anioNacimiento INTEGER,
 	Us_Nombre VARCHAR(20),
-    Us_Genero VARCHAR(20),
+    Us_Genero boolean,
     Us_Descripcion VARCHAR(200),
     Us_Mail VARCHAR(40),
     Us_Contrasena VARCHAR(20)    
 );
-
-
 CREATE TABLE Grupos(
+	idGrupo INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre varchar(15),
+    foto varchar(100),
+    codigo varchar(10)
+);
+CREATE TABLE Grupo_Usuario(
+	idGrupoUsuario INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	idGrupo INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
     
@@ -27,24 +31,20 @@ CREATE TABLE Grupos(
 		REFERENCES Usuarios (idUsuario)
 		ON UPDATE CASCADE
     	ON DELETE CASCADE,
-	FOREIGN KEY (idUsuarioOrigen)
-		REFERENCES Usuarios (idUsuario)
-		ON UPDATE CASCADE
-    	ON DELETE CASCADE
-);
-CREATE TABLE Conversaiones(
-	idConversacion INTEGER NOT NULL,
-	idGrupo INTEGER NOT NULL,
-    idUsuario INTEGER NOT NULL,
-    fecha DATE,
-    contenido VARCHAR(300),
-    
 	FOREIGN KEY (idGrupo)
 		REFERENCES Grupos (idGrupo)
 		ON UPDATE CASCADE
-    	ON DELETE CASCADE,
-	FOREIGN KEY (idUsuario)
-		REFERENCES Usuarios (idUsuario)
+    	ON DELETE CASCADE
+);
+
+CREATE TABLE Conversaciones(
+	idConversacion INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	idGrupoUsuario INTEGER NOT NULL,
+    fecha DATETIME,
+    contenido VARCHAR(300),
+   
+	FOREIGN KEY (idGrupoUsuario)
+		REFERENCES Grupo_Usuario (idGrupoUsuario)
 		ON UPDATE CASCADE
     	ON DELETE CASCADE
 );
@@ -86,6 +86,7 @@ CREATE TABLE Likes(
 	idLike INTEGER PRIMARY KEY AUTO_INCREMENT,
 	idPublicacion INTEGER NOT NULL,
 	idUsuario INTEGER NOT NULL,
+    
 	FOREIGN KEY (idPublicacion)
 		REFERENCES Publicaciones (idPublicacion)
 		ON UPDATE CASCADE
@@ -109,3 +110,5 @@ CREATE TABLE Usuario_Tema(
 		ON UPDATE CASCADE
     	ON DELETE CASCADE
 );
+
+select * from Usuarios;
