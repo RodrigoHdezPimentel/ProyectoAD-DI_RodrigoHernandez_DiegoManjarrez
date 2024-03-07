@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.prueba.fragments.EditProfile;
 import com.prueba.fragments.Fragments.ProfileFragment.misLikes;
 import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
@@ -53,6 +54,8 @@ public class Profile extends Fragment {
     TextView userName;
     TextView descripcion;
     ImageView iconProfile;
+    boolean viewUser;
+    Button editProfile;
     //por default va a ser el usuario resgitrado
     public static Usuario perfil;
     @Override
@@ -61,29 +64,29 @@ public class Profile extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        //ecibir el objeto Usuario desde otras fragments o activitis
-        Bundle args = getArguments();
-        if (args != null) {
-            perfil = (Usuario) args.getSerializable("perfil");
-        }else {
-            perfil = Usuario.getInstance();
-        }
 
+        editProfile = view.findViewById(R.id.updateProfile);
         userName = view.findViewById(R.id.UserNameProfile);
         iconProfile = view.findViewById(R.id.iconFragmentProfile);
         descripcion = view.findViewById(R.id.descripcionProfile);
+
+
+        cargarPerfil();
+        iconAdd();
         userName.setText(perfil.getName());
         descripcion.setText(perfil.getDescripcion());
 
-        iconAdd();
-        Button editProfile = view.findViewById(R.id.updateProfile);
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent toEditProfile = new Intent(getActivity(), EditProfile.class);
-                startActivity(toEditProfile);
-            }
-        });
+        if(!viewUser){
+
+            editProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent toEditProfile = new Intent(getActivity(), EditProfile.class);
+                    startActivity(toEditProfile);
+                }
+            });
+        }
+
 
         frameLayout = (FrameLayout) view.findViewById(R.id.frameLayoutProfile);
         tabLayout = (TabLayout) view.findViewById(R.id.ProfileFragmentManager);
@@ -124,12 +127,23 @@ public class Profile extends Fragment {
     }
 
     public void iconAdd(){
-        if(Usuario.getInstance().getGenero().equals("Female")){
+        if(Profile.perfil.getGenero().equals("Female")){
             iconProfile.setImageResource(R.drawable.ic_mujer);
-        } else if (Usuario.getInstance().getGenero().equals("Male")) {
+        } else if (Profile.perfil.getGenero().equals("Male")) {
             iconProfile.setImageResource(R.drawable.ic_hombre);
         }else {
             iconProfile.setImageResource(R.drawable.ic_app);
+        }
+    }
+    public void cargarPerfil(){
+        //ecibir el objeto Usuario desde otras fragments o activitis
+        Bundle args = getArguments();
+        if (args != null) {
+            perfil = (Usuario) args.getSerializable("perfil");
+            viewUser = true;
+            editProfile.setVisibility(View.INVISIBLE);
+        }else {
+            perfil = Usuario.getInstance();
         }
     }
 }
