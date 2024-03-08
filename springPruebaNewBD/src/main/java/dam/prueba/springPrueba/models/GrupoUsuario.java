@@ -13,9 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class GrupoUsuario {
+    @Id
+    @Column(name = "idgrupousuario")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idgrupousuario;
 
-    @EmbeddedId
-    //@Column(name = "idgrupousuario")
-    private GrupoUsuario id;
+    private GrupoUsuarioFK grupoUsuarioFK;
+
+
 
 }

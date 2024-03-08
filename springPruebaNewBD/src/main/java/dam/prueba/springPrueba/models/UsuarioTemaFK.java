@@ -13,9 +13,9 @@ import java.io.Serializable;
 @Embeddable
 public class UsuarioTemaFK implements Serializable {
     @Column(name = "idusuario")
-    private int idUsuario;
+    private Integer idUsuario;
 
     @Column(name = "idtema")
-    private  int idTema;
+    private  Integer idTema;
 
 }

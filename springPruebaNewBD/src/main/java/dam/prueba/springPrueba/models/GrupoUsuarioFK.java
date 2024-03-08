@@ -6,31 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
 public class GrupoUsuarioFK {
-    @Column(name = "idgrupousuario")
-    private Integer idgrupousuario;
 
-    @Column(name = "idusuario")
-    private Integer idUsuario;
-
-    @Column(name = "idgrupo")
-    private  Integer idgrupo;
-
-
-    /*@OneToOne(targetEntity = GrupoUsuarioFK.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "idusuario")
-    @PrimaryKeyJoinColumn
-    private Usuario usuario;
+    private Integer idusuario;
 
-
-    @OneToOne(targetEntity = GrupoUsuarioFK.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "idgrupo")
-    @PrimaryKeyJoinColumn
-    private  Grupo grupo;*/
-
+    private Integer idgrupo;
 
 }

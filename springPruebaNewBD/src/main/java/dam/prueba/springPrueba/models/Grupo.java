@@ -17,10 +17,13 @@ public class Grupo {
     @Column(name = "idgrupo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idgrupo;
+
     @Column(name = "nombre")
     private String nombre;
+
     @Column(name = "foto")
     private String foto;
+
     @Column(name = "codigo")
     private String codigo;
 }
