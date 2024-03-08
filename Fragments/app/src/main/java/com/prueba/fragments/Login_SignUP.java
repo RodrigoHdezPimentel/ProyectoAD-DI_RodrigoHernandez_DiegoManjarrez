@@ -1,5 +1,6 @@
 package com.prueba.fragments;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -18,7 +19,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.mlkit.common.model.DownloadConditions;
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.Translation;
+import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
 import com.prueba.fragments.IdiomasAdapter.LanguageItemAdapter;
 import com.prueba.fragments.Registro.Registro;
 import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
@@ -76,7 +84,9 @@ public class Login_SignUP extends AppCompatActivity {
         Usuario.getInstance();
         cargarIdioma();
 
-
+        //----------
+        pruebaTraductor();
+        //--------
 
         retrofitPublicacion = new Retrofit.Builder()
                 .baseUrl("http://" + IP_DIEGO[1] +":8086/publicacion/")
@@ -210,4 +220,36 @@ public class Login_SignUP extends AppCompatActivity {
 
     }
 
+    public void pruebaTraductor(){
+        Translator translatorIngles;
+
+        TranslatorOptions selectIngles = new TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.SPANISH)
+                .setTargetLanguage(TranslateLanguage.ENGLISH)
+                .build();
+
+        translatorIngles = Translation.getClient(selectIngles);
+
+        DownloadConditions conditions = new DownloadConditions.Builder()
+                .requireWifi()
+                .build();
+
+        translatorIngles.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                });
+
+        
+        TextView texto = findViewById(R.id.translate);
+        Button buttonTranslate = findViewById(R.id.buttonTranslate);
+        buttonTranslate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
 }
