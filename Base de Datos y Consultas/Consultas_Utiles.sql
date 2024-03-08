@@ -45,7 +45,6 @@ DELIMITER ;
 CALL _tmp_update_numLikes();
 
 
-
 select p.*, count(l.idPublicacion) as "numberLikes" 
 	from publicaciones p join likes l on p.idPublicacion = l.idPublicacion 
 		where p.numLikes != "numberLikes"
@@ -97,5 +96,13 @@ union
 select  distinct(idUsuarioOrigen) as "recibido", IdUsuarioDestino as "mandado" 
 	from Chat where IdUsuarioDestino = 1;
     
-update publicaciones set numLikes = () where idPublicacion = 1;
+/*Consultas para chats*/
+#Sacar chats de un user
+Select * from Grupos g join Grupo_Usuario gu on g.idGrupo = gu.idGrupo where gu.idUsuario = 1;
+
+#Mensajes de un grupo
+Select gu.idGrupo, c.fecha, c.contenido from conversaciones c 
+		join Grupo_Usuario gu on c.idGrupoUsuario = gu.idGrupoUsuario 
+			JOIN Usuarios u on u.idUsuario = gu.idUsuario  Group by gu.idGrupo order by gu.idGrupo;
+			JOIN Usuarios u on u.idUsuario = gu.idUsuario  Group by gu.idGrupo order by gu.idGrupo;
 
