@@ -21,7 +21,12 @@ public class GrupoUsuarioService {
     public GrupoUsuario saveGrupoUsuario(GrupoUsuario GrupoUser){
         return grupoUsuarioRepository.save(GrupoUser);
     }
+
     public List<GrupoUsuario> getUserGroups(Integer id) {
         return grupoUsuarioRepository.getUserGroups(id);
+    }
+
+    public GrupoUsuario getById(Integer id) {
+        return grupoUsuarioRepository.getById(id);
     }
 }

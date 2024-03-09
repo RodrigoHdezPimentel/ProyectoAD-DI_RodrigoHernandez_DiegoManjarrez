@@ -15,19 +15,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Models.Chat;
+import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
 
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
-    ArrayList<Chat> chatModels;
+    ArrayList<Conversacion> conversacionModels;
     int posicionMarcada = -1;
 
-    public ChatRvAdapter(Context context, ArrayList<Chat> chatModels) {
+    public ChatRvAdapter(Context context, ArrayList<Conversacion> conversacionModels) {
         this.context = context;
-        this.chatModels = chatModels;
+        this.conversacionModels = conversacionModels;
     }
 
     @NonNull
@@ -44,12 +44,11 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         holder.cv.setElevation(10f);
         holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
 
-        holder.fecha.setText(chatModels.get(position).getFecha().toString());
-        holder.Contenido.setText(chatModels.get(position).getContenido());
-        holder.idDestino = chatModels.get(position).getIdDestino();
-        holder.idOrigen = chatModels.get(position).getIdOrigen();
+        holder.fecha.setText(conversacionModels.get(position).getFecha().toString());
+        holder.Contenido.setText(conversacionModels.get(position).getContenido());
+
         //Orientar el mensaje dependiendo de su procedencia
-        if(holder.idOrigen != Usuario.getInstance().getId()){
+        if(conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().getUsuario() != Usuario.getInstance()){
             holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seed)); // Establecer el color de fondo
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(holder.constraintLayout);
@@ -59,7 +58,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     }
 
     @Override
-    public int getItemCount() {return chatModels.size();}
+    public int getItemCount() {return conversacionModels.size();}
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView fecha;

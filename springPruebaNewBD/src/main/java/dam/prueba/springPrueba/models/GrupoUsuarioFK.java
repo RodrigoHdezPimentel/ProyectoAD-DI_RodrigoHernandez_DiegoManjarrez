@@ -15,10 +15,12 @@ import java.util.List;
 @Embeddable
 public class GrupoUsuarioFK implements Serializable {
 
+    @OneToOne(targetEntity = Usuario.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "idusuario")
-    private Integer idusuario;
+    private Usuario usuario;
 
+    @OneToOne(targetEntity = Grupo.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "idgrupo")
-    private Integer idgrupo;
+    private Grupo grupo;
 
 }

@@ -3,6 +3,7 @@ package com.prueba.fragments.RecyclerViews.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Models.Chat;
+import com.prueba.fragments.RetrofitConnection.Models.Grupo;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
-    ArrayList<Chat> chatModels;
+    ArrayList<GrupoUsuario> groupModels;
     Intent toChat = null;
 
-    public ListaChatsRvAdapter(Context context, ArrayList<Chat> chatModels) {
+    public ListaChatsRvAdapter(Context context, ArrayList<GrupoUsuario> chatModels) {
         this.context = context;
-        this.chatModels = chatModels;
+        this.groupModels = chatModels;
     }
 
     @NonNull
@@ -43,35 +46,23 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         toChat = new Intent(context, ChatActivity.class);
 
-        if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
-            holder.personaChat.setText(chatModels.get(position).getUsuarioOr().getName().toString());
-            holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha().toString());
-            toChat.putExtra("idConv", chatModels.get(position).getUsuarioOr().getId());
-            iconAdd(chatModels.get(position).getUsuarioOr().getGenero(), holder);
-        }else{
-            holder.personaChat.setText(chatModels.get(position).getUsuarioDes().getName().toString());
-            holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha().toString());
-            iconAdd(chatModels.get(position).getUsuarioDes().getGenero(), holder);
-            toChat.putExtra("idConv", chatModels.get(position).getUsuarioDes().getId());
-        }
-        //holder.fechaUltimoMensaje.setText(chatModels.get(position).getFecha());
+            holder.personaChat.setText(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getNombre().toString());
+            iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
 
-        //No funciona el limite de caracteres
-        if(holder.ultimoContenido.getText().length() > 20){
-            holder.ultimoContenido.setText(chatModels.get(position).getContenido().substring(0, 17) + "...");
-        }else{
-            holder.ultimoContenido.setText(chatModels.get(position).getContenido());
-        }
+            /*NECESITAMOS ULTIMO MENSAJE PARA EL CONTENIDO Y LA FECHA*/
+
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(chatModels.get(position).getIdDestino() == Usuario.getInstance().getId()){
-                    toChat.putExtra("gender",chatModels.get(position).getUsuarioOr().getGenero());
-                    toChat.putExtra("idConv", chatModels.get(position).getUsuarioOr().getId());
-                }else{
-                    toChat.putExtra("gender",chatModels.get(position).getUsuarioDes().getGenero());
-                    toChat.putExtra("idConv", chatModels.get(position).getUsuarioDes().getId());
-                }
+                    toChat.putExtra("gender",groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero());
+                    toChat.putExtra("idGrupo", groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
+
+                    GrupoUsuario gu = groupModels.get(position);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("grupoUsuario", (Serializable) gu);
+                    toChat.putExtra("grupoUsuarioBundle", bundle);
+
+
                 context.startActivity(toChat);
             }
         });
@@ -79,7 +70,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     }
 
     @Override
-    public int getItemCount() {return chatModels.size();}
+    public int getItemCount() {return groupModels.size();}
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView personaChat;

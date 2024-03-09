@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.ListaChatsRvAdapter;
-import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ChatInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Chat;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Grupo;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
@@ -63,40 +62,40 @@ public class Chats extends Fragment {
         }
     }
     View view;
-    ArrayList<Chat> ListaChats = new ArrayList<>();
-    ChatInterface chatInterface;
+    ArrayList<GrupoUsuario> ListaGrupos = new ArrayList<>();
+    GrupoUsuarioInterface grupoUsuarioInterface;
     ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_chats, container, false);
         progressBar = view.findViewById(R.id.progressBar);
-        cargarChats();
+        cargarGrupos();
         return  view;
     }
 
-    public void cargarChats(){
-        chatInterface = Login_SignUP.retrofitChat.create(ChatInterface.class);
-        Call<List<Chat>> call = chatInterface.getUserChats(Usuario.getInstance().getId());
-        call.enqueue(new Callback<List<Chat>>() {
+    public void cargarGrupos(){
+        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<List<GrupoUsuario>> call = grupoUsuarioInterface.getUserGroups(Usuario.getInstance().getId());
+        call.enqueue(new Callback<List<GrupoUsuario>>() {
             @Override
-            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+            public void onResponse(Call<List<GrupoUsuario>> call, Response<List<GrupoUsuario>> response) {
                 if (!response.isSuccessful()) {
                     //Log.e("Response err: ", response.message());
                     return;
                 }
-                ListaChats = (ArrayList<Chat>) response.body();
+                ListaGrupos = (ArrayList<GrupoUsuario>) response.body();
                 progressBar.setVisibility(View.GONE);
 
                 // Inflate the layout for this fragment
                 RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
 
-                ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), ListaChats);
+                ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), ListaGrupos);
                 MyRecyclerView.setAdapter(adapter);
                 MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
             @Override
-            public void onFailure(Call<List<Chat>> call, Throwable t) {
+            public void onFailure(Call<List<GrupoUsuario>> call, Throwable t) {
 
             }
         });

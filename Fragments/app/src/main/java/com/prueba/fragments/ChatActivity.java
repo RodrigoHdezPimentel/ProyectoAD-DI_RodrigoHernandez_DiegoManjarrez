@@ -5,24 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ChatInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Chat;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
@@ -34,9 +28,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
-    ChatInterface chatInterface;
-    Integer idConversacion;
-    ArrayList<Chat> Conversation = new ArrayList<>();
+    ConversacionInterface conversacionInterface;
+    Integer idGrupo;
+    GrupoUsuario grupoUsuario;
+    ArrayList<Conversacion> Conversation = new ArrayList<>();
     TextInputEditText texto;
     Usuario ConverUser;
     TextView name;
@@ -46,11 +41,13 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
+        Bundle bundle = getId.getExtras();
         String gender = getIntent().getStringExtra("gender");
 
         iconUserChat = findViewById(R.id.iconChat);
         iconAdd(gender);
-        idConversacion = getId.getIntExtra("idConv",0);
+        idGrupo = getId.getIntExtra("idGrupo",0);
+        grupoUsuario = (GrupoUsuario) bundle.getSerializable("grupoUsuario");
 
         texto = findViewById(R.id.editText);
         ImageView send = findViewById(R.id.send);
@@ -67,13 +64,12 @@ public class ChatActivity extends AppCompatActivity {
                     long timeInMilliSeconds = date.getTime();
                     java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
 
-                    GuardarChat(new Chat(idConversacion, Usuario.getInstance().getId(),
-                            texto.getText().toString(), date1.toString(), ConverUser, Usuario.getInstance()));
+                    GuardarConversacion(new Conversacion(grupoUsuario, date1.toString(), texto.getText().toString()));
 
                 }
             }
         });
-        cargarChat();
+        cargarGrupo();
 
         ImageView arrow = findViewById(R.id.arrow);
         arrow.setOnClickListener(new View.OnClickListener() {
@@ -85,16 +81,16 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-    public void cargarChat(){
-        chatInterface = Login_SignUP.retrofitChat.create(ChatInterface.class);
-        Call<List<Chat>> call = chatInterface.getUsersConversation(Usuario.getInstance().getId(), idConversacion);
-        call.enqueue(new Callback<List<Chat>>() {
+    public void cargarGrupo(){
+        conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
+        call.enqueue(new Callback<List<Conversacion>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Chat>> call, @NonNull Response<List<Chat>> response) {
+            public void onResponse(@NonNull Call<List<Conversacion>> call, @NonNull Response<List<Conversacion>> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
-                Conversation = (ArrayList<Chat>) response.body();
+                Conversation = (ArrayList<Conversacion>) response.body();
 
                 RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
                 MyRecyclerView.removeAllViews();
@@ -104,43 +100,42 @@ public class ChatActivity extends AppCompatActivity {
                 MyRecyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
             }
             @Override
-            public void onFailure(Call<List<Chat>> call, Throwable t) {
+            public void onFailure(Call<List<Conversacion>> call, Throwable t) {
             }
         });
     }
 
-    public void GuardarChat(Chat chat){
-        chatInterface = Login_SignUP.retrofitChat.create(ChatInterface.class);
-        Call<Chat> call = chatInterface.create(chat);
-        call.enqueue(new Callback<Chat>() {
+    public void GuardarConversacion(Conversacion conversacion){
+        conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        Call<Conversacion> call = conversacionInterface.create(conversacion);
+        call.enqueue(new Callback<Conversacion>() {
             @Override
-            public void onResponse(@NonNull Call<Chat> call, @NonNull Response<Chat> response) {
+            public void onResponse(@NonNull Call<Conversacion> call, @NonNull Response<Conversacion> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
                 texto.setText("");
-                cargarChat();
+                cargarGrupo();
             }
             @Override
-            public void onFailure(Call<Chat> call, Throwable t) {
+            public void onFailure(Call<Conversacion> call, Throwable t) {
             }
         });
-
     }
     public void CargarUser(){
-        UsuarioInterface usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.getUserById(idConversacion);
-        call.enqueue(new Callback<Usuario>() {
+        GrupoUsuarioInterface grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<GrupoUsuario> call =  grupoUsuarioInterface.getById(grupoUsuario.getIdGrupoUsuario());
+        call.enqueue(new Callback<GrupoUsuario>() {
             @Override
-            public void onResponse(@NonNull Call<Usuario> call, @NonNull Response<Usuario> response) {
+            public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
-                ConverUser = response.body();
+                ConverUser = response.body().getGrupoUsuarioFK().getUsuario();
                 name.setText(ConverUser.getName().toString());
             }
             @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
             }
         });
     }

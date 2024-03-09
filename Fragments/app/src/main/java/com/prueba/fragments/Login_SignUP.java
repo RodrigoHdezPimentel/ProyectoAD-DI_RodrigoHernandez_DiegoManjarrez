@@ -1,18 +1,13 @@
 package com.prueba.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,7 +18,6 @@ import com.prueba.fragments.IdiomasAdapter.LanguageItemAdapter;
 import com.prueba.fragments.Registro.Registro;
 import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Chat;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
@@ -43,7 +37,9 @@ public class Login_SignUP extends AppCompatActivity {
     public static Retrofit retrofitUser;
     public static Retrofit retrofitUserTema;
     public static Retrofit retrofitLike;
-    public static Retrofit retrofitChat;
+    public static Retrofit retrofitConversacion;
+    public static Retrofit retrofitGrupo;
+    public static Retrofit retrofitGrupoUsuario;
     public static ArrayList<Tema> listaTemas = new ArrayList<>();
 
 
@@ -79,27 +75,35 @@ public class Login_SignUP extends AppCompatActivity {
 
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/publicacion/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/tema/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuario/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUserTema =  new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuarioTema/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuarioTema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitLike = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/like/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/like/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        retrofitChat = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/chat/")
+        retrofitConversacion = new Retrofit.Builder()
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/conversacion/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitGrupo = new Retrofit.Builder()
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupo/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitGrupoUsuario = new Retrofit.Builder()
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupoUsuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

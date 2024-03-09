@@ -21,4 +21,10 @@ public class GrupoService {
 
     public Optional<Grupo> getGrupoById(Integer id) {
         return grupoRepository.findById(id);
-    }}
+    }
+
+    public boolean deleteGroup(Integer id){
+        grupoRepository.deleteById(id);
+        return grupoRepository.findById(id).isEmpty();
+    }
+}

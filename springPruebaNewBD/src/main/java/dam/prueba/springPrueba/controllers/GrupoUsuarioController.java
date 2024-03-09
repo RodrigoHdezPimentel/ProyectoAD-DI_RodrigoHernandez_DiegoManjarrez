@@ -29,4 +29,9 @@ public class GrupoUsuarioController {
         return grupoUsuarioService.getUserGroups(id);
     }
 
+    @GetMapping("/getById/{id}")
+    public GrupoUsuario getById(@PathVariable Integer id){
+        return grupoUsuarioService.getById(id);
+    }
+
 }
