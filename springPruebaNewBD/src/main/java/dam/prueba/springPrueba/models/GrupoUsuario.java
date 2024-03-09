@@ -18,8 +18,5 @@ public class GrupoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idgrupousuario;
 
-    private GrupoUsuarioFK grupoUsuarioFK;
-
-
-
+    private GrupoUsuarioFK id;
 }

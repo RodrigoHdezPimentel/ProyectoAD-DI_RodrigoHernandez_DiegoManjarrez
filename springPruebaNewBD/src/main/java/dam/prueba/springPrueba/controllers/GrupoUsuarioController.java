@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.controllers;
 
+import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.UsuarioTema;
 import dam.prueba.springPrueba.servicies.GrupoUsuarioService;
@@ -22,6 +23,10 @@ public class GrupoUsuarioController {
     @PostMapping("/save")
     public GrupoUsuario saveGrupoUsuario(@RequestBody GrupoUsuario userTema){
         return grupoUsuarioService.saveGrupoUsuario(userTema);
+    }
+    @GetMapping("/getUserGroups/{id}")
+    public List<GrupoUsuario> getUserGroups(@PathVariable Integer id){
+        return grupoUsuarioService.getUserGroups(id);
     }
 
 }

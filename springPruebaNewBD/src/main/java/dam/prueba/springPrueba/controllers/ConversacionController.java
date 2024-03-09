@@ -25,4 +25,8 @@ public class ConversacionController {
     public Optional<Conversacion> getGrupoById(@PathVariable Integer id){
         return conversacionService.getConversacionById(id);
     }
+    @GetMapping("/getConversacionesByGroupId/{id}")
+    public List<Conversacion> getConversacionesByGroupId(@PathVariable Integer id){
+        return conversacionService.getConversacionesByGroupId(id);
+    }
 }

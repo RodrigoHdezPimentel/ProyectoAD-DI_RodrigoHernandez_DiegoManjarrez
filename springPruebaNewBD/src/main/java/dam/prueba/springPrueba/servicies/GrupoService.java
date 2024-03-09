@@ -21,5 +21,4 @@ public class GrupoService {
 
     public Optional<Grupo> getGrupoById(Integer id) {
         return grupoRepository.findById(id);
-    }
-}
+    }}

@@ -20,8 +20,12 @@ public class Conversacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idconversacion;
 
-    @Column(name = "idgrupousuario")
-    private Integer idgrupousuario;
+    /*@Column(name = "idgrupousuario")
+    private Integer idgrupousuario;*/
+
+    @ManyToOne(targetEntity = GrupoUsuario.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idgrupousuario")
+    private GrupoUsuario grupousuario;
 
     @Column(name = "fecha")
     private String fecha;

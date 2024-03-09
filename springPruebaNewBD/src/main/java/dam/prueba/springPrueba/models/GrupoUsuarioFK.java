@@ -6,13 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class GrupoUsuarioFK {
+public class GrupoUsuarioFK implements Serializable {
 
     @JoinColumn(name = "idusuario")
     private Integer idusuario;

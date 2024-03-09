@@ -27,4 +27,5 @@ public class GrupoController {
     public Optional<Grupo> getGrupoById(@PathVariable Integer id){
         return grupoService.getGrupoById(id);
     }
+
 }

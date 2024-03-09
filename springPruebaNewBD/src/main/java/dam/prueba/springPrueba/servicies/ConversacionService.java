@@ -20,4 +20,8 @@ public class ConversacionService {
     public Optional<Conversacion> getConversacionById(Integer id) {
         return conversacionRepository.findById(id);
     }
+    public List<Conversacion> getConversacionesByGroupId(Integer id) {
+        return conversacionRepository.getConversacionesByGroupId(id);
+    }
+
 }
