@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
     ArrayList<Conversacion> conversacionModels;
-    int posicionMarcada = -1;
 
     public ChatRvAdapter(Context context, ArrayList<Conversacion> conversacionModels) {
         this.context = context;
@@ -43,12 +42,14 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.cv.setElevation(10f);
         holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
-
+        holder.nombre.setText(
+                conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().
+                        getUsuario().getName().toString());
         holder.fecha.setText(conversacionModels.get(position).getFecha().toString());
         holder.Contenido.setText(conversacionModels.get(position).getContenido());
 
         //Orientar el mensaje dependiendo de su procedencia
-        if(conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().getUsuario() != Usuario.getInstance()){
+        if(conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().getUsuario().getId() != Usuario.getInstance().getId()){
             holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seed)); // Establecer el color de fondo
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(holder.constraintLayout);
@@ -62,9 +63,8 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView fecha;
+        TextView nombre;
         TextView Contenido;
-        Integer idDestino;
-        Integer idOrigen;
         CardView cv;
         ConstraintLayout constraintLayout;
 
@@ -74,6 +74,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
             this.fecha = itemView.findViewById(R.id.CardFecha);
             this.Contenido = itemView.findViewById(R.id.contenidoPublicacion);
             this.constraintLayout = itemView.findViewById(R.id.ConstraitLayoutChatRow);
+            this.nombre = itemView.findViewById(R.id.nombreConversacion);
         }
     }
 }

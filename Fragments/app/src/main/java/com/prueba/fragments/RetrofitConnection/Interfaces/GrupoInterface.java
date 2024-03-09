@@ -16,7 +16,7 @@ public interface GrupoInterface {
     @GET("all")
     Call<List<Grupo>> getAll();
     @POST("save")
-    Call<Grupo> create(@Body Conversacion conversacion);
+    Call<Grupo> create(@Body Grupo grupo);
     @DELETE("deleteGroup/{id}")
     Call<Boolean> delete(@Path("id") Integer id);
 

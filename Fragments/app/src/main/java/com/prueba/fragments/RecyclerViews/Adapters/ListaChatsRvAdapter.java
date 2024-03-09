@@ -56,11 +56,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
             public void onClick(View v) {
                     toChat.putExtra("gender",groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero());
                     toChat.putExtra("idGrupo", groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
-
-                    GrupoUsuario gu = groupModels.get(position);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("grupoUsuario", (Serializable) gu);
-                    toChat.putExtra("grupoUsuarioBundle", bundle);
+                    toChat.putExtra("idGrupoUsuario", groupModels.get(position).getIdGrupoUsuario());
 
 
                 context.startActivity(toChat);

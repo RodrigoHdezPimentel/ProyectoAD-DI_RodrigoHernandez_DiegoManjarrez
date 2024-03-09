@@ -20,6 +20,6 @@ public interface GrupoUsuarioInterface {
     @GET("getUserGroups/{id}")
     Call<List<GrupoUsuario>> getUserGroups(@Path("id") Integer id);
     @POST("save")
-    Call<Grupo> create(@Body Conversacion conversacion);
+    Call<GrupoUsuario> create(@Body GrupoUsuario grupoUsuario);
 
 }

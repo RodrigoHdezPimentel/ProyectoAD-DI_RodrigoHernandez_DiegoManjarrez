@@ -19,4 +19,5 @@ public class GrupoUsuario {
     public GrupoUsuarioFK getGrupoUsuarioFK() {
         return id;
     }
+
 }

@@ -29,32 +29,32 @@ import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
     ConversacionInterface conversacionInterface;
+    GrupoUsuarioInterface grupoUsuarioInterface;
     Integer idGrupo;
+    Integer idGrupoUsuario;
     GrupoUsuario grupoUsuario;
     ArrayList<Conversacion> Conversation = new ArrayList<>();
     TextInputEditText texto;
     Usuario ConverUser;
-    TextView name;
+    TextView title;
     ImageView iconUserChat;
+    ImageView send;
+    ImageView arrow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
-        Bundle bundle = getId.getExtras();
         String gender = getIntent().getStringExtra("gender");
 
         iconUserChat = findViewById(R.id.iconChat);
         iconAdd(gender);
         idGrupo = getId.getIntExtra("idGrupo",0);
-        grupoUsuario = (GrupoUsuario) bundle.getSerializable("grupoUsuario");
-
+        idGrupoUsuario = getId.getIntExtra("idGrupoUsuario",0);
         texto = findViewById(R.id.editText);
-        ImageView send = findViewById(R.id.send);
-
-        CargarUser();
-        name = findViewById(R.id.nameTv);
-
+        send = findViewById(R.id.send);
+        title = findViewById(R.id.groupName);
+        arrow = findViewById(R.id.arrow);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,9 +69,11 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+        getGrupoUsuario(idGrupoUsuario);
         cargarGrupo();
 
-        ImageView arrow = findViewById(R.id.arrow);
+
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +106,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
     public void GuardarConversacion(Conversacion conversacion){
         conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
         Call<Conversacion> call = conversacionInterface.create(conversacion);
@@ -122,17 +123,19 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-    public void CargarUser(){
-        GrupoUsuarioInterface grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call =  grupoUsuarioInterface.getById(grupoUsuario.getIdGrupoUsuario());
+    //Para acceder a el a la hora de escribir
+    public void getGrupoUsuario(Integer idGrupoUsuario){
+        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<GrupoUsuario> call =  grupoUsuarioInterface.getById(idGrupoUsuario);
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
             public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
-                ConverUser = response.body().getGrupoUsuarioFK().getUsuario();
-                name.setText(ConverUser.getName().toString());
+                grupoUsuario = response.body();
+                ConverUser = grupoUsuario.getGrupoUsuarioFK().getUsuario();
+                title.setText(grupoUsuario.getGrupoUsuarioFK().getGrupo().getNombre());
             }
             @Override
             public void onFailure(Call<GrupoUsuario> call, Throwable t) {

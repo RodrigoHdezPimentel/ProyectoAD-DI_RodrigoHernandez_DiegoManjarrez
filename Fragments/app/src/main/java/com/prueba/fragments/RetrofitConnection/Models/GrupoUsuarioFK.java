@@ -18,4 +18,5 @@ public class GrupoUsuarioFK {
     public Usuario getUsuario() {
         return usuario;
     }
+
 }

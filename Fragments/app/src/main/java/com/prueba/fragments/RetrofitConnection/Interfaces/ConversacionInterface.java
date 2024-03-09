@@ -18,7 +18,7 @@ public interface ConversacionInterface {
     Call<List<Conversacion>> getAll();
 
     @GET("getConversacionesByGroupId/{id}")
-    Call <List<Conversacion>> getConversacionesByGroupId(Integer id);
+    Call <List<Conversacion>> getConversacionesByGroupId(@Path("id") Integer id);
     @POST("save")
     Call<Conversacion> create(@Body Conversacion conversacion);
 
