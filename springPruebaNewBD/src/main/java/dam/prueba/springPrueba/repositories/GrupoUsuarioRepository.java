@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, GrupoUsuarioFK> {
     @Query(value = "SELECT g FROM GrupoUsuario g " +
-            "WHERE g.id.usuario.idusuario = ?1")
+            "WHERE g.id.idusuario = ?1")
     List<GrupoUsuario> getUserGroups (Integer id);
     @Query(value = "SELECT g FROM GrupoUsuario g " +
             "WHERE g.idgrupousuario = ?1")

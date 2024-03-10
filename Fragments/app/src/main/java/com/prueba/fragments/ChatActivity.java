@@ -35,10 +35,8 @@ public class ChatActivity extends AppCompatActivity {
     GrupoUsuarioInterface grupoUsuarioInterface;
     Integer idGrupo;
     Integer idGrupoUsuario;
-    GrupoUsuario grupoUsuario;
     ArrayList<Conversacion> Conversation = new ArrayList<>();
     TextInputEditText texto;
-    Usuario ConverUser;
     TextView title;
     ImageView iconUserChat;
     ImageView send;
@@ -68,8 +66,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-
-        getGrupoUsuario(idGrupoUsuario);
         cargarGrupo();
 
 
@@ -113,7 +109,7 @@ public class ChatActivity extends AppCompatActivity {
         String formattedDate = sdf.format(new Date(timeInMilliSeconds));
 
 
-        Conversacion newConversacion = new Conversacion(grupoUsuario, formattedDate.toString(), texto.getText().toString());
+        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, formattedDate.toString(), texto.getText().toString());
 
         conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
         Call<Conversacion> call = conversacionInterface.save(newConversacion);
@@ -130,25 +126,6 @@ public class ChatActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<Conversacion> call, Throwable t) {
-            }
-        });
-    }
-    //Para acceder a el a la hora de escribir
-    public void getGrupoUsuario(Integer idGrupoUsuario){
-        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call =  grupoUsuarioInterface.getById(idGrupoUsuario);
-        call.enqueue(new Callback<GrupoUsuario>() {
-            @Override
-            public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
-                if (!response.isSuccessful()) {
-                    return;
-                }
-                grupoUsuario = response.body();
-                ConverUser = grupoUsuario.getGrupoUsuarioFK().getUsuario();
-                title.setText(grupoUsuario.getGrupoUsuarioFK().getGrupo().getNombre());
-            }
-            @Override
-            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
             }
         });
     }

@@ -14,11 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
@@ -40,21 +47,37 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.usuarioMensaje = conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().getUsuario();
+        final GrupoUsuario[] grupoUsuario = {null};
+        GrupoUsuarioInterface grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<GrupoUsuario> call = grupoUsuarioInterface.getById(conversacionModels.get(position).getIdGrupoUsuario());
+        call.enqueue(new Callback<GrupoUsuario>() {
+            @Override
+            public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                grupoUsuario[0] = response.body();
+                holder.usuarioMensaje = grupoUsuario[0].getGrupoUsuarioFK().getUsuario();
+                holder.nombre.setText(holder.usuarioMensaje.getName().toString());
+
+                //Orientar el mensaje dependiendo de su procedencia
+                if(holder.usuarioMensaje.getId() != Usuario.getInstance().getId()){
+                    holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seed)); // Establecer el color de fondo
+                    ConstraintSet constraintSet = new ConstraintSet();
+                    constraintSet.clone(holder.constraintLayout);
+                    constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
+                    constraintSet.applyTo(holder.constraintLayout);
+                }
+            }
+            @Override
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+            }
+        });
         holder.cv.setElevation(10f);
         holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
-        holder.nombre.setText(holder.usuarioMensaje.getName().toString());
         holder.fecha.setText(conversacionModels.get(position).getFecha().toString());
         holder.Contenido.setText(conversacionModels.get(position).getContenido());
 
-        //Orientar el mensaje dependiendo de su procedencia
-        if(holder.usuarioMensaje.getId() != Usuario.getInstance().getId()){
-            holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seed)); // Establecer el color de fondo
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(holder.constraintLayout);
-            constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
-            constraintSet.applyTo(holder.constraintLayout);
-        }
     }
 
     @Override

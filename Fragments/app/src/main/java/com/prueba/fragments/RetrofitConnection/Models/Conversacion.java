@@ -1,22 +1,35 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.prueba.fragments.ChatActivity;
+import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Conversacion {
     private Integer idconversacion;
-    private GrupoUsuario grupousuario;
+    private Integer idgrupousuario;
     private String fecha;
     private String contenido;
 
     public Conversacion() {
     }
 
-    public Conversacion(Integer idConversacion, GrupoUsuario grupoUsuario, String fecha, String contenido) {
+    public Conversacion(Integer idConversacion, Integer idgrupoUsuario, String fecha, String contenido) {
         this.idconversacion = idConversacion;
-        this.grupousuario = grupoUsuario;
+        this.idgrupousuario = idgrupoUsuario;
         this.fecha = fecha;
         this.contenido = contenido;
     }
-    public Conversacion(GrupoUsuario grupoUsuario, String fecha, String contenido) {
-        this.grupousuario = grupoUsuario;
+    public Conversacion(Integer idgrupoUsuario, String fecha, String contenido) {
+        this.idgrupousuario = idgrupoUsuario;
         this.fecha = fecha;
         this.contenido = contenido;
     }
@@ -25,8 +38,8 @@ public class Conversacion {
         return idconversacion;
     }
 
-    public GrupoUsuario getGrupoUsuario() {
-        return grupousuario;
+    public Integer getIdGrupoUsuario() {
+        return idgrupousuario;
     }
 
     public String getFecha() {

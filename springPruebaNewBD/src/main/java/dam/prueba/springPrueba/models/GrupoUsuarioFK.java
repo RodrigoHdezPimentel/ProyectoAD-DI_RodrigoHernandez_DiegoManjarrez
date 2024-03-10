@@ -14,6 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 @Embeddable
 public class GrupoUsuarioFK implements Serializable {
+    @Column(name = "idusuario", insertable=false, updatable=false)
+    private Integer idusuario;
+
+    @Column(name = "idgrupo", insertable=false, updatable=false)
+    private Integer idgrupo;
 
     @OneToOne(targetEntity = Usuario.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "idusuario")
