@@ -86,14 +86,16 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         }
 
     }
-    public void iconAdd(String gender, MyViewHolder holder) {
-        if (gender.equals("Female")) {
+    public void iconAdd(Boolean gender, MyViewHolder holder) {
+
+
+        if (!gender) {
             holder.iconUser.setImageResource(R.drawable.ic_mujer);
-            ViewGroup.LayoutParams layoutParams = holder.iconUser.getLayoutParams();
-            layoutParams.height = 200; // Altura en píxeles
-            layoutParams.width = 200; // Anchura en píxeles
-            holder.iconUser.setLayoutParams(layoutParams);
-        } else if (gender.equals("Male")) {
+//            ViewGroup.LayoutParams layoutParams = holder.iconUser.getLayoutParams();
+//            layoutParams.height = 200; // Altura en píxeles
+//            layoutParams.width = 200; // Anchura en píxeles
+//            holder.iconUser.setLayoutParams(layoutParams);
+        } else if (gender) {
             holder.iconUser.setImageResource(R.drawable.ic_hombre);
         } else {
             holder.iconUser.setImageResource(R.drawable.ic_app);

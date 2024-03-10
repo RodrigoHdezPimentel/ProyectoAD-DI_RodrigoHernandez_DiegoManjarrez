@@ -132,9 +132,9 @@ public class Profile extends Fragment {
     }
 
     public void iconAdd(){
-        if(Profile.perfil.getGenero().equals("Female")){
+        if(!Profile.perfil.getGenero()){
             iconProfile.setImageResource(R.drawable.ic_mujer);
-        } else if (Profile.perfil.getGenero().equals("Male")) {
+        } else if (Profile.perfil.getGenero()) {
             iconProfile.setImageResource(R.drawable.ic_hombre);
         }else {
             iconProfile.setImageResource(R.drawable.ic_app);

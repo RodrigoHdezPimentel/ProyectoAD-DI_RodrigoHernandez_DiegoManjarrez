@@ -54,9 +54,16 @@ AutoCompleteTextView  gender;
             @Override
             public void onClick(View view) {
                 Intent toThemes = new Intent(Registro.this, SelectTopic.class);
+                //Para colocar correctamente el tipo de boolenao en realcion al genero escogido
+                for (int i = 0; i < items.length; i++){
+                    if (items[i].equals(gender.getText().toString())){
+                        if(i == 0 ){Usuario.getInstance().setGenero(true);
+                        }else {Usuario.getInstance().setGenero(false);
+                        }break;
+                    }
+                }
                 Usuario.getInstance().setName(userName.getText().toString());
                 Usuario.getInstance().setPass(password.getText().toString());
-                Usuario.getInstance().setGenero(gender.getText().toString());
                 Usuario.getInstance().setMail(email.getText().toString());
                 Usuario.getInstance().setYear(Integer.parseInt(yearsOdl.getText().toString()));
                 startActivity(toThemes);

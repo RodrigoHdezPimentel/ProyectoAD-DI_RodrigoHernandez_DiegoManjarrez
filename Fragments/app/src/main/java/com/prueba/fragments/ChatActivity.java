@@ -46,7 +46,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
-        String gender = getIntent().getStringExtra("gender");
+        Boolean gender = getId.getBooleanExtra("gender", false);
 
         iconUserChat = findViewById(R.id.iconChat);
         iconAdd(gender);
@@ -129,14 +129,14 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-    public void iconAdd(String gender){
-        if (gender.equals("Female")) {
+    public void iconAdd(Boolean gender){
+        if (!gender) {
             iconUserChat.setImageResource(R.drawable.ic_mujer);
 //            ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();
 //            layoutParams.height = 100; // Altura
 //            layoutParams.width = 100; // Anchura
 //            iconUserChat.setLayoutParams(layoutParams);
-        } else if (gender.equals("Male")) {
+        } else if (gender) {
             iconUserChat.setImageResource(R.drawable.ic_hombre);
         } else {
             iconUserChat.setImageResource(R.drawable.ic_app);

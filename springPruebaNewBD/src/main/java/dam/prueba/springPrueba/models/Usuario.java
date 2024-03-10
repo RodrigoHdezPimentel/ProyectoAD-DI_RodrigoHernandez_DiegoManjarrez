@@ -23,7 +23,7 @@ public class Usuario {
     private String name;
 
     @Column(name = "Us_Genero")
-    private String genero;
+    private Boolean genero;
     @Column(name = "Us_Descripcion")
     private String descripcion;
     @Column(name = "Us_Mail")

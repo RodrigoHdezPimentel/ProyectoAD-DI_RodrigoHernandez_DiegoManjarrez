@@ -8,16 +8,17 @@ public class Usuario implements Serializable {
     private Integer year;
     private String name;
 
-    private String genero;
+    private Boolean genero;
     private String descripcion = "";
     private String mail;
     private String pass;
 
-    public Usuario(Integer id, Integer year, String name, String genero, String mail, String pass) {
-        this.idusuario = id;
+    public Usuario(Integer idusuario, Integer year, String name, boolean genero, String descripcion, String mail, String pass) {
+        this.idusuario = idusuario;
         this.year = year;
         this.name = name;
         this.genero = genero;
+        this.descripcion = descripcion;
         this.mail = mail;
         this.pass = pass;
     }
@@ -67,11 +68,11 @@ public class Usuario implements Serializable {
         this.name = name;
     }
 
-    public String getGenero() {
+    public Boolean getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(Boolean genero) {
         this.genero = genero;
     }
 

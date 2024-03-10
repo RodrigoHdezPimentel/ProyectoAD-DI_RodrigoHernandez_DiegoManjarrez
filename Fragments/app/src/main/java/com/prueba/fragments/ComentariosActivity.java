@@ -278,8 +278,8 @@ ImageView back;
         });
 
     }
-    public void iconAdd(String gender){
-        if(gender.equals("Female")){
+    public void iconAdd(Boolean gender){
+        if(!gender){
 
             iconUserPublish.setImageResource(R.drawable.ic_mujer);
 //            ViewGroup.LayoutParams layoutParams = iconUserPublish.getLayoutParams();
@@ -287,7 +287,7 @@ ImageView back;
 //            layoutParams.width = 200; // Anchura
 //            iconUserPublish.setLayoutParams(layoutParams);
 
-        } else if (gender.equals("Male")) {
+        } else if (gender) {
             iconUserPublish.setImageResource(R.drawable.ic_hombre);
 
         }else {
