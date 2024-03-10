@@ -40,16 +40,15 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.usuarioMensaje = conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().getUsuario();
         holder.cv.setElevation(10f);
         holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
-        holder.nombre.setText(
-                conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().
-                        getUsuario().getName().toString());
+        holder.nombre.setText(holder.usuarioMensaje.getName().toString());
         holder.fecha.setText(conversacionModels.get(position).getFecha().toString());
         holder.Contenido.setText(conversacionModels.get(position).getContenido());
 
         //Orientar el mensaje dependiendo de su procedencia
-        if(conversacionModels.get(position).getGrupoUsuario().getGrupoUsuarioFK().getUsuario().getId() != Usuario.getInstance().getId()){
+        if(holder.usuarioMensaje.getId() != Usuario.getInstance().getId()){
             holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seed)); // Establecer el color de fondo
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(holder.constraintLayout);
@@ -65,6 +64,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         TextView fecha;
         TextView nombre;
         TextView Contenido;
+        Usuario usuarioMensaje;
         CardView cv;
         ConstraintLayout constraintLayout;
 

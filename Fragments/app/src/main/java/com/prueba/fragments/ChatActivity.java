@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
@@ -19,9 +20,11 @@ import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,11 +63,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!texto.getText().toString().equals("")){
 
-                    Date date = new Date();
-                    long timeInMilliSeconds = date.getTime();
-                    java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
-
-                    GuardarConversacion(new Conversacion(grupoUsuario, date1.toString(), texto.getText().toString()));
+                    GuardarConversacion();
 
                 }
             }
@@ -106,15 +105,26 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-    public void GuardarConversacion(Conversacion conversacion){
+    public void GuardarConversacion(){
+
+        Date date = new Date();
+        long timeInMilliSeconds = date.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
+
+
+        Conversacion newConversacion = new Conversacion(grupoUsuario, formattedDate.toString(), texto.getText().toString());
+
         conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
-        Call<Conversacion> call = conversacionInterface.create(conversacion);
+        Call<Conversacion> call = conversacionInterface.save(newConversacion);
         call.enqueue(new Callback<Conversacion>() {
             @Override
             public void onResponse(@NonNull Call<Conversacion> call, @NonNull Response<Conversacion> response) {
                 if (!response.isSuccessful()) {
+                    Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 texto.setText("");
                 cargarGrupo();
             }

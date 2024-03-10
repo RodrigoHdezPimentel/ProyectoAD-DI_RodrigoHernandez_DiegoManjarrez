@@ -1,14 +1,14 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
 public class GrupoUsuarioFK {
-    private Grupo grupo;
     private Usuario usuario;
+    private Grupo grupo;
 
     public GrupoUsuarioFK() {
     }
-    public GrupoUsuarioFK(Grupo grupo, Usuario usuario) {
-        this.grupo = grupo;
+    public GrupoUsuarioFK( Usuario usuario, Grupo grupo) {
         this.usuario = usuario;
+        this.grupo = grupo;
     }
 
     public Grupo getGrupo() {

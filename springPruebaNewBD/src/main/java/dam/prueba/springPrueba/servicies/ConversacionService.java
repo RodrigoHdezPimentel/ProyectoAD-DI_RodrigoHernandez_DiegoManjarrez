@@ -1,6 +1,7 @@
 package dam.prueba.springPrueba.servicies;
 
 import dam.prueba.springPrueba.models.Conversacion;
+import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.repositories.ConversacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,9 @@ public class ConversacionService {
     public List<Conversacion> getConversacionesByGroupId(Integer id) {
         return conversacionRepository.getConversacionesByGroupId(id);
     }
+    public Conversacion saveConversacion(Conversacion conversacion){
+        return conversacionRepository.save(conversacion);
+    }
+
 
 }

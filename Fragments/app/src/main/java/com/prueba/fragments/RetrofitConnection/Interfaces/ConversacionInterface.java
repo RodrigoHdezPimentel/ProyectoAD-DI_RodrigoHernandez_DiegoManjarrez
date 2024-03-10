@@ -20,6 +20,6 @@ public interface ConversacionInterface {
     @GET("getConversacionesByGroupId/{id}")
     Call <List<Conversacion>> getConversacionesByGroupId(@Path("id") Integer id);
     @POST("save")
-    Call<Conversacion> create(@Body Conversacion conversacion);
+    Call<Conversacion> save(@Body Conversacion conversacion);
 
 }

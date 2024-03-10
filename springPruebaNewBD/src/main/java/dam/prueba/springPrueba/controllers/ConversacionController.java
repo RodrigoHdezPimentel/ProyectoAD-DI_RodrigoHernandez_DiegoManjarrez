@@ -1,13 +1,11 @@
 package dam.prueba.springPrueba.controllers;
 
 import dam.prueba.springPrueba.models.Conversacion;
+import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.servicies.ConversacionService;
 import dam.prueba.springPrueba.servicies.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,5 +26,9 @@ public class ConversacionController {
     @GetMapping("/getConversacionesByGroupId/{id}")
     public List<Conversacion> getConversacionesByGroupId(@PathVariable Integer id){
         return conversacionService.getConversacionesByGroupId(id);
+    }
+    @PostMapping("/save")
+    public Conversacion saveConversacion(@RequestBody Conversacion conversacion){
+        return conversacionService.saveConversacion(conversacion);
     }
 }
