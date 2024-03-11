@@ -15,6 +15,8 @@ import retrofit2.http.Path;
 public interface GrupoInterface {
     @GET("all")
     Call<List<Grupo>> getAll();
+    @GET("id/{id}")
+    Call<Grupo> getById(@Path("id") Integer id);
     @POST("save")
     Call<Grupo> create(@Body Grupo grupo);
     @DELETE("deleteGroup/{id}")

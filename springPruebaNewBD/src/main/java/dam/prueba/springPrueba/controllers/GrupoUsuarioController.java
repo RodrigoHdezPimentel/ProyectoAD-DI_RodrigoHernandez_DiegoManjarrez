@@ -2,6 +2,7 @@ package dam.prueba.springPrueba.controllers;
 
 import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
+import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.models.UsuarioTema;
 import dam.prueba.springPrueba.servicies.GrupoUsuarioService;
 import dam.prueba.springPrueba.servicies.UsuarioTemaService;
@@ -32,6 +33,10 @@ public class GrupoUsuarioController {
     @GetMapping("/getById/{id}")
     public GrupoUsuario getById(@PathVariable Integer id){
         return grupoUsuarioService.getById(id);
+    }
+    @GetMapping("/getGroupUsers/{id}")
+    public List<Usuario> getGroupUsers(@PathVariable Integer id){
+        return grupoUsuarioService.getGroupUsers(id);
     }
 
 }

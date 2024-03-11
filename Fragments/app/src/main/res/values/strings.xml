@@ -23,10 +23,7 @@
     <string name="mis_likes" translatable="false"></string>
     <string name="boton_editar_temas" translatable="false"></string>
     <string name="boton_eliminar_cuenta" translatable="false"></string>
-
-
-
-
+    <string name="salir_del_grupo" translatable="false"></string>
 
 
     <string-array name="Gender">

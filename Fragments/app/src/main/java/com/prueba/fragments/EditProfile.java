@@ -26,7 +26,6 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -113,7 +112,6 @@ public class EditProfile extends AppCompatActivity {
                 }
 
             }
-
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 Log.e("Thorw err: ", t.getMessage());
@@ -149,7 +147,7 @@ public class EditProfile extends AppCompatActivity {
 
         // Inflar el diseño personalizado
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.alert_dialog_delete_account, null);
+        View dialogView = inflater.inflate(R.layout.dialog_delete_account, null);
         builder.setView(dialogView);
 
         // Obtener referencias de los botones personalizados

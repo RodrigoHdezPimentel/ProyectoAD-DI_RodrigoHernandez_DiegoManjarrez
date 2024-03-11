@@ -3,6 +3,7 @@ package com.prueba.fragments.RetrofitConnection.Interfaces;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface GrupoUsuarioInterface {
     Call<GrupoUsuario> getById(@Path("id") Integer id);
     @GET("getUserGroups/{id}")
     Call<List<GrupoUsuario>> getUserGroups(@Path("id") Integer id);
+    @GET("getGroupUsers/{id}")
+    Call<List<Usuario>> getGroupUsers(@Path("id") Integer id);
     @POST("save")
     Call<GrupoUsuario> create(@Body GrupoUsuario grupoUsuario);
 

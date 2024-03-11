@@ -38,6 +38,10 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         this.context = context;
         this.conversacionModels = conversacionModels;
     }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @NonNull
     @Override

@@ -22,6 +22,7 @@
     <string name="mis_likes">Me gusta</string>
     <string name="boton_editar_temas">Editar Temas</string>
     <string name="boton_eliminar_cuenta">Eliminar Cuenta</string>
+    <string name="salir_del_grupo">Salir del grupo</string>
 
     <string-array name="Gender">
         <item>Hombre</item>

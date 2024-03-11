@@ -3,6 +3,7 @@ package dam.prueba.springPrueba.repositories;
 import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.GrupoUsuarioFK;
+import dam.prueba.springPrueba.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,6 +20,10 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
     @Query(value = "SELECT g FROM GrupoUsuario g " +
             "WHERE g.idgrupousuario = ?1")
     GrupoUsuario getById(Integer id);
+
+    @Query(value = "SELECT u FROM GrupoUsuario g JOIN Usuario u on u.idusuario = g.id.idusuario " +
+            "WHERE g.id.idgrupo = ?1")
+    List<Usuario> getGroupUsers(Integer id);
 
 
 }

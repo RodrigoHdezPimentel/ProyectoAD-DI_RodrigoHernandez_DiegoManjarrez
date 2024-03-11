@@ -55,10 +55,10 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         toChat = new Intent(context, ChatActivity.class);
 
-            holder.personaChat.setText(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getNombre().toString());
-            iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
+        holder.personaChat.setText(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getNombre().toString());
+        iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
 
-            /*NECESITAMOS ULTIMO MENSAJE PARA EL CONTENIDO Y LA FECHA*/
+        //Ultimo mensaje
         ConversacionInterface conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
         Call <Conversacion> call = conversacionInterface.getLastMessage(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
         call.enqueue(new Callback<Conversacion>() {
