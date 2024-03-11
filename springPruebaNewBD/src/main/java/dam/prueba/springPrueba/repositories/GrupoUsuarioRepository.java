@@ -9,10 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, GrupoUsuarioFK> {
+
+    //lista los grupos al que pertenece el usuario
     @Query(value = "SELECT g FROM GrupoUsuario g " +
             "WHERE g.id.idusuario = ?1")
     List<GrupoUsuario> getUserGroups (Integer id);
+
+    //solo optiene una datos en especifico
     @Query(value = "SELECT g FROM GrupoUsuario g " +
             "WHERE g.idgrupousuario = ?1")
     GrupoUsuario getById(Integer id);
+
+
 }

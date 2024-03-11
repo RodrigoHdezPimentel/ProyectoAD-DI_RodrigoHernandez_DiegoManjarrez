@@ -9,19 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
@@ -50,7 +59,23 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
             iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
 
             /*NECESITAMOS ULTIMO MENSAJE PARA EL CONTENIDO Y LA FECHA*/
+        ConversacionInterface conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        Call <Conversacion> call = conversacionInterface.getLastMessage(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
+        call.enqueue(new Callback<Conversacion>() {
+            @Override
+            public void onResponse(Call<Conversacion> call, Response<Conversacion> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+                holder.fechaUltimoMensaje.setText(response.body().getFecha().toString());
+                holder.ultimoContenido.setText(response.body().getContenido().toString());
+            }
 
+            @Override
+            public void onFailure(Call<Conversacion> call, Throwable t) {
+
+            }
+        });
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

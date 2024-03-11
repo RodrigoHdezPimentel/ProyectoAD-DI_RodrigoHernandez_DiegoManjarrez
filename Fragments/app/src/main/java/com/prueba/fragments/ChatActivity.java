@@ -95,6 +95,17 @@ public class ChatActivity extends AppCompatActivity {
                 ChatRvAdapter adapter = new ChatRvAdapter(ChatActivity.this, Conversation);
                 MyRecyclerView.setAdapter(adapter);
                 MyRecyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+
+
+                //que se posicione en el ultimo menjsae del scrollview
+                //BUSCAR ALGUNA MANERA PARA OPTIMIZAR LA VISTA DEL ULTIMO MENSAJE
+                RecyclerView.LayoutManager layoutManager = MyRecyclerView.getLayoutManager();
+                if (layoutManager != null && layoutManager instanceof LinearLayoutManager) {
+                    int ultimoElemento = layoutManager.getItemCount() - 1;
+                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(ultimoElemento, 0);
+                }
+
+
             }
             @Override
             public void onFailure(Call<List<Conversacion>> call, Throwable t) {

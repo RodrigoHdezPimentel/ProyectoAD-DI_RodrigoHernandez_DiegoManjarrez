@@ -31,4 +31,9 @@ public class ConversacionController {
     public Conversacion saveConversacion(@RequestBody Conversacion conversacion){
         return conversacionService.saveConversacion(conversacion);
     }
+    @GetMapping("/getLastMessage/{id}")
+    public Conversacion getLastMessage(@PathVariable Integer id){
+        return conversacionService.getLastMessage(id);
+    }
+
 }
