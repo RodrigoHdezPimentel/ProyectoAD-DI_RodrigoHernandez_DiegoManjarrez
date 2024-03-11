@@ -21,8 +21,8 @@ public interface ConversacionInterface {
     Call <List<Conversacion>> getConversacionesByGroupId(@Path("id") Integer id);
     @POST("save")
     Call<Conversacion> save(@Body Conversacion conversacion);
-    //PARA SACAR EL ULTIMO MENSAJE CON LA FECHA A LA LISTA DE CHATS
 
+    //PARA SACAR EL ULTIMO MENSAJE CON LA FECHA A LA LISTA DE CHATS
     @GET("getLastMessage/{id}")
     Call <Conversacion> getLastMessage(@Path("id") Integer id);
 

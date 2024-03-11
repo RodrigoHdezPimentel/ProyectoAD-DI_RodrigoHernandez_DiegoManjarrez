@@ -86,9 +86,19 @@
      app:layout_constraintVertical_bias="0.493">
 
 
- </LinearLayout>
+    </LinearLayout>
 
- <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
+        android:id="@+id/icon_enviar_mensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:src="@drawable/icon_enviar_mensaje"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
      android:id="@+id/iconFragmentProfile"
      android:layout_width="0dp"
      android:layout_height="0dp"

@@ -34,4 +34,13 @@ public class GrupoUsuarioService {
     public List<Usuario> getGroupUsers(Integer id) {
         return grupoUsuarioRepository.getGroupUsers(id);
     }
+    public List<List<Integer>> getCommonGroups(Integer idU, Integer idV) {
+        return grupoUsuarioRepository.getCommonGroups(idU, idV);
+    }
+    public Integer getNumberUsers(Integer id) {
+        return grupoUsuarioRepository.getNumberUsers(id);
+    }
+
+
+
 }

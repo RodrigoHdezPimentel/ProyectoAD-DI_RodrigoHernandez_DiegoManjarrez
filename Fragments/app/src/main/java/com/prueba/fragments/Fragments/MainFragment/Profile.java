@@ -15,12 +15,24 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
+import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.EditProfile;
 import com.prueba.fragments.Fragments.ProfileFragment.misLikes;
 import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
+import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Profile extends Fragment {
     FrameLayout frameLayout;
@@ -61,13 +73,15 @@ public class Profile extends Fragment {
     Button editProfile;
     //por default va a ser el usuario resgitrado
     public static Usuario perfil;
+    ImageView iconEnciarMensaje;
+    GrupoUsuarioInterface grupoUsuarioInterface;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        iconEnciarMensaje = view.findViewById(R.id.icon_enviar_mensaje);
         editProfile = view.findViewById(R.id.updateProfile);
         userName = view.findViewById(R.id.UserNameProfile);
         iconProfile = view.findViewById(R.id.iconFragmentProfile);
@@ -77,6 +91,7 @@ public class Profile extends Fragment {
         cargarPerfil();
         iconAdd();
         toMyProfile();
+        enviarMensaje();
 
         userName.setText(perfil.getName());
         descripcion.setText(perfil.getDescripcion());
@@ -150,6 +165,7 @@ public class Profile extends Fragment {
         }else {
             perfil = Usuario.getInstance();
             iconMyProfile.setVisibility(View.INVISIBLE);
+            iconEnciarMensaje.setVisibility(View.INVISIBLE);
         }
     }
     //Metodo para ir nuestro perfil
@@ -162,5 +178,71 @@ public class Profile extends Fragment {
                 startActivity(toMain);
             }
         });
+    }
+    public void enviarMensaje(){
+
+        iconEnciarMensaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toChat = new Intent(getContext(), ChatActivity.class);
+                grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+                //Se saca los idGrupos (Integer) en común del usuario presente y al usario que queremos enviar el mensaje
+
+                Call <List<List<Integer>>> call = grupoUsuarioInterface.getCommonGroups(Usuario.getInstance().getId(), perfil.getId());
+                call.enqueue(new Callback<List<List<Integer>>>() {
+                    @Override
+                    public void onResponse(Call<List<List<Integer>>> call, Response<List<List<Integer>>> response) {
+                        if(!response.isSuccessful()){
+                            return;
+                        }
+
+                        //Ahora nos encargamos de verificar si el numero de miembros del grupo son 2 (yo y él)
+                        for (int i = 0; i < response.body().size(); i++ ) {
+                            //La primera posicion es la lista de idGrupo y idGrupoUsuario, y el otro .get()
+                            //es acceder a esos valores.
+                            if (verificacion(response.body().get(i).get(0))) {
+
+                                //enviamos los datos a ChatActivity para cargar la connversacion
+                                toChat.putExtra("idGrupo", response.body().get(i).get(0));
+                                toChat.putExtra("idGrupoUsuario", response.body().get(i).get(1));
+                                startActivity(toChat);
+                                break;
+                            }
+                        }
+                        //Creamos el grupo con esa persona en caso de no haber un "chat"
+                        crearConversacion();
+
+
+                    }
+                    @Override
+                    public void onFailure(Call<List<List<Integer>>> call, Throwable t) {}});
+
+
+            }
+        });
+    }
+    public Boolean verificacion(Integer idGrupo){
+        final Boolean[] respuesta = {false};
+
+        Call <Boolean> call2 = grupoUsuarioInterface.getNumberUsers(idGrupo);
+        call2.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+                respuesta[0] = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+        return respuesta[0];
+    }
+    public void crearConversacion(){
+        ConversacionInterface conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+       // Call <Conversacion> call = conversacionInterface.save()
     }
 }

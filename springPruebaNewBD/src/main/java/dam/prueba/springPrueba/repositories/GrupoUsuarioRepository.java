@@ -25,5 +25,13 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
             "WHERE g.id.idgrupo = ?1")
     List<Usuario> getGroupUsers(Integer id);
 
+    //PARA SACAR LOS GRUPOS EN COMÚN, SACO SOLAMENT EL idGrupo
+    @Query(value = "SELECT g1.id.idgrupo, g1.idgrupousuario FROM GrupoUsuario g1 JOIN Grupo g ON g1.id.idgrupo = g.idgrupo JOIN GrupoUsuario g2 " +
+            "ON g2.id.idgrupo = g.idgrupo WHERE g1.id.idusuario = ?1 AND g2.id.idusuario = ?2 GROUP BY g.idgrupo")
+    List<List<Integer>> getCommonGroups(Integer idU, Integer idV);
+    //Para contar el numero de miembros dentro de un grupo (idGrupo)
+    @Query(value = "SELECT COUNT(DISTINCT u) FROM GrupoUsuario g JOIN Usuario u on u.idusuario = g.id.idusuario " +
+            "WHERE g.id.idgrupo = ?1")
+    Integer getNumberUsers(Integer id);
 
 }

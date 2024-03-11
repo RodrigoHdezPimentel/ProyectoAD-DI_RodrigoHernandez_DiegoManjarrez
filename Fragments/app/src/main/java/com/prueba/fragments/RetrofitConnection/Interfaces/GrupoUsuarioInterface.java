@@ -24,5 +24,9 @@ public interface GrupoUsuarioInterface {
     Call<List<Usuario>> getGroupUsers(@Path("id") Integer id);
     @POST("save")
     Call<GrupoUsuario> create(@Body GrupoUsuario grupoUsuario);
+    @GET("getCommonGroups/{idU}/{idV}")
+    Call<List<List<Integer>>> getCommonGroups(@Path("idU") Integer idU,@Path("idV") Integer idV);
+    @GET("getNumberUsers/{id}")
+    Call<Boolean> getNumberUsers(@Path("id") Integer id);
 
 }

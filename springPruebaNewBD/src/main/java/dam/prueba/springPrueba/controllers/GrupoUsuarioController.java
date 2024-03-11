@@ -38,5 +38,14 @@ public class GrupoUsuarioController {
     public List<Usuario> getGroupUsers(@PathVariable Integer id){
         return grupoUsuarioService.getGroupUsers(id);
     }
+    @GetMapping("/getCommonGroups/{idU}/{idV}")
+    public List<List<Integer>> getCommonGroups(@PathVariable Integer idU,@PathVariable Integer idV){
+        return grupoUsuarioService.getCommonGroups(idU,idV);
+    }
+    @GetMapping("/getNumberUsers/{id}")
+    public Boolean getNumberUsers(@PathVariable Integer id){
+        return grupoUsuarioService.getNumberUsers(id)==2;
+    }
+
 
 }
