@@ -7,9 +7,9 @@ public class GrupoUsuario {
     public GrupoUsuario() {
     }
 
-    public GrupoUsuario(Integer idGrupoUsuario, GrupoUsuarioFK grupoUsuarioFK) {
-        this.idgrupousuario = idGrupoUsuario;
-        this.id = grupoUsuarioFK;
+    public GrupoUsuario(Integer idgrupousuario, GrupoUsuarioFK id) {
+        this.idgrupousuario = idgrupousuario;
+        this.id = id;
     }
 
     public Integer getIdGrupoUsuario() {

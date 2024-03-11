@@ -3,9 +3,7 @@ package dam.prueba.springPrueba.servicies;
 import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
-import dam.prueba.springPrueba.models.UsuarioTema;
 import dam.prueba.springPrueba.repositories.GrupoUsuarioRepository;
-import dam.prueba.springPrueba.repositories.UsuarioTemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +17,8 @@ public class GrupoUsuarioService {
         return grupoUsuarioRepository.findAll();
     }
 
-    public GrupoUsuario saveGrupoUsuario(GrupoUsuario GrupoUser){
-        return grupoUsuarioRepository.save(GrupoUser);
+    public GrupoUsuario saveGrupoUsuario(GrupoUsuario grupoUser){
+        return grupoUsuarioRepository.save(grupoUser);
     }
 
     public List<GrupoUsuario> getUserGroups(Integer id) {

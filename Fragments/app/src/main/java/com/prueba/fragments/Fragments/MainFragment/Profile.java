@@ -23,10 +23,15 @@ import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
+import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuarioFK;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
+import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
+import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
 import java.util.List;
 
@@ -242,7 +247,65 @@ public class Profile extends Fragment {
         return respuesta[0];
     }
     public void crearConversacion(){
-        ConversacionInterface conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
-       // Call <Conversacion> call = conversacionInterface.save()
+        //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
+        GrupoInterface grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
+        Call<Grupo> call = grupoInterface.create(new Grupo(null,perfil.getName(),"Ruta",""));
+        call.enqueue(new Callback<Grupo>() {
+            @Override
+            public void onResponse(Call<Grupo> call, Response<Grupo> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+                //Ahora Asignamos los usuarios al grupo para chatear
+                asignarChat(Usuario.getInstance().getId(),response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<Grupo> call, Throwable t) {
+
+            }
+        });
+    }
+    public void asignarChat(int idGrupo, Grupo grupo){
+        //Primero nos asignamos al grupo
+        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,
+                new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
+        call.enqueue(new Callback<GrupoUsuario>() {
+            @Override
+            public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+
+                //Después asignamos el grupo al otro
+                Call <GrupoUsuario> call1 = grupoUsuarioInterface.create(new GrupoUsuario(null, new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
+                call1.enqueue(new Callback<GrupoUsuario>() {
+                    @Override
+                    public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
+                        if(!response.isSuccessful()){
+                            return;
+                        }
+                        Toast.makeText(getContext(), "CREADO CON EXITO", Toast.LENGTH_SHORT).show();
+
+                        //enviamos los datos al ChatActivity
+//                    Intent toChat = new Intent(getContext(),ChatActivity.class);
+//                    toChat.putExtra("idGrupo", idGrupo);
+//                    toChat.putExtra("idGrupoUsuario", response.body().getIdGrupoUsuario());
+//                    startActivity(toChat);
+                    }
+
+                    @Override
+                    public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+
+            }
+        });
     }
 }

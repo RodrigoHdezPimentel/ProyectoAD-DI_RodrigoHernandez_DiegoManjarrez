@@ -3,9 +3,7 @@ package dam.prueba.springPrueba.controllers;
 import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
-import dam.prueba.springPrueba.models.UsuarioTema;
 import dam.prueba.springPrueba.servicies.GrupoUsuarioService;
-import dam.prueba.springPrueba.servicies.UsuarioTemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +18,12 @@ public class GrupoUsuarioController {
     public List<GrupoUsuario> getAllGrupoUsuario(){
         return grupoUsuarioService.getAllGrupoUsuario();
     }
-
     @PostMapping("/save")
-    public GrupoUsuario saveGrupoUsuario(@RequestBody GrupoUsuario userTema){
-        return grupoUsuarioService.saveGrupoUsuario(userTema);
+    public GrupoUsuario saveGrupoUsuario(@RequestBody GrupoUsuario grupoUser){
+        return grupoUsuarioService.saveGrupoUsuario(grupoUser);
     }
+
+
     @GetMapping("/getUserGroups/{id}")
     public List<GrupoUsuario> getUserGroups(@PathVariable Integer id){
         return grupoUsuarioService.getUserGroups(id);
