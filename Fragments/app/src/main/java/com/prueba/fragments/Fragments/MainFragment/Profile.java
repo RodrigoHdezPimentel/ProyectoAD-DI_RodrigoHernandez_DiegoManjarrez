@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
+import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.EditProfile;
 import com.prueba.fragments.Fragments.ProfileFragment.misLikes;
 import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
@@ -59,6 +60,7 @@ public class Profile extends Fragment {
     ImageView iconMyProfile;
     boolean viewUser;
     Button editProfile;
+    ImageView abrirChat;
     //por default va a ser el usuario resgitrado
     public static Usuario perfil;
     @Override
@@ -73,6 +75,7 @@ public class Profile extends Fragment {
         iconProfile = view.findViewById(R.id.iconFragmentProfile);
         iconMyProfile = view.findViewById(R.id.toMyProfile);
         descripcion = view.findViewById(R.id.descripcionProfile);
+        abrirChat = view.findViewById(R.id.abrirChat);
 
         cargarPerfil();
         iconAdd();
@@ -82,12 +85,20 @@ public class Profile extends Fragment {
         descripcion.setText(perfil.getDescripcion());
 
         if(!viewUser){
-
             editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent toEditProfile = new Intent(getActivity(), EditProfile.class);
                     startActivity(toEditProfile);
+                }
+            });
+        }else{
+            abrirChat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toChat = new Intent(view.getContext(), ChatActivity.class);
+                    toChat.putExtra("idUsuario", perfil.getId());
+                    startActivity(toChat);
                 }
             });
         }
@@ -150,6 +161,7 @@ public class Profile extends Fragment {
         }else {
             perfil = Usuario.getInstance();
             iconMyProfile.setVisibility(View.INVISIBLE);
+            abrirChat.setVisibility(View.INVISIBLE);
         }
     }
     //Metodo para ir nuestro perfil

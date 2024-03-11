@@ -153,6 +153,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/abrirChat"
+        android:src="@drawable/ic_mail"
+        app:layout_constraintBottom_toTopOf="@+id/descripcionProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/updateProfile"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout4"
+        app:tint="@color/seed" />
 
     <TextView
         android:id="@+id/descripcionProfile"

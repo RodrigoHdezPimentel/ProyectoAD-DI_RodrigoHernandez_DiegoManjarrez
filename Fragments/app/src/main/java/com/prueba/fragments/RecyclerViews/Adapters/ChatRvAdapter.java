@@ -64,7 +64,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
                     return;
                 }
                 grupoUsuario[0] = response.body();
-                holder.usuarioMensaje = grupoUsuario[0].getGrupoUsuarioFK().getUsuario();
+                //holder.usuarioMensaje = grupoUsuario[0].getGrupoUsuarioFK().getUsuario();
                 holder.nombre.setText(holder.usuarioMensaje.getName().toString());
 
                 //Orientar el mensaje dependiendo de su procedencia

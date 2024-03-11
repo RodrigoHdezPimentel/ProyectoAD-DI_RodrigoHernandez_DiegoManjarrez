@@ -22,8 +22,8 @@ public class GrupoUsuarioController {
     }
 
     @PostMapping("/save")
-    public GrupoUsuario saveGrupoUsuario(@RequestBody GrupoUsuario userTema){
-        return grupoUsuarioService.saveGrupoUsuario(userTema);
+    public GrupoUsuario saveGrupoUsuario(@RequestBody GrupoUsuario grupoUsuario){
+        return grupoUsuarioService.saveGrupoUsuario(grupoUsuario);
     }
     @GetMapping("/getUserGroups/{id}")
     public List<GrupoUsuario> getUserGroups(@PathVariable Integer id){
