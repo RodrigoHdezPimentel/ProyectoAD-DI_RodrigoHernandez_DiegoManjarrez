@@ -20,5 +20,11 @@ public class GrupoUsuarioFK implements Serializable {
     @Column(name = "idgrupo")
     private Integer idgrupo;
 
+    @ManyToOne
+    @JoinColumn(name = "idusuario", insertable = false, updatable = false)
+    private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "idgrupo", insertable = false, updatable = false)
+    private Grupo grupo;
 }
