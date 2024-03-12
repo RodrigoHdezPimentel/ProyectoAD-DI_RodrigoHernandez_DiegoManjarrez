@@ -22,16 +22,11 @@ import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
-import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuarioFK;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
-import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
-import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
 import java.util.List;
 
@@ -271,7 +266,7 @@ public class Profile extends Fragment {
         //Primero nos asignamos al grupo
         grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,
-                new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
+                Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
             public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
@@ -280,7 +275,7 @@ public class Profile extends Fragment {
                 }
 
                 //Después asignamos el grupo al otro
-                Call <GrupoUsuario> call1 = grupoUsuarioInterface.create(new GrupoUsuario(null, new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
+                Call <GrupoUsuario> call1 = grupoUsuarioInterface.create(new GrupoUsuario(null, perfil.getId(), idGrupo,perfil,grupo));
                 call1.enqueue(new Callback<GrupoUsuario>() {
                     @Override
                     public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {

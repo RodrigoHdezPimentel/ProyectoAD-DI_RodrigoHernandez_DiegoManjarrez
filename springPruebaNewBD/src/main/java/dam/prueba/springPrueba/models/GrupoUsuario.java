@@ -18,7 +18,11 @@ public class GrupoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idgrupousuario;
 
-    private GrupoUsuarioFK id;
+    @Column(name = "idusuario")
+    private Integer idusuario;
+
+    @Column(name = "idgrupo")
+    private Integer idgrupo;
 
     @ManyToOne
     @JoinColumn(name = "idusuario", insertable = false, updatable = false)

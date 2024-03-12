@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.text.SimpleDateFormat;
@@ -39,9 +41,10 @@ public class ChatActivity extends AppCompatActivity {
     ConversacionInterface conversacionInterface;
     GrupoUsuarioInterface grupoUsuarioInterface;
     GrupoInterface grupoInterface;
-    Grupo infoGrupo;
-    Integer idGrupo;
+    //Grupo infoGrupo;
+    //Integer idGrupo;
     Integer idGrupoUsuario;
+    GrupoUsuario grupoUsuario;
     ArrayList<Conversacion> Conversation = new ArrayList<>();
 
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
@@ -60,19 +63,19 @@ public class ChatActivity extends AppCompatActivity {
 
         iconUserChat = findViewById(R.id.iconChat);
         iconAdd(gender);
-        idGrupo = getId.getIntExtra("idGrupo",0);
+        //idGrupo = getId.getIntExtra("idGrupo",0);
         idGrupoUsuario = getId.getIntExtra("idGrupoUsuario",0);
         texto = findViewById(R.id.editText);
         send = findViewById(R.id.send);
         title = findViewById(R.id.groupName);
-
+        arrow = findViewById(R.id.arrow);
         iconUserChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mostrarAlertDialog();
             }
         });
-        arrow = findViewById(R.id.arrow);
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,10 +87,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        cargarConversacion();
-        cargarGrupo();
-        cargarUsuarios();
-
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,10 +95,31 @@ public class ChatActivity extends AppCompatActivity {
                 startActivity(listChat);
             }
         });
+
+        getGrupoUsuario();
+        cargarConversacion();
+        cargarUsuarios();
+    }
+    public void getGrupoUsuario(){
+        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<GrupoUsuario> callUsers = grupoUsuarioInterface.getById(idGrupoUsuario);
+        callUsers.enqueue(new Callback<GrupoUsuario>() {
+            @Override
+            public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                grupoUsuario = response.body();
+            }
+            @Override
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+            }
+
+        });
     }
     public void cargarConversacion(){
         conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
-        Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
+        Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(grupoUsuario.getIdgrupo());
         call.enqueue(new Callback<List<Conversacion>>() {
             @Override
             public void onResponse(@NonNull Call<List<Conversacion>> call, @NonNull Response<List<Conversacion>> response) {
@@ -131,9 +151,8 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
     public void cargarUsuarios(){
-
         grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<List<Usuario>> callUsers = grupoUsuarioInterface.getGroupUsers(idGrupo);
+        Call<List<Usuario>> callUsers = grupoUsuarioInterface.getGroupUsers(grupoUsuario.getIdgrupo());
         callUsers.enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(@NonNull Call<List<Usuario>> call, @NonNull Response<List<Usuario>> response) {
@@ -144,23 +163,6 @@ public class ChatActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
-            }
-        });
-    }
-    public void cargarGrupo(){
-
-        grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> callUsers = grupoInterface.getById(idGrupo);
-        callUsers.enqueue(new Callback<Grupo>() {
-            @Override
-            public void onResponse(@NonNull Call<Grupo> call, @NonNull Response<Grupo> response) {
-                if (!response.isSuccessful()) {
-                    return;
-                }
-                infoGrupo = response.body();
-            }
-            @Override
-            public void onFailure(Call<Grupo> call, Throwable t) {
             }
         });
     }
@@ -206,6 +208,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void mostrarAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -229,8 +232,8 @@ public class ChatActivity extends AppCompatActivity {
         listaUsuarios.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
 
         //Datos del grupo
-        nombreGrupo.setText(infoGrupo.getNombre().toString());
-        codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo().toString());
+        nombreGrupo.setText(grupoUsuario.getGrupo().getNombre().toString());
+        codigoGrupo.setText("Codigo de invitacion:\n" + grupoUsuario.getGrupo().getCodigo().toString());
         // Configurar controladores de clic para los botones
         buttonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,7 +245,7 @@ public class ChatActivity extends AppCompatActivity {
         buttonSalirGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Acciones al cancelar
+                // Eliminar registro para salir
 
             }
         });

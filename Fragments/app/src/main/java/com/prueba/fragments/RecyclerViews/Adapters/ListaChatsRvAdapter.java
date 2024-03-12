@@ -55,12 +55,12 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         toChat = new Intent(context, ChatActivity.class);
 
-        holder.personaChat.setText(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getNombre().toString());
-        iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
+        holder.personaChat.setText(groupModels.get(position).getGrupo().getNombre().toString());
+        iconAdd(groupModels.get(position).getUsuario().getGenero(), holder);
 
         //Ultimo mensaje
         ConversacionInterface conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
-        Call <Conversacion> call = conversacionInterface.getLastMessage(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
+        Call <Conversacion> call = conversacionInterface.getLastMessage(groupModels.get(position).getGrupo().getIdGrupo());
         call.enqueue(new Callback<Conversacion>() {
             @Override
             public void onResponse(Call<Conversacion> call, Response<Conversacion> response) {
@@ -79,9 +79,9 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    toChat.putExtra("gender",groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero());
-                    toChat.putExtra("idGrupo", groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
-                    toChat.putExtra("idGrupoUsuario", groupModels.get(position).getIdGrupoUsuario());
+                    toChat.putExtra("gender",groupModels.get(position).getUsuario().getGenero());
+                    toChat.putExtra("idGrupo", groupModels.get(position).getGrupo().getIdGrupo());
+                    toChat.putExtra("idGrupoUsuario", groupModels.get(position).getIdgrupousuario());
 
 
                 context.startActivity(toChat);
