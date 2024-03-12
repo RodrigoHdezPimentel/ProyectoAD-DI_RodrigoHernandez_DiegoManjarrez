@@ -22,8 +22,6 @@ import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
-import org.jboss.jandex.Main;
-
 import java.util.ArrayList;
 import java.util.List;
 

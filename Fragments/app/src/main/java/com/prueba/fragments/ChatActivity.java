@@ -193,16 +193,14 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
     public void iconAdd(Boolean gender){
-        if (!gender) {
-            iconUserChat.setImageResource(R.drawable.ic_mujer);
-//            ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();
-//            layoutParams.height = 100; // Altura
-//            layoutParams.width = 100; // Anchura
-//            iconUserChat.setLayoutParams(layoutParams);
-        } else if (gender) {
-            iconUserChat.setImageResource(R.drawable.ic_hombre);
-        } else {
+        if(gender == null){
             iconUserChat.setImageResource(R.drawable.ic_app);
+        } else {
+            if (!gender) {
+                iconUserChat.setImageResource(R.drawable.ic_mujer);
+            } else {
+                iconUserChat.setImageResource(R.drawable.ic_hombre);
+            }
         }
     }
 

@@ -22,18 +22,15 @@ import com.prueba.fragments.Fragments.ProfileFragment.misPublicaciones;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuarioFK;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
-import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
-import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -155,12 +152,14 @@ public class Profile extends Fragment {
     }
 
     public void iconAdd(){
-        if(!Profile.perfil.getGenero()){
-            iconProfile.setImageResource(R.drawable.ic_mujer);
-        } else if (Profile.perfil.getGenero()) {
-            iconProfile.setImageResource(R.drawable.ic_hombre);
-        }else {
+        if(Profile.perfil.getGenero() == null){
             iconProfile.setImageResource(R.drawable.ic_app);
+        }else{
+            if(!Profile.perfil.getGenero()){
+                iconProfile.setImageResource(R.drawable.ic_mujer);
+            } else {
+                iconProfile.setImageResource(R.drawable.ic_hombre);
+            }
         }
     }
     public void cargarPerfil(){
@@ -188,7 +187,6 @@ public class Profile extends Fragment {
         });
     }
     public void enviarMensaje(){
-
         iconEnciarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,39 +231,25 @@ public class Profile extends Fragment {
                                             Toast.makeText(getContext(), "Crear chat", Toast.LENGTH_SHORT).show();
                                             crearConversacion();
                                         }
-
                                     }
-//                                    Toast.makeText(getContext(),  "1", Toast.LENGTH_SHORT).show();
-
-
                                 }
-
                                 @Override
                                 public void onFailure(Call<Boolean> call, Throwable t) {
 
                                 }
                             });
-
-//                            Toast.makeText(getContext(),  "2", Toast.LENGTH_SHORT).show();
-
                         }
-
                     }
                     @Override
                     public void onFailure(Call<List<List<Integer>>> call, Throwable t) {}});
-
-//                Toast.makeText(getContext(),  "3", Toast.LENGTH_SHORT).show();
-
             }
-
         });
-
     }
 
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
         GrupoInterface grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> call = grupoInterface.create(new Grupo(null,perfil.getName(),"Ruta",""));
+        Call<Grupo> call = grupoInterface.create(new Grupo(null,perfil.getName(),"Ruta",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -326,5 +310,19 @@ public class Profile extends Fragment {
 
             }
         });
+    }
+    private String generarCodigoDeGrupo() {
+        String codigo = "";
+        char letra;
+        Random rm = new Random();
+        for (int y = 0; y < 10; y++) {
+            letra = (char) (rm.nextInt(122 - 48 + 1) + 48);
+            if (letra == '\\' || letra == ';') {
+                y--;
+            } else {
+                codigo += letra;
+            }
+        }
+        return codigo;
     }
 }

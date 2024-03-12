@@ -9,16 +9,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
-
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class Registro extends AppCompatActivity {
 Button buttonRegistrar;

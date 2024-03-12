@@ -1,6 +1,5 @@
 package com.prueba.fragments.RetrofitConnection.Interfaces;
 
-import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;

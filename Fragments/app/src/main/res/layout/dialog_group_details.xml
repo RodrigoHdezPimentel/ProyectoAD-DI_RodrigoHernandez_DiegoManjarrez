@@ -6,18 +6,27 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center">
 
-    <TextView
+    <EditText
         android:id="@+id/nombreGrupo"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:text="Nombre del grupo"
         android:textAlignment="center"
         android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/agregar"
+        app:layout_constraintBottom_toTopOf="@+id/codigoGrupo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/salirGrupo"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/codigoGrupo"
         android:layout_width="match_parent"

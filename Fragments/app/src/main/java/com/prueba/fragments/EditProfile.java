@@ -165,7 +165,6 @@ public class EditProfile extends AppCompatActivity {
                 startActivity(toLogIn);
             }
         });
-
         buttonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +173,7 @@ public class EditProfile extends AppCompatActivity {
 
             }
         });
+
         alertDialog = builder.create();
         alertDialog.show();
     }
@@ -190,7 +190,7 @@ public class EditProfile extends AppCompatActivity {
 
             Button cancellButton = dialog.findViewById(R.id.cancellButtonEditTheme);
             Button confirmarButton = dialog.findViewById(R.id.confirmarButtoneEditTheme);
-                cancellButton.setOnClickListener(new View.OnClickListener() {
+            cancellButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     con.setAlpha(1f);

@@ -1,18 +1,5 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.prueba.fragments.ChatActivity;
-import com.prueba.fragments.Login_SignUP;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class Conversacion {
     private Integer idconversacion;
     private Integer idgrupousuario;

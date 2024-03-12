@@ -8,21 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChatUsersRvAdapter extends RecyclerView.Adapter<ChatUsersRvAdapter.MyViewHolder> {
     Context context;
@@ -53,12 +44,14 @@ public class ChatUsersRvAdapter extends RecyclerView.Adapter<ChatUsersRvAdapter.
         }else {
             holder.nombre.setText(usuariosModels.get(position).getName().toString());
         }
-        if (!usuariosModels.get(position).getGenero()) {
-            holder.foto.setImageResource(R.drawable.ic_mujer);
-        } else if (usuariosModels.get(position).getGenero()) {
-            holder.foto.setImageResource(R.drawable.ic_hombre);
-        } else {
+        if(usuariosModels.get(position).getGenero() == null){
             holder.foto.setImageResource(R.drawable.ic_app);
+        }else{
+            if (!usuariosModels.get(position).getGenero()) {
+                holder.foto.setImageResource(R.drawable.ic_mujer);
+            } else {
+                holder.foto.setImageResource(R.drawable.ic_hombre);
+            }
         }
     }
 

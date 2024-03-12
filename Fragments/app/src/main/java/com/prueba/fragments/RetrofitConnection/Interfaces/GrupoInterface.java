@@ -1,6 +1,5 @@
 package com.prueba.fragments.RetrofitConnection.Interfaces;
 
-import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 
 import java.util.List;

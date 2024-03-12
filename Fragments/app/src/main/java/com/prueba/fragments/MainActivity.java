@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.prueba.fragments.Fragments.MainFragment.Chats;
@@ -16,15 +15,12 @@ import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Fragments.MainFragment.Publish;
 import com.prueba.fragments.RetrofitConnection.Interfaces.LikeInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;

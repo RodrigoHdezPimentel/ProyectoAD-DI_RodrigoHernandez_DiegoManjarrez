@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,15 +22,12 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -278,20 +274,16 @@ ImageView back;
         });
 
     }
+
     public void iconAdd(Boolean gender){
-        if(!gender){
-
-            iconUserPublish.setImageResource(R.drawable.ic_mujer);
-//            ViewGroup.LayoutParams layoutParams = iconUserPublish.getLayoutParams();
-//            layoutParams.height = 200; // Altura
-//            layoutParams.width = 200; // Anchura
-//            iconUserPublish.setLayoutParams(layoutParams);
-
-        } else if (gender) {
-            iconUserPublish.setImageResource(R.drawable.ic_hombre);
-
-        }else {
+        if(gender == null){
             iconUserPublish.setImageResource(R.drawable.ic_app);
+        } else {
+            if (!gender) {
+                iconUserPublish.setImageResource(R.drawable.ic_mujer);
+            } else {
+                iconUserPublish.setImageResource(R.drawable.ic_hombre);
+            }
         }
     }
     //visitar el perfil del usuario cuando le das click a la foto de su perfil en la publicacion

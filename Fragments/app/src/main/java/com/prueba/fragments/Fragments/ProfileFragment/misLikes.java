@@ -17,7 +17,6 @@ import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
-import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.List;
 

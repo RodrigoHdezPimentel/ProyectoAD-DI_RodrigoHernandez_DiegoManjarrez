@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -20,13 +19,9 @@ import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
-import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
-import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -113,17 +108,14 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     }
     public void iconAdd(Boolean gender, MyViewHolder holder) {
 
-
-        if (!gender) {
-            holder.iconUser.setImageResource(R.drawable.ic_mujer);
-//            ViewGroup.LayoutParams layoutParams = holder.iconUser.getLayoutParams();
-//            layoutParams.height = 200; // Altura en píxeles
-//            layoutParams.width = 200; // Anchura en píxeles
-//            holder.iconUser.setLayoutParams(layoutParams);
-        } else if (gender) {
-            holder.iconUser.setImageResource(R.drawable.ic_hombre);
-        } else {
+        if(gender == null){
             holder.iconUser.setImageResource(R.drawable.ic_app);
+        } else {
+            if (!gender) {
+                holder.iconUser.setImageResource(R.drawable.ic_mujer);
+            } else {
+                holder.iconUser.setImageResource(R.drawable.ic_hombre);
+            }
         }
     }
 
