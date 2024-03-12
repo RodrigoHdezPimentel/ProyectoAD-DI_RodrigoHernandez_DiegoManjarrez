@@ -66,11 +66,9 @@ public class Home extends Fragment {
                         break;
                 }
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 //Acá se puede recargar los "datos" cuando se vuelva a seleccionar el mismo fragment
@@ -79,7 +77,6 @@ public class Home extends Fragment {
 
         return root;
     }
-
 
     void selectedFragment(Fragment fr){
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();

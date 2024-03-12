@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Foroex</string>
+    <string name="usuario">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="genero">Genero</string>
+    <string name="edad">Edad</string>
+    <string name="correo">Correo electrónico</string>
+    <string name="boton_cancelar">Cancelar</string>
+    <string name="boton_confirmar">Confirmar</string>
+    <string name="resgistro_mensaje">Seleccione los temas que te gustan</string>
+    <string name="boton_iniciar_sesion" >Iniciar sesión</string>
+    <string name="boton_resgistrarse" >Resgistrarse</string>
+
+    <string name="mis_temas">Mis temas</string>
+    <string name="tendencias">Tendencias</string>
+    <string name="titulo">Título</string>
+    <string name="contenido">Contenido</string>
+    <string name="boton_publicar">Publicar</string>
+    <string name="boton_editar_perfil">Editar perfil</string>
+    <string name="mis_publicaciones">Mis publicaciones</string>
+    <string name="mis_likes">Me gusta</string>
+    <string name="boton_editar_temas">Editar Temas</string>
+    <string name="boton_eliminar_cuenta">Eliminar Cuenta</string>
+    <string name="salir_del_grupo">Salir del grupo</string>
+
+    <string-array name="Gender">
+        <item>Hombre</item>
+        <item>Mujer</item>
+    </string-array>
+
+
+</resources>

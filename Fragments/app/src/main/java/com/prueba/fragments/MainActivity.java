@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
         Intent getFragment = getIntent();
+
         int fragmentNum = getFragment.getIntExtra("numFrgMain", 0);
         Fragment fragmentMain = null;
         switch (fragmentNum){
@@ -52,11 +53,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 3:
                 fragmentMain = new Profile();
+                //Obtenemos el objeto que se envió para ver el perfil.
+                fragmentMain.setArguments(getIntent().getBundleExtra("perfilBundle"));
                 break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, fragmentMain)
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayoutMain, fragmentMain)
                 .addToBackStack(null)
                 .commit();
+        TabLayout.Tab tab = tabLayout.getTabAt(fragmentNum);
+        tab.select();
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -111,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
     public static void quitarLike(int idPublicacion){
         LikeInterface likeInterface = Login_SignUP.retrofitLike.create(LikeInterface.class);

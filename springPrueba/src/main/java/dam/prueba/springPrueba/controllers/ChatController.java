@@ -44,7 +44,11 @@ public class ChatController {
         }
         return  chatsFiltered;
     }
-
+    //Filtra los chat en donde muestra el ultimo mensaje con su ultima fecha
+//    @GetMapping("/getUserChatsFilter/{id}")
+//    public Chat getUserChatsFilter(@PathVariable Integer id){
+//        return chatService.getUserChatsFilter(id);
+//    }
     @GetMapping("/getUserChats/{id}")
     public List<Chat> getUserChats(@PathVariable Integer id){
         ArrayList<Chat> listaChat = (ArrayList<Chat>) chatService.getUserChats(id);

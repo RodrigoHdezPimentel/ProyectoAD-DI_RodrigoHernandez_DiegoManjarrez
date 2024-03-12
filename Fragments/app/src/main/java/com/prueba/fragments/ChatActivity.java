@@ -1,81 +1,93 @@
 package com.prueba.fragments;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ChatInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Chat;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
+import com.prueba.fragments.RecyclerViews.Adapters.ChatUsersRvAdapter;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
+import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
-    ChatInterface chatInterface;
-    Integer idConversacion;
-    ArrayList<Chat> Conversation = new ArrayList<>();
+    ConversacionInterface conversacionInterface;
+    GrupoUsuarioInterface grupoUsuarioInterface;
+    GrupoInterface grupoInterface;
+    Grupo infoGrupo;
+    Integer idGrupo;
+    Integer idGrupoUsuario;
+    ArrayList<Conversacion> Conversation = new ArrayList<>();
+
+    ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
     TextInputEditText texto;
-    Usuario ConverUser;
-    TextView name;
+    TextView title;
     ImageView iconUserChat;
+    ImageView send;
+    ImageView arrow;
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
-        String gender = getIntent().getStringExtra("gender");
+        Boolean gender = getId.getBooleanExtra("gender", false);
 
         iconUserChat = findViewById(R.id.iconChat);
         iconAdd(gender);
-        idConversacion = getId.getIntExtra("idConv",0);
-
+        idGrupo = getId.getIntExtra("idGrupo",0);
+        idGrupoUsuario = getId.getIntExtra("idGrupoUsuario",0);
         texto = findViewById(R.id.editText);
-        ImageView send = findViewById(R.id.send);
+        send = findViewById(R.id.send);
+        title = findViewById(R.id.groupName);
 
-        CargarUser();
-        name = findViewById(R.id.nameTv);
-
+        iconUserChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarAlertDialog();
+            }
+        });
+        arrow = findViewById(R.id.arrow);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!texto.getText().toString().equals("")){
 
-                    Date date = new Date();
-                    long timeInMilliSeconds = date.getTime();
-                    java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
-
-                    GuardarChat(new Chat(idConversacion, Usuario.getInstance().getId(),
-                            texto.getText().toString(), date1.toString(), ConverUser, Usuario.getInstance()));
+                    GuardarConversacion();
 
                 }
             }
         });
-        cargarChat();
 
-        ImageView arrow = findViewById(R.id.arrow);
+        cargarConversacion();
+        cargarGrupo();
+        cargarUsuarios();
+
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,16 +97,16 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-    public void cargarChat(){
-        chatInterface = Login_SignUP.retrofitChat.create(ChatInterface.class);
-        Call<List<Chat>> call = chatInterface.getUsersConversation(Usuario.getInstance().getId(), idConversacion);
-        call.enqueue(new Callback<List<Chat>>() {
+    public void cargarConversacion(){
+        conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
+        call.enqueue(new Callback<List<Conversacion>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Chat>> call, @NonNull Response<List<Chat>> response) {
+            public void onResponse(@NonNull Call<List<Conversacion>> call, @NonNull Response<List<Conversacion>> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
-                Conversation = (ArrayList<Chat>) response.body();
+                Conversation = (ArrayList<Conversacion>) response.body();
 
                 RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
                 MyRecyclerView.removeAllViews();
@@ -102,59 +114,139 @@ public class ChatActivity extends AppCompatActivity {
                 ChatRvAdapter adapter = new ChatRvAdapter(ChatActivity.this, Conversation);
                 MyRecyclerView.setAdapter(adapter);
                 MyRecyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+
+
+                //que se posicione en el ultimo menjsae del scrollview
+                //BUSCAR ALGUNA MANERA PARA OPTIMIZAR LA VISTA DEL ULTIMO MENSAJE
+                RecyclerView.LayoutManager layoutManager = MyRecyclerView.getLayoutManager();
+                if (layoutManager != null && layoutManager instanceof LinearLayoutManager) {
+                    int ultimoElemento = layoutManager.getItemCount() - 1;
+                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(ultimoElemento, 0);
+                }
+
             }
             @Override
-            public void onFailure(Call<List<Chat>> call, Throwable t) {
+            public void onFailure(Call<List<Conversacion>> call, Throwable t) {
+            }
+        });
+    }
+    public void cargarUsuarios(){
+
+        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<List<Usuario>> callUsers = grupoUsuarioInterface.getGroupUsers(idGrupo);
+        callUsers.enqueue(new Callback<List<Usuario>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Usuario>> call, @NonNull Response<List<Usuario>> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                usuariosGrupo = (ArrayList<Usuario>) response.body();
+            }
+            @Override
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+            }
+        });
+    }
+    public void cargarGrupo(){
+
+        grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
+        Call<Grupo> callUsers = grupoInterface.getById(idGrupo);
+        callUsers.enqueue(new Callback<Grupo>() {
+            @Override
+            public void onResponse(@NonNull Call<Grupo> call, @NonNull Response<Grupo> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                infoGrupo = response.body();
+            }
+            @Override
+            public void onFailure(Call<Grupo> call, Throwable t) {
             }
         });
     }
 
-    public void GuardarChat(Chat chat){
-        chatInterface = Login_SignUP.retrofitChat.create(ChatInterface.class);
-        Call<Chat> call = chatInterface.create(chat);
-        call.enqueue(new Callback<Chat>() {
+    public void GuardarConversacion(){
+
+        Date date = new Date();
+        long timeInMilliSeconds = date.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
+
+
+        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, formattedDate.toString(), texto.getText().toString());
+
+        conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        Call<Conversacion> call = conversacionInterface.save(newConversacion);
+        call.enqueue(new Callback<Conversacion>() {
             @Override
-            public void onResponse(@NonNull Call<Chat> call, @NonNull Response<Chat> response) {
+            public void onResponse(@NonNull Call<Conversacion> call, @NonNull Response<Conversacion> response) {
                 if (!response.isSuccessful()) {
+                    Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 texto.setText("");
-                cargarChat();
+                cargarConversacion();
             }
             @Override
-            public void onFailure(Call<Chat> call, Throwable t) {
-            }
-        });
-
-    }
-    public void CargarUser(){
-        UsuarioInterface usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.getUserById(idConversacion);
-        call.enqueue(new Callback<Usuario>() {
-            @Override
-            public void onResponse(@NonNull Call<Usuario> call, @NonNull Response<Usuario> response) {
-                if (!response.isSuccessful()) {
-                    return;
-                }
-                ConverUser = response.body();
-                name.setText(ConverUser.getName().toString());
-            }
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
+            public void onFailure(Call<Conversacion> call, Throwable t) {
             }
         });
     }
-    public void iconAdd(String gender){
-        if (gender.equals("Female")) {
+    public void iconAdd(Boolean gender){
+        if (!gender) {
             iconUserChat.setImageResource(R.drawable.ic_mujer);
-            ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();
-            layoutParams.height = 100; // Altura
-            layoutParams.width = 100; // Anchura
-            iconUserChat.setLayoutParams(layoutParams);
-        } else if (gender.equals("Male")) {
+//            ViewGroup.LayoutParams layoutParams = iconUserChat.getLayoutParams();
+//            layoutParams.height = 100; // Altura
+//            layoutParams.width = 100; // Anchura
+//            iconUserChat.setLayoutParams(layoutParams);
+        } else if (gender) {
             iconUserChat.setImageResource(R.drawable.ic_hombre);
         } else {
             iconUserChat.setImageResource(R.drawable.ic_app);
         }
+    }
+
+    private void mostrarAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Inflar el diseño personalizado
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_group_details, null);
+        builder.setView(dialogView);
+
+        // Obtener referencias de los botones personalizados
+        ImageView buttonCerrar = dialogView.findViewById(R.id.cerrarAD);
+        Button buttonSalirGrupo = dialogView.findViewById(R.id.salirGrupo);
+        TextView nombreGrupo = dialogView.findViewById(R.id.nombreGrupo);
+        TextView codigoGrupo = dialogView.findViewById(R.id.codigoGrupo);
+
+        RecyclerView listaUsuarios = dialogView.findViewById(R.id.usuariosRecyclerView);
+        listaUsuarios.removeAllViews();
+
+        //RV de usuarios
+        ChatUsersRvAdapter adapter = new ChatUsersRvAdapter(ChatActivity.this, usuariosGrupo);
+        listaUsuarios.setAdapter(adapter);
+        listaUsuarios.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+
+        //Datos del grupo
+        nombreGrupo.setText(infoGrupo.getNombre().toString());
+        codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo().toString());
+        // Configurar controladores de clic para los botones
+        buttonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();  // Dismiss the dialog when Cancel button is clicked
+            }
+        });
+
+        buttonSalirGrupo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Acciones al cancelar
+
+            }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 }

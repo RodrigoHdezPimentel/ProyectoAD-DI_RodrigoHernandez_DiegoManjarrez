@@ -32,7 +32,7 @@
             android:id="@+id/confirmDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirmar"
+            android:text="@string/boton_confirmar"
             android:layout_marginRight="40dp"/>
 
 
@@ -41,7 +41,7 @@
             android:id="@+id/cancelDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancelar"
+            android:text="@string/boton_cancelar"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_margin="0dp"/>
     </LinearLayout>

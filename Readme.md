@@ -75,3 +75,5 @@ Aquí algunas de paletas de colores de los para los 32 temas:
 - En el aprtado de chat se nos abrirá un listado de chats para hablar con otros usuarios.
 
 ![Activity ThemesActivity.png](https://github.com/RodrigoHdezPimentel/ProyectoAD-DI_RodrigoHernandez_DiegoManjarrez/blob/PRD_DisenoPrototipado/imgs/Activities/ChatActivity.png)
+# cambiar la columna de genero por un binario
+#Realizar validadcion cuando entro a un perfil que es el mío

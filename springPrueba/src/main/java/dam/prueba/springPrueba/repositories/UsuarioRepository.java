@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
@@ -29,7 +30,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
             " ORDER BY l.idLike DESC")
     List<Publicacion> getUserPublicacionFromLike(Integer userId);
 
+    @Query("SElECT c FROM Usuario c WHERE c.name = ?1 AND c.pass = ?2")
+    Optional<Usuario> getUserRegister(String name, String pass);
 
+//verficficacion si el user ya le dio like a una publicaion en concreto
 
+    @Query("SElECT COUNT (l) FROM Like l INNER JOIN Usuario u ON u.idusuario = l.idUsuario WHERE u.idusuario = ?1 AND l.idPublicacion = ?2")
+    Integer userLikedPublish(Integer idU, Integer idP);
 
 }

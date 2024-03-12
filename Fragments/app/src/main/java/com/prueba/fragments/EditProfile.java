@@ -26,7 +26,6 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -113,7 +112,6 @@ public class EditProfile extends AppCompatActivity {
                 }
 
             }
-
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 Log.e("Thorw err: ", t.getMessage());
@@ -149,7 +147,7 @@ public class EditProfile extends AppCompatActivity {
 
         // Inflar el diseño personalizado
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.alert_dialog_delete_account, null);
+        View dialogView = inflater.inflate(R.layout.dialog_delete_account, null);
         builder.setView(dialogView);
 
         // Obtener referencias de los botones personalizados
@@ -262,6 +260,7 @@ public class EditProfile extends AppCompatActivity {
             idTemaChipEncontrado=false;
             View child = chipGroup.getChildAt(i);
             if(((Chip) child).isChecked()) {
+
                 //se hace la comparacion de los chips que están seleccionados con
                 //los idTemas que ya está dentro de la tabla del user
                 for (int ut = 0; ut < UsuarioTemasIds.size(); ut++) {

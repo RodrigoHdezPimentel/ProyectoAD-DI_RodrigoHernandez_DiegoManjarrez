@@ -42,7 +42,8 @@ public class UsuarioService {
     public List<Publicacion> getUserPublicacionFromTema(Integer id){ return  usuarioRepository.getUserPublicacionFromTema(id);}
     public List<Publicacion> getUserPublicacionFromLike(Integer id){ return  usuarioRepository.getUserPublicacionFromLike(id);}
 
+    public Optional<Usuario> getUserRegister(String name, String pass){ return  usuarioRepository.getUserRegister(name, pass);}
+    public Integer userLikedPublish(Integer idU, Integer idP){ return  usuarioRepository.userLikedPublish(idU,idP);}
 
-    //public List<Publicacion> getUserLike (Integer id){ return  usuarioRepository.getUserLike(id);}
 
 }

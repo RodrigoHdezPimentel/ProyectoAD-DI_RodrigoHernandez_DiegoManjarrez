@@ -38,7 +38,7 @@
             android:scaleX="-1"
             android:src="@drawable/simplearrow"/>
         <TextView
-            android:id="@+id/nameTv"
+            android:id="@+id/groupName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Nombre de la otra persona"
@@ -47,12 +47,14 @@
             android:layout_gravity="center"
             android:gravity="right"
             android:layout_weight="1"/>
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iconChat"
             android:layout_width="50dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:scaleX="-1"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/black"
             android:src="@drawable/ic_hombre"/>
 
     </LinearLayout>

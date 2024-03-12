@@ -27,7 +27,7 @@
             android:id="@+id/misTemasTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mis Temas"
+            android:text="@string/mis_temas"
             tools:layout_editor_absoluteX="-92dp"
             tools:layout_editor_absoluteY="24dp" />
 
@@ -35,7 +35,7 @@
             android:id="@+id/TendenciasTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tendencias" />
+            android:text="@string/tendencias" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.fragment.app.FragmentContainerView
