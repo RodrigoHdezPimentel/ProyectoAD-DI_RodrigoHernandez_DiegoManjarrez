@@ -30,6 +30,4 @@ public class Usuario {
     private String mail;
     @Column(name = "Us_Contrasena")
     private String pass;
-
-
 }

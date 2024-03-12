@@ -19,4 +19,12 @@ public class GrupoUsuario {
     private Integer idgrupousuario;
 
     private GrupoUsuarioFK id;
+
+    @ManyToOne
+    @JoinColumn(name = "idusuario", insertable = false, updatable = false)
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "idgrupo", insertable = false, updatable = false)
+    private Grupo grupo;
 }
