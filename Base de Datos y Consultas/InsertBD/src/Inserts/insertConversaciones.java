@@ -51,7 +51,7 @@ public class insertConversaciones {
 			for (int i = 0; i < 5; i++) {
 
 				// Num de registros Grupo_Usuario
-				for (int y = 1; y < 838; y++) {
+				for (int y = 1; y < 905; y++) {
 
 					// Mensajes por persona
 					numMens = rm.nextInt(7) + 1;

@@ -33,7 +33,7 @@ public class insertGrupoUsuario {
 							break;
 						}else if(z == personas.length -1) {
 							personas[y] = personaID;
-							pw.print("(NULL, " + x + ", "+ personaID + "),\n");
+							pw.print("(NULL, " + x + ", "+ personaID + ", \"Nombre Grupo\"),\n");
 						}
 					}
 				}

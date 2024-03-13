@@ -101,3 +101,40 @@ select  distinct(idUsuarioOrigen) as "recibido", IdUsuarioDestino as "mandado"
 	on a.idUsuarioOrigen = b.IdUsuarioDestino and a.IdUsuarioDestino = b.idUsuarioOrigen 
 		where a.idUsuarioOrigen = 1 or a.IdUsuarioDestino = 1;*/
 
+/*Quitar tuitulo a comentarios*/
+update publicaciones set titulo = null where idPubliRefer is not null;
+
+/*
+/*Quitar el nombre al chat, para que cuando sea null se ponga el nombre de la otra persona*/
+UPDATE grupo_usuario
+SET nombre = NULL
+WHERE idGrupo IN (
+    SELECT idGrupo
+    FROM (
+        SELECT idGrupo
+        FROM grupo_usuario
+        GROUP BY idGrupo
+        HAVING COUNT(idGrupo) = 2
+    ) AS subquery
+);*/
+
+
+
+
+
+
+
+
+
+
+select idGrupo, count(idGrupo) from grupo_usuario group by idGrupo having COUNT(idGrupo) = 2;
+
+
+
+
+
+
+
+
+
+

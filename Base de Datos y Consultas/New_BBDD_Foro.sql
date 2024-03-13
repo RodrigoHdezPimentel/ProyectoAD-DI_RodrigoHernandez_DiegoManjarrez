@@ -18,7 +18,6 @@ CREATE TABLE Usuarios(
 );
 CREATE TABLE Grupos(
 	idGrupo INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    nombre varchar(15),
     foto varchar(100),
     codigo varchar(10)
 );
@@ -26,6 +25,7 @@ CREATE TABLE Grupo_Usuario(
 	idGrupoUsuario INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	idGrupo INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
+	nombre varchar(15),
     
 	FOREIGN KEY (idUsuario)
 		REFERENCES Usuarios (idUsuario)
@@ -110,5 +110,3 @@ CREATE TABLE Usuario_Tema(
 		ON UPDATE CASCADE
     	ON DELETE CASCADE
 );
-
-select * from Usuarios;

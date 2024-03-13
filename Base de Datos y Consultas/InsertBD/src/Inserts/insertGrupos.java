@@ -32,7 +32,7 @@ public class insertGrupos {
 						codigo += letra;
 					}
 				}
-				pw.print("(NULL, \"Group Name\", \"Ruta\", \"" + codigo + "\"),\n");
+				pw.print("(NULL, \"Ruta\", \"" + codigo + "\"),\n");
 				codigo = "";
 				
 			}
