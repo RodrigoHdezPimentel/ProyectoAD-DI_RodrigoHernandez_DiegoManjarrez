@@ -111,6 +111,7 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 }
                 grupoUsuario = response.body();
+                title.setText(grupoUsuario.getNombre().toString());
             }
             @Override
             public void onFailure(Call<GrupoUsuario> call, Throwable t) {
