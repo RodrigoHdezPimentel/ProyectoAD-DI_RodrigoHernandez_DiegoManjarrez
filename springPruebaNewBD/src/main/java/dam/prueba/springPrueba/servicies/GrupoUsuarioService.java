@@ -41,6 +41,12 @@ public class GrupoUsuarioService {
     public List<String> getGroupName(Integer idGr, Integer idUs) {
         return grupoUsuarioRepository.getGroupName(idGr, idUs);
     }
+    public void updateGroupName(String newName, Integer id){
+         grupoUsuarioRepository.updateGroupName(newName, id);
+    }
+    public void updateChatName(String newName, Integer id){
+        grupoUsuarioRepository.updateChatName(newName, id);
+    }
 
 
 

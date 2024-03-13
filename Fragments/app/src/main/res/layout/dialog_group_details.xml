@@ -14,19 +14,30 @@
         android:text="Nombre del grupo"
         android:textAlignment="center"
         android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@+id/checkName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/checkName"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/agregar"
+        android:src="@drawable/ic_check"
         app:layout_constraintBottom_toTopOf="@+id/codigoGrupo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/salirGrupo"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black"/>
+    <ImageView
+        android:id="@+id/modifyName"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_pencil"
+        app:layout_constraintBottom_toTopOf="@+id/codigoGrupo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/salirGrupo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black"/>
     <TextView
         android:id="@+id/codigoGrupo"
         android:layout_width="match_parent"

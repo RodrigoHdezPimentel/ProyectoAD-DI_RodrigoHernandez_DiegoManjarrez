@@ -53,4 +53,16 @@ public class GrupoUsuarioController {
         }
         return grupoUsuarioService.getGroupName(idGr, idUs).get(0);
     }
+
+    @GetMapping("/updateGroupName/{newName}/{id}")
+    public void updateGroupName(@PathVariable String newName,@PathVariable Integer id) {
+        //Si es un chat o no
+            if (grupoUsuarioService.getGroupUsers(
+                    grupoUsuarioService.getById(id).getId().getIdgrupo()).size() == 2) {
+                grupoUsuarioService.updateChatName(newName, id);
+            } else {
+                grupoUsuarioService.updateGroupName(newName, id);
+            }
+
+    }
 }

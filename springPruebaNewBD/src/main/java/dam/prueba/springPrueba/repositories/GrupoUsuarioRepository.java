@@ -1,13 +1,13 @@
 package dam.prueba.springPrueba.repositories;
 
-import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.GrupoUsuarioFK;
 import dam.prueba.springPrueba.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, GrupoUsuarioFK> {
@@ -36,5 +36,16 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
     Integer getNumberUsers(Integer id);
     @Query(value = "SELECT g.nombre from GrupoUsuario g where g.id.idgrupo = ?1 and g.id.idusuario != ?2")
     List<String> getGroupName(Integer idGr, Integer idUs);
+
+    @Transactional
+    @Modifying//Cambiar nombre del grupo
+    @Query(value = "UPDATE GrupoUsuario g SET g.nombre = ?1 WHERE g.idgrupousuario = ?2")
+    void updateChatName(String newName, Integer id);
+    //Cambiar nombre del chat(sin cambiar el de la persona)
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE GrupoUsuario g SET g.nombre = ?1 WHERE g.id.idgrupo = " +
+            "           (SELECT gu.id.idgrupo from GrupoUsuario gu WHERE gu.idgrupousuario = ?2)")
+    void updateGroupName(String newName, Integer id);
 
 }

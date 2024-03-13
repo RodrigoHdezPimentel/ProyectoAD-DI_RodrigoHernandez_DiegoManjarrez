@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +68,7 @@ public class ChatActivity extends AppCompatActivity {
         texto = findViewById(R.id.editText);
         send = findViewById(R.id.send);
         title = findViewById(R.id.groupName);
+        arrow = findViewById(R.id.arrow);
 
         iconUserChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +76,6 @@ public class ChatActivity extends AppCompatActivity {
                 mostrarAlertDialog();
             }
         });
-        arrow = findViewById(R.id.arrow);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,12 +86,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-
-        getGrupoUsuario();
-        cargarConversacion();
-        cargarGrupo();
-        cargarUsuarios();
-
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +94,12 @@ public class ChatActivity extends AppCompatActivity {
                 startActivity(listChat);
             }
         });
+
+        getGrupoUsuario();
+        cargarConversacion();
+        cargarGrupo();
+        cargarUsuarios();
+
     }
     public void getGrupoUsuario() {
         grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
@@ -115,6 +117,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
     public void cargarConversacion(){
         conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
         Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
@@ -225,6 +228,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void mostrarAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -235,9 +239,15 @@ public class ChatActivity extends AppCompatActivity {
 
         // Obtener referencias de los botones personalizados
         ImageView buttonCerrar = dialogView.findViewById(R.id.cerrarAD);
+        ImageView confirmName = dialogView.findViewById(R.id.checkName);
+        ImageView unlockNameField = dialogView.findViewById(R.id.modifyName);
         Button buttonSalirGrupo = dialogView.findViewById(R.id.salirGrupo);
-        TextView nombreGrupo = dialogView.findViewById(R.id.nombreGrupo);
+        EditText nombreGrupo = dialogView.findViewById(R.id.nombreGrupo);
         TextView codigoGrupo = dialogView.findViewById(R.id.codigoGrupo);
+
+        unlockNameField.setVisibility(View.VISIBLE);
+        nombreGrupo.setEnabled(false);
+        confirmName.setVisibility(View.GONE);
 
         RecyclerView listaUsuarios = dialogView.findViewById(R.id.usuariosRecyclerView);
         listaUsuarios.removeAllViews();
@@ -265,6 +275,39 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+        confirmName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+                Call<Void> call = grupoUsuarioInterface.updateGroupName(nombreGrupo.getText().toString(),idGrupoUsuario);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                        if (!response.isSuccessful()) {
+                            Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        unlockNameField.setVisibility(View.VISIBLE);
+                        nombreGrupo.setEnabled(false);
+                        confirmName.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                    }
+                });
+            }
+        });
+
+        unlockNameField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nombreGrupo.setEnabled(true);
+                unlockNameField.setVisibility(View.GONE);
+                confirmName.setVisibility(View.VISIBLE);
+            }
+        });
+
         alertDialog = builder.create();
         alertDialog.show();
     }

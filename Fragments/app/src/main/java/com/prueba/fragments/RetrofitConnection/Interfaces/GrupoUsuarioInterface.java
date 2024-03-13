@@ -27,7 +27,7 @@ public interface GrupoUsuarioInterface {
     Call<List<List<Integer>>> getCommonGroups(@Path("idU") Integer idU,@Path("idV") Integer idV);
     @GET("getNumberUsers/{id}")
     Call<Boolean> getNumberUsers(@Path("id") Integer id);
-    /*@GET("getGroupName/{idGr}/{idUs}")
-    Call<String> getGroupName(@Path("idGr") Integer idGr, @Path("idUs") Integer idUs);*/
+    @GET("updateGroupName/{newName}/{id}")
+    Call<Void> updateGroupName(@Path("newName") String newName, @Path("id") Integer id);
 
 }
