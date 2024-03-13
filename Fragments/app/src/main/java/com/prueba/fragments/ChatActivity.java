@@ -23,6 +23,7 @@ import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.text.SimpleDateFormat;
@@ -39,11 +40,11 @@ public class ChatActivity extends AppCompatActivity {
     ConversacionInterface conversacionInterface;
     GrupoUsuarioInterface grupoUsuarioInterface;
     GrupoInterface grupoInterface;
-    Grupo infoGrupo;
     Integer idGrupo;
+    Grupo infoGrupo;
     Integer idGrupoUsuario;
+    GrupoUsuario grupoUsuario;
     ArrayList<Conversacion> Conversation = new ArrayList<>();
-
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
     TextInputEditText texto;
     TextView title;
@@ -84,6 +85,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        getGrupoUsuario();
         cargarConversacion();
         cargarGrupo();
         cargarUsuarios();
@@ -94,6 +96,22 @@ public class ChatActivity extends AppCompatActivity {
                 Intent listChat = new Intent(ChatActivity.this, MainActivity.class);
                 listChat.putExtra("numFrgMain", 2);
                 startActivity(listChat);
+            }
+        });
+    }
+    public void getGrupoUsuario() {
+        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        Call<GrupoUsuario> call = grupoUsuarioInterface.getById(idGrupoUsuario);
+        call.enqueue(new Callback<GrupoUsuario>() {
+            @Override
+            public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                grupoUsuario = response.body();
+            }
+            @Override
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
             }
         });
     }
@@ -130,6 +148,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
     public void cargarUsuarios(){
 
         grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
@@ -147,6 +166,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
     public void cargarGrupo(){
 
         grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
@@ -192,6 +212,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
     public void iconAdd(Boolean gender){
         if(gender == null){
             iconUserChat.setImageResource(R.drawable.ic_app);
@@ -227,7 +248,7 @@ public class ChatActivity extends AppCompatActivity {
         listaUsuarios.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
 
         //Datos del grupo
-        nombreGrupo.setText(infoGrupo.getNombre().toString());
+        nombreGrupo.setText(grupoUsuario.getNombre());
         codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo().toString());
         // Configurar controladores de clic para los botones
         buttonCerrar.setOnClickListener(new View.OnClickListener() {

@@ -91,7 +91,7 @@ public class Chats extends Fragment {
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
         GrupoInterface grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Nuevo Grupo","Ruta",generarCodigoDeGrupo()));
+        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -111,7 +111,7 @@ public class Chats extends Fragment {
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
         grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,
+        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo",
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override

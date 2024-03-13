@@ -46,5 +46,11 @@ public class GrupoUsuarioController {
         return grupoUsuarioService.getNumberUsers(id)==2;
     }
 
-
+    @GetMapping("/getGroupName/{idGr}/{idUs}")
+    public String getGroupName(@PathVariable Integer idGr,@PathVariable Integer idUs){
+        if(grupoUsuarioService.getGroupName(idGr, idUs).isEmpty()){
+            return null;
+        }
+        return grupoUsuarioService.getGroupName(idGr, idUs).get(0);
+    }
 }

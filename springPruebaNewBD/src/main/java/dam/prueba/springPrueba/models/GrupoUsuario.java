@@ -18,6 +18,9 @@ public class GrupoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idgrupousuario;
 
+    @Column(name = "nombre")
+    private String nombre;
+
     private GrupoUsuarioFK id;
 
 

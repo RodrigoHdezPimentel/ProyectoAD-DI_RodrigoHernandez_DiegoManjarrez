@@ -18,8 +18,10 @@ import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
+import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
 
@@ -50,13 +52,14 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         toChat = new Intent(context, ChatActivity.class);
 
-        holder.personaChat.setText(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getNombre().toString());
+        holder.personaChat.setText(groupModels.get(position).getNombre());
+
         iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
 
         //Ultimo mensaje
         ConversacionInterface conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
-        Call <Conversacion> call = conversacionInterface.getLastMessage(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
-        call.enqueue(new Callback<Conversacion>() {
+        Call <Conversacion> callConv = conversacionInterface.getLastMessage(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
+        callConv.enqueue(new Callback<Conversacion>() {
             @Override
             public void onResponse(Call<Conversacion> call, Response<Conversacion> response) {
                 if(!response.isSuccessful()){
@@ -118,6 +121,5 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
             }
         }
     }
-
 
 }

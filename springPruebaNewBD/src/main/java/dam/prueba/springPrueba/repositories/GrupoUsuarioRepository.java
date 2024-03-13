@@ -7,6 +7,7 @@ import dam.prueba.springPrueba.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, GrupoUsuarioFK> {
@@ -33,5 +34,7 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
     @Query(value = "SELECT COUNT(DISTINCT u) FROM GrupoUsuario g JOIN Usuario u on u.idusuario = g.id.idusuario " +
             "WHERE g.id.idgrupo = ?1")
     Integer getNumberUsers(Integer id);
+    @Query(value = "SELECT g.nombre from GrupoUsuario g where g.id.idgrupo = ?1 and g.id.idusuario != ?2")
+    List<String> getGroupName(Integer idGr, Integer idUs);
 
 }

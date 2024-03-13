@@ -1,6 +1,5 @@
 package dam.prueba.springPrueba.servicies;
 
-import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.repositories.GrupoUsuarioRepository;
@@ -37,6 +36,10 @@ public class GrupoUsuarioService {
     }
     public Integer getNumberUsers(Integer id) {
         return grupoUsuarioRepository.getNumberUsers(id);
+    }
+
+    public List<String> getGroupName(Integer idGr, Integer idUs) {
+        return grupoUsuarioRepository.getGroupName(idGr, idUs);
     }
 
 

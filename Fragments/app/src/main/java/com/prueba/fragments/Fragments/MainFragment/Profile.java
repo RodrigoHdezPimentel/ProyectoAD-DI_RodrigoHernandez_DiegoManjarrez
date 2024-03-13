@@ -249,7 +249,7 @@ public class Profile extends Fragment {
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
         GrupoInterface grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> call = grupoInterface.create(new Grupo(null,perfil.getName(),"Ruta",generarCodigoDeGrupo()));
+        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -271,7 +271,7 @@ public class Profile extends Fragment {
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
         grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,
+        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null, perfil.getName(),
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
@@ -281,7 +281,7 @@ public class Profile extends Fragment {
                 }
 
                 //Después asignamos el grupo al otro
-                Call <GrupoUsuario> call1 = grupoUsuarioInterface.create(new GrupoUsuario(null, new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
+                Call <GrupoUsuario> call1 = grupoUsuarioInterface.create(new GrupoUsuario(null, Usuario.getInstance().getName(), new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
                 call1.enqueue(new Callback<GrupoUsuario>() {
                     @Override
                     public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
