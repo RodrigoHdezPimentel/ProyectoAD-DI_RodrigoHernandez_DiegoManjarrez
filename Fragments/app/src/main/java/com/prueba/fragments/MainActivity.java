@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.prueba.fragments.Class.AutoLogin;
 import com.prueba.fragments.Fragments.MainFragment.Chats;
 import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
@@ -47,35 +48,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUserTema =  new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuarioTema/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuarioTema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitLike = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/like/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/like/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitConversacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/conversacion/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/conversacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitGrupo = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupo/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/grupo/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitGrupoUsuario = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupoUsuario/")
+                .baseUrl("http://" + IP_DIEGO[1] +":8086/grupoUsuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -125,12 +126,30 @@ public class MainActivity extends AppCompatActivity {
     public void cargarActivity() {
         frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
         tabLayout = (TabLayout) findViewById(R.id.MainFragmentManager);
+        Intent getFragment = getIntent();
 
-
-        getSupportFragmentManager().beginTransaction().add(R.id.frameLayoutMain, new Home())
+        int fragmentNum = getFragment.getIntExtra("numFrgMain", 0);
+        Fragment fragmentMain = null;
+        switch (fragmentNum){
+            case 0:
+                fragmentMain = new Home();
+                break;
+            case 1:
+                fragmentMain = new Publish();
+                break;
+            case 2:
+                fragmentMain = new Chats();
+                break;
+            case 3:
+                fragmentMain = new Profile();
+                //Obtenemos el objeto que se envió para ver el perfil.
+                fragmentMain.setArguments(getIntent().getBundleExtra("perfilBundle"));
+                break;
+        }
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayoutMain, fragmentMain)
                 .addToBackStack(null)
                 .commit();
-        TabLayout.Tab tab = tabLayout.getTabAt(0);
+        TabLayout.Tab tab = tabLayout.getTabAt(fragmentNum);
         tab.select();
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

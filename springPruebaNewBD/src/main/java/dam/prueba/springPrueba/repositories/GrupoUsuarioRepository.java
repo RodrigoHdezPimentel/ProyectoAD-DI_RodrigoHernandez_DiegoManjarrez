@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.repositories;
 
+import dam.prueba.springPrueba.Class.ChatLastMessage;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.GrupoUsuarioFK;
 import dam.prueba.springPrueba.models.Usuario;
@@ -11,11 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, GrupoUsuarioFK> {
+//Select c.*, g.* FROM conversaciones c JOIN grupo_usuario g ON c.idGrupoUsuario = g.idGrupoUsuario
+// WHERE c.fecha in (SELECT MAX(c.fecha) FROM grupo_usuario g JOIN conversaciones c
+// ON  c.idGrupoUsuario = g.idGrupoUsuario WHERE g.idGrupo in
+// (SELECT g.idGrupo FROM grupo_usuario g WHERE g.idUsuario = 1) GROUP BY g.idGrupo)
+// AND g.idGrupo IN (SELECT g.idGrupo FROM grupo_usuario g WHERE g.idUsuario = 1);
 
     //lista los grupos al que pertenece el usuario
-    @Query(value = "SELECT g FROM GrupoUsuario g " +
-            "WHERE g.id.idusuario = ?1")
-    List<GrupoUsuario> getUserGroups (Integer id);
+    @Query(value = "SELECT  new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM Conversacion c JOIN GrupoUsuario g ON c.idgrupousuario = g.idgrupousuario" +
+            " WHERE c.fecha IN (SELECT MAX(c.fecha) FROM GrupoUsuario g JOIN Conversacion c ON c.idgrupousuario = g.idgrupousuario" +
+            " WHERE g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1)" +
+            " GROUP BY g.id.idgrupo) AND g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1) ORDER BY c.fecha DESC")
+   List<ChatLastMessage> getUserGroups (Integer id);
 
     //solo optiene una datos en especifico
     @Query(value = "SELECT g FROM GrupoUsuario g " +

@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.servicies;
 
+import dam.prueba.springPrueba.Class.ChatLastMessage;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.repositories.GrupoUsuarioRepository;
@@ -20,7 +21,7 @@ public class GrupoUsuarioService {
         return grupoUsuarioRepository.save(grupoUser);
     }
 
-    public List<GrupoUsuario> getUserGroups(Integer id) {
+    public List<ChatLastMessage> getUserGroups(Integer id) {
         return grupoUsuarioRepository.getUserGroups(id);
     }
 

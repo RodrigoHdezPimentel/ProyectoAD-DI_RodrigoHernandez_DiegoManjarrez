@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.prueba.fragments.Class.AutoLogin;
 import com.prueba.fragments.IdiomasAdapter.LanguageItemAdapter;
 import com.prueba.fragments.Registro.Registro;
 import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
@@ -29,8 +30,6 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login_SignUP extends AppCompatActivity {
     public static ArrayList<Tema> listaTemas = new ArrayList<>();

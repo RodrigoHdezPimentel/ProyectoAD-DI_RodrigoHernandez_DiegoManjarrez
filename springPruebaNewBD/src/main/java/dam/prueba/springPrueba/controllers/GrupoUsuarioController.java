@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.controllers;
 
+import dam.prueba.springPrueba.Class.ChatLastMessage;
 import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
@@ -25,7 +26,7 @@ public class GrupoUsuarioController {
 
 
     @GetMapping("/getUserGroups/{id}")
-    public List<GrupoUsuario> getUserGroups(@PathVariable Integer id){
+    public List<ChatLastMessage> getUserGroups(@PathVariable Integer id){
         return grupoUsuarioService.getUserGroups(id);
     }
 

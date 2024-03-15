@@ -1,4 +1,4 @@
-package com.prueba.fragments;
+package com.prueba.fragments.Class;
 
 import android.content.Context;
 import android.content.SharedPreferences;

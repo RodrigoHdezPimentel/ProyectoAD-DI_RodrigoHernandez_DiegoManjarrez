@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
+import com.prueba.fragments.Class.ChatLastMessage;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
@@ -32,10 +33,10 @@ import retrofit2.Response;
 
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
-    ArrayList<GrupoUsuario> groupModels;
+    ArrayList<ChatLastMessage> groupModels;
     Intent toChat = null;
 
-    public ListaChatsRvAdapter(Context context, ArrayList<GrupoUsuario> chatModels) {
+    public ListaChatsRvAdapter(Context context, ArrayList<ChatLastMessage> chatModels) {
         this.context = context;
         this.groupModels = chatModels;
     }
@@ -53,34 +54,18 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         toChat = new Intent(context, ChatActivity.class);
 
-        holder.personaChat.setText(groupModels.get(position).getNombre());
+        holder.personaChat.setText(groupModels.get(position).getChat().getNombre());
 
-        iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
+        iconAdd(groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero(), holder);
+                holder.fechaUltimoMensaje.setText(groupModels.get(position).getMensaje().getFecha().toString());
+                holder.ultimoContenido.setText(groupModels.get(position).getMensaje().getContenido());
 
-        //Ultimo mensaje
-        ConversacionInterface conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
-        Call <Conversacion> callConv = conversacionInterface.getLastMessage(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
-        callConv.enqueue(new Callback<Conversacion>() {
-            @Override
-            public void onResponse(Call<Conversacion> call, Response<Conversacion> response) {
-                if(!response.isSuccessful()){
-                    return;
-                }
-                holder.fechaUltimoMensaje.setText(response.body().getFecha().toString());
-                holder.ultimoContenido.setText(response.body().getContenido().toString());
-            }
-
-            @Override
-            public void onFailure(Call<Conversacion> call, Throwable t) {
-
-            }
-        });
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    toChat.putExtra("gender",groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero());
-                    toChat.putExtra("idGrupo", groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
-                    toChat.putExtra("idGrupoUsuario", groupModels.get(position).getIdGrupoUsuario());
+                    toChat.putExtra("gender",groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero());
+                    toChat.putExtra("idGrupo", groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getIdGrupo());
+                    toChat.putExtra("idGrupoUsuario", groupModels.get(position).getChat().getIdGrupoUsuario());
 
 
                 context.startActivity(toChat);

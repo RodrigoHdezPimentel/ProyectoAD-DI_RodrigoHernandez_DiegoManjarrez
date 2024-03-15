@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prueba.fragments.ChatActivity;
+import com.prueba.fragments.Class.ChatLastMessage;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
@@ -69,7 +70,7 @@ public class Chats extends Fragment {
         }
     }
     View view;
-    ArrayList<GrupoUsuario> ListaGrupos = new ArrayList<>();
+    //ArrayList<ChatLastMessage> ListaGrupos = new ArrayList<>();
     GrupoUsuarioInterface grupoUsuarioInterface;
     ProgressBar progressBar;
     FloatingActionButton newGroup;
@@ -138,29 +139,32 @@ public class Chats extends Fragment {
     }
     public void cargarGrupos(){
         grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<List<GrupoUsuario>> call = grupoUsuarioInterface.getUserGroups(Usuario.getInstance().getId());
-        call.enqueue(new Callback<List<GrupoUsuario>>() {
-            @Override
-            public void onResponse(Call<List<GrupoUsuario>> call, Response<List<GrupoUsuario>> response) {
-                if (!response.isSuccessful()) {
-                    //Log.e("Response err: ", response.message());
-                    return;
-                }
-                ListaGrupos = (ArrayList<GrupoUsuario>) response.body();
-                progressBar.setVisibility(View.GONE);
+        Call<List<ChatLastMessage>> call = grupoUsuarioInterface.getUserGroups(Usuario.getInstance().getId());
+       call.enqueue(new Callback<List<ChatLastMessage>>() {
+           @Override
+           public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {
+               if(!response.isSuccessful()){
+                   return;
+               }
+               //ListaGrupos = (ArrayList<ChatLastMessage>) response.body();
+               progressBar.setVisibility(View.GONE);
 
-                // Inflate the layout for this fragment
-                RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
+               // Inflate the layout for this fragment
+               RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
 
-                ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), ListaGrupos);
-                MyRecyclerView.setAdapter(adapter);
-                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            }
-            @Override
-            public void onFailure(Call<List<GrupoUsuario>> call, Throwable t) {
+               ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), (ArrayList<ChatLastMessage>) response.body());
+               MyRecyclerView.setAdapter(adapter);
+               MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            }
-        });
+           }
+
+           @Override
+           public void onFailure(Call<List<ChatLastMessage>> call, Throwable t) {
+
+           }
+       });
+
+
     }
 
     private String generarCodigoDeGrupo() {
