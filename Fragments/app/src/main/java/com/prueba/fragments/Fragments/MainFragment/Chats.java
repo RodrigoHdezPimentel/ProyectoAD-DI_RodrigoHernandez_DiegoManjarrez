@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.ListaChatsRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
@@ -90,7 +91,7 @@ public class Chats extends Fragment {
     }
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        GrupoInterface grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
+        GrupoInterface grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
         Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
@@ -110,7 +111,7 @@ public class Chats extends Fragment {
     }
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
-        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo",
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
@@ -136,7 +137,7 @@ public class Chats extends Fragment {
         });
     }
     public void cargarGrupos(){
-        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         Call<List<GrupoUsuario>> call = grupoUsuarioInterface.getUserGroups(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<GrupoUsuario>>() {
             @Override

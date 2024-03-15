@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
@@ -92,7 +93,7 @@ public class Tendencias extends Fragment {
 
     private void getPublishTrending() {
 
-        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
         Call<List<Publicacion>> call = publicacionInterface.getPublishTrending();
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override

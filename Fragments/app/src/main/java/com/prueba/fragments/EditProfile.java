@@ -100,7 +100,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     public void updateUser(){
-        usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
         Call<Usuario> call = usuarioInterface.update(Usuario.getInstance());
         call.enqueue(new Callback<Usuario>() {
             @Override
@@ -121,7 +121,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     public void deleteUser(){
-        usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
         Call<Boolean> call = usuarioInterface.delete(Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -213,7 +213,7 @@ public class EditProfile extends AppCompatActivity {
 
     public void cargarChips(ChipGroup chipGroup){
 
-        UsuarioTemaInterface userTema = Login_SignUP.retrofitUserTema.create(UsuarioTemaInterface.class);
+        UsuarioTemaInterface userTema = MainActivity.retrofitUserTema.create(UsuarioTemaInterface.class);
         Call<List<UsuarioTema>> call = userTema.getAllTemaFromId(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<UsuarioTema>>() {
             @Override
@@ -301,7 +301,7 @@ public class EditProfile extends AppCompatActivity {
     public void crearUserTema(int idTema){
         UsuarioTema userTema = new UsuarioTema(new UsuarioTemaFK(Usuario.getInstance().getId(),idTema));
 
-        usuarioTemaInterface = Login_SignUP.retrofitUserTema.create(UsuarioTemaInterface.class);
+        usuarioTemaInterface = MainActivity.retrofitUserTema.create(UsuarioTemaInterface.class);
 
         Call <UsuarioTema> call = usuarioTemaInterface.create(userTema);
         call.enqueue(new Callback<UsuarioTema>() {
@@ -319,7 +319,7 @@ public class EditProfile extends AppCompatActivity {
         });
     }
     public void deleteUserTema(int idTema){
-        usuarioTemaInterface = Login_SignUP.retrofitUserTema.create(UsuarioTemaInterface.class);
+        usuarioTemaInterface = MainActivity.retrofitUserTema.create(UsuarioTemaInterface.class);
         Call <Boolean> call = usuarioTemaInterface.removeTemaUser(idTema, Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
             @Override

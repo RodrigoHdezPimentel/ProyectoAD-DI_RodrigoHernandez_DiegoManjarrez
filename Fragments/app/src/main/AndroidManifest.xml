@@ -33,17 +33,17 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".Login_SignUP"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Login_SignUP"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing">
         </activity>
     </application>
 

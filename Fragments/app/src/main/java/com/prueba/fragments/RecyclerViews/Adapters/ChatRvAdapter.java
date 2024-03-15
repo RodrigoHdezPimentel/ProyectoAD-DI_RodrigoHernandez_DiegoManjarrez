@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
@@ -53,7 +54,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final GrupoUsuario[] grupoUsuario = {null};
-        GrupoUsuarioInterface grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        GrupoUsuarioInterface grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         Call<GrupoUsuario> call = grupoUsuarioInterface.getById(conversacionModels.get(position).getIdGrupoUsuario());
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override

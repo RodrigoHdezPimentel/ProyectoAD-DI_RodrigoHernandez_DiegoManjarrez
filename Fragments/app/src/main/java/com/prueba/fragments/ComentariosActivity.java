@@ -182,7 +182,7 @@ ImageView back;
         visitarPerfil();
     }
     public void cargarPublicacion(Integer idComent){
-        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
         Call<Publicacion> call = publicacionInterface.getPublicationById(idComent);
         call.enqueue(new Callback<Publicacion>() {
 
@@ -216,7 +216,7 @@ ImageView back;
     }
 
     public void getComentarios(Integer id){
-        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
         Call<List<Publicacion>> call = publicacionInterface.getAllComentsFromPublish(id);
         call.enqueue(new Callback<List<Publicacion>>() {
 
@@ -253,7 +253,7 @@ ImageView back;
                 CommnetInput.getText().toString(), "", newPublication.getTema(), Usuario.getInstance(), new Publicacion[0]);
 
         //añadimos el comentario con el ide de referencia del comentario o publicacion
-        publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+        publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
         Call<Publicacion> call = publicacionInterface.save(p);
         call.enqueue(new Callback<Publicacion>() {
             @Override
@@ -305,7 +305,7 @@ ImageView back;
     }
     //para colocar el color del like cuando este ya está en la tabla likes
     public void cargarLike(){
-    usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+    usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
 
     Call <Boolean> call = usuarioInterface.userLikedPublish(Usuario.getInstance().getId(), newPublication.getId());
     call.enqueue(new Callback<Boolean>() {

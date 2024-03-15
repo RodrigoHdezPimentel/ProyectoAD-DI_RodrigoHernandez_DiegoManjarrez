@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
@@ -167,7 +168,7 @@ public class Publish extends Fragment {
                     0, contenido.getText().toString(), titulo.getText().toString(),
                     temaSeleccionado, Usuario.getInstance(), new Publicacion[0]);
 
-            PublicacionInterface publicacionInterface = Login_SignUP.retrofitPublicacion.create(PublicacionInterface.class);
+            PublicacionInterface publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
             Call<Publicacion> call = publicacionInterface.save(newPublicacion);
             call.enqueue(new Callback<Publicacion>() {
                 @Override

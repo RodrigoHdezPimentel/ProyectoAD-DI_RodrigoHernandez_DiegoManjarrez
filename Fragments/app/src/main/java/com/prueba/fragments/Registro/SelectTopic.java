@@ -105,7 +105,7 @@ public class SelectTopic extends AppCompatActivity {
     }
 
     public void createUser(){
-         usuarioInterface = Login_SignUP.retrofitUser.create(UsuarioInterface.class);
+         usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
         Call<Usuario> call = usuarioInterface.create(Usuario.getInstance());
         call.enqueue(new Callback<Usuario>() {
             @Override
@@ -140,7 +140,6 @@ public class SelectTopic extends AppCompatActivity {
 
     public void createUserTema(UsuarioTema userTema){
 
-        usuarioTemaInterface = Login_SignUP.retrofitUserTema.create(UsuarioTemaInterface.class);
         Call<UsuarioTema> call = usuarioTemaInterface.create(userTema);
 
 

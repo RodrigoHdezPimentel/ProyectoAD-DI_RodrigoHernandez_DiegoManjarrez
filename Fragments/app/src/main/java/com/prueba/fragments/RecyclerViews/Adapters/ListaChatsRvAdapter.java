@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
@@ -57,7 +58,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         iconAdd(groupModels.get(position).getGrupoUsuarioFK().getUsuario().getGenero(), holder);
 
         //Ultimo mensaje
-        ConversacionInterface conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        ConversacionInterface conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
         Call <Conversacion> callConv = conversacionInterface.getLastMessage(groupModels.get(position).getGrupoUsuarioFK().getGrupo().getIdGrupo());
         callConv.enqueue(new Callback<Conversacion>() {
             @Override

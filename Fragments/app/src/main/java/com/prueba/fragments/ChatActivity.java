@@ -102,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
     public void getGrupoUsuario() {
-        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         Call<GrupoUsuario> call = grupoUsuarioInterface.getById(idGrupoUsuario);
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
@@ -120,7 +120,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void cargarConversacion(){
-        conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
         Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
         call.enqueue(new Callback<List<Conversacion>>() {
             @Override
@@ -155,7 +155,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void cargarUsuarios(){
 
-        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         Call<List<Usuario>> callUsers = grupoUsuarioInterface.getGroupUsers(idGrupo);
         callUsers.enqueue(new Callback<List<Usuario>>() {
             @Override
@@ -173,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void cargarGrupo(){
 
-        grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
+        grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
         Call<Grupo> callUsers = grupoInterface.getById(idGrupo);
         callUsers.enqueue(new Callback<Grupo>() {
             @Override
@@ -199,7 +199,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, formattedDate.toString(), texto.getText().toString());
 
-        conversacionInterface = Login_SignUP.retrofitConversacion.create(ConversacionInterface.class);
+        conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
         Call<Conversacion> call = conversacionInterface.save(newConversacion);
         call.enqueue(new Callback<Conversacion>() {
             @Override
@@ -280,7 +280,7 @@ public class ChatActivity extends AppCompatActivity {
         confirmName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+                grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
                 Call<Void> call = grupoUsuarioInterface.updateGroupName(nombreGrupo.getText().toString(),idGrupoUsuario);
                 call.enqueue(new Callback<Void>() {
                     @Override

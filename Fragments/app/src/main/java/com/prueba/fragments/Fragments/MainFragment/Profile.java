@@ -191,7 +191,7 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent toChat = new Intent(getContext(), ChatActivity.class);
-                grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+                grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
                 //Se saca los idGrupos (Integer) en común del usuario presente y al usario que queremos enviar el mensaje
 
                 Call <List<List<Integer>>> call = grupoUsuarioInterface.getCommonGroups(Usuario.getInstance().getId(), perfil.getId());
@@ -248,7 +248,7 @@ public class Profile extends Fragment {
 
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        GrupoInterface grupoInterface = Login_SignUP.retrofitGrupo.create(GrupoInterface.class);
+        GrupoInterface grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
         Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
@@ -270,7 +270,7 @@ public class Profile extends Fragment {
     }
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
-        grupoUsuarioInterface = Login_SignUP.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null, perfil.getName(),
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {

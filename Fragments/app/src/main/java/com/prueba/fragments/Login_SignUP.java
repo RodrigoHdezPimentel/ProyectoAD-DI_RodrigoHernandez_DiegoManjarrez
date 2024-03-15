@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,22 +33,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login_SignUP extends AppCompatActivity {
-    public static Retrofit retrofitPublicacion;
-    public static Retrofit retrofitTemas;
-    public static Retrofit retrofitUser;
-    public static Retrofit retrofitUserTema;
-    public static Retrofit retrofitLike;
-    public static Retrofit retrofitConversacion;
-    public static Retrofit retrofitGrupo;
-    public static Retrofit retrofitGrupoUsuario;
     public static ArrayList<Tema> listaTemas = new ArrayList<>();
 
 
-    public static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
-    public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251"};//clase-casa
-
     Button buttonLogin;
     Button buttonSignUp;
+    CheckBox recuerdame;
     UsuarioInterface usuarioInterface;
     TextView userName;
     TextView password;
@@ -67,46 +58,11 @@ public class Login_SignUP extends AppCompatActivity {
         password = findViewById(R.id.inputPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonSignUp = findViewById(R.id.buttonSignUp);
+        recuerdame = findViewById(R.id.recuerdameCheckBox);
 
 
         Usuario.getInstance();
         cargarIdioma();
-
-
-
-        retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofitUserTema =  new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuarioTema/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofitLike = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/like/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofitConversacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/conversacion/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofitGrupo = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupo/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofitGrupoUsuario = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupoUsuario/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
 
         getTemas();
 
@@ -122,14 +78,13 @@ public class Login_SignUP extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goMain = new Intent(Login_SignUP.this, Registro.class);
-                startActivity(goMain);
+                Intent goMRegister = new Intent(Login_SignUP.this, Registro.class);
+                startActivity(goMRegister);
             }
         });
-
     }
     private void iniciarSesion(){
-        usuarioInterface = retrofitUser.create(UsuarioInterface.class);
+        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
         Call<Usuario> call = usuarioInterface.getUserRegister(userName.getText().toString(),password.getText().toString() );
         call.enqueue(new Callback<Usuario>() {
             @Override
@@ -142,7 +97,13 @@ public class Login_SignUP extends AppCompatActivity {
                 if(userData != null){
                     Usuario.setInstance(userData);
 
+                    if(recuerdame.isChecked()){
+                        AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
+                        AutoLogin.setUserName(Login_SignUP.this, userName.getText().toString());
+                    }
+
                     Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
+                    goMain.putExtra("isRegister", true);
                     startActivity(goMain);
                 }else{
                     Toast.makeText(Login_SignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();
@@ -157,7 +118,7 @@ public class Login_SignUP extends AppCompatActivity {
     }
     public void getTemas(){
         //Se obteine los temas de la database
-        TemaInterface temaInterface = retrofitTemas.create(TemaInterface.class);
+        TemaInterface temaInterface = MainActivity.retrofitTemas.create(TemaInterface.class);
         Call<List<Tema>> call = temaInterface.getAll();
         call.enqueue(new Callback<List<Tema>>() {
 

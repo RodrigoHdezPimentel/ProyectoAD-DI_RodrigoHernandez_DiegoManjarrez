@@ -13,9 +13,8 @@
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:text="Registrarse"
-        app:layout_constraintBottom_toTopOf="@+id/guideline18"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
@@ -27,9 +26,8 @@
         android:text="Iniciar sesión"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordHint" />
+        app:layout_constraintTop_toBottomOf="@+id/recuerdameCheckBox" />
 
     <ImageView
         android:id="@+id/logoApp"
@@ -124,11 +122,11 @@
 
     <Spinner
         android:id="@+id/listaLanguages"
+        style="@style/Widget.AppCompat.DropDownItem.Spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.DropDownItem.Spinner"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -140,5 +138,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="91dp" />
+
+    <CheckBox
+        android:id="@+id/recuerdameCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recuerdame"
+        app:layout_constraintStart_toStartOf="@+id/passwordHint"
+        app:layout_constraintTop_toBottomOf="@+id/passwordHint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
