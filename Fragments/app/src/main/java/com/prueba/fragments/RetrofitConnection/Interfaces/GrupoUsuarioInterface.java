@@ -18,8 +18,8 @@ public interface GrupoUsuarioInterface {
     Call<List<Grupo>> getAll();
     @GET("getById/{id}")
     Call<GrupoUsuario> getById(@Path("id") Integer id);
-    @GET("getUserGroups/{id}")
-    Call<List<ChatLastMessage>> getUserGroups(@Path("id") Integer id);
+    @GET("getListChatFromUser/{id}")
+    Call<List<ChatLastMessage>> getListChatFromUser(@Path("id") Integer id);
     @GET("getGroupUsers/{id}")
     Call<List<Usuario>> getGroupUsers(@Path("id") Integer id);
     @POST("save")

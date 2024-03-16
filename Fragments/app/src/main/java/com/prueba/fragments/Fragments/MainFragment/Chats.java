@@ -139,7 +139,7 @@ public class Chats extends Fragment {
     }
     public void cargarGrupos(){
         grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<List<ChatLastMessage>> call = grupoUsuarioInterface.getUserGroups(Usuario.getInstance().getId());
+        Call<List<ChatLastMessage>> call = grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
        call.enqueue(new Callback<List<ChatLastMessage>>() {
            @Override
            public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {

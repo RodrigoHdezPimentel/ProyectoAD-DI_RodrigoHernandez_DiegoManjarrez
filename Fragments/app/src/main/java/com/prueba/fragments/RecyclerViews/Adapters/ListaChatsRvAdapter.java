@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,15 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         holder.personaChat.setText(groupModels.get(position).getChat().getNombre());
 
         iconAdd(groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero(), holder);
-                holder.fechaUltimoMensaje.setText(groupModels.get(position).getMensaje().getFecha().toString());
-                holder.ultimoContenido.setText(groupModels.get(position).getMensaje().getContenido());
+       //Para Controlar los Objetos Conversacion vacios que no tengan mensajes
+        if(groupModels.get(position).getMensaje() != null){
+           holder.fechaUltimoMensaje.setText(groupModels.get(position).getMensaje().getFecha().toString());
+           holder.ultimoContenido.setText(groupModels.get(position).getMensaje().getContenido());
+       }else {
+           holder.fechaUltimoMensaje.setText("");
+           holder.ultimoContenido.setText("");
+       }
+
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override

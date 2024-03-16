@@ -16,14 +16,28 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
 // WHERE c.fecha in (SELECT MAX(c.fecha) FROM grupo_usuario g JOIN conversaciones c
 // ON  c.idGrupoUsuario = g.idGrupoUsuario WHERE g.idGrupo in
 // (SELECT g.idGrupo FROM grupo_usuario g WHERE g.idUsuario = 1) GROUP BY g.idGrupo)
-// AND g.idGrupo IN (SELECT g.idGrupo FROM grupo_usuario g WHERE g.idUsuario = 1);
+// AND g.idGrupo IN (SELECT g.idGrupo FROM grupo_usuario g WHERE g.idUsuario = 1)
+//  UNION
+//SELECT c.contenido, c.fecha, g.* FROM grupo_usuario g LEFT JOIN conversaciones c
+// ON g.idGrupoUsuario = c.idGrupoUsuario WHERE c.idGrupoUsuario IS NULL;
 
-    //lista los grupos al que pertenece el usuario
+
+//    lista los grupos al que pertenece el usuario
+// JPQl no tiene soporte para usar el UNION >:(
     @Query(value = "SELECT  new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM Conversacion c JOIN GrupoUsuario g ON c.idgrupousuario = g.idgrupousuario" +
             " WHERE c.fecha IN (SELECT MAX(c.fecha) FROM GrupoUsuario g JOIN Conversacion c ON c.idgrupousuario = g.idgrupousuario" +
             " WHERE g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1)" +
-            " GROUP BY g.id.idgrupo) AND g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1) ORDER BY c.fecha DESC")
-   List<ChatLastMessage> getUserGroups (Integer id);
+            " GROUP BY g.id.idgrupo) AND g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1) " +
+            " ORDER BY c.fecha DESC")
+   List<ChatLastMessage> getListChatFromUser (Integer id);
+   @Query(value = "SELECT new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM GrupoUsuario g LEFT JOIN Conversacion c" +
+           " ON c.idgrupousuario = g.idgrupousuario WHERE c.idgrupousuario IS NULL AND g.id.idusuario = ?1")
+   List<ChatLastMessage> getListChatUserWhitoutMessage (Integer id);
+
+    //Para Complementar el metodo de listar los chats del user
+ @Query(value = "SELECT g FROM GrupoUsuario g " +
+         "WHERE g.id.idusuario = ?1 AND g.id.idgrupo = ?2 ")
+    GrupoUsuario asignarUserChat(Integer idU, Integer idG);
 
     //solo optiene una datos en especifico
     @Query(value = "SELECT g FROM GrupoUsuario g " +

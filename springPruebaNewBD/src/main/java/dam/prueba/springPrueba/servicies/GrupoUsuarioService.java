@@ -21,8 +21,15 @@ public class GrupoUsuarioService {
         return grupoUsuarioRepository.save(grupoUser);
     }
 
-    public List<ChatLastMessage> getUserGroups(Integer id) {
-        return grupoUsuarioRepository.getUserGroups(id);
+    public List<ChatLastMessage> getListChatFromUser(Integer id) {
+        return grupoUsuarioRepository.getListChatFromUser(id);
+    }
+    public List<ChatLastMessage> getListChatUserWhitoutMessage(Integer id) {
+        return grupoUsuarioRepository.getListChatUserWhitoutMessage(id);
+    }
+
+    public GrupoUsuario asignarUserChat(Integer idU, Integer idG) {
+        return grupoUsuarioRepository.asignarUserChat(idU, idG);
     }
 
     public GrupoUsuario getById(Integer id) {
