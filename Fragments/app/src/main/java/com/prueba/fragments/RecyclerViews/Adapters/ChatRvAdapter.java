@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.prueba.fragments.Class.LoadConversation;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
@@ -31,9 +32,9 @@ import retrofit2.Response;
 
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
-    ArrayList<Conversacion> conversacionModels;
+    ArrayList<LoadConversation> conversacionModels;
 
-    public ChatRvAdapter(Context context, ArrayList<Conversacion> conversacionModels) {
+    public ChatRvAdapter(Context context, ArrayList<LoadConversation> conversacionModels) {
         this.context = context;
         this.conversacionModels = conversacionModels;
     }
@@ -53,38 +54,24 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        final GrupoUsuario[] grupoUsuario = {null};
-        GrupoUsuarioInterface grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call = grupoUsuarioInterface.getById(conversacionModels.get(position).getIdGrupoUsuario());
-        call.enqueue(new Callback<GrupoUsuario>() {
-            @Override
-            public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
-                if (!response.isSuccessful()) {
-                    return;
-                }
-                grupoUsuario[0] = response.body();
-                holder.usuarioMensaje = grupoUsuario[0].getGrupoUsuarioFK().getUsuario();
-                holder.nombre.setText(holder.usuarioMensaje.getName().toString());
 
-                //Orientar el mensaje dependiendo de su procedencia
-                if(holder.usuarioMensaje.getId() == Usuario.getInstance().getId()){
-                    Log.d("Mi app", holder.usuarioMensaje.getId().toString()+" "+holder.usuarioMensaje.getName().toString());
+        holder.nombre.setText(conversacionModels.get(position).getNombreUsuario().toString());
 
-                    holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seed)); // Establecer el color de fondo
-                    ConstraintSet constraintSet = new ConstraintSet();
-                    constraintSet.clone(holder.constraintLayout);
-                    constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
-                    constraintSet.applyTo(holder.constraintLayout);
-                }
-                   }
-            @Override
-            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
-            }
-        });
+        //Orientar el mensaje dependiendo de su procedencia
+        if(conversacionModels.get(position).getIdUsuario() == Usuario.getInstance().getId()){
+           // Log.d("Mi app", holder.usuarioMensaje.getId().toString()+" "+holder.usuarioMensaje.getName().toString());
+
+            holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seed)); // Establecer el color de fondo
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(holder.constraintLayout);
+            constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
+            constraintSet.applyTo(holder.constraintLayout);
+        }else {
+            holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
+        }
         holder.cv.setElevation(10f);
-        holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
-        holder.fecha.setText(conversacionModels.get(position).getFecha().toString());
-        holder.Contenido.setText(conversacionModels.get(position).getContenido());
+        holder.fecha.setText(conversacionModels.get(position).getConversacion().getFecha().toString());
+        holder.Contenido.setText(conversacionModels.get(position).getConversacion().getContenido());
 
 
     }
@@ -96,7 +83,6 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         TextView fecha;
         TextView nombre;
         TextView Contenido;
-        Usuario usuarioMensaje;
         CardView cv;
         ConstraintLayout constraintLayout;
 

@@ -22,7 +22,7 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
 // ON g.idGrupoUsuario = c.idGrupoUsuario WHERE c.idGrupoUsuario IS NULL;
 
 
-//    lista los grupos al que pertenece el usuario
+//  lista los grupos al que pertenece el usuario
 // JPQl no tiene soporte para usar el UNION >:(
     @Query(value = "SELECT  new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM Conversacion c JOIN GrupoUsuario g ON c.idgrupousuario = g.idgrupousuario" +
             " WHERE c.fecha IN (SELECT MAX(c.fecha) FROM GrupoUsuario g JOIN Conversacion c ON c.idgrupousuario = g.idgrupousuario" +
@@ -30,6 +30,7 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
             " GROUP BY g.id.idgrupo) AND g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1) " +
             " ORDER BY c.fecha DESC")
    List<ChatLastMessage> getListChatFromUser (Integer id);
+    //UNION
    @Query(value = "SELECT new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM GrupoUsuario g LEFT JOIN Conversacion c" +
            " ON c.idgrupousuario = g.idgrupousuario WHERE c.idgrupousuario IS NULL AND g.id.idusuario = ?1")
    List<ChatLastMessage> getListChatUserWhitoutMessage (Integer id);

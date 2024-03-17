@@ -1,7 +1,9 @@
 package com.prueba.fragments.RetrofitConnection.Interfaces;
 
+import com.prueba.fragments.Class.LoadConversation;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -15,7 +17,7 @@ public interface ConversacionInterface {
     Call<List<Conversacion>> getAll();
 
     @GET("getConversacionesByGroupId/{id}")
-    Call <List<Conversacion>> getConversacionesByGroupId(@Path("id") Integer id);
+    Call <ArrayList<LoadConversation>> getConversacionesByGroupId(@Path("id") Integer id);
     @POST("save")
     Call<Conversacion> save(@Body Conversacion conversacion);
 

@@ -1,11 +1,13 @@
 package dam.prueba.springPrueba.servicies;
 
+import dam.prueba.springPrueba.Class.LoadConversation;
 import dam.prueba.springPrueba.models.Conversacion;
 import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.repositories.ConversacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +23,7 @@ public class ConversacionService {
     public Optional<Conversacion> getConversacionById(Integer id) {
         return conversacionRepository.findById(id);
     }
-    public List<Conversacion> getConversacionesByGroupId(Integer id) {
+    public ArrayList<LoadConversation> getConversacionesByGroupId(Integer id) {
         return conversacionRepository.getConversacionesByGroupId(id);
     }
     public Conversacion saveConversacion(Conversacion conversacion){

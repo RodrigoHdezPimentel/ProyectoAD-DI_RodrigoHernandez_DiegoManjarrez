@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.prueba.fragments.Class.LoadConversation;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatUsersRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
@@ -46,7 +47,7 @@ public class ChatActivity extends AppCompatActivity {
     Grupo infoGrupo;
     Integer idGrupoUsuario;
     GrupoUsuario grupoUsuario;
-    ArrayList<Conversacion> Conversation = new ArrayList<>();
+    ArrayList<LoadConversation> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
     TextInputEditText texto;
     TextView title;
@@ -121,15 +122,14 @@ public class ChatActivity extends AppCompatActivity {
 
     public void cargarConversacion(){
         conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
-        Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
-        call.enqueue(new Callback<List<Conversacion>>() {
+        Call<ArrayList<LoadConversation>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
+        call.enqueue(new Callback<ArrayList<LoadConversation>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Conversacion>> call, @NonNull Response<List<Conversacion>> response) {
+            public void onResponse(Call<ArrayList<LoadConversation>> call, Response<ArrayList<LoadConversation>> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
-                Conversation = (ArrayList<Conversacion>) response.body();
-
+                Conversation = response.body();
                 RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
                 MyRecyclerView.removeAllViews();
 
@@ -145,12 +145,15 @@ public class ChatActivity extends AppCompatActivity {
                     int ultimoElemento = layoutManager.getItemCount() - 1;
                     ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(ultimoElemento, 0);
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<LoadConversation>> call, Throwable t) {
 
             }
-            @Override
-            public void onFailure(Call<List<Conversacion>> call, Throwable t) {
-            }
         });
+
+
     }
 
     public void cargarUsuarios(){
