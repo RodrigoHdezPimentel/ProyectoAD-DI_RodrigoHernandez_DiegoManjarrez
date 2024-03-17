@@ -21,6 +21,9 @@ public class GrupoUsuario {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "fechabaja")
+    private String fechabaja;
+
     private GrupoUsuarioFK id;
 
 

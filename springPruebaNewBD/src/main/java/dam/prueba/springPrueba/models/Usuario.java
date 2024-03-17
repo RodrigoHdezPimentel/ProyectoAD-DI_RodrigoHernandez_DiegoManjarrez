@@ -17,17 +17,25 @@ public class Usuario {
     @Column(name = "idusuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idusuario;
+
     @Column(name = "anionacimiento")
     private Integer year;
+
     @Column(name = "Us_Nombre")
     private String name;
 
     @Column(name = "Us_Genero")
     private Boolean genero;
+
     @Column(name = "Us_Descripcion")
     private String descripcion;
+
     @Column(name = "Us_Mail")
     private String mail;
+
     @Column(name = "Us_Contrasena")
     private String pass;
+
+    @Column(name = "fechabaja")
+    private String fechabaja;
 }
