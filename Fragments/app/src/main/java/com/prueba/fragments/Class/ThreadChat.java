@@ -8,13 +8,16 @@ import android.widget.Toast;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ThreadChat extends Thread{
-    private LoadConversation ultimoMensaje;
+    //valor por default por si no hay respuesta en la query de ultimo mensaje
+    private LoadConversation ultimoMensaje = new LoadConversation(new Conversacion(0), 0, "");
+    ;
     private ChatRvAdapter chat;
     private boolean hiloEnded;
     private Integer idGrupo;
@@ -24,6 +27,7 @@ public class ThreadChat extends Thread{
 
     public void run(){
         //primero obtengo los datos del ultimo mensaje cuando se carga la conversación
+
         conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
         Call<LoadConversation> call = conversacionInterface.getLastMessage(idGrupo);
         call.enqueue(new Callback<LoadConversation>() {
@@ -32,7 +36,6 @@ public class ThreadChat extends Thread{
                 if(!response.isSuccessful()){
                     return;
                 }
-                //Toast.makeText(context, "primero", Toast.LENGTH_SHORT).show();
                 ultimoMensaje = response.body();
             }
             @Override
@@ -49,6 +52,7 @@ public class ThreadChat extends Thread{
                 if (!response.isSuccessful()) {
                     return;
                 }
+
                 //Comprobar que el idConversacion no sea igual al idConversacion del mensaje anterior
                 if (!ultimoMensaje.getConversacion().getIdConversacion().equals(response.body().getConversacion().getIdConversacion())) {
                     ultimoMensaje = response.body();
@@ -62,7 +66,11 @@ public class ThreadChat extends Thread{
                 }//El Hilo terminará cuando ya no vuelva a entrar en el if
             }
             @Override
-            public void onFailure(Call<LoadConversation> call, Throwable t) {}});
+            public void onFailure(Call<LoadConversation> call, Throwable t) {
+                //Para asegurarnos que aunque no haya ningun mensaje en el chat vuelva hacer
+                //la comprobacion hasta que llegue un mensaje nuevo
+                    newMensaje();
+            }});
 
     }
     public ThreadChat(ChatRvAdapter chat, Integer idGrupo){

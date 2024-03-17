@@ -20,6 +20,10 @@ public class Conversacion {
         this.fecha = fecha;
         this.contenido = contenido;
     }
+    public Conversacion(Integer idconversacion) {
+        this.idconversacion = idconversacion;
+
+    }
 
     public Integer getIdConversacion() {
         return idconversacion;
