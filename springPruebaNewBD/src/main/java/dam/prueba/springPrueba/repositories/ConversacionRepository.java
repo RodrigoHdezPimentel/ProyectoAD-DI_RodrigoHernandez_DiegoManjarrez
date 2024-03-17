@@ -20,13 +20,12 @@ public interface ConversacionRepository extends JpaRepository<Conversacion, Inte
     ArrayList<LoadConversation> getConversacionesByGroupId (Integer id);
 
 
-    //Sacar el ultimo mensaje y la fecha
-    @Query(value = "SELECT c FROM Conversacion c INNER JOIN GrupoUsuario g " +
-            "ON c.idgrupousuario = g.idgrupousuario WHERE g.id.idgrupo = ?1 AND " +
-            "c.fecha = (SELECT MAX (c.fecha) FROM Conversacion c INNER JOIN GrupoUsuario g " +
-            "ON c.idgrupousuario = g.idgrupousuario WHERE g.id.idgrupo = ?1 ) ")
-    Conversacion getLastMessage(Integer id);
-//SELECT c.* FROM conversaciones c INNER JOIN grupo_usuario g ON c.idGrupoUsuario = g.idGrupoUsuario  WHERE g.idGrupo = 2 AND
-//c.fecha = (SELECT MAx(c.fecha) FROM conversaciones c INNER JOIN grupo_usuario g ON c.idGrupoUsuario = g.idGrupoUsuario  WHERE g.idGrupo = 2 );
-
+    //Sacar el ultimo mensaje y hacer la comprobacion si es un mensaje nuevo en la App
+    @Query(value = "SELECT new dam.prueba.springPrueba.Class.LoadConversation(c,u.idusuario,u.name) FROM Conversacion c JOIN GrupoUsuario g " +
+            " ON c.idgrupousuario = g.idgrupousuario" +
+            " JOIN Usuario u ON g.id.idusuario = u.idusuario WHERE g.id.idgrupo = ?1" +
+            " ORDER BY c.fecha DESC LIMIT 1 ")
+    LoadConversation getLastMessage(Integer id);
+//SELECT c.*,u.idUsuario,u.Us_Nombre FROM conversaciones c JOIN grupo_usuario gu on gu.idGrupoUsuario = c.idGrupoUsuario
+// JOIN usuarios u ON gu.idUsuario = u.idUsuario WHERE gu.idGrupo = 20 ORDER BY c.fecha DESC LIMIT 1;
 }

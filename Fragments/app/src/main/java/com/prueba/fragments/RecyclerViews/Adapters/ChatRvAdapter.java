@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -32,11 +33,13 @@ import retrofit2.Response;
 
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
-    ArrayList<LoadConversation> conversacionModels;
+    static ArrayList<LoadConversation> conversacionModels;
+    RecyclerView recyclerView;
 
-    public ChatRvAdapter(Context context, ArrayList<LoadConversation> conversacionModels) {
+    public ChatRvAdapter(Context context, ArrayList<LoadConversation> conversacionModels,RecyclerView recyclerView) {
         this.context = context;
         this.conversacionModels = conversacionModels;
+        this.recyclerView = recyclerView;
     }
     @Override
     public int getItemViewType(int position) {
@@ -56,7 +59,6 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.nombre.setText(conversacionModels.get(position).getNombreUsuario().toString());
-
         //Orientar el mensaje dependiendo de su procedencia
         if(conversacionModels.get(position).getIdUsuario() == Usuario.getInstance().getId()){
            // Log.d("Mi app", holder.usuarioMensaje.getId().toString()+" "+holder.usuarioMensaje.getName().toString());
@@ -94,5 +96,13 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
             this.constraintLayout = itemView.findViewById(R.id.ConstraitLayoutChatRow);
             this.nombre = itemView.findViewById(R.id.nombreConversacion);
         }
+    }
+    //Este método se encarga de recibir el mensaje desde el hilo y cargalo en el adapter
+    public void mensajeNuevo(LoadConversation newMensaje) {
+
+        conversacionModels.add(newMensaje);
+        notifyItemInserted(conversacionModels.size() - 1);
+        recyclerView.smoothScrollToPosition(conversacionModels.size() - 1);
+
     }
 }

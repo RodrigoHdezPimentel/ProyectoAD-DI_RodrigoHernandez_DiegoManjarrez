@@ -21,9 +21,9 @@ public interface ConversacionInterface {
     @POST("save")
     Call<Conversacion> save(@Body Conversacion conversacion);
 
-    //PARA SACAR EL ULTIMO MENSAJE CON LA FECHA A LA LISTA DE CHATS
+    //PARA SACAR EL ULTIMO MENSAJE DEL GRUPO
     @GET("getLastMessage/{id}")
-    Call <Conversacion> getLastMessage(@Path("id") Integer id);
+    Call <LoadConversation> getLastMessage(@Path("id") Integer id);
 
 
 }

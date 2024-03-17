@@ -36,4 +36,7 @@ public class Conversacion {
     public String getContenido() {
         return contenido;
     }
+
+
+
 }

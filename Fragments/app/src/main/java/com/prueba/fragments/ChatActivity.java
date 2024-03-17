@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Class.LoadConversation;
+import com.prueba.fragments.Class.ThreadChat;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatUsersRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
@@ -55,6 +56,8 @@ public class ChatActivity extends AppCompatActivity {
     ImageView send;
     ImageView arrow;
     AlertDialog alertDialog;
+    ChatRvAdapter adapter;
+    ThreadChat hiloChat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,8 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent listChat = new Intent(ChatActivity.this, MainActivity.class);
                 listChat.putExtra("numFrgMain", 2);
+                //para detener el hilo
+                hiloChat.setHiloEnded(true);
                 startActivity(listChat);
             }
         });
@@ -132,8 +137,10 @@ public class ChatActivity extends AppCompatActivity {
                 Conversation = response.body();
                 RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
                 MyRecyclerView.removeAllViews();
-
-                ChatRvAdapter adapter = new ChatRvAdapter(ChatActivity.this, Conversation);
+                //Arranco el hilo caundo se carga la conversación
+                adapter = new ChatRvAdapter(ChatActivity.this, Conversation,MyRecyclerView);
+                hiloChat = new ThreadChat(adapter, idGrupo);
+                hiloChat.start();
                 MyRecyclerView.setAdapter(adapter);
                 MyRecyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
 
@@ -199,9 +206,7 @@ public class ChatActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String formattedDate = sdf.format(new Date(timeInMilliSeconds));
 
-
         Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, formattedDate.toString(), texto.getText().toString());
-
         conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
         Call<Conversacion> call = conversacionInterface.save(newConversacion);
         call.enqueue(new Callback<Conversacion>() {
@@ -212,7 +217,6 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 }
                 texto.setText("");
-                cargarConversacion();
             }
             @Override
             public void onFailure(Call<Conversacion> call, Throwable t) {

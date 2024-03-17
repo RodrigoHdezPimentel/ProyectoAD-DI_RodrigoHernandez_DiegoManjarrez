@@ -3,6 +3,8 @@ package com.prueba.fragments.Class;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 
+import java.util.Objects;
+
 public class LoadConversation {
 
     private Conversacion conversacion;
@@ -26,4 +28,5 @@ public class LoadConversation {
     public String getNombreUsuario() {
         return nombreUsuario;
     }
+
 }

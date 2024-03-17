@@ -29,7 +29,7 @@ public class ConversacionService {
     public Conversacion saveConversacion(Conversacion conversacion){
         return conversacionRepository.save(conversacion);
     }
-    public Conversacion getLastMessage(Integer id){
+    public LoadConversation getLastMessage(Integer id){
         return conversacionRepository.getLastMessage(id);
     }
 
