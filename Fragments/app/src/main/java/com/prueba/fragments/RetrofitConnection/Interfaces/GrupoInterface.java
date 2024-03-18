@@ -16,6 +16,8 @@ public interface GrupoInterface {
     Call<List<Grupo>> getAll();
     @GET("id/{id}")
     Call<Grupo> getById(@Path("id") Integer id);
+    @GET("findGroup/{codigo}")
+    Call<Grupo> findGroup(@Path("codigo") String codigo);
     @POST("save")
     Call<Grupo> create(@Body Grupo grupo);
     @DELETE("deleteGroup/{id}")

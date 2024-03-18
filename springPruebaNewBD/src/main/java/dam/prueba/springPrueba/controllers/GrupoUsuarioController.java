@@ -25,7 +25,6 @@ public class GrupoUsuarioController {
         return grupoUsuarioService.saveGrupoUsuario(grupoUser);
     }
 
-
     @GetMapping("/getListChatFromUser/{id}")
     public List<ChatLastMessage> getListChatFromUser(@PathVariable Integer id){
         List<ChatLastMessage> listaFiltrada =  grupoUsuarioService.getListChatFromUser(id);
@@ -87,4 +86,17 @@ public class GrupoUsuarioController {
             }
 
     }
+    @GetMapping("/rejoinChat/{id}")
+    public void rejoinChat(@PathVariable Integer id) {
+        grupoUsuarioService.rejoinChat(id);
+    }
+    @GetMapping("/findByIdUserIdGroup/{idUsuario}/{idGrupo}")
+    public GrupoUsuario findByIdUserIdGroup(@PathVariable Integer idUsuario, @PathVariable Integer idGrupo){
+        return grupoUsuarioService.asignarUserChat(idUsuario, idGrupo);
+    }
+    @GetMapping("/salirGrupo/{idGrupoUsuario}/{fecha}")
+    public void salirGrupo(@PathVariable Integer idGrupoUsuario, @PathVariable String fecha){
+        grupoUsuarioService.salirGrupo(idGrupoUsuario, fecha);
+    }
+
 }

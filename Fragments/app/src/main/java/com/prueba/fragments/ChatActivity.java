@@ -263,7 +263,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Acciones al cancelar
-
+                salirGrupo();
             }
         });
 
@@ -300,5 +300,29 @@ public class ChatActivity extends AppCompatActivity {
 
         alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void salirGrupo(){
+        Date date = new Date();
+        long timeInMilliSeconds = date.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
+
+        Call<Void> call = MainActivity.grupoUsuarioInterface.salitGrupo(idGrupoUsuario, formattedDate);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(ChatActivity.this, "Saliste del grupo", Toast.LENGTH_SHORT).show();
+                Intent toListChat = new Intent(ChatActivity.this, MainActivity.class);
+                startActivity(toListChat);
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+            }
+        });
     }
 }

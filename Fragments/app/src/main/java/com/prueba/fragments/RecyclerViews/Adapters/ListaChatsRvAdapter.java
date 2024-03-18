@@ -54,39 +54,42 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         toChat = new Intent(context, ChatActivity.class);
-
+    try {
         holder.personaChat.setText(groupModels.get(position).getChat().getNombre());
 
         iconAdd(groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero(), holder);
-       //Para Controlar los Objetos Conversacion vacios que no tengan mensajes
-        if(groupModels.get(position).getMensaje() != null){
-           holder.fechaUltimoMensaje.setText(groupModels.get(position).getMensaje().getFecha().toString());
-           holder.ultimoContenido.setText(groupModels.get(position).getMensaje().getContenido());
-       }else {
-           holder.fechaUltimoMensaje.setText("");
-           holder.ultimoContenido.setText("");
-       }
+        //Para Controlar los Objetos Conversacion vacios que no tengan mensajes
+        if (groupModels.get(position).getMensaje() != null) {
+            holder.fechaUltimoMensaje.setText(groupModels.get(position).getMensaje().getFecha().toString());
+            holder.ultimoContenido.setText(groupModels.get(position).getMensaje().getContenido());
+        } else {
+            holder.fechaUltimoMensaje.setText("");
+            holder.ultimoContenido.setText("");
+        }
         ArrayList<Integer> idLeido = new ArrayList<>();
-        for(String id : groupModels.get(position).getMensaje().getIdleido()){
+        for (String id : groupModels.get(position).getMensaje().getIdleido()) {
             idLeido.add(Integer.parseInt(id));
         }
-        if(idLeido.contains(Usuario.getInstance().getId())){
+        if (idLeido.contains(Usuario.getInstance().getId())) {
             holder.newMessage.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             holder.newMessage.setVisibility(View.VISIBLE);
         }
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    toChat.putExtra("gender",groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero());
-                    toChat.putExtra("idGrupo", groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getIdGrupo());
-                    toChat.putExtra("idGrupoUsuario", groupModels.get(position).getChat().getIdGrupoUsuario());
+                toChat.putExtra("gender", groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero());
+                toChat.putExtra("idGrupo", groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getIdGrupo());
+                toChat.putExtra("idGrupoUsuario", groupModels.get(position).getChat().getIdGrupoUsuario());
 
 
                 context.startActivity(toChat);
             }
         });
+    }catch(Exception e){
+
+    }
     }
 
     @Override

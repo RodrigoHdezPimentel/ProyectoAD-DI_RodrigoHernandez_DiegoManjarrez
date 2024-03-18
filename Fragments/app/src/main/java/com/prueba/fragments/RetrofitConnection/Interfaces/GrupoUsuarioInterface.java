@@ -31,4 +31,13 @@ public interface GrupoUsuarioInterface {
     @GET("updateGroupName/{newName}/{id}")
     Call<Void> updateGroupName(@Path("newName") String newName, @Path("id") Integer id);
 
+    @GET("rejoinGroup/{id}")
+    Call<GrupoUsuario> rejoinGroup(@Path("id") Integer id);
+
+    @GET("findByIdUserIdGroup/{idUsuario}/{idGrupo}")
+    Call<GrupoUsuario> findByIdUserIdGroup(@Path("idUsuario") Integer idUsuario, @Path("idGrupo") Integer idGrupo);
+
+    @GET("salirGrupo/{idGrupoUsuario}/{fecha}")
+    Call<Void> salitGrupo(@Path("idGrupoUsuario") Integer idGrupoUsuario, @Path("fecha") String fecha);
+
 }

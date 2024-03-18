@@ -33,5 +33,8 @@ public class GrupoService {
     public Grupo saveGrupo(Grupo grupo){
         return grupoRepository.save(grupo);
     }
+    public Grupo findGroup(String codigo){
+        return grupoRepository.findGroup(codigo);
+    }
 
 }
