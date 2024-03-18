@@ -61,7 +61,6 @@ public class MisTemas extends Fragment {
 
     //VARIABLES
     List<Publicacion> listaPublicaciones;
-    UsuarioInterface usuarioInterface;
     View view;
     ProgressBar progressBar;
 
@@ -78,9 +77,7 @@ public class MisTemas extends Fragment {
     }
 
     private void getAllPubliacionFromUser(int id) {
-
-        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUserTema(Usuario.getInstance().getId());
+        Call<List<Publicacion>> call = MainActivity.usuarioInterface.getPublicationsFromUserTema(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {

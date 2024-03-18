@@ -23,5 +23,7 @@ public interface ConversacionInterface {
     @GET("getLastMessage/{id}")
     Call <Conversacion> getLastMessage(@Path("id") Integer id);
 
+    @GET("readMessage/{idUsuario}/{idConversacion}")
+    Call<Void> readMessage(@Path("idUsuario") Integer idUsuario, @Path("idConversacion") Integer idConversacion);
 
 }

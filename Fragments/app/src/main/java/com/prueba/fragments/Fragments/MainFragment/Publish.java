@@ -168,8 +168,7 @@ public class Publish extends Fragment {
                     0, contenido.getText().toString(), titulo.getText().toString(),
                     temaSeleccionado, Usuario.getInstance(), new Publicacion[0]);
 
-            PublicacionInterface publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
-            Call<Publicacion> call = publicacionInterface.save(newPublicacion);
+            Call<Publicacion> call = MainActivity.publicacionInterface.save(newPublicacion);
             call.enqueue(new Callback<Publicacion>() {
                 @Override
                 public void onResponse(Call<Publicacion> call, Response<Publicacion> response) {

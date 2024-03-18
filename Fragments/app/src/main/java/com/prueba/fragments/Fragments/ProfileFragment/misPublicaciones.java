@@ -61,7 +61,6 @@ public class misPublicaciones extends Fragment {
     }
 
     List<Publicacion> listaPublicaciones;
-    UsuarioInterface usuarioInterface;
     View view;
     ProgressBar progressBar;
 
@@ -78,9 +77,7 @@ public class misPublicaciones extends Fragment {
     }
 
     private void getAllPubliacionFromUser() {
-
-        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUser(Profile.perfil.getId());
+        Call<List<Publicacion>> call = MainActivity.usuarioInterface.getPublicationsFromUser(Profile.perfil.getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {

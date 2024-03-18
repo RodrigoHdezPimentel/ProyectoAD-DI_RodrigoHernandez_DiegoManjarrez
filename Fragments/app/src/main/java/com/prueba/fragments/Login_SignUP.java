@@ -38,7 +38,6 @@ public class Login_SignUP extends AppCompatActivity {
     Button buttonLogin;
     Button buttonSignUp;
     CheckBox recuerdame;
-    UsuarioInterface usuarioInterface;
     TextView userName;
     TextView password;
     Spinner listLanguages;
@@ -83,8 +82,7 @@ public class Login_SignUP extends AppCompatActivity {
         });
     }
     private void iniciarSesion(){
-        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.getUserRegister(userName.getText().toString(),password.getText().toString() );
+        Call<Usuario> call = MainActivity.usuarioInterface.getUserRegister(userName.getText().toString(),password.getText().toString() );
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -117,8 +115,7 @@ public class Login_SignUP extends AppCompatActivity {
     }
     public void getTemas(){
         //Se obteine los temas de la database
-        TemaInterface temaInterface = MainActivity.retrofitTemas.create(TemaInterface.class);
-        Call<List<Tema>> call = temaInterface.getAll();
+        Call<List<Tema>> call = MainActivity.temaInterface.getAll();
         call.enqueue(new Callback<List<Tema>>() {
 
             @Override

@@ -71,7 +71,6 @@ public class Chats extends Fragment {
     }
     View view;
     //ArrayList<ChatLastMessage> ListaGrupos = new ArrayList<>();
-    GrupoUsuarioInterface grupoUsuarioInterface;
     ProgressBar progressBar;
     FloatingActionButton newGroup;
     @Override
@@ -92,8 +91,7 @@ public class Chats extends Fragment {
     }
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        GrupoInterface grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
+        Call<Grupo> call = MainActivity.grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -112,8 +110,7 @@ public class Chats extends Fragment {
     }
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
-        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo",
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo",
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
@@ -138,8 +135,7 @@ public class Chats extends Fragment {
         });
     }
     public void cargarGrupos(){
-        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<List<ChatLastMessage>> call = grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
+        Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
        call.enqueue(new Callback<List<ChatLastMessage>>() {
            @Override
            public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {

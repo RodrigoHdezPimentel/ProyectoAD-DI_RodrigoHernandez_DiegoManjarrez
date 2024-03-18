@@ -66,7 +66,15 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
            holder.fechaUltimoMensaje.setText("");
            holder.ultimoContenido.setText("");
        }
-
+        ArrayList<Integer> idLeido = new ArrayList<>();
+        for(String id : groupModels.get(position).getMensaje().getIdleido()){
+            idLeido.add(Integer.parseInt(id));
+        }
+        if(idLeido.contains(Usuario.getInstance().getId())){
+            holder.newMessage.setVisibility(View.INVISIBLE);
+        }else{
+            holder.newMessage.setVisibility(View.VISIBLE);
+        }
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +87,6 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
                 context.startActivity(toChat);
             }
         });
-
     }
 
     @Override
@@ -87,6 +94,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView personaChat;
+        TextView newMessage;
         TextView ultimoContenido;
         TextView fechaUltimoMensaje;
         CardView cv;
@@ -94,6 +102,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.newMessage = itemView.findViewById(R.id.newMessage);
             this.iconUser = itemView.findViewById(R.id.iconListChat);
             this.cv = itemView.findViewById(R.id.cardChat);
             this.personaChat = itemView.findViewById(R.id.personaChat);

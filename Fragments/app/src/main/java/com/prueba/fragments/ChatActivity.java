@@ -39,9 +39,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
-    ConversacionInterface conversacionInterface;
-    GrupoUsuarioInterface grupoUsuarioInterface;
-    GrupoInterface grupoInterface;
     Integer idGrupo;
     Grupo infoGrupo;
     Integer idGrupoUsuario;
@@ -102,8 +99,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
     public void getGrupoUsuario() {
-        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call = grupoUsuarioInterface.getById(idGrupoUsuario);
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.getById(idGrupoUsuario);
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
             public void onResponse(@NonNull Call<GrupoUsuario> call, @NonNull Response<GrupoUsuario> response) {
@@ -120,8 +116,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void cargarConversacion(){
-        conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
-        Call<List<Conversacion>> call = conversacionInterface.getConversacionesByGroupId(idGrupo);
+        Call<List<Conversacion>> call = MainActivity.conversacionInterface.getConversacionesByGroupId(idGrupo);
         call.enqueue(new Callback<List<Conversacion>>() {
             @Override
             public void onResponse(@NonNull Call<List<Conversacion>> call, @NonNull Response<List<Conversacion>> response) {
@@ -154,9 +149,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void cargarUsuarios(){
-
-        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<List<Usuario>> callUsers = grupoUsuarioInterface.getGroupUsers(idGrupo);
+        Call<List<Usuario>> callUsers = MainActivity.grupoUsuarioInterface.getGroupUsers(idGrupo);
         callUsers.enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(@NonNull Call<List<Usuario>> call, @NonNull Response<List<Usuario>> response) {
@@ -172,9 +165,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void cargarGrupo(){
-
-        grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> callUsers = grupoInterface.getById(idGrupo);
+        Call<Grupo> callUsers = MainActivity.grupoInterface.getById(idGrupo);
         callUsers.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(@NonNull Call<Grupo> call, @NonNull Response<Grupo> response) {
@@ -197,10 +188,9 @@ public class ChatActivity extends AppCompatActivity {
         String formattedDate = sdf.format(new Date(timeInMilliSeconds));
 
 
-        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, formattedDate.toString(), texto.getText().toString());
+        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, formattedDate.toString(), texto.getText().toString(), "0," + Usuario.getInstance().getId().toString());
 
-        conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
-        Call<Conversacion> call = conversacionInterface.save(newConversacion);
+        Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
         call.enqueue(new Callback<Conversacion>() {
             @Override
             public void onResponse(@NonNull Call<Conversacion> call, @NonNull Response<Conversacion> response) {
@@ -280,8 +270,7 @@ public class ChatActivity extends AppCompatActivity {
         confirmName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-                Call<Void> call = grupoUsuarioInterface.updateGroupName(nombreGrupo.getText().toString(),idGrupoUsuario);
+                Call<Void> call = MainActivity.grupoUsuarioInterface.updateGroupName(nombreGrupo.getText().toString(),idGrupoUsuario);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {

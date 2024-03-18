@@ -76,7 +76,6 @@ public class Profile extends Fragment {
     //por default va a ser el usuario resgitrado
     public static Usuario perfil;
     ImageView iconEnciarMensaje;
-    GrupoUsuarioInterface grupoUsuarioInterface;
     Boolean chatNuevo = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -191,10 +190,8 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent toChat = new Intent(getContext(), ChatActivity.class);
-                grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
                 //Se saca los idGrupos (Integer) en común del usuario presente y al usario que queremos enviar el mensaje
-
-                Call <List<List<Integer>>> call = grupoUsuarioInterface.getCommonGroups(Usuario.getInstance().getId(), perfil.getId());
+                Call <List<List<Integer>>> call = MainActivity.grupoUsuarioInterface.getCommonGroups(Usuario.getInstance().getId(), perfil.getId());
                 call.enqueue(new Callback<List<List<Integer>>>() {
                     @Override
                     public void onResponse(Call<List<List<Integer>>> call, Response<List<List<Integer>>> response1) {
@@ -208,7 +205,7 @@ public class Profile extends Fragment {
                             //La primera posicion es la lista de idGrupo y idGrupoUsuario, y el otro .get()
                             //es acceder a esos valores.
 
-                            Call <Boolean> call2 = grupoUsuarioInterface.getNumberUsers(response1.body().get(i).get(0));
+                            Call <Boolean> call2 = MainActivity.grupoUsuarioInterface.getNumberUsers(response1.body().get(i).get(0));
                             int finalI = i;
 
                             call2.enqueue(new Callback<Boolean>() {
@@ -270,8 +267,7 @@ public class Profile extends Fragment {
     }
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
-        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null, perfil.getName(),
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null, perfil.getName(),
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
@@ -281,7 +277,7 @@ public class Profile extends Fragment {
                 }
 
                 //Después asignamos el grupo al otro
-                Call <GrupoUsuario> call1 = grupoUsuarioInterface.create(new GrupoUsuario(null, Usuario.getInstance().getName(), new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
+                Call <GrupoUsuario> call1 = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null, Usuario.getInstance().getName(), new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
                 call1.enqueue(new Callback<GrupoUsuario>() {
                     @Override
                     public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
