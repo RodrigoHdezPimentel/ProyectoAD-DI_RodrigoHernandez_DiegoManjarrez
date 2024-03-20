@@ -196,7 +196,9 @@ public class Chats extends Fragment {
         dialog.setContentView(R.layout.dialog_create_join_group);
 
         ImageView cancellButton = dialog.findViewById(R.id.dimissAD);
+        //Crea un grupo nuevo contigo solo
         Button createGroup = dialog.findViewById(R.id.createGroupBut);
+        //Te une al grupo del codigo
         Button joinGroup = dialog.findViewById(R.id.joinGroupBut);
         error = dialog.findViewById(R.id.mensajeError);
         codigo = dialog.findViewById(R.id.groupCodeInput);
@@ -243,13 +245,13 @@ public class Chats extends Fragment {
             public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
                 if(!response.isSuccessful()){
                     return;
-                }else{
-                    grupoUsuarioChatDestino = response.body();
-                    Intent toChat = new Intent(getContext(), ChatActivity.class);
-                    toChat.putExtra("idGrupo", grupoDestino.getIdGrupo());
-                    toChat.putExtra("idGrupoUsuario", grupoUsuarioChatDestino.getIdGrupoUsuario());
-                    startActivity(toChat);
                 }
+                Toast.makeText(getContext(), "GRUPOUSUARIO", Toast.LENGTH_SHORT).show();
+                grupoUsuarioChatDestino = response.body();
+                Intent toChat = new Intent(getContext(), ChatActivity.class);
+                toChat.putExtra("idGrupo", grupoDestino.getIdGrupo());
+                toChat.putExtra("idGrupoUsuario", grupoUsuarioChatDestino.getIdGrupoUsuario());
+                startActivity(toChat);
             }
             @Override
             public void onFailure(Call<GrupoUsuario> call, Throwable t) {
@@ -264,12 +266,12 @@ public class Chats extends Fragment {
             public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
                 if(!response.isSuccessful()){
                     return;
-                }else{
-                    Intent toChat = new Intent(getContext(), ChatActivity.class);
-                    toChat.putExtra("idGrupo", grupoDestino.getIdGrupo());
-                    toChat.putExtra("idGrupoUsuario", grupoUsuarioChatDestino.getIdGrupoUsuario());
-                    startActivity(toChat);
                 }
+                Toast.makeText(getContext(), "GRUPOUSUARIO", Toast.LENGTH_SHORT).show();
+                Intent toChat = new Intent(getContext(), ChatActivity.class);
+                toChat.putExtra("idGrupo", grupoDestino.getIdGrupo());
+                toChat.putExtra("idGrupoUsuario", grupoUsuarioChatDestino.getIdGrupoUsuario());
+                startActivity(toChat);
             }
             @Override
             public void onFailure(Call<GrupoUsuario> call, Throwable t) {
@@ -288,10 +290,13 @@ public class Chats extends Fragment {
                     return;
                 }
                 grupoUsuarioChatDestino = response.body();
+                //Cambia la fechabaja por null
                 rejoinGrupo();
             }
             @Override
             public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+                //Si no hace una conexion exitosa es pq no hay registro,
+                //asi que hay que crear el grupousuario
                 if(grupoUsuarioChatDestino == null){
                     joinGrupo();
                 }
@@ -310,6 +315,7 @@ public class Chats extends Fragment {
                     error.setText("Grupo no encontrado");
                     return;
                 }
+                Toast.makeText(getContext(), "GRUPO", Toast.LENGTH_SHORT).show();
                 grupoDestino = response.body();
 
                 error.setVisibility(View.INVISIBLE);
