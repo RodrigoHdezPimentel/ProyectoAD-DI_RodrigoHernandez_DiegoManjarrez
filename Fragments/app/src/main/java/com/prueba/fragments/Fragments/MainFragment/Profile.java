@@ -267,7 +267,7 @@ public class Profile extends Fragment {
     }
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
-        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null, perfil.getName(),
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null, perfil.getName(), null,
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
@@ -277,7 +277,7 @@ public class Profile extends Fragment {
                 }
 
                 //Después asignamos el grupo al otro
-                Call <GrupoUsuario> call1 = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null, Usuario.getInstance().getName(), new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
+                Call <GrupoUsuario> call1 = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null, Usuario.getInstance().getName(), null, new GrupoUsuarioFK(perfil.getId(), idGrupo,perfil,grupo)));
                 call1.enqueue(new Callback<GrupoUsuario>() {
                     @Override
                     public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {

@@ -31,7 +31,7 @@ public interface GrupoUsuarioInterface {
     @GET("updateGroupName/{newName}/{id}")
     Call<Void> updateGroupName(@Path("newName") String newName, @Path("id") Integer id);
 
-    @GET("rejoinGroup/{id}")
+    @GET("rejoinChat/{id}")
     Call<GrupoUsuario> rejoinGroup(@Path("id") Integer id);
 
     @GET("findByIdUserIdGroup/{idUsuario}/{idGrupo}")

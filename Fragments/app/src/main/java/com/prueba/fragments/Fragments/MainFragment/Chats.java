@@ -91,6 +91,7 @@ public class Chats extends Fragment {
         view = inflater.inflate(R.layout.fragment_chats, container, false);
         progressBar = view.findViewById(R.id.progressBar);
         newGroup = view.findViewById(R.id.newGroup);
+        grupoUsuarioChatDestino = null;
 
         newGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +124,7 @@ public class Chats extends Fragment {
 
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
-        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo",
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo", null,
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
@@ -232,16 +233,18 @@ public class Chats extends Fragment {
     }
     //Si no ha estado antes crea su grupoUsuario
     public void joinGrupo() {
-        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(
-                new GrupoUsuario(null, "Nombre Grupo",
-                        new GrupoUsuarioFK(Usuario.getInstance().getId(), grupoDestino.getIdGrupo(),
-                                Usuario.getInstance(), grupoDestino)));
+        GrupoUsuario newGrupoUsuario =
+                new GrupoUsuario(null, "Nombre Grupo", null,
+                    new GrupoUsuarioFK(Usuario.getInstance().getId(), grupoDestino.getIdGrupo(),
+                        Usuario.getInstance(), grupoDestino));
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(newGrupoUsuario);
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
             public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
                 if(!response.isSuccessful()){
                     return;
                 }else{
+                    grupoUsuarioChatDestino = response.body();
                     Intent toChat = new Intent(getContext(), ChatActivity.class);
                     toChat.putExtra("idGrupo", grupoDestino.getIdGrupo());
                     toChat.putExtra("idGrupoUsuario", grupoUsuarioChatDestino.getIdGrupoUsuario());
@@ -285,17 +288,16 @@ public class Chats extends Fragment {
                     return;
                 }
                 grupoUsuarioChatDestino = response.body();
-                if(grupoUsuarioChatDestino == null){
-                    joinGrupo();
-                }else{
-                    rejoinGrupo();
-                }
+                rejoinGrupo();
             }
             @Override
             public void onFailure(Call<GrupoUsuario> call, Throwable t) {
-
+                if(grupoUsuarioChatDestino == null){
+                    joinGrupo();
+                }
             }
         });
+
     }
     //Comprueba que el grupo existe
     public void findGroup(){

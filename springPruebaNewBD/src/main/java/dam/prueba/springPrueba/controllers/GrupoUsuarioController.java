@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/grupoUsuario")
@@ -87,8 +88,9 @@ public class GrupoUsuarioController {
 
     }
     @GetMapping("/rejoinChat/{id}")
-    public void rejoinChat(@PathVariable Integer id) {
+    public GrupoUsuario rejoinChat(@PathVariable Integer id) {
         grupoUsuarioService.rejoinChat(id);
+        return grupoUsuarioService.getById(id);
     }
     @GetMapping("/findByIdUserIdGroup/{idUsuario}/{idGrupo}")
     public GrupoUsuario findByIdUserIdGroup(@PathVariable Integer idUsuario, @PathVariable Integer idGrupo){
