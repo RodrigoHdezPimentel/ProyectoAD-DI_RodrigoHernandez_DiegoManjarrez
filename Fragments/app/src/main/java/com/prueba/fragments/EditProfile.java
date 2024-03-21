@@ -37,13 +37,11 @@ public class EditProfile extends AppCompatActivity {
     TextInputEditText password;
     TextInputEditText descripcion;
 
-    UsuarioInterface usuarioInterface;
    //para el fondo de la activity
     ConstraintLayout con;
     ProgressBar progressBar;
     //los ids de los temas que ya tiene el usaurio regsitrado en la tabla
     List<UsuarioTema> UsuarioTemasIds;
-    UsuarioTemaInterface usuarioTemaInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +98,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     public void updateUser(){
-        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.update(Usuario.getInstance());
+        Call<Usuario> call = MainActivity.usuarioInterface.update(Usuario.getInstance());
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -121,8 +118,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     public void deleteUser(){
-        usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<Boolean> call = usuarioInterface.delete(Usuario.getInstance().getId());
+        Call<Boolean> call = MainActivity.usuarioInterface.delete(Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -213,8 +209,7 @@ public class EditProfile extends AppCompatActivity {
 
     public void cargarChips(ChipGroup chipGroup){
 
-        UsuarioTemaInterface userTema = MainActivity.retrofitUserTema.create(UsuarioTemaInterface.class);
-        Call<List<UsuarioTema>> call = userTema.getAllTemaFromId(Usuario.getInstance().getId());
+        Call<List<UsuarioTema>> call = MainActivity.usuarioTemaInterface.getAllTemaFromId(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<UsuarioTema>>() {
             @Override
             public void onResponse(Call<List<UsuarioTema>> call, Response<List<UsuarioTema>> response) {
@@ -300,10 +295,7 @@ public class EditProfile extends AppCompatActivity {
     }
     public void crearUserTema(int idTema){
         UsuarioTema userTema = new UsuarioTema(new UsuarioTemaFK(Usuario.getInstance().getId(),idTema));
-
-        usuarioTemaInterface = MainActivity.retrofitUserTema.create(UsuarioTemaInterface.class);
-
-        Call <UsuarioTema> call = usuarioTemaInterface.create(userTema);
+        Call <UsuarioTema> call = MainActivity.usuarioTemaInterface.create(userTema);
         call.enqueue(new Callback<UsuarioTema>() {
             @Override
             public void onResponse(Call<UsuarioTema> call, Response<UsuarioTema> response) {
@@ -319,8 +311,7 @@ public class EditProfile extends AppCompatActivity {
         });
     }
     public void deleteUserTema(int idTema){
-        usuarioTemaInterface = MainActivity.retrofitUserTema.create(UsuarioTemaInterface.class);
-        Call <Boolean> call = usuarioTemaInterface.removeTemaUser(idTema, Usuario.getInstance().getId());
+        Call <Boolean> call = MainActivity.usuarioTemaInterface.removeTemaUser(idTema, Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {

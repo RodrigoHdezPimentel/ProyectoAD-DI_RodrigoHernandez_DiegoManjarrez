@@ -87,9 +87,7 @@ public class misLikes extends Fragment {
 }
 
     private void getAllPubliacionFromUser() {
-
-        UsuarioInterface usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<List<Publicacion>> call = usuarioInterface.getPublicationsFromUserLike(Profile.perfil.getId());
+        Call<List<Publicacion>> call = MainActivity.usuarioInterface.getPublicationsFromUserLike(Profile.perfil.getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {

@@ -33,5 +33,8 @@ public class Conversacion {
     @Column(name = "contenido")
     private String contenido;
 
+    @Column(name = "idleido")
+    private String idleido;
+
 }
 

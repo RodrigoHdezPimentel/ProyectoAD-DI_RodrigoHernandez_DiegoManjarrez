@@ -1,20 +1,28 @@
 package com.prueba.fragments.Fragments.MainFragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.Class.ChatLastMessage;
+import com.prueba.fragments.EditProfile;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
@@ -71,20 +79,24 @@ public class Chats extends Fragment {
     }
     View view;
     //ArrayList<ChatLastMessage> ListaGrupos = new ArrayList<>();
-    GrupoUsuarioInterface grupoUsuarioInterface;
     ProgressBar progressBar;
     FloatingActionButton newGroup;
+    TextInputEditText codigo;
+    TextView error;
+    Grupo grupoDestino;
+    GrupoUsuario grupoUsuarioChatDestino;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_chats, container, false);
         progressBar = view.findViewById(R.id.progressBar);
         newGroup = view.findViewById(R.id.newGroup);
+        grupoUsuarioChatDestino = null;
 
         newGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crearConversacion();
+                showAlertDialog();
             }
         });
         cargarGrupos();
@@ -92,8 +104,7 @@ public class Chats extends Fragment {
     }
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        GrupoInterface grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
+        Call<Grupo> call = MainActivity.grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -110,10 +121,10 @@ public class Chats extends Fragment {
             }
         });
     }
+
     public void asignarChat(int idGrupo, Grupo grupo){
         //Primero nos asignamos al grupo
-        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<GrupoUsuario> call = grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo",
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo", null,
                 new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
@@ -137,9 +148,9 @@ public class Chats extends Fragment {
             }
         });
     }
+
     public void cargarGrupos(){
-        grupoUsuarioInterface = MainActivity.retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
-        Call<List<ChatLastMessage>> call = grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
+        Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
        call.enqueue(new Callback<List<ChatLastMessage>>() {
            @Override
            public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {
@@ -155,16 +166,12 @@ public class Chats extends Fragment {
                ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), (ArrayList<ChatLastMessage>) response.body());
                MyRecyclerView.setAdapter(adapter);
                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
            }
-
            @Override
            public void onFailure(Call<List<ChatLastMessage>> call, Throwable t) {
 
            }
        });
-
-
     }
 
     private String generarCodigoDeGrupo() {
@@ -180,5 +187,145 @@ public class Chats extends Fragment {
             }
         }
         return codigo;
+    }
+
+    public void showAlertDialog() {
+        final Dialog dialog = new Dialog(getContext());
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_create_join_group);
+
+        ImageView cancellButton = dialog.findViewById(R.id.dimissAD);
+        //Crea un grupo nuevo contigo solo
+        Button createGroup = dialog.findViewById(R.id.createGroupBut);
+        //Te une al grupo del codigo
+        Button joinGroup = dialog.findViewById(R.id.joinGroupBut);
+        error = dialog.findViewById(R.id.mensajeError);
+        codigo = dialog.findViewById(R.id.groupCodeInput);
+        error.setVisibility(View.INVISIBLE);
+
+        cancellButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        createGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crearConversacion();
+                dialog.dismiss();
+            }
+        });
+        joinGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(codigo.getText().toString().equals("")){
+                    error.setVisibility(View.VISIBLE);
+                    error.setText("Codigo obligatorio");
+                }else{
+                    error.setVisibility(View.INVISIBLE);
+                    findGroup();
+                }
+            }
+        });
+
+        // Muestra el diálogo
+        dialog.show();
+    }
+    //Si no ha estado antes crea su grupoUsuario
+    public void joinGrupo() {
+        GrupoUsuario newGrupoUsuario =
+                new GrupoUsuario(null, "Nombre Grupo", null,
+                    new GrupoUsuarioFK(Usuario.getInstance().getId(), grupoDestino.getIdGrupo(),
+                        Usuario.getInstance(), grupoDestino));
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(newGrupoUsuario);
+        call.enqueue(new Callback<GrupoUsuario>() {
+            @Override
+            public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+                Toast.makeText(getContext(), "GRUPOUSUARIO", Toast.LENGTH_SHORT).show();
+                grupoUsuarioChatDestino = response.body();
+                Intent toChat = new Intent(getContext(), ChatActivity.class);
+                toChat.putExtra("idGrupo", grupoDestino.getIdGrupo());
+                toChat.putExtra("idGrupoUsuario", grupoUsuarioChatDestino.getIdGrupoUsuario());
+                startActivity(toChat);
+            }
+            @Override
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+            }
+        });
+    }
+    //Si ya a estado antes, cambia la fecha baja a null
+    public void rejoinGrupo(){
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.rejoinGroup(grupoUsuarioChatDestino.getIdGrupoUsuario());
+        call.enqueue(new Callback<GrupoUsuario>() {
+            @Override
+            public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+                Toast.makeText(getContext(), "GRUPOUSUARIO", Toast.LENGTH_SHORT).show();
+                Intent toChat = new Intent(getContext(), ChatActivity.class);
+                toChat.putExtra("idGrupo", grupoDestino.getIdGrupo());
+                toChat.putExtra("idGrupoUsuario", grupoUsuarioChatDestino.getIdGrupoUsuario());
+                startActivity(toChat);
+            }
+            @Override
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+            }
+        });
+    }
+
+    //Busca si ya a estado en ese grupo
+    public void searchGrupoUsuario(){
+        Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.findByIdUserIdGroup(Usuario.getInstance().getId(), grupoDestino.getIdGrupo());
+        call.enqueue(new Callback<GrupoUsuario>() {
+            @Override
+            public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(getContext(), "Grupo no encontrado", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                grupoUsuarioChatDestino = response.body();
+                //Cambia la fechabaja por null
+                rejoinGrupo();
+            }
+            @Override
+            public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+                //Si no hace una conexion exitosa es pq no hay registro,
+                //asi que hay que crear el grupousuario
+                if(grupoUsuarioChatDestino == null){
+                    joinGrupo();
+                }
+            }
+        });
+
+    }
+    //Comprueba que el grupo existe
+    public void findGroup(){
+        Call<Grupo> call = MainActivity.grupoInterface.findGroup(codigo.getText().toString());
+        call.enqueue(new Callback<Grupo>() {
+            @Override
+            public void onResponse(Call<Grupo> call, Response<Grupo> response) {
+                if(!response.isSuccessful()){
+                    error.setVisibility(View.VISIBLE);
+                    error.setText("Grupo no encontrado");
+                    return;
+                }
+                Toast.makeText(getContext(), "GRUPO", Toast.LENGTH_SHORT).show();
+                grupoDestino = response.body();
+
+                error.setVisibility(View.INVISIBLE);
+                codigo.setText("");
+                searchGrupoUsuario();
+            }
+            @Override
+            public void onFailure(Call<Grupo> call, Throwable t) {
+
+            }
+        });
     }
 }

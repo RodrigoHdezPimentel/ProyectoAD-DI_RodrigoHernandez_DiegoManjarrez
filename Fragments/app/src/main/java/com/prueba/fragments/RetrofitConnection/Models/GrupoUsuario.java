@@ -15,14 +15,16 @@ import retrofit2.Response;
 public class GrupoUsuario {
     private Integer idgrupousuario;
     private String nombre;
+    private String fechabaja;
     private GrupoUsuarioFK id;
 
     public GrupoUsuario() {
     }
 
-    public GrupoUsuario(Integer idgrupousuario,String nombre, GrupoUsuarioFK id) {
+    public GrupoUsuario(Integer idgrupousuario,String nombre,String fechabaja, GrupoUsuarioFK id) {
         this.idgrupousuario = idgrupousuario;
         this.nombre = nombre;
+        this.fechabaja = fechabaja;
         this.id = id;
     }
 
@@ -38,4 +40,7 @@ public class GrupoUsuario {
         return id;
     }
 
+    public String getFechabaja() {
+        return fechabaja;
+    }
 }

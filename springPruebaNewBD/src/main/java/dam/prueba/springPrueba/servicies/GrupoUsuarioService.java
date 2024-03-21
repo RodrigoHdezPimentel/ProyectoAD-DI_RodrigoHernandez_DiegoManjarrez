@@ -56,6 +56,11 @@ public class GrupoUsuarioService {
         grupoUsuarioRepository.updateChatName(newName, id);
     }
 
+    public void rejoinChat(Integer idGrupoUsuario){
+        grupoUsuarioRepository.rejoinChat(idGrupoUsuario);
+    }
 
-
+    public void salirGrupo(Integer idGrupoUsuario, String fecha){
+        grupoUsuarioRepository.salirGrupo(idGrupoUsuario, fecha);
+    }
 }

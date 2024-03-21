@@ -74,7 +74,6 @@ public class Tendencias extends Fragment {
     //Cambiar esto por los datos retornados de la BD
     ProgressBar progressBar;
     List<Publicacion> listaPublicaciones;
-    PublicacionInterface publicacionInterface;
     LinearLayout l;
     View view;
 
@@ -92,9 +91,7 @@ public class Tendencias extends Fragment {
     }
 
     private void getPublishTrending() {
-
-        publicacionInterface = MainActivity.retrofitPublicacion.create(PublicacionInterface.class);
-        Call<List<Publicacion>> call = publicacionInterface.getPublishTrending();
+        Call<List<Publicacion>> call = MainActivity.publicacionInterface.getPublishTrending();
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override
             public void onResponse(Call<List<Publicacion>> call, Response<List<Publicacion>> response) {

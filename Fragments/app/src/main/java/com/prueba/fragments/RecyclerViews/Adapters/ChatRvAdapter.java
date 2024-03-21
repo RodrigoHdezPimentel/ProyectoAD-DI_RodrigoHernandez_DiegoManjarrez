@@ -12,20 +12,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.prueba.fragments.Class.LoadConversation;
+import com.prueba.fragments.ComentariosActivity;
 import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
+import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,9 +77,31 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         }else {
             holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
         }
+
         holder.cv.setElevation(10f);
         holder.fecha.setText(conversacionModels.get(position).getConversacion().getFecha().toString());
         holder.Contenido.setText(conversacionModels.get(position).getConversacion().getContenido());
+
+        //Marcar mensajes como leidos
+        ArrayList<Integer> idLeido = new ArrayList<>();
+        for(String id : conversacionModels.get(position).getConversacion().getIdleido()){
+            idLeido.add(Integer.parseInt(id));
+        }
+        if(!idLeido.contains(Usuario.getInstance().getId())){
+            Call<Void> callUpdate = MainActivity.conversacionInterface.readMessage(Usuario.getInstance().getId(), conversacionModels.get(position).getConversacion().getIdConversacion());
+            callUpdate.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (!response.isSuccessful()) {
+                        Log.e("Response err: ", response.message());
+                        return;
+                    }
+                }
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                }
+            });
+        }
 
 
     }

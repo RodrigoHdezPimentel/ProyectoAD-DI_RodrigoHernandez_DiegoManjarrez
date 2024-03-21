@@ -4,11 +4,16 @@ select * from Temas;
 select * from publicaciones where idPublicacion > 1000;
 select * from Likes;
 
+select * from grupo_usuario where idGrupo in 
+	(select idGrupo from grupo_usuario group by idGrupo having count(idGrupo)>2)
+		and nombre not like "%rupo%" order by idGrupo; 
+        
+select * from grupo_usuario where idGrupo in 
+	(select idGrupo from grupo_usuario group by idGrupo having count(idGrupo)=2) order by idGrupo; 
 
+    
+select idGrupo from grupo_usuario group by idGrupo having count(idGrupo)>2;
 
-select * from usuarios where (2024 - anioNacimiento) < 18;
-
-select count(*) from publicaciones where idPubliRefer is null;
 
 
 
@@ -44,7 +49,6 @@ END $$
 DELIMITER ;
 CALL _tmp_update_numLikes();
 
-
 select p.*, count(l.idPublicacion) as "numberLikes" 
 	from publicaciones p join likes l on p.idPublicacion = l.idPublicacion 
 		where p.numLikes != "numberLikes"
@@ -67,19 +71,8 @@ UPDATE publicaciones AS p1
     
     
   
-#Comprobar que ningun menor de edad vea contenido inapropiado
-select us.idUsuario, te.idTema, te.Titulo from usuarios us 
-	Join usuario_tema ut on ut.idUsuario = us.idUsuario 
-		join temas te on te.idTema = ut.idTema where te.edadMinima = 18 and (2024 - anioNacimiento < 18);
         
         
-        
-#Borrar los registros de users menores de edad viendo contenido inapropiado
-delete from usuario_tema 
-	where (idUsuario, idTema) in (
-		select us.idUsuario, te.idTema from usuarios us 
-			Join usuario_tema ut on ut.idUsuario = us.idUsuario 
-				join temas te on te.idTema = ut.idTema where te.edadMinima = 18 and (2024 - anioNacimiento < 18));
 
 
 

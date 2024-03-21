@@ -35,4 +35,8 @@ public class GrupoController {
     public boolean deleteGroup(@PathVariable Integer id){
         return grupoService.deleteGroup(id);
     }
+    @GetMapping("/findGroup/{codigo}")
+    public Grupo findGroup(@PathVariable String codigo){
+        return grupoService.findGroup(codigo);
+    }
 }

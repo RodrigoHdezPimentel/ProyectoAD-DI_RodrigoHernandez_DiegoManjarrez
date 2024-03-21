@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/grupoUsuario")
@@ -24,7 +25,6 @@ public class GrupoUsuarioController {
     public GrupoUsuario saveGrupoUsuario(@RequestBody GrupoUsuario grupoUser){
         return grupoUsuarioService.saveGrupoUsuario(grupoUser);
     }
-
 
     @GetMapping("/getListChatFromUser/{id}")
     public List<ChatLastMessage> getListChatFromUser(@PathVariable Integer id){
@@ -87,4 +87,18 @@ public class GrupoUsuarioController {
             }
 
     }
+    @GetMapping("/rejoinChat/{id}")
+    public GrupoUsuario rejoinChat(@PathVariable Integer id) {
+        grupoUsuarioService.rejoinChat(id);
+        return grupoUsuarioService.getById(id);
+    }
+    @GetMapping("/findByIdUserIdGroup/{idUsuario}/{idGrupo}")
+    public GrupoUsuario findByIdUserIdGroup(@PathVariable Integer idUsuario, @PathVariable Integer idGrupo){
+        return grupoUsuarioService.asignarUserChat(idUsuario, idGrupo);
+    }
+    @GetMapping("/salirGrupo/{idGrupoUsuario}/{fecha}")
+    public void salirGrupo(@PathVariable Integer idGrupoUsuario, @PathVariable String fecha){
+        grupoUsuarioService.salirGrupo(idGrupoUsuario, fecha);
+    }
+
 }

@@ -33,5 +33,8 @@ public class ConversacionService {
         return conversacionRepository.getLastMessage(id);
     }
 
+    public void readMessage(Integer idUsuario, Integer idConversacion){
+        conversacionRepository.readMessage(idUsuario, idConversacion);
+    }
 
 }

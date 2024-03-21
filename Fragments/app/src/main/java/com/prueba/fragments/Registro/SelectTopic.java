@@ -39,11 +39,6 @@ public class SelectTopic extends AppCompatActivity {
     Button buttonCancelar;
     ArrayList<Chip> listChip = new ArrayList<>();
 
-    UsuarioInterface usuarioInterface;
-    UsuarioTemaInterface usuarioTemaInterface;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +100,7 @@ public class SelectTopic extends AppCompatActivity {
     }
 
     public void createUser(){
-         usuarioInterface = MainActivity.retrofitUser.create(UsuarioInterface.class);
-        Call<Usuario> call = usuarioInterface.create(Usuario.getInstance());
+        Call<Usuario> call = MainActivity.usuarioInterface.create(Usuario.getInstance());
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -139,8 +133,7 @@ public class SelectTopic extends AppCompatActivity {
     }
 
     public void createUserTema(UsuarioTema userTema){
-
-        Call<UsuarioTema> call = usuarioTemaInterface.create(userTema);
+        Call<UsuarioTema> call = MainActivity.usuarioTemaInterface.create(userTema);
 
 
             call.enqueue(new Callback<UsuarioTema>() {

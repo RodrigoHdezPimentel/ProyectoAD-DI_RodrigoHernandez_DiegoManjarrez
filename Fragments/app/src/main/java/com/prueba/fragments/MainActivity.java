@@ -16,8 +16,14 @@ import com.prueba.fragments.Fragments.MainFragment.Chats;
 import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Fragments.MainFragment.Publish;
+import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.LikeInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.TemaInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
@@ -36,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
     public static Retrofit retrofitConversacion;
     public static Retrofit retrofitGrupo;
     public static Retrofit retrofitGrupoUsuario;
+    public static ConversacionInterface conversacionInterface;
+    public static GrupoInterface grupoInterface;
+    public static GrupoUsuarioInterface grupoUsuarioInterface;
+    public static LikeInterface likeInterface;
+    public static PublicacionInterface publicacionInterface;
+    public static TemaInterface temaInterface;
+    public static UsuarioInterface usuarioInterface;
+    public static UsuarioTemaInterface usuarioTemaInterface;
+
 
     public static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
     public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251"};//clase-casa
@@ -48,37 +63,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/publicacion/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/tema/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuario/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUserTema =  new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/usuarioTema/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuarioTema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitLike = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/like/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/like/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitConversacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/conversacion/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/conversacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitGrupo = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/grupo/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupo/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitGrupoUsuario = new Retrofit.Builder()
-                .baseUrl("http://" + IP_DIEGO[1] +":8086/grupoUsuario/")
+                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupoUsuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        conversacionInterface = retrofitConversacion.create(ConversacionInterface.class);
+        grupoUsuarioInterface = retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
+        grupoInterface = retrofitGrupo.create(GrupoInterface.class);
+        likeInterface = retrofitLike.create(LikeInterface.class);
+        publicacionInterface = retrofitPublicacion.create(PublicacionInterface.class);
+        temaInterface = retrofitTemas.create(TemaInterface.class);
+        usuarioInterface = retrofitUser.create(UsuarioInterface.class);
+        usuarioTemaInterface = retrofitUserTema.create(UsuarioTemaInterface.class);
+
 
 
         Intent getIntent = getIntent();
@@ -97,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniciarSesion(){
-        UsuarioInterface usuarioInterface = retrofitUser.create(UsuarioInterface.class);
         Call<Usuario> call = usuarioInterface.getUserRegister(AutoLogin.getUserName(MainActivity.this).toString(),AutoLogin.getPassord(MainActivity.this).toString() );
         call.enqueue(new Callback<Usuario>() {
             @Override
@@ -190,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
     //Volver esto estatico para llamar al metodo en las demás clases
     public static void darLike(Integer idPublicacion){
         Like like = new Like(null, idPublicacion, Usuario.getInstance().getId());
-        LikeInterface likeInterface = retrofitLike.create(LikeInterface.class);
         Call<Like> call = likeInterface.create(like);
         call.enqueue(new Callback<Like>() {
             @Override
@@ -209,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public static void quitarLike(int idPublicacion){
-        LikeInterface likeInterface = retrofitLike.create(LikeInterface.class);
         Call <Boolean> call = likeInterface.removeLikeUser(idPublicacion, Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
             @Override

@@ -18,7 +18,6 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 public class Registro extends AppCompatActivity {
 Button buttonRegistrar;
 Button buttonCancelar;
-
 TextInputEditText userName;
 TextInputEditText  password;
 TextInputEditText  yearsOdl;
