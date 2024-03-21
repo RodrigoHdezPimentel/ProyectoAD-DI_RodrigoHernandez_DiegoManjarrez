@@ -21,13 +21,13 @@ public class ThreadChat extends Thread{
     private ChatRvAdapter chat;
     private boolean hiloEnded;
     private Integer idGrupo;
-    //Context context;
+    Context context;
     private ConversacionInterface conversacionInterface;
 
 
     public void run(){
-        //primero obtengo los datos del ultimo mensaje cuando se carga la conversación
 
+        //primero obtengo los datos del ultimo mensaje cuando se carga la conversación
         conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
         Call<LoadConversation> call = conversacionInterface.getLastMessage(idGrupo);
         call.enqueue(new Callback<LoadConversation>() {
@@ -40,8 +40,16 @@ public class ThreadChat extends Thread{
             }
             @Override
             public void onFailure(Call<LoadConversation> call, Throwable t) {}});
-           //Acá hago un bucle adaptado a un callBack
+
+        try {
+            Thread.sleep(200);
+            //Acá hago un bucle adaptado a un callBack
             newMensaje();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
     }
     public void newMensaje() {
@@ -56,6 +64,9 @@ public class ThreadChat extends Thread{
                 //Comprobar que el idConversacion no sea igual al idConversacion del mensaje anterior
                 if (!ultimoMensaje.getConversacion().getIdConversacion().equals(response.body().getConversacion().getIdConversacion())) {
                     ultimoMensaje = response.body();
+//                    Toast.makeText(context, ultimoMensaje.getConversacion().getIdConversacion()+" ULT", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, response.body().getConversacion().getIdConversacion()+" NEW", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "he entrado", Toast.LENGTH_SHORT).show();
                     chat.mensajeNuevo(ultimoMensaje);
                 }
                 //Tuve que hacerlo de esta forma por que si coloco esto en un bucle (petición)
@@ -73,10 +84,10 @@ public class ThreadChat extends Thread{
             }});
 
     }
-    public ThreadChat(ChatRvAdapter chat, Integer idGrupo){
+    public ThreadChat(ChatRvAdapter chat, Integer idGrupo,Context context){
         this.chat = chat;
         this.idGrupo = idGrupo;
-        //this.context = context;
+        this.context = context;
     }
 
 

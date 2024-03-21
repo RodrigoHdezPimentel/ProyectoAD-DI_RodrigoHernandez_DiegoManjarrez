@@ -134,13 +134,10 @@ public class ChatActivity extends AppCompatActivity {
                 Conversation = response.body();
                 RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
                 MyRecyclerView.removeAllViews();
-                //Arranco el hilo caundo se carga la conversación
                 adapter = new ChatRvAdapter(ChatActivity.this, Conversation,MyRecyclerView);
-                hiloChat = new ThreadChat(adapter, idGrupo);
-                hiloChat.start();
+
                 MyRecyclerView.setAdapter(adapter);
                 MyRecyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
-
 
                 //que se posicione en el ultimo menjsae del scrollview
                 //BUSCAR ALGUNA MANERA PARA OPTIMIZAR LA VISTA DEL ULTIMO MENSAJE
@@ -149,6 +146,9 @@ public class ChatActivity extends AppCompatActivity {
                     int ultimoElemento = layoutManager.getItemCount() - 1;
                     ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(ultimoElemento, 0);
                 }
+                //Arranco el hilo caundo se carga la conversación
+                hiloChat = new ThreadChat(adapter, idGrupo,ChatActivity.this);
+                hiloChat.start();
             }
 
             @Override

@@ -18,7 +18,7 @@
 --
 -- Table structure for table `conversaciones`
 --
-DROP DATABASE foro;
+DROP DATABASE IF EXISTS foro;
 CREATE DATABASE foro;
 USE foro;
 
