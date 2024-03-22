@@ -3,10 +3,12 @@ package com.prueba.fragments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,22 +50,34 @@ public class ChatActivity extends AppCompatActivity {
     GrupoUsuario grupoUsuario;
     ArrayList<LoadConversation> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
-    TextInputEditText texto;
+    static TextInputEditText texto;
     TextView title;
     ImageView iconUserChat;
-    ImageView send;
+    static ImageView cross;
+    static ImageView rubish;
+    static ImageView confirm;
+    static ImageView send;
     ImageView arrow;
     AlertDialog alertDialog;
     ChatRvAdapter adapter;
     ThreadChat hiloChat;
+    static ConstraintLayout editConsLay;
+    static LinearLayout defaultLinLay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
         Boolean gender = getId.getBooleanExtra("gender", false);
+        Integer idConv = getId.getIntExtra("idConv", 0);
 
         iconUserChat = findViewById(R.id.iconChat);
+
+        editConsLay = findViewById(R.id.linearLayoutEditMessage);
+        editConsLay.setVisibility(View.GONE);
+        defaultLinLay = findViewById(R.id.linearLayout);
+        defaultLinLay.setVisibility(View.VISIBLE);
+
         iconAdd(gender);
         idGrupo = getId.getIntExtra("idGrupo",0);
         idGrupoUsuario = getId.getIntExtra("idGrupoUsuario",0);
@@ -70,6 +85,9 @@ public class ChatActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         title = findViewById(R.id.groupName);
         arrow = findViewById(R.id.arrow);
+        confirm = findViewById(R.id.confirmEditMessage);
+        cross = findViewById(R.id.closeEditMessage);
+        rubish = findViewById(R.id.deleteMessage);
 
         iconUserChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +113,35 @@ public class ChatActivity extends AppCompatActivity {
                 //para detener el hilo
                 hiloChat.setHiloEnded(true);
                 startActivity(listChat);
+            }
+        });
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defaultLinLay.setVisibility(View.VISIBLE);
+                editConsLay.setVisibility(View.GONE);
+                send.setVisibility(View.VISIBLE);
+                //Llamada retrofit para actualizar la conversascion
+
+                texto.setText("");
+            }
+        });
+        rubish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //llamada al retrofit para eliminar mensaje
+
+                texto.setText("");
+            }
+        });
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defaultLinLay.setVisibility(View.VISIBLE);
+                editConsLay.setVisibility(View.GONE);
+                send.setVisibility(View.VISIBLE);
+                texto.setText("");
             }
         });
 
@@ -156,8 +203,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void cargarUsuarios(){
@@ -333,5 +378,13 @@ public class ChatActivity extends AppCompatActivity {
             public void onFailure(Call<Void> call, Throwable t) {
             }
         });
+    }
+
+    public static void editConversacion(Conversacion c){
+        defaultLinLay.setVisibility(View.GONE);
+        editConsLay.setVisibility(View.VISIBLE);
+        send.setVisibility(View.GONE);
+        Toast.makeText(send.getContext(), c.getIdConversacion().toString(), Toast.LENGTH_SHORT).show();
+        texto.setText(c.getContenido());
     }
 }
