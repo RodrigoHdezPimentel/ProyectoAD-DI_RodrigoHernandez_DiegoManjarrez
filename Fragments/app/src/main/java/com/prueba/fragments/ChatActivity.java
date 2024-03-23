@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -44,8 +45,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
+    RecyclerView MyRecyclerView;
     Integer idGrupo;
     Grupo infoGrupo;
+    static Conversacion conversacionSeleccionada;
     Integer idGrupoUsuario;
     GrupoUsuario grupoUsuario;
     ArrayList<LoadConversation> Conversation = new ArrayList<>();
@@ -53,6 +56,8 @@ public class ChatActivity extends AppCompatActivity {
     static TextInputEditText texto;
     TextView title;
     ImageView iconUserChat;
+    static Integer messagePosition;
+    static TextView textoActualizar;
     static ImageView cross;
     static ImageView rubish;
     static ImageView confirm;
@@ -123,16 +128,52 @@ public class ChatActivity extends AppCompatActivity {
                 editConsLay.setVisibility(View.GONE);
                 send.setVisibility(View.VISIBLE);
                 //Llamada retrofit para actualizar la conversascion
-
-                texto.setText("");
+                Call<Void> callUpdate = MainActivity.conversacionInterface.updateContent(conversacionSeleccionada.getIdConversacion(), texto.getText().toString());
+                callUpdate.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (!response.isSuccessful()) {
+                            Log.e("Response err: ", response.message());
+                            Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(ChatActivity.this, "updated", Toast.LENGTH_SHORT).show();
+                        textoActualizar.setText(texto.getText().toString());
+                        texto.setText("");
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                    }
+                });
             }
         });
         rubish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                defaultLinLay.setVisibility(View.VISIBLE);
+                editConsLay.setVisibility(View.GONE);
+                send.setVisibility(View.VISIBLE);
                 //llamada al retrofit para eliminar mensaje
 
-                texto.setText("");
+                //MyRecyclerView.removeViewAt(messagePosition);
+
+                Call<Void> callUpdate = MainActivity.conversacionInterface.deleteConversation(conversacionSeleccionada.getIdConversacion());
+                callUpdate.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (!response.isSuccessful()) {
+                            Log.e("Response err: ", response.message());
+                            Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(ChatActivity.this, "eliminado", Toast.LENGTH_SHORT).show();
+                        texto.setText("");
+
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                    }
+                });
             }
         });
         cross.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +220,7 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 }
                 Conversation = response.body();
-                RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
+                MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
                 MyRecyclerView.removeAllViews();
                 adapter = new ChatRvAdapter(ChatActivity.this, Conversation,MyRecyclerView);
 
@@ -380,7 +421,10 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    public static void editConversacion(Conversacion c){
+    public static void editConversacion(Conversacion c, TextView contenido, Integer position){
+        messagePosition = position;
+        textoActualizar = contenido;
+        conversacionSeleccionada = c;
         defaultLinLay.setVisibility(View.GONE);
         editConsLay.setVisibility(View.VISIBLE);
         send.setVisibility(View.GONE);

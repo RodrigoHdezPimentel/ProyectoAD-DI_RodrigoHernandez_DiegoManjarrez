@@ -67,6 +67,14 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
             constraintSet.clone(holder.constraintLayout);
             constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
             constraintSet.applyTo(holder.constraintLayout);
+
+            holder.cv.setOnLongClickListener(new View.OnLongClickListener() {
+                public boolean onLongClick(View v) {
+                    ChatActivity.editConversacion( conversacionModels.get(position).getConversacion(), holder.Contenido, position);
+                    return false;
+                }
+            });
+
         }else {
             holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
         }
@@ -95,13 +103,6 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
                 }
             });
         }
-
-        holder.cv.setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                ChatActivity.editConversacion( conversacionModels.get(position).getConversacion());
-                return false;
-            }
-        });
     }
 
     @Override

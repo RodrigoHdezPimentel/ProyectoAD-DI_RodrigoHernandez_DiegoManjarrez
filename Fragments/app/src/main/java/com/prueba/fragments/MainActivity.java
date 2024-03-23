@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
-    public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251"};//clase-casa
+    public static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251", "192.168.243.6"};//clase-casa-movil
     FrameLayout frameLayout;
     TabLayout tabLayout;
 
@@ -63,35 +63,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         retrofitPublicacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/publicacion/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/publicacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitTemas = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/tema/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/tema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUser = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuario/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/usuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitUserTema =  new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/usuarioTema/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/usuarioTema/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitLike = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/like/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/like/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitConversacion = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/conversacion/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/conversacion/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitGrupo = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupo/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/grupo/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitGrupoUsuario = new Retrofit.Builder()
-                .baseUrl("http://" + IP_RODRIGO[1] +":8086/grupoUsuario/")
+                .baseUrl("http://" + IP_RODRIGO[2] +":8086/grupoUsuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

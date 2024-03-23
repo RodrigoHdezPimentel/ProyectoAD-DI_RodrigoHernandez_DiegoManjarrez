@@ -43,4 +43,14 @@ public class ConversacionController {
         conversacionService.readMessage(idUsuario, idConversacion);
     }
 
+    @GetMapping("/updateContent/{idConv}/{contenido}")
+    public void updateContent(@PathVariable Integer idConv, @PathVariable String contenido){
+        conversacionService.updateContent(idConv, contenido);
+    }
+
+    @GetMapping("/deleteConversation/{idConv}")
+    public void deleteConversation(@PathVariable Integer idConv){
+        conversacionService.deleteConversation(idConv);
+    }
+
 }
