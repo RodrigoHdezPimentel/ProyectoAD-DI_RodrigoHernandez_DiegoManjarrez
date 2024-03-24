@@ -2,9 +2,7 @@ package dam.prueba.springPrueba.controllers;
 
 import dam.prueba.springPrueba.Class.LoadConversation;
 import dam.prueba.springPrueba.models.Conversacion;
-import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.servicies.ConversacionService;
-import dam.prueba.springPrueba.servicies.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

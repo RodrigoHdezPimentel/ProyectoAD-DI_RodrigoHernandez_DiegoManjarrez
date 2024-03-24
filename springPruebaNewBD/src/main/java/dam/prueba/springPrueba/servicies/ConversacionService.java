@@ -2,7 +2,6 @@ package dam.prueba.springPrueba.servicies;
 
 import dam.prueba.springPrueba.Class.LoadConversation;
 import dam.prueba.springPrueba.models.Conversacion;
-import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.repositories.ConversacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

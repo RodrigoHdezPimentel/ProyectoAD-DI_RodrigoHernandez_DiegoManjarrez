@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, GrupoUsuarioFK> {
 //Select c.*, g.* FROM conversaciones c JOIN grupo_usuario g ON c.idGrupoUsuario = g.idGrupoUsuario

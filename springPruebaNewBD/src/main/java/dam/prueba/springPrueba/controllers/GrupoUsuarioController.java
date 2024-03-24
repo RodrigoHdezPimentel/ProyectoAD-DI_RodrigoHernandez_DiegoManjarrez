@@ -1,7 +1,6 @@
 package dam.prueba.springPrueba.controllers;
 
 import dam.prueba.springPrueba.Class.ChatLastMessage;
-import dam.prueba.springPrueba.models.Grupo;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.servicies.GrupoUsuarioService;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/grupoUsuario")

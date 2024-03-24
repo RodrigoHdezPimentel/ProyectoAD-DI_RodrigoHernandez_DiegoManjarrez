@@ -1,7 +1,6 @@
 package dam.prueba.springPrueba.Class;
 
 import dam.prueba.springPrueba.models.Conversacion;
-import dam.prueba.springPrueba.models.GrupoUsuario;
 import lombok.Getter;
 import lombok.Setter;
 
