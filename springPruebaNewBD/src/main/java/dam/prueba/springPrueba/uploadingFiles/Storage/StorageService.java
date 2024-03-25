@@ -9,8 +9,6 @@ import java.util.stream.Stream;
 
 public interface StorageService {
     void init();
-
-
     void storeImage(MultipartFile file);
     void store(MultipartFile file);
 

@@ -41,8 +41,9 @@ public class FileSystemStorageService implements StorageService {
                 throw new StorageException("Failed to store empty file.");
             }
             Path destinationFile = this.rootLocation.resolve(
-                            Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
+                            Paths.get((Objects.requireNonNull(file.getOriginalFilename()))))
                     .normalize().toAbsolutePath();
+
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
@@ -59,26 +60,34 @@ public class FileSystemStorageService implements StorageService {
     }
     @Override
     public void storeImage(MultipartFile file) {
-        if (file.isEmpty()) {
-            throw new StorageException("Failed to store empty file.");
-        }
-//        String fileName = UUID.randomUUID().toString();
+        try {
+            if (file.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
+            }
+            String fileName = UUID.randomUUID().toString();
 //        Para ponerle un nombre únicopara que n haya archivos con los nombre iguales o que se sobreescriba
-//        String newFileName = getString(file, fileName);
+            String fileExtension = getFileExtension(file);
 
 //        guardamos el archivo en la ruta
-        Path destinationFile = this.rootLocation.resolve(
-                        Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
-                .normalize().toAbsolutePath();
+            Path destinationFile = this.rootLocation.resolve(
+                            Paths.get(fileName + fileExtension))
+                    .normalize().toAbsolutePath();
+
 
 //        Para verificar la ubicacion del archivo
-        if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-            // This is a security check
-            throw new StorageException(
-                    "Cannot store file outside current directory.");
+            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+                // This is a security check
+                throw new StorageException(
+                        "Cannot store file outside current directory.");
+            }
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }catch (IOException e) {
+            throw new StorageException("Failed to store file.", e);
         }
     }
-    private static String getString(MultipartFile file, String fileName) {
+    private static String getFileExtension(MultipartFile file) {
         String fileOriginalName = file.getOriginalFilename();
 
         if (!(
@@ -90,8 +99,7 @@ public class FileSystemStorageService implements StorageService {
         }
 
         //Le Ponemos el nombre del archivo con un identificadro unico usando el UUID
-        String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-        return fileName + fileExtension;
+        return fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
     }
 
     @Override
