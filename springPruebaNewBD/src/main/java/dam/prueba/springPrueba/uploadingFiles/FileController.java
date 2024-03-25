@@ -6,6 +6,8 @@ import dam.prueba.springPrueba.uploadingFiles.Storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,6 @@ import java.util.stream.Collectors;
 
 public class FileController {
 
-
     private final StorageService storageService;
 
     @Autowired
@@ -31,7 +32,8 @@ public class FileController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/image/{filename}")
+
+    @GetMapping("/image/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
@@ -40,14 +42,27 @@ public class FileController {
         if (file == null)
             return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+        //Para obtenerlo en el formato imagen visual desde la URL
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+        //Para descargarlo del servidor
+       /* return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "inline; filename=\"" + file.getFilename() + "\"").body(file);*/
+
     }
 
+    @PostMapping("/saveImage")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+     storageService.store(file);
+        return ResponseEntity.ok("Archivo subido correctamente");
+     // Resource newFile = storageService.loadAsResource(fileName);
+    }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
     }
-
 }
