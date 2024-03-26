@@ -53,7 +53,14 @@ public class FileController {
                 "inline; filename=\"" + file.getFilename() + "\"").body(file);*/
 
     }
-
+    @PostMapping("/saveListImages")
+    public ResponseEntity<String> saveListImages(@RequestParam("files") MultipartFile[] files) {
+        for (MultipartFile file : files) {
+            storageService.storeImage(file);
+        }
+        return ResponseEntity.ok("Archivo subido correctamente");
+        // Resource newFile = storageService.loadAsResource(fileName);
+    }
     @PostMapping("/saveImage")
     public ResponseEntity<String> saveImage(@RequestParam("file") MultipartFile file) {
      storageService.storeImage(file);
