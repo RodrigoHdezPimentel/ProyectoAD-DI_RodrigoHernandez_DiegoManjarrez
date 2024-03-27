@@ -104,31 +104,63 @@ select  distinct(idUsuarioOrigen) as "recibido", IdUsuarioDestino as "mandado"
 /*Quitar tuitulo a comentarios*/
 update publicaciones set titulo = null where idPubliRefer is not null;
 
-/*
-/*Quitar el nombre al chat, para que cuando sea null se ponga el nombre de la otra persona*/
-UPDATE grupo_usuario
-SET nombre = NULL
-WHERE idGrupo IN (
-    SELECT idGrupo
-    FROM (
+
+
+
+
+
+select g.*, u.Us_Nombre from grupo_usuario g join usuarios u on u.idUsuario = g.idUsuario
+where g.idGrupo in (select idGrupo from grupo_usuario group by idGrupo having count(idGrupo) = 2)
+order by g.idGrupo asc;
+
+
+
+select idGrupo from grupo_usuario group by idGrupo having count(idGrupo) = 2;
+
+update grupos set codigo = null where idGrupo in (select idGrupo from grupo_usuario group by idGrupo having count(idGrupo) = 2);
+update grupos set foto = null;
+
+
+
+WITH UpdateData AS (
+    SELECT g1.idGrupoUsuario AS idToUpdate1,
+           (
+               SELECT u2.Us_Nombre
+               FROM grupo_usuario AS g2
+                        JOIN usuarios AS u2 ON g2.idUsuario = u2.idUsuario
+               WHERE g2.idGrupo = subquery.idGrupo
+               ORDER BY g2.idGrupoUsuario DESC
+               LIMIT 1
+           ) AS nuevoNombre1,
+           (
+               SELECT u2.Us_Nombre
+               FROM grupo_usuario AS g2
+                        JOIN usuarios AS u2 ON g2.idUsuario = u2.idUsuario
+               WHERE g2.idGrupo = subquery.idGrupo
+               ORDER BY g2.idGrupoUsuario asc
+               LIMIT 1
+           ) AS nuevoNombre2
+    FROM grupo_usuario AS g1
+             JOIN usuarios AS u1 ON g1.idUsuario = u1.idUsuario
+             JOIN (
         SELECT idGrupo
         FROM grupo_usuario
+        WHERE nombre = 'Nombre Grupo'
         GROUP BY idGrupo
         HAVING COUNT(idGrupo) = 2
-    ) AS subquery
-);*/
-
-
-
-
-
-
-
-
-
-
-select idGrupo, count(idGrupo) from grupo_usuario group by idGrupo having COUNT(idGrupo) = 2;
-
+        LIMIT 1
+    ) AS subquery ON g1.idGrupo = subquery.idGrupo
+             JOIN grupo_usuario AS g3 ON g3.idGrupo = subquery.idGrupo
+    ORDER BY g3.idGrupoUsuario ASC
+    LIMIT 1
+)
+UPDATE grupo_usuario
+set nombre = 
+	case idGrupoUsuario
+    when (SELECT idToUpdate1 FROM UpdateData) then (SELECT nuevoNombre1 FROM UpdateData)
+    when (SELECT idToUpdate1 FROM UpdateData)+1 then (SELECT nuevoNombre2 FROM UpdateData)
+    else nombre
+end;
 
 
 

@@ -14,7 +14,9 @@ CREATE TABLE Usuarios(
     Us_Genero boolean,
     Us_Descripcion VARCHAR(200),
     Us_Mail VARCHAR(40),
-    Us_Contrasena VARCHAR(20)    
+    Us_Contrasena VARCHAR(20),
+    foto VARCHAR(100),
+    fechabaja datetime
 );
 CREATE TABLE Grupos(
 	idGrupo INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -26,6 +28,7 @@ CREATE TABLE Grupo_Usuario(
 	idGrupo INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
 	nombre varchar(15),
+    fechabaja datetime,
     
 	FOREIGN KEY (idUsuario)
 		REFERENCES Usuarios (idUsuario)
