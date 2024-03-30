@@ -3,28 +3,30 @@ package com.prueba.fragments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.prueba.fragments.Class.ChatLastMessage;
 import com.prueba.fragments.Class.LoadConversation;
 import com.prueba.fragments.Class.ThreadChat;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatUsersRvAdapter;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
+import com.prueba.fragments.RecyclerViews.Adapters.ListaGruposShareCodeRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
@@ -41,28 +43,48 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
+    public static ArrayList<Integer> idsGrupoUsuarioShareedCodeGroups = new ArrayList<>();
+    RecyclerView MyRecyclerView;
     Integer idGrupo;
     Grupo infoGrupo;
+    static Conversacion conversacionSeleccionada;
     Integer idGrupoUsuario;
     GrupoUsuario grupoUsuario;
     ArrayList<LoadConversation> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
-    TextInputEditText texto;
+    ArrayList<ChatLastMessage> listaGrupos = new ArrayList<>();
+    static TextInputEditText texto;
     TextView title;
     ImageView iconUserChat;
-    ImageView send;
+    static Integer messagePosition;
+    static TextView textoActualizar;
+    static ImageView cross;
+    static ImageView rubish;
+    static ImageView confirm;
+    static ImageView send;
     ImageView arrow;
     AlertDialog alertDialog;
+
+    AlertDialog alertDialogGroups;
     ChatRvAdapter adapter;
     ThreadChat hiloChat;
+    static ConstraintLayout editConsLay;
+    static LinearLayout defaultLinLay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
         Boolean gender = getId.getBooleanExtra("gender", false);
+        Integer idConv = getId.getIntExtra("idConv", 0);
 
         iconUserChat = findViewById(R.id.iconChat);
+
+        editConsLay = findViewById(R.id.linearLayoutEditMessage);
+        editConsLay.setVisibility(View.GONE);
+        defaultLinLay = findViewById(R.id.linearLayout);
+        defaultLinLay.setVisibility(View.VISIBLE);
+
         iconAdd(gender);
         idGrupo = getId.getIntExtra("idGrupo",0);
         idGrupoUsuario = getId.getIntExtra("idGrupoUsuario",0);
@@ -70,6 +92,9 @@ public class ChatActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         title = findViewById(R.id.groupName);
         arrow = findViewById(R.id.arrow);
+        confirm = findViewById(R.id.confirmEditMessage);
+        cross = findViewById(R.id.closeEditMessage);
+        rubish = findViewById(R.id.deleteMessage);
 
         iconUserChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +120,71 @@ public class ChatActivity extends AppCompatActivity {
                 //para detener el hilo
                 hiloChat.setHiloEnded(true);
                 startActivity(listChat);
+            }
+        });
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defaultLinLay.setVisibility(View.VISIBLE);
+                editConsLay.setVisibility(View.GONE);
+                send.setVisibility(View.VISIBLE);
+                //Llamada retrofit para actualizar la conversascion
+                Call<Void> callUpdate = MainActivity.conversacionInterface.updateContent(conversacionSeleccionada.getIdConversacion(), texto.getText().toString());
+                callUpdate.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (!response.isSuccessful()) {
+                            Log.e("Response err: ", response.message());
+                            Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(ChatActivity.this, "updated", Toast.LENGTH_SHORT).show();
+                        textoActualizar.setText(texto.getText().toString());
+                        texto.setText("");
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                    }
+                });
+            }
+        });
+        rubish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defaultLinLay.setVisibility(View.VISIBLE);
+                editConsLay.setVisibility(View.GONE);
+                send.setVisibility(View.VISIBLE);
+                //llamada al retrofit para eliminar mensaje
+
+                //MyRecyclerView.removeViewAt(messagePosition);
+
+                Call<Void> callUpdate = MainActivity.conversacionInterface.deleteConversation(conversacionSeleccionada.getIdConversacion());
+                callUpdate.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (!response.isSuccessful()) {
+                            Log.e("Response err: ", response.message());
+                            Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(ChatActivity.this, "eliminado", Toast.LENGTH_SHORT).show();
+                        texto.setText("");
+
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                    }
+                });
+            }
+        });
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defaultLinLay.setVisibility(View.VISIBLE);
+                editConsLay.setVisibility(View.GONE);
+                send.setVisibility(View.VISIBLE);
+                texto.setText("");
             }
         });
 
@@ -132,7 +222,7 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 }
                 Conversation = response.body();
-                RecyclerView MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
+                MyRecyclerView = findViewById(R.id.ConversationListRecyclerView);
                 MyRecyclerView.removeAllViews();
                 adapter = new ChatRvAdapter(ChatActivity.this, Conversation,MyRecyclerView);
 
@@ -156,8 +246,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void cargarUsuarios(){
@@ -241,6 +329,7 @@ public class ChatActivity extends AppCompatActivity {
         ImageView buttonCerrar = dialogView.findViewById(R.id.cerrarAD);
         ImageView confirmName = dialogView.findViewById(R.id.checkName);
         ImageView unlockNameField = dialogView.findViewById(R.id.modifyName);
+        ImageView shareCode = dialogView.findViewById(R.id.shareCode);
         Button buttonSalirGrupo = dialogView.findViewById(R.id.salirGrupo);
         EditText nombreGrupo = dialogView.findViewById(R.id.nombreGrupo);
         TextView codigoGrupo = dialogView.findViewById(R.id.codigoGrupo);
@@ -259,7 +348,21 @@ public class ChatActivity extends AppCompatActivity {
 
         //Datos del grupo
         nombreGrupo.setText(grupoUsuario.getNombre());
-        codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo().toString());
+        if(infoGrupo.getCodigo() == null){
+            codigoGrupo.setVisibility(View.INVISIBLE);
+            shareCode.setVisibility(View.INVISIBLE);
+        }else{
+            codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo().toString());
+            //Cuando lo clique, muestra el listado de tus grupos
+            shareCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Cargo los grupos y luego abro el alertDialog
+                    getMyGroups();
+                    alertDialog.dismiss();
+                }
+            });
+        }
         // Configurar controladores de clic para los botones
         buttonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,7 +413,95 @@ public class ChatActivity extends AppCompatActivity {
         alertDialog = builder.create();
         alertDialog.show();
     }
+    public void mostrarListaChats(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Inflar el diseño personalizado
+        LayoutInflater inflater = getLayoutInflater();
+        View listChatView = inflater.inflate(R.layout.dialog_group_list_send_group_code, null);
+        builder.setView(listChatView);
 
+        RecyclerView listaGruposRV = listChatView.findViewById(R.id.rvListGroups);
+        listaGruposRV.removeAllViews();
+
+        //RV de usuarios
+        ListaGruposShareCodeRvAdapter adapter = new ListaGruposShareCodeRvAdapter(ChatActivity.this, listaGrupos);
+        listaGruposRV.setAdapter(adapter);
+        listaGruposRV.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+
+        Button cancel = listChatView.findViewById(R.id.cancelCode);
+        Button send = listChatView.findViewById(R.id.sendCode);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                idsGrupoUsuarioShareedCodeGroups.removeAll(idsGrupoUsuarioShareedCodeGroups);
+                alertDialogGroups.dismiss();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Mandar los mensajes con el codigo
+                enviarCodigo();
+                alertDialogGroups.dismiss();
+            }
+        });
+        alertDialogGroups = builder.create();
+        alertDialogGroups.show();
+    }
+    public void enviarCodigo(){
+        Conversacion newConversacion;
+        Date date = new Date();
+        long timeInMilliSeconds = date.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
+
+        for (Integer i : idsGrupoUsuarioShareedCodeGroups) {
+            newConversacion = new Conversacion(
+                    null, i, formattedDate.toString(),
+                    "Unete a mi grupo:\n" + infoGrupo.getCodigo().toString(),
+                    "0," + Usuario.getInstance().getId().toString());
+
+            Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
+            call.enqueue(new Callback<Conversacion>() {
+                @Override
+                public void onResponse(@NonNull Call<Conversacion> call, @NonNull Response<Conversacion> response) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(ChatActivity.this, "creado", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Conversacion> call, Throwable t) {
+                }
+            });
+        }
+        idsGrupoUsuarioShareedCodeGroups.removeAll(idsGrupoUsuarioShareedCodeGroups);
+    }
+    public void getMyGroups(){
+        Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
+        call.enqueue(new Callback<List<ChatLastMessage>>() {
+            @Override
+            public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+
+                for (ChatLastMessage c : response.body()){
+                    if(c.getChat().getGrupoUsuarioFK().getIdgrupo() != idGrupo){
+                        listaGrupos.add(c);
+                    }
+                }
+                mostrarListaChats();
+            }
+            @Override
+            public void onFailure(Call<List<ChatLastMessage>> call, Throwable t) {
+
+            }
+        });
+    }
     public void salirGrupo(){
         Date date = new Date();
         long timeInMilliSeconds = date.getTime();
@@ -333,5 +524,16 @@ public class ChatActivity extends AppCompatActivity {
             public void onFailure(Call<Void> call, Throwable t) {
             }
         });
+    }
+
+    public static void editConversacion(Conversacion c, TextView contenido, Integer position){
+        messagePosition = position;
+        textoActualizar = contenido;
+        conversacionSeleccionada = c;
+        defaultLinLay.setVisibility(View.GONE);
+        editConsLay.setVisibility(View.VISIBLE);
+        send.setVisibility(View.GONE);
+        Toast.makeText(send.getContext(), c.getIdConversacion().toString(), Toast.LENGTH_SHORT).show();
+        texto.setText(c.getContenido());
     }
 }

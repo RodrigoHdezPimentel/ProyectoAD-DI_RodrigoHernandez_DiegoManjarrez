@@ -2,36 +2,30 @@ package com.prueba.fragments.RecyclerViews.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.Class.LoadConversation;
-import com.prueba.fragments.ComentariosActivity;
-import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
-import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
-import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,7 +53,6 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         View view = inflater.inflate(R.layout.cv_row_chat, parent, false);
         return new MyViewHolder(view);
     }
-
     @SuppressLint({"SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -74,6 +67,14 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
             constraintSet.clone(holder.constraintLayout);
             constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
             constraintSet.applyTo(holder.constraintLayout);
+
+            holder.cv.setOnLongClickListener(new View.OnLongClickListener() {
+                public boolean onLongClick(View v) {
+                    ChatActivity.editConversacion( conversacionModels.get(position).getConversacion(), holder.Contenido, position);
+                    return false;
+                }
+            });
+
         }else {
             holder.cv.setCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_tertiaryContainer)); // Establecer el color de fondo
         }
@@ -102,8 +103,6 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
                 }
             });
         }
-
-
     }
 
     @Override

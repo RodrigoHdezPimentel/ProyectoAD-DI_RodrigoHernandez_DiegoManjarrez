@@ -3,6 +3,8 @@ package com.prueba.fragments.RetrofitConnection.Interfaces;
 import com.prueba.fragments.Class.LoadConversation;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,4 +30,9 @@ public interface ConversacionInterface {
     @GET("readMessage/{idUsuario}/{idConversacion}")
     Call<Void> readMessage(@Path("idUsuario") Integer idUsuario, @Path("idConversacion") Integer idConversacion);
 
+    @GET("updateContent/{idConv}/{contenido}")
+    Call<Void> updateContent(@Path("idConv") Integer idConv, @Path("contenido") String contenido);
+
+    @GET("deleteConversation/{idConv}")
+    Call<Void> deleteConversation(@Path("idConv") Integer idConv);
 }

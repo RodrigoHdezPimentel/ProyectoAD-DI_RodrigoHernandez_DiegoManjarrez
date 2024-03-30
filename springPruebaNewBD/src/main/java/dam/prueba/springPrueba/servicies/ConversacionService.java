@@ -35,5 +35,12 @@ public class ConversacionService {
     public void readMessage(Integer idUsuario, Integer idConversacion){
         conversacionRepository.readMessage(idUsuario, idConversacion);
     }
+    public void updateContent(Integer idConv, String contenido){
+        conversacionRepository.updateContent(idConv, contenido);
+    }
+
+    public void deleteConversation(Integer id){
+        conversacionRepository.deleteById(id);
+    }
 
 }

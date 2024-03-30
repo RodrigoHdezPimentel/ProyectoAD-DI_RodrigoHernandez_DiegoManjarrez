@@ -37,4 +37,11 @@ public interface ConversacionRepository extends JpaRepository<Conversacion, Inte
             "           SET c.idleido = CONCAT(" +
             "               (SELECT c1.idleido from Conversacion c1 where c1.idconversacion = ?2), ',', ?1) WHERE c.idconversacion = ?2")
     void readMessage(Integer idUsuario, Integer idConversacion);
+
+    @Transactional
+    @Modifying//Cambiar idLeido de la conversacion
+    @Query(value = "UPDATE Conversacion c SET contenido = ?2 WHERE idconversacion = ?1")
+    void updateContent(Integer idConv, String contenido);
+
+
 }
