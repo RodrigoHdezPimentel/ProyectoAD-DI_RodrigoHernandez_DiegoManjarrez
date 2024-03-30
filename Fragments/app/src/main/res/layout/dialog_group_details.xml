@@ -50,6 +50,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nombreGrupo" />
 
+    <ImageView
+        android:id="@+id/shareCode"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_share"
+        android:rotationY="180"
+        app:layout_constraintBottom_toBottomOf="@+id/codigoGrupo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/salirGrupo"
+        app:layout_constraintTop_toTopOf="@+id/codigoGrupo"
+        app:tint="@color/black" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/usuariosRecyclerView"
         android:layout_width="match_parent"

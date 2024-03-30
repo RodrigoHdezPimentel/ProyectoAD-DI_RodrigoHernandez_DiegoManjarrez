@@ -150,7 +150,7 @@ public class Chats extends Fragment {
     }
 
     public void cargarGrupos(){
-        Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
+       Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
        call.enqueue(new Callback<List<ChatLastMessage>>() {
            @Override
            public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {
@@ -160,10 +160,16 @@ public class Chats extends Fragment {
                //ListaGrupos = (ArrayList<ChatLastMessage>) response.body();
                progressBar.setVisibility(View.GONE);
 
+
                // Inflate the layout for this fragment
                RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
-
-               ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), (ArrayList<ChatLastMessage>) response.body());
+                ArrayList<ChatLastMessage> UserChats = new ArrayList<>();
+                for (ChatLastMessage c :  response.body()){
+                    if(c.getChat().getFechabaja() == null){
+                        UserChats.add(c);
+                    }
+                }
+               ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(), UserChats);
                MyRecyclerView.setAdapter(adapter);
                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
            }
