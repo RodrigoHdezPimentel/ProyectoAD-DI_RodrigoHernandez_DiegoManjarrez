@@ -31,8 +31,9 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iconListChat"
-                    android:layout_width="55dp"
-                    android:layout_height="70dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     app:civ_border_width="1dp"
                     app:civ_border_color="@color/black"
                     android:src="@drawable/ic_mujer" />
@@ -45,15 +46,13 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:text="User"
-                    android:textSize="30sp" />
+                    android:textSize="20sp" />
 
 
                 <CheckBox
                     android:id="@+id/chatCheckBox"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:scaleX="1.5"
-                    android:scaleY="1.5"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_weight="0"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"/>
