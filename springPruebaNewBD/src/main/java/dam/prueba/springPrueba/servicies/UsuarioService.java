@@ -44,4 +44,11 @@ public class UsuarioService {
 
     public Optional<Usuario> getUserRegister(String name, String pass){ return  usuarioRepository.getUserRegister(name, pass);}
 
+    //------poner fotos Usuarios---
+    public void fotosUsuarios(Integer idU, String image){
+         usuarioRepository.fotosUsuarios(idU,image);
+    }
+
+    //-----------------------
+
 }

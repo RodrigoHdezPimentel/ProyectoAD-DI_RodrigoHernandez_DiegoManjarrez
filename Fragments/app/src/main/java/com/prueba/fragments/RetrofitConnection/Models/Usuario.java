@@ -1,5 +1,14 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.prueba.fragments.Fragments.MainFragment.Profile;
+import com.prueba.fragments.MainActivity;
+import com.prueba.fragments.R;
+
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
@@ -12,8 +21,9 @@ public class Usuario implements Serializable {
     private String descripcion = "";
     private String mail;
     private String pass;
+    private String foto;
 
-    public Usuario(Integer idusuario, Integer year, String name, boolean genero, String descripcion, String mail, String pass) {
+    public Usuario(Integer idusuario, Integer year, String name, boolean genero, String descripcion, String mail, String pass,String foto) {
         this.idusuario = idusuario;
         this.year = year;
         this.name = name;
@@ -21,6 +31,7 @@ public class Usuario implements Serializable {
         this.descripcion = descripcion;
         this.mail = mail;
         this.pass = pass;
+        this.foto = foto;
     }
 
     public Usuario() {
@@ -101,5 +112,19 @@ public class Usuario implements Serializable {
     }
     public static void setInstance(Usuario instance) {
         Usuario.instance = instance;
+    }
+
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public void fotoPerfil(ImageView imageView, Context contex){
+        Log.d("nombre", "http://localhost:8086/file/image/"+ getFoto());
+        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+getFoto()).fitCenter().error(R.drawable.ic_mujer).into(imageView);
     }
 }

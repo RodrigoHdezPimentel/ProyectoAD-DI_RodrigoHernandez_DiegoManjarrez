@@ -36,6 +36,9 @@ public class Usuario {
     @Column(name = "Us_Contrasena")
     private String pass;
 
+    @Column(name = "foto")
+    private String foto;
+
     @Column(name = "fechabaja")
     private String fechabaja;
 }

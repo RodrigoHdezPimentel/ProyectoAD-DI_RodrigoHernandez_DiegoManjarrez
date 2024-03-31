@@ -3,9 +3,11 @@ package dam.prueba.springPrueba.repositories;
 import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +35,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SElECT c FROM Usuario c WHERE c.name = ?1 AND c.pass = ?2")
     Optional<Usuario> getUserRegister(String name, String pass);
 
+    //-------FALTA COLOCAR LOS UPDATE CUANDO SE ACTUALIZA EL USER EN EL EDITPROFILE--//
 
 
 
+    //---------------------colocar las fotos a cada user------------------
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Usuario u SET u.foto = ?2 WHERE u.idusuario = ?1")
+    void fotosUsuarios(Integer idU, String image);
+    //--------------------------------------------------------------------
 }

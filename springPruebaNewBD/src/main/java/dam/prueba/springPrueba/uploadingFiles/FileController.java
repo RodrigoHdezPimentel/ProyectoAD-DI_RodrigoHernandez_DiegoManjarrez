@@ -53,14 +53,21 @@ public class FileController {
                 "inline; filename=\"" + file.getFilename() + "\"").body(file);*/
 
     }
-
+    @PostMapping("/saveListImages")
+    public ResponseEntity<String> saveListImages(@RequestParam("images") MultipartFile[] files) {
+        for (MultipartFile file : files) {
+            storageService.storeImage(file);
+        }
+        return ResponseEntity.ok("Archivo subido correctamente");
+        // Resource newFile = storageService.loadAsResource(fileName);
+    }
     @PostMapping("/saveImage")
-    public ResponseEntity<String> saveImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> saveImage(@RequestParam("image") MultipartFile file) {
      storageService.storeImage(file);
         return ResponseEntity.ok("Archivo subido correctamente");
      // Resource newFile = storageService.loadAsResource(fileName);
     }
-    @PostMapping("/save")
+       @PostMapping("/save")
     public ResponseEntity<String> saveFile(@RequestParam("file") MultipartFile file) {
         storageService.store(file);
         return ResponseEntity.ok("SIUUUUUUUUUU");
