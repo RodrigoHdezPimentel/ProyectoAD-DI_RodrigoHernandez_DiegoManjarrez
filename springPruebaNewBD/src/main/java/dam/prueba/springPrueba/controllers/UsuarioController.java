@@ -4,11 +4,18 @@ package dam.prueba.springPrueba.controllers;
 import dam.prueba.springPrueba.models.Publicacion;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.servicies.UsuarioService;
+import dam.prueba.springPrueba.uploadingFiles.Storage.StorageException;
+import dam.prueba.springPrueba.uploadingFiles.Storage.StorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +47,35 @@ public class UsuarioController {
         return usuarioService.deleteUsuario(id);
     }
 
+    //-----------------------------COLOCAR EL NOMBRE DE LA FOTO A TODOS LOS USER EN LA DB------------------------------------------------//
+    @PutMapping("/fotosUsuarios/{idU}/{image}")
+    public void fotosUsuarios(@PathVariable Integer idU,@PathVariable String image){
+      usuarioService.fotosUsuarios(idU, image);
+    }
+    @GetMapping("/fotosUsuarios/actualizar")
+    public String colocarFotos(){
+        int numId=0;
 
-    @GetMapping("/searchSelect/{str}")
+        StorageProperties nombreCarpeta = new StorageProperties();
+        Path rootLocation = Paths.get(nombreCarpeta.getLocation());
+
+        File Carpeta = new File(String.valueOf(rootLocation));
+
+        if(Carpeta.isDirectory()){
+            String nombreImagenes[] = Carpeta.list();
+
+            for(;numId < nombreImagenes.length;numId++){
+                fotosUsuarios(numId+1,nombreImagenes[numId]);
+            }
+
+        }
+            return "Cantidad de usuarios con foto: " + numId;
+    }
+
+    //-------------------------------------------------------------------------------------------------------//
+
+
+@GetMapping("/searchSelect/{str}")
     public List<String> getByName(@PathVariable String str){
 
         return  usuarioService.getByName(str);

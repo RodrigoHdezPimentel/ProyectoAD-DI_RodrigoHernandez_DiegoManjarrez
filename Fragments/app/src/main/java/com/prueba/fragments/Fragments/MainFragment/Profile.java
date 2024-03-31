@@ -2,6 +2,7 @@ package com.prueba.fragments.Fragments.MainFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.EditProfile;
@@ -151,15 +153,14 @@ public class Profile extends Fragment {
     }
 
     public void iconAdd(){
-        if(Profile.perfil.getGenero() == null){
-            iconProfile.setImageResource(R.drawable.ic_app);
-        }else{
-            if(!Profile.perfil.getGenero()){
-                iconProfile.setImageResource(R.drawable.ic_mujer);
-            } else {
-                iconProfile.setImageResource(R.drawable.ic_hombre);
-            }
-        }
+
+            Log.d("nombre", "http://localhost:8086/file/image/"+Profile.perfil.getFoto());
+//            Toast.makeText(getContext(), Profile.perfil.getFoto(), Toast.LENGTH_SHORT).show();
+            Glide.with(getContext()).load("http://"+MainActivity.IP_DIEGO[1]+":8086/file/image/"+Profile.perfil.getFoto()).error(R.drawable.ic_mujer).into(iconProfile);
+
+//            iconProfile.setImageResource(R.drawable.ic_app);
+
+
     }
     public void cargarPerfil(){
         //ecibir el objeto Usuario desde otras fragments o activitis
@@ -246,7 +247,7 @@ public class Profile extends Fragment {
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
         GrupoInterface grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
+        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",null));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -306,19 +307,5 @@ public class Profile extends Fragment {
 
             }
         });
-    }
-    private String generarCodigoDeGrupo() {
-        String codigo = "";
-        char letra;
-        Random rm = new Random();
-        for (int y = 0; y < 10; y++) {
-            letra = (char) (rm.nextInt(122 - 48 + 1) + 48);
-            if (letra == '\\' || letra == ';') {
-                y--;
-            } else {
-                codigo += letra;
-            }
-        }
-        return codigo;
     }
 }

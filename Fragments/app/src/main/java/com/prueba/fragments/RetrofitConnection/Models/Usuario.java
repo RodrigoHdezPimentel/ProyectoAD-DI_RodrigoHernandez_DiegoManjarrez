@@ -12,8 +12,9 @@ public class Usuario implements Serializable {
     private String descripcion = "";
     private String mail;
     private String pass;
+    private String foto;
 
-    public Usuario(Integer idusuario, Integer year, String name, boolean genero, String descripcion, String mail, String pass) {
+    public Usuario(Integer idusuario, Integer year, String name, boolean genero, String descripcion, String mail, String pass,String foto) {
         this.idusuario = idusuario;
         this.year = year;
         this.name = name;
@@ -21,6 +22,7 @@ public class Usuario implements Serializable {
         this.descripcion = descripcion;
         this.mail = mail;
         this.pass = pass;
+        this.foto = foto;
     }
 
     public Usuario() {
@@ -101,5 +103,14 @@ public class Usuario implements Serializable {
     }
     public static void setInstance(Usuario instance) {
         Usuario.instance = instance;
+    }
+
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

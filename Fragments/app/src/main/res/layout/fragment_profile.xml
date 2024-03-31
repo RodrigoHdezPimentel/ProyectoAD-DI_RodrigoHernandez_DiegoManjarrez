@@ -98,6 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
+
     <de.hdodenhof.circleimageview.CircleImageView
      android:id="@+id/iconFragmentProfile"
      android:layout_width="0dp"
