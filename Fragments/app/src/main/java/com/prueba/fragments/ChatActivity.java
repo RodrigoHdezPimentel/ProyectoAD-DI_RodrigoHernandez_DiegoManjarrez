@@ -20,6 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Class.ChatLastMessage;
 import com.prueba.fragments.Class.LoadConversation;
@@ -32,11 +38,9 @@ import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -282,12 +286,9 @@ public class ChatActivity extends AppCompatActivity {
 
     public void GuardarConversacion(){
 
-        Date date = new Date();
-        long timeInMilliSeconds = date.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
 
-        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, formattedDate.toString(), texto.getText().toString(), "0," + Usuario.getInstance().getId().toString());
+
+        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), texto.getText().toString(), "0," + Usuario.getInstance().getId().toString());
         Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
         call.enqueue(new Callback<Conversacion>() {
             @Override
@@ -535,5 +536,20 @@ public class ChatActivity extends AppCompatActivity {
         send.setVisibility(View.GONE);
         Toast.makeText(send.getContext(), c.getIdConversacion().toString(), Toast.LENGTH_SHORT).show();
         texto.setText(c.getContenido());
+    }
+    public String getDateSpain(){
+        Date date = new Date();
+        //Zona
+        TimeZone tz = TimeZone.getTimeZone("Europe/Madrid");
+        //calenadrio
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(tz);
+        cal.setTime(date);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(tz);
+
+       return sdf.format(date).toString();
+
     }
 }
