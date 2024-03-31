@@ -77,7 +77,7 @@ public class Profile extends Fragment {
     Button editProfile;
     //por default va a ser el usuario resgitrado
     public static Usuario perfil;
-    ImageView iconEnciarMensaje;
+    ImageView iconEnviarMensaje;
     Boolean chatNuevo = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,7 +85,7 @@ public class Profile extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        iconEnciarMensaje = view.findViewById(R.id.icon_enviar_mensaje);
+        iconEnviarMensaje = view.findViewById(R.id.icon_enviar_mensaje);
         editProfile = view.findViewById(R.id.updateProfile);
         userName = view.findViewById(R.id.UserNameProfile);
         iconProfile = view.findViewById(R.id.iconFragmentProfile);
@@ -93,17 +93,16 @@ public class Profile extends Fragment {
         descripcion = view.findViewById(R.id.descripcionProfile);
 
         cargarPerfil();
-        iconAdd();
-        toMyProfile();
         enviarMensaje();
 
-
+        //Coloco las fotos de perfil
+        Usuario.getInstance().fotoPerfil(iconMyProfile, getContext());
+        Profile.perfil.fotoPerfil(iconProfile, getContext());
 
         userName.setText(perfil.getName());
         descripcion.setText(perfil.getDescripcion());
 
         if(!viewUser){
-
             editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -111,6 +110,9 @@ public class Profile extends Fragment {
                     startActivity(toEditProfile);
                 }
             });
+        }else {
+
+            toMyProfile();
         }
 
 
@@ -153,26 +155,31 @@ public class Profile extends Fragment {
     }
 
     public void iconAdd(){
-
             Log.d("nombre", "http://localhost:8086/file/image/"+Profile.perfil.getFoto());
 //            Toast.makeText(getContext(), Profile.perfil.getFoto(), Toast.LENGTH_SHORT).show();
-            Glide.with(getContext()).load("http://"+MainActivity.IP_DIEGO[1]+":8086/file/image/"+Profile.perfil.getFoto()).error(R.drawable.ic_mujer).into(iconProfile);
-
+            Glide.with(getContext()).load("http://"+MainActivity.IP+":8086/file/image/"+Profile.perfil.getFoto()).error(R.drawable.ic_mujer).into(iconProfile);
 //            iconProfile.setImageResource(R.drawable.ic_app);
-
-
     }
     public void cargarPerfil(){
-        //ecibir el objeto Usuario desde otras fragments o activitis
+
+        //Recibir el objeto Usuario desde otras fragments o activitis
         Bundle args = getArguments();
         if (args != null) {
             perfil = (Usuario) args.getSerializable("perfil");
-            viewUser = true;
-            editProfile.setVisibility(View.INVISIBLE);
+
+            if(perfil.getId().equals(Usuario.getInstance().getId())){
+                iconMyProfile.setVisibility(View.INVISIBLE);
+                iconEnviarMensaje.setVisibility(View.INVISIBLE);
+
+            }else {
+                viewUser = true;
+                editProfile.setVisibility(View.INVISIBLE);
+
+            }
         }else {
             perfil = Usuario.getInstance();
             iconMyProfile.setVisibility(View.INVISIBLE);
-            iconEnciarMensaje.setVisibility(View.INVISIBLE);
+            iconEnviarMensaje.setVisibility(View.INVISIBLE);
         }
     }
     //Metodo para ir nuestro perfil
@@ -187,7 +194,7 @@ public class Profile extends Fragment {
         });
     }
     public void enviarMensaje(){
-        iconEnciarMensaje.setOnClickListener(new View.OnClickListener() {
+        iconEnviarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent toChat = new Intent(getContext(), ChatActivity.class);

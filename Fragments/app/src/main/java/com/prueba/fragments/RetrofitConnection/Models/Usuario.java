@@ -1,5 +1,14 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.prueba.fragments.Fragments.MainFragment.Profile;
+import com.prueba.fragments.MainActivity;
+import com.prueba.fragments.R;
+
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
@@ -112,5 +121,10 @@ public class Usuario implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public void fotoPerfil(ImageView imageView, Context contex){
+        Log.d("nombre", "http://localhost:8086/file/image/"+ getFoto());
+        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+getFoto()).fitCenter().error(R.drawable.ic_mujer).into(imageView);
     }
 }

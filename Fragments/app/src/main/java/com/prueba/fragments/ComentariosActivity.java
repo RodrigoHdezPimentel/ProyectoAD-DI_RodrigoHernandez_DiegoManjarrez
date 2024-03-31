@@ -198,7 +198,7 @@ ImageView back;
                 numLikes.setText(numLikePublish+"");
 
                 //cargar icon
-                iconAdd(newPublication.getUsuario().getGenero());
+                newPublication.getUsuario().fotoPerfil(iconUserPublish, ComentariosActivity.this);
                 getComentarios(newPublication.getId());
 
                 //cargamos el like de la publicacion
@@ -290,7 +290,6 @@ ImageView back;
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("perfil", newPublication.getUsuario());
                 viewProfile.putExtra("perfilBundle", bundle);
-
                 startActivity(viewProfile);
             }
         });

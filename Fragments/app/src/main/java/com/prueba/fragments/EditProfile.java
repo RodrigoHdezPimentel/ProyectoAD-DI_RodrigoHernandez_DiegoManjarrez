@@ -20,6 +20,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
@@ -42,6 +43,7 @@ public class EditProfile extends AppCompatActivity {
     ProgressBar progressBar;
     //los ids de los temas que ya tiene el usaurio regsitrado en la tabla
     List<UsuarioTema> UsuarioTemasIds;
+    ImageView fotoPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,14 @@ public class EditProfile extends AppCompatActivity {
         userName = findViewById(R.id.inputUserNameUpdate);
         password = findViewById(R.id.inputPasswordUpdate);
         descripcion = findViewById(R.id.inputDescripcionUpdate);
+        fotoPerfil = findViewById(R.id.fotoEditProfle);
 
         //se rellena los datos en los texView
         userName.setText(Usuario.getInstance().getName());
         password.setText(Usuario.getInstance().getPass());
         descripcion.setText(Usuario.getInstance().getDescripcion());
+
+        Profile.perfil.fotoPerfil(fotoPerfil, EditProfile.this);
 
         ImageView back = findViewById(R.id.backEditProfile);
         back.setOnClickListener(new View.OnClickListener() {
