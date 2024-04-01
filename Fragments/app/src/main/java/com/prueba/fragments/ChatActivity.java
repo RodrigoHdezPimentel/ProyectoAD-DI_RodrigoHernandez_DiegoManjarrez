@@ -80,7 +80,6 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
         Boolean gender = getId.getBooleanExtra("gender", false);
-        Integer idConv = getId.getIntExtra("idConv", 0);
 
         iconUserChat = findViewById(R.id.iconChat);
 
@@ -285,8 +284,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void GuardarConversacion(){
-
-
 
         Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), texto.getText().toString(), "0," + Usuario.getInstance().getId().toString());
         Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
@@ -541,10 +538,6 @@ public class ChatActivity extends AppCompatActivity {
         Date date = new Date();
         //Zona
         TimeZone tz = TimeZone.getTimeZone("Europe/Madrid");
-        //calenadrio
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeZone(tz);
-        cal.setTime(date);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         sdf.setTimeZone(tz);

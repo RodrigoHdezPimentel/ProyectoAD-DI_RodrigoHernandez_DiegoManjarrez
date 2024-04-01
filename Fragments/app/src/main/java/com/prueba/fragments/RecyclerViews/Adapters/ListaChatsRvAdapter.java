@@ -49,6 +49,10 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         View view = inflater.inflate(R.layout.cv_row_chatlist, parent, false);
         return new MyViewHolder(view);
     }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @SuppressLint({"SetTextI18n"})
     @Override
@@ -66,16 +70,23 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
             holder.fechaUltimoMensaje.setText("");
             holder.ultimoContenido.setText("");
         }
+
+        //---------------VOY A CAMBIAR ESTO-------------------
         ArrayList<Integer> idLeido = new ArrayList<>();
         for (String id : groupModels.get(position).getMensaje().getIdleido()) {
-            idLeido.add(Integer.parseInt(id));
+            //-----HE PUESTO QUE SI ES NULL, TENGA VALOR DE 0---
+            if (groupModels.get(position).getMensaje().getIdleido() == null){
+                idLeido.add(0);
+            }else {
+                idLeido.add(Integer.parseInt(id));
+            }
         }
         if (idLeido.contains(Usuario.getInstance().getId())) {
             holder.newMessage.setVisibility(View.INVISIBLE);
         } else {
             holder.newMessage.setVisibility(View.VISIBLE);
         }
-
+    //-------------------------------------------------------------
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
