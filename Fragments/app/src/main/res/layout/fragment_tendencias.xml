@@ -1,17 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment.Tendencias">
 
-    <!-- TODO: Update blank fragment layout -->
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/tendenciasRecyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/seed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</androidx.recyclerview.widget.RecyclerView>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:paddingBottom="8dp"
+            android:paddingStart="20dp"
+            android:paddingTop="4dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchInput"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:padding="3dp"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/searchTrend"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_buscador"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:paddingRight="20dp"
+            android:paddingLeft="10dp"/>
+
+    </LinearLayout>
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tendenciasRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar"
@@ -19,6 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="visible"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
