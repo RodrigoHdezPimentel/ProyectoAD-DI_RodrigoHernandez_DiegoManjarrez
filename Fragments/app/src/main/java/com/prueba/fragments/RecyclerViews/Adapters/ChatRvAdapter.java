@@ -68,6 +68,8 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
             constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
             constraintSet.applyTo(holder.constraintLayout);
 
+            //Hacer esto dentro de un alert dialogo para que se vea más bonito pero quitar el modo modificar el mensaje
+            //solamente dejar el delete mensaje.
             holder.cv.setOnLongClickListener(new View.OnLongClickListener() {
                 public boolean onLongClick(View v) {
                     ChatActivity.editConversacion( conversacionModels.get(position).getConversacion(), holder.Contenido, position);

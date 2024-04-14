@@ -10,6 +10,8 @@ import lombok.Setter;
 public class ChatLastMessage {
     private GrupoUsuario chat;
     private Conversacion mensaje;
+    private int numNewMessage;
+
 
     public ChatLastMessage(GrupoUsuario chat, Conversacion mensaje) {
         this.chat = chat;

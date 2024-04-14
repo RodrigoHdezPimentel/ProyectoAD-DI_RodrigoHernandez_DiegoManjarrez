@@ -31,7 +31,6 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
             " ORDER BY c.fecha DESC")
    List<ChatLastMessage> getListChatFromUser (Integer id);
     //UNION
-
    @Query(value = "SELECT new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM GrupoUsuario g LEFT JOIN Conversacion c" +
            " ON c.idgrupousuario = g.idgrupousuario WHERE c.idgrupousuario IS NULL AND g.id.idusuario = ?1")
    List<ChatLastMessage> getListChatUserWhitoutMessage(Integer id);
@@ -40,6 +39,14 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
    @Query(value = "SELECT g FROM GrupoUsuario g " +
            "WHERE g.id.idusuario = ?1 AND g.id.idgrupo = ?2 ")
    GrupoUsuario asignarUserChat(Integer idU, Integer idG);
+
+
+   //CONSULTA PARA SACAR EL NUMERO DE MENSAJES NO LEIDOS POR EL USER EN EL CHAT
+//   SELECT COUNT(*) FROM conversaciones c JOIN grupo_usuario g ON g.idGrupoUsuario = c.idGrupoUsuario WHERE g.idGrupo = 24
+//   AND c.idLeido  NOT LIKE "1,%" AND c.idLeido NOT LIKE "%,1,%" AND c.idLeido NOT LIKE "%,1";
+//   Query(value = "")
+//      int numNewMessage()
+
 
    //solo optiene una datos en especifico
    @Query(value = "SELECT g FROM GrupoUsuario g " +
@@ -50,15 +57,15 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
            "WHERE g.id.idgrupo = ?1")
    List<Usuario> getGroupUsers(Integer id);
 
-   //PARA SACAR LOS GRUPOS EN COMÚN, SACO SOLAMENT EL idGrupo
-   @Query(value = "SELECT g1.id.idgrupo, g1.idgrupousuario FROM GrupoUsuario g1 JOIN Grupo g ON g1.id.idgrupo = g.idgrupo JOIN GrupoUsuario g2 " +
-           "ON g2.id.idgrupo = g.idgrupo WHERE g1.id.idusuario = ?1 AND g2.id.idusuario = ?2 GROUP BY g.idgrupo")
-   List<List<Integer>> getCommonGroups(Integer idU, Integer idV);
 
-   //Para contar el numero de miembros dentro de un grupo (idGrupo)
-   @Query(value = "SELECT COUNT(DISTINCT u) FROM GrupoUsuario g JOIN Usuario u on u.idusuario = g.id.idusuario " +
-           "WHERE g.id.idgrupo = ?1")
-   Integer getNumberUsers(Integer id);
+// CONSULTA PARA SACAR AL CHAT EN COMUN QUE TIENEN AMBOS (CODIGO ES NULL)
+//   SELECT g1.idGrupo FROM grupo_usuario g1 INNER JOIN grupo_usuario g2 ON g1.idGrupo = g2.idGrupo
+//   JOIN grupos g ON g.idGrupo = g1.idGrupo WHERE g1.idUsuario = 1 AND g2.idUsuario =  AND g.codigo is null;
+
+   @Query(value = "SELECT g1.id.idgrupo, g1.idgrupousuario FROM GrupoUsuario g1 JOIN GrupoUsuario g2 ON g1.id.idgrupo = g2.id.idgrupo" +
+           " JOIN Grupo g ON g1.id.idgrupo = g.idgrupo" +
+           " WHERE g1.id.idusuario = ?1 AND g2.id.idusuario = ?2 AND g.codigo IS NULL ")
+  List<List<Integer>> getLoadChat(Integer idU, Integer idV);
 
    @Query(value = "SELECT g.nombre from GrupoUsuario g where g.id.idgrupo = ?1 and g.id.idusuario != ?2")
    List<String> getGroupName(Integer idGr, Integer idUs);

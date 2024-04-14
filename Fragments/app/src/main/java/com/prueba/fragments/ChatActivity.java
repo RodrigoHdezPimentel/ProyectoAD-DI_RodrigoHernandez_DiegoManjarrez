@@ -145,6 +145,7 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.makeText(ChatActivity.this, "updated", Toast.LENGTH_SHORT).show();
                         textoActualizar.setText(texto.getText().toString());
                         texto.setText("");
+                        cargarConversacion();
                     }
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
@@ -173,7 +174,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
                         Toast.makeText(ChatActivity.this, "eliminado", Toast.LENGTH_SHORT).show();
                         texto.setText("");
-
+                        cargarConversacion();
                     }
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
@@ -236,8 +237,7 @@ public class ChatActivity extends AppCompatActivity {
                 //BUSCAR ALGUNA MANERA PARA OPTIMIZAR LA VISTA DEL ULTIMO MENSAJE
                 RecyclerView.LayoutManager layoutManager = MyRecyclerView.getLayoutManager();
                 if (layoutManager != null && layoutManager instanceof LinearLayoutManager) {
-                    int ultimoElemento = layoutManager.getItemCount() - 1;
-                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(ultimoElemento, 0);
+                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(layoutManager.getItemCount() - 1, 0);
                 }
                 //Arranco el hilo caundo se carga la conversación
                 hiloChat = new ThreadChat(adapter, idGrupo,ChatActivity.this);
@@ -449,14 +449,10 @@ public class ChatActivity extends AppCompatActivity {
     }
     public void enviarCodigo(){
         Conversacion newConversacion;
-        Date date = new Date();
-        long timeInMilliSeconds = date.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
 
         for (Integer i : idsGrupoUsuarioShareedCodeGroups) {
             newConversacion = new Conversacion(
-                    null, i, formattedDate.toString(),
+                    null, i, getDateSpain(),
                     "Unete a mi grupo:\n" + infoGrupo.getCodigo().toString(),
                     "0," + Usuario.getInstance().getId().toString());
 
@@ -501,12 +497,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
     public void salirGrupo(){
-        Date date = new Date();
-        long timeInMilliSeconds = date.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
-
-        Call<Void> call = MainActivity.grupoUsuarioInterface.salitGrupo(idGrupoUsuario, formattedDate);
+        Call<Void> call = MainActivity.grupoUsuarioInterface.salitGrupo(idGrupoUsuario, getDateSpain());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
