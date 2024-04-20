@@ -70,7 +70,6 @@
                     android:layout_gravity="center"
                     android:background="@drawable/circle_background"
                     android:gravity="center"
-                    android:text="1"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"

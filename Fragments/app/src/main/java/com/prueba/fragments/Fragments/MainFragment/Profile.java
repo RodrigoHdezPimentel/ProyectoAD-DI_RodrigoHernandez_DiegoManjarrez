@@ -96,8 +96,8 @@ public class Profile extends Fragment {
         enviarMensaje();
 
         //Coloco las fotos de perfil
-        Usuario.getInstance().fotoPerfil(iconMyProfile, getContext());
-        Profile.perfil.fotoPerfil(iconProfile, getContext());
+        MainActivity.addPicture(iconMyProfile, getContext(),Usuario.getInstance().getFoto());
+        MainActivity.addPicture(iconProfile, getContext(),Profile.perfil.getFoto());
 
         userName.setText(perfil.getName());
         descripcion.setText(perfil.getDescripcion());

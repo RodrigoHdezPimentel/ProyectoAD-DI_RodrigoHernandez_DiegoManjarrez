@@ -17,18 +17,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.ChatActivity;
-import com.prueba.fragments.Class.ChatLastMessage;
-import com.prueba.fragments.EditProfile;
-import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.Class.ChatListUser;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.ListaChatsRvAdapter;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuarioFK;
@@ -78,7 +73,7 @@ public class Chats extends Fragment {
         }
     }
     View view;
-    //ArrayList<ChatLastMessage> ListaGrupos = new ArrayList<>();
+    //ArrayList<ChatListUser> ListaGrupos = new ArrayList<>();
     ProgressBar progressBar;
     FloatingActionButton newGroup;
     TextInputEditText codigo;
@@ -150,21 +145,21 @@ public class Chats extends Fragment {
     }
 
     public void cargarGrupos(){
-       Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
-       call.enqueue(new Callback<List<ChatLastMessage>>() {
+       Call<List<ChatListUser>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
+       call.enqueue(new Callback<List<ChatListUser>>() {
            @Override
-           public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {
+           public void onResponse(Call<List<ChatListUser>> call, Response<List<ChatListUser>> response) {
                if(!response.isSuccessful()){
                    return;
                }
                progressBar.setVisibility(View.GONE);
                RecyclerView MyRecyclerView = view.findViewById(R.id.ChatsListRecyclerView);
-               ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(),(ArrayList<ChatLastMessage>) response.body());
+               ListaChatsRvAdapter adapter = new ListaChatsRvAdapter(getContext(),(ArrayList<ChatListUser>) response.body());
                MyRecyclerView.setAdapter(adapter);
                MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
            }
            @Override
-           public void onFailure(Call<List<ChatLastMessage>> call, Throwable t) {
+           public void onFailure(Call<List<ChatListUser>> call, Throwable t) {
 
            }
        });

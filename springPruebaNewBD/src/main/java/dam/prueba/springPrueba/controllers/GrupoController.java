@@ -39,4 +39,7 @@ public class GrupoController {
     public Grupo findGroup(@PathVariable String codigo){
         return grupoService.findGroup(codigo);
     }
+
+    //QUERY PARA COLOCAR UNA FOTO A TODO LOS GRUPOS
+//    UPDATE grupos set foto = (SELECT foto from usuarios WHERE idUsuario=10) Where foto = "Ruta";
 }

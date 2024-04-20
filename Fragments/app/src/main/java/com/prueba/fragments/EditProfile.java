@@ -60,7 +60,7 @@ public class EditProfile extends AppCompatActivity {
         password.setText(Usuario.getInstance().getPass());
         descripcion.setText(Usuario.getInstance().getDescripcion());
 
-        Profile.perfil.fotoPerfil(fotoPerfil, EditProfile.this);
+        MainActivity.addPicture(fotoPerfil, EditProfile.this,Profile.perfil.getFoto());
 
         ImageView back = findViewById(R.id.backEditProfile);
         back.setOnClickListener(new View.OnClickListener() {

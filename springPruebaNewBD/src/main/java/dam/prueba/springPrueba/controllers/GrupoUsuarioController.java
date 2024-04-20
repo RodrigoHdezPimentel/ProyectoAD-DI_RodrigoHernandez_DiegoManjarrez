@@ -1,6 +1,6 @@
 package dam.prueba.springPrueba.controllers;
 
-import dam.prueba.springPrueba.Class.ChatLastMessage;
+import dam.prueba.springPrueba.Class.ChatListUser;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.servicies.GrupoUsuarioService;
@@ -25,22 +25,37 @@ public class GrupoUsuarioController {
     }
 
     @GetMapping("/getListChatFromUser/{id}")
-    public List<ChatLastMessage> getListChatFromUser(@PathVariable Integer id){
-        List<ChatLastMessage> listaFiltrada =  grupoUsuarioService.getListChatFromUser(id);
-        List<ChatLastMessage> chatSinMensajes = grupoUsuarioService.getListChatUserWhitoutMessage(id);
+    public List<ChatListUser> getListChatFromUser(@PathVariable Integer id){
+        List<ChatListUser> listaFiltrada =  grupoUsuarioService.getListChatFromUser(id);
+        List<ChatListUser> chatSinMensajes = grupoUsuarioService.getListChatUserWhitoutMessage(id);
 
        for (int i = 0; i < listaFiltrada.size(); i++){
            if(!Objects.equals(listaFiltrada.get(i).getChat().getId().getIdusuario(), id)){
                listaFiltrada.get(i).setChat(grupoUsuarioService.asignarUserChat(id, listaFiltrada.get(i).getChat().getId().getIdgrupo()));
            }
+           //PARA LOS CHAT QUE TENGAN CODIGO NULL
+           asignarFotoChat(listaFiltrada.get(i),i);
+
        }
        if(!chatSinMensajes.isEmpty()){
+           for (int i = 0; i < chatSinMensajes.size();i++){
+              //PARA LOS CHAT QUE TENGAN CODIGO NULL
+                  asignarFotoChat(chatSinMensajes.get(i),i);
+
+           }
            listaFiltrada.addAll(chatSinMensajes);
        }
+
         return listaFiltrada;
     }
+    @GetMapping("/pathFotoUserChat/{idU}/{idG}")
+    public String pathFotoUserChat(@PathVariable Integer idU, @PathVariable Integer idG){
+
+        return grupoUsuarioService.pathFotoUserChat(idU, idG);
+    }
+
     @GetMapping("/getListChatUserWhitoutMessage/{id}")
-    public List<ChatLastMessage> getListChatUserWhitoutMessage(@PathVariable Integer id){
+    public List<ChatListUser> getListChatUserWhitoutMessage(@PathVariable Integer id){
         return grupoUsuarioService.getListChatUserWhitoutMessage(id);
     }
 
@@ -95,4 +110,12 @@ public class GrupoUsuarioController {
         grupoUsuarioService.salirGrupo(idGrupoUsuario, fecha);
     }
 
+    public void asignarFotoChat(ChatListUser chat, int i){
+        if(chat.getChat().getId().getGrupo().getCodigo() == null){
+            chat.getChat().getId().getGrupo().setFoto
+                    (grupoUsuarioService.pathFotoUserChat(chat.getChat().getId().getIdusuario(),
+                            chat.getChat().getId().getIdgrupo()));
+        }
+
+    }
 }

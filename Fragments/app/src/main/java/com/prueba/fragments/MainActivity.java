@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.prueba.fragments.Class.AutoLogin;
 import com.prueba.fragments.Fragments.MainFragment.Chats;
@@ -248,5 +251,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public static void addPicture(ImageView imageView, Context contex, String pathFoto){
+        Log.d("nombre", "http://localhost:8086/file/image/"+ pathFoto);
+        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+pathFoto).fitCenter().error(R.drawable.ic_mujer).into(imageView);
 
+    }
 }

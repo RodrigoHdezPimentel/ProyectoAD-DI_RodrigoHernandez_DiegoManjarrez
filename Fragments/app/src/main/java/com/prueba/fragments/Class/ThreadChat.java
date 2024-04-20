@@ -26,10 +26,8 @@ public class ThreadChat extends Thread{
 
 
     public void run(){
-
         //primero obtengo los datos del ultimo mensaje cuando se carga la conversación
-        conversacionInterface = MainActivity.retrofitConversacion.create(ConversacionInterface.class);
-        Call<LoadConversation> call = conversacionInterface.getLastMessage(idGrupo);
+        Call<LoadConversation> call = MainActivity.conversacionInterface.getLastMessage(idGrupo);
         call.enqueue(new Callback<LoadConversation>() {
             @Override
             public void onResponse(Call<LoadConversation> call, Response<LoadConversation> response) {
@@ -37,23 +35,15 @@ public class ThreadChat extends Thread{
                     return;
                 }
                 ultimoMensaje = response.body();
+                newMensaje();
             }
             @Override
-            public void onFailure(Call<LoadConversation> call, Throwable t) {}});
-
-        try {
-            Thread.sleep(200);
-            //Acá hago un bucle adaptado a un callBack
-            newMensaje();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
+            public void onFailure(Call<LoadConversation> call, Throwable t) {
+                newMensaje();
+            }});
     }
     public void newMensaje() {
-        Call<LoadConversation> call2 = conversacionInterface.getLastMessage(idGrupo);
+        Call<LoadConversation> call2 = MainActivity.conversacionInterface.getLastMessage(idGrupo);
         call2.enqueue(new Callback<LoadConversation>() {
             @Override
             public void onResponse(Call<LoadConversation> call, Response<LoadConversation> response) {
@@ -80,7 +70,9 @@ public class ThreadChat extends Thread{
             public void onFailure(Call<LoadConversation> call, Throwable t) {
                 //Para asegurarnos que aunque no haya ningun mensaje en el chat vuelva hacer
                 //la comprobacion hasta que llegue un mensaje nuevo
+                if(!hiloEnded){
                     newMensaje();
+                }
             }});
 
     }

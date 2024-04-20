@@ -21,13 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.prueba.fragments.Class.ChatLastMessage;
+import com.prueba.fragments.Class.ChatListUser;
 import com.prueba.fragments.Class.LoadConversation;
 import com.prueba.fragments.Class.ThreadChat;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
@@ -56,7 +55,7 @@ public class ChatActivity extends AppCompatActivity {
     GrupoUsuario grupoUsuario;
     ArrayList<LoadConversation> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
-    ArrayList<ChatLastMessage> listaGrupos = new ArrayList<>();
+    ArrayList<ChatListUser> listaGrupos = new ArrayList<>();
     static TextInputEditText texto;
     TextView title;
     ImageView iconUserChat;
@@ -475,15 +474,15 @@ public class ChatActivity extends AppCompatActivity {
         idsGrupoUsuarioShareedCodeGroups.removeAll(idsGrupoUsuarioShareedCodeGroups);
     }
     public void getMyGroups(){
-        Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
-        call.enqueue(new Callback<List<ChatLastMessage>>() {
+        Call<List<ChatListUser>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
+        call.enqueue(new Callback<List<ChatListUser>>() {
             @Override
-            public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {
+            public void onResponse(Call<List<ChatListUser>> call, Response<List<ChatListUser>> response) {
                 if(!response.isSuccessful()){
                     return;
                 }
 
-                for (ChatLastMessage c : response.body()){
+                for (ChatListUser c : response.body()){
                     if(c.getChat().getGrupoUsuarioFK().getIdgrupo() != idGrupo){
                         listaGrupos.add(c);
                     }
@@ -491,7 +490,7 @@ public class ChatActivity extends AppCompatActivity {
                 mostrarListaChats();
             }
             @Override
-            public void onFailure(Call<List<ChatLastMessage>> call, Throwable t) {
+            public void onFailure(Call<List<ChatListUser>> call, Throwable t) {
 
             }
         });

@@ -198,7 +198,7 @@ ImageView back;
                 numLikes.setText(numLikePublish+"");
 
                 //cargar icon
-                newPublication.getUsuario().fotoPerfil(iconUserPublish, ComentariosActivity.this);
+                MainActivity.addPicture(iconUserPublish,ComentariosActivity.this, newPublication.getUsuario().getFoto());
                 getComentarios(newPublication.getId());
 
                 //cargamos el like de la publicacion

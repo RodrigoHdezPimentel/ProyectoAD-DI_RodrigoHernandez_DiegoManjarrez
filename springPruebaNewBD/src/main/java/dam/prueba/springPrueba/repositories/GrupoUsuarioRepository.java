@@ -1,6 +1,6 @@
 package dam.prueba.springPrueba.repositories;
 
-import dam.prueba.springPrueba.Class.ChatLastMessage;
+import dam.prueba.springPrueba.Class.ChatListUser;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.GrupoUsuarioFK;
 import dam.prueba.springPrueba.models.Usuario;
@@ -24,22 +24,29 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
 
 //  lista los grupos al que pertenece el usuario
 // JPQl no tiene soporte para usar el UNION >:(
-    @Query(value = "SELECT  new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM Conversacion c JOIN GrupoUsuario g ON c.idgrupousuario = g.idgrupousuario" +
+    @Query(value = "SELECT  new dam.prueba.springPrueba.Class.ChatListUser(g,c) FROM Conversacion c JOIN GrupoUsuario g ON c.idgrupousuario = g.idgrupousuario" +
             " WHERE c.fecha IN (SELECT MAX(c.fecha) FROM GrupoUsuario g JOIN Conversacion c ON c.idgrupousuario = g.idgrupousuario" +
             " WHERE g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1)" +
             " GROUP BY g.id.idgrupo) AND g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1) " +
             " ORDER BY c.fecha DESC")
-   List<ChatLastMessage> getListChatFromUser (Integer id);
+   List<ChatListUser> getListChatFromUser (Integer id);
     //UNION
-   @Query(value = "SELECT new dam.prueba.springPrueba.Class.ChatLastMessage(g,c) FROM GrupoUsuario g LEFT JOIN Conversacion c" +
+   @Query(value = "SELECT new dam.prueba.springPrueba.Class.ChatListUser(g,c) FROM GrupoUsuario g LEFT JOIN Conversacion c" +
            " ON c.idgrupousuario = g.idgrupousuario WHERE c.idgrupousuario IS NULL AND g.id.idusuario = ?1")
-   List<ChatLastMessage> getListChatUserWhitoutMessage(Integer id);
+   List<ChatListUser> getListChatUserWhitoutMessage(Integer id);
 
    //Para Complementar el metodo de listar los chats del user
    @Query(value = "SELECT g FROM GrupoUsuario g " +
            "WHERE g.id.idusuario = ?1 AND g.id.idgrupo = ?2 ")
    GrupoUsuario asignarUserChat(Integer idU, Integer idG);
 
+   //Colocar la foto de perfil al chat (1 a 1) del otro usuario
+    @Query(value = "SELECT u.foto FROM Usuario u JOIN GrupoUsuario gr ON gr.id.idusuario=u.idusuario JOIN Grupo g ON g.idgrupo = gr.id.idgrupo" +
+            " WHERE u.idusuario != ?1 and g.codigo is null and g.idgrupo = ?2")
+       String pathFotoUserChat(Integer idU, Integer idG);
+
+//    SELECT u.foto FROM grupo_usuario gr JOIN grupos g ON  g.idGrupo = gr.idGrupo JOIN usuarios
+//    u ON gr.idUsuario=u.idUsuario WHERE g.idGrupo = 301 AND gr.idUsuario != 1 and g.codigo is null ;
 
    //CONSULTA PARA SACAR EL NUMERO DE MENSAJES NO LEIDOS POR EL USER EN EL CHAT
 //   SELECT COUNT(*) FROM conversaciones c JOIN grupo_usuario g ON g.idGrupoUsuario = c.idGrupoUsuario WHERE g.idGrupo = 24

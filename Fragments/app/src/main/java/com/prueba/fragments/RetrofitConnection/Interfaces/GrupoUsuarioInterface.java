@@ -1,6 +1,6 @@
 package com.prueba.fragments.RetrofitConnection.Interfaces;
 
-import com.prueba.fragments.Class.ChatLastMessage;
+import com.prueba.fragments.Class.ChatListUser;
 import com.prueba.fragments.RetrofitConnection.Models.Grupo;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
@@ -19,7 +19,7 @@ public interface GrupoUsuarioInterface {
     @GET("getById/{id}")
     Call<GrupoUsuario> getById(@Path("id") Integer id);
     @GET("getListChatFromUser/{id}")
-    Call<List<ChatLastMessage>> getListChatFromUser(@Path("id") Integer id);
+    Call<List<ChatListUser>> getListChatFromUser(@Path("id") Integer id);
     @GET("getGroupUsers/{id}")
     Call<List<Usuario>> getGroupUsers(@Path("id") Integer id);
     @POST("save")
