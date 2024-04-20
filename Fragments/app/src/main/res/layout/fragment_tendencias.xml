@@ -16,6 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/searchInfo"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:paddingRight="8dp"
+            android:paddingLeft="10dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -29,7 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:padding="3dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:background="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
         <ImageView
             android:id="@+id/searchTrend"

@@ -86,4 +86,43 @@ public class PublicacionController {
         return  publicacionService.getPublishTrending();
     }
 
+    @GetMapping("/getFiltroPublication/{titulo}/{contenido}/{usuario}/{tema}")
+    public List<Publicacion> getFiltroPublication
+            (@PathVariable String titulo, @PathVariable String contenido,
+             @PathVariable String usuario, @PathVariable String tema){
+        String tituloTemp;
+        String contenidoTemp;
+        String userTemp;
+        String temaTemp;
+        ArrayList<Publicacion> publicacions = (ArrayList<Publicacion>) publicacionService.getAllPublicaciones();
+        ArrayList<Publicacion> filtrada = new ArrayList<>();
+        for(Publicacion p : publicacions){
+            if (usuario.equals(" ")){
+                userTemp = p.getUsuario().getName();
+            }else{
+                userTemp = usuario;
+            }
+            if(titulo.equals(" ")){
+                tituloTemp = p.getTitulo();
+            }else {
+                tituloTemp = titulo;
+            }
+            if (tema.equals(" ")){
+                temaTemp = p.getTema().getTitulo();
+            }else{
+                temaTemp = tema;
+            }
+            if (contenido.equals(" ")){
+                contenidoTemp = p.getContenido();
+            }else {
+                contenidoTemp = contenido;
+            }
+            if (p.getTitulo().contains(tituloTemp) && p.getContenido().contains(contenidoTemp)
+                    && p.getUsuario().getName().contains(userTemp) && p.getTema().getTitulo().contains(temaTemp)){
+                filtrada.add(p);
+            }
+        }
+        return filtrada;
+    }
+
 }

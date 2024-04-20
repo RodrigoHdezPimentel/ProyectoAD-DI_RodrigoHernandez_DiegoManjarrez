@@ -27,5 +27,8 @@ public interface PublicacionInterface {
     @GET("id/{id}")
     Call<Publicacion> getPublicationById(@Path("id") Integer id);
 
+    @GET("getFiltroPublication/{titulo}/{contenido}/{usuario}/{tema}")
+    Call <List<Publicacion>> getFiltroPublication(@Path("titulo") String titulo, @Path("contenido") String contenido, @Path("usuario") String usuario, @Path("tema") String tema);
+
 
 }
