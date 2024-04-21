@@ -128,7 +128,6 @@ public class Publish extends Fragment {
                }
            }
         });
-        setThemesLinearLayout();
         getTemas();
         return view;
     }
@@ -146,6 +145,7 @@ public class Publish extends Fragment {
                 List<Tema> temporalList = response.body();
                 assert temporalList != null;
                 listaTemas.addAll(temporalList);
+                setThemesLinearLayout();
             }
 
             @Override
