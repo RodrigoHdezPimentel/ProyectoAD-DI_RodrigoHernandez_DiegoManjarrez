@@ -27,6 +27,7 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,6 +86,7 @@ public class Publish extends Fragment {
     Button publish;
     Button cancel;
     View view;
+    ArrayList<Tema> listaTemas = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,8 +128,31 @@ public class Publish extends Fragment {
                }
            }
         });
-        setThemesLinearLayout();
+        getTemas();
         return view;
+    }
+    public void getTemas(){
+        //Se obteine los temas de la database
+        Call<List<Tema>> call = MainActivity.temaInterface.getAll();
+        call.enqueue(new Callback<List<Tema>>() {
+
+            @Override
+            public void onResponse(Call<List<Tema>> call, Response<List<Tema>> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Response err: ", response.message());
+                    return;
+                }
+                List<Tema> temporalList = response.body();
+                assert temporalList != null;
+                listaTemas.addAll(temporalList);
+                setThemesLinearLayout();
+            }
+
+            @Override
+            public void onFailure(Call<List<Tema>> call, Throwable t) {
+
+            }
+        });
     }
 
     public void setThemesLinearLayout(){
@@ -135,7 +160,7 @@ public class Publish extends Fragment {
         LinearLayout liLayTemas = view.findViewById(R.id.linlayTemas);
         liLayTemas.removeAllViews();
 
-        for(Tema t : Login_SignUP.listaTemas){
+        for(Tema t : listaTemas){
             TextView tema = new TextView(view.getContext());
             tema.setTypeface(ResourcesCompat.getFont(view.getContext(), R.font.caviardreams));
             tema.setText(t.getTitulo().toString());

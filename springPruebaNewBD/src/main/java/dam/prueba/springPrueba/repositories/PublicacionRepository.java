@@ -26,4 +26,5 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Intege
     @Query(value = "SELECT * FROM Publicaciones p WHERE p.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() AND p.idpublirefer IS NULL ORDER BY p.numlikes DESC", nativeQuery = true)
     List<Publicacion> getPublishTrending();
     //HAcer una query que muestres las tendencias de las publicaciones
+
 }
