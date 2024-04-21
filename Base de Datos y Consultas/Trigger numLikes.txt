@@ -1,3 +1,5 @@
+DELIMITER //
+
 CREATE TRIGGER actualizar_likes AFTER INSERT ON likes
 FOR EACH ROW
 BEGIN

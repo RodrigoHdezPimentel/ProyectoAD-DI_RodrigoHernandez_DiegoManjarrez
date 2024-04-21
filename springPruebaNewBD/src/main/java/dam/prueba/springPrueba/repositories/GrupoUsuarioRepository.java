@@ -51,8 +51,12 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
    //CONSULTA PARA SACAR EL NUMERO DE MENSAJES NO LEIDOS POR EL USER EN EL CHAT
 //   SELECT COUNT(*) FROM conversaciones c JOIN grupo_usuario g ON g.idGrupoUsuario = c.idGrupoUsuario WHERE g.idGrupo = 24
 //   AND c.idLeido  NOT LIKE "1,%" AND c.idLeido NOT LIKE "%,1,%" AND c.idLeido NOT LIKE "%,1";
-//   Query(value = "")
-//      int numNewMessage()
+   @Query(value = "SELECT COUNT(c.idconversacion) FROM Conversacion c JOIN GrupoUsuario g ON g.idgrupousuario = c.idgrupousuario" +
+           " WHERE g.id.idgrupo = ?1" +
+           " AND (c.idleido NOT LIKE '%,' || ?2 || ',%' OR c.idleido IS NULL)" +
+           " AND (c.idleido NOT LIKE '%,' || ?2 OR c.idleido IS NULL)" +
+           " AND (c.idleido NOT LIKE ?2 OR c.idleido IS NULL)")
+      Integer numMessageNews(Integer idG, Integer idU);
 
 
    //solo optiene una datos en especifico

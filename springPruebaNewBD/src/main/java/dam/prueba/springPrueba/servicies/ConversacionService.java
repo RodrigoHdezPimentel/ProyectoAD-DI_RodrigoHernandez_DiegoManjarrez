@@ -32,8 +32,8 @@ public class ConversacionService {
         return conversacionRepository.getLastMessage(id);
     }
 
-    public void readMessage(Integer idUsuario, Integer idConversacion){
-        conversacionRepository.readMessage(idUsuario, idConversacion);
+    public void readMessages(Integer idUsuario, Integer idGrupo){
+        conversacionRepository.readMessages(idUsuario, idGrupo);
     }
     public void updateContent(Integer idConv, String contenido){
         conversacionRepository.updateContent(idConv, contenido);

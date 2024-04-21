@@ -6,6 +6,7 @@ import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 public class ChatListUser {
     private GrupoUsuario chat;
     private Conversacion mensaje;
+    private int numNewMessage;
 
     public ChatListUser(GrupoUsuario chat, Conversacion mensaje) {
         this.chat = chat;
@@ -26,5 +27,9 @@ public class ChatListUser {
 
     public void setMensaje(Conversacion mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public int getNumNewMessage() {
+        return numNewMessage;
     }
 }

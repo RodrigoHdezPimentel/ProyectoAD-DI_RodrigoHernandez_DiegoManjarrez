@@ -38,4 +38,7 @@ public interface GrupoUsuarioInterface {
     @GET("salirGrupo/{idGrupoUsuario}/{fecha}")
     Call<Void> salitGrupo(@Path("idGrupoUsuario") Integer idGrupoUsuario, @Path("fecha") String fecha);
 
+    @GET("numMessageNews/{idG}/{idU}")
+    Call<Integer> numMessageNews(@Path("idG") Integer idG, @Path("idU") Integer idU);
+
 }

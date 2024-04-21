@@ -31,6 +31,9 @@ public class GrupoUsuarioService {
     public GrupoUsuario asignarUserChat(Integer idU, Integer idG) {
         return grupoUsuarioRepository.asignarUserChat(idU, idG);
     }
+    public Integer numMessageNews(Integer idG, Integer idU) {
+        return grupoUsuarioRepository.numMessageNews(idG, idU);
+    }
 
     public GrupoUsuario getById(Integer id) {
         return grupoUsuarioRepository.getById(id);

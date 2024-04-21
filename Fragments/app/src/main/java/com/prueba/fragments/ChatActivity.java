@@ -238,6 +238,9 @@ public class ChatActivity extends AppCompatActivity {
                 if (layoutManager != null && layoutManager instanceof LinearLayoutManager) {
                     ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(layoutManager.getItemCount() - 1, 0);
                 }
+                    //Se ecnarga de leer los mensajes que aun estaban sin leer por el user
+                    UpdateIdLeido();
+
                 //Arranco el hilo caundo se carga la conversación
                 hiloChat = new ThreadChat(adapter, idGrupo,ChatActivity.this);
                 hiloChat.start();
@@ -284,7 +287,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void GuardarConversacion(){
 
-        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), texto.getText().toString(), "0," + Usuario.getInstance().getId().toString());
+        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), texto.getText().toString(),  Usuario.getInstance().getId().toString());
         Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
         call.enqueue(new Callback<Conversacion>() {
             @Override
@@ -534,5 +537,18 @@ public class ChatActivity extends AppCompatActivity {
 
        return sdf.format(date).toString();
 
+    }
+    public void UpdateIdLeido(){
+        Call<Void> call = MainActivity.conversacionInterface.readMessages(Usuario.getInstance().getId(), idGrupo);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+            }});
     }
 }

@@ -48,8 +48,14 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         toChat = new Intent(context, ChatActivity.class);
     try {
         holder.personaChat.setText(groupModels.get(position).getChat().getNombre());
-
+        //CANTIDAD DE MENSAJES SIN LEER
+        if(groupModels.get(position).getNumNewMessage() != 0){
+            holder.newMessage.setText(groupModels.get(position).getNumNewMessage()+"");
+        }else {
+            holder.newMessage.setVisibility(View.INVISIBLE);
+        }
         MainActivity.addPicture(holder.iconChat,context,groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getFoto());
+
         //Para Controlar los Objetos Conversacion vacios que no tengan mensajes
         if (groupModels.get(position).getMensaje() != null) {
             holder.fechaUltimoMensaje.setText(groupModels.get(position).getMensaje().getFecha().toString());
@@ -65,8 +71,6 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
                 toChat.putExtra("gender", groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero());
                 toChat.putExtra("idGrupo", groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getIdGrupo());
                 toChat.putExtra("idGrupoUsuario", groupModels.get(position).getChat().getIdGrupoUsuario());
-
-
                 context.startActivity(toChat);
             }
         });
@@ -98,5 +102,6 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         }
 
     }
+
 
 }

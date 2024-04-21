@@ -34,14 +34,15 @@ public class GrupoUsuarioController {
                listaFiltrada.get(i).setChat(grupoUsuarioService.asignarUserChat(id, listaFiltrada.get(i).getChat().getId().getIdgrupo()));
            }
            //PARA LOS CHAT QUE TENGAN CODIGO NULL
-           asignarFotoChat(listaFiltrada.get(i),i);
+           asignarFotoChat(listaFiltrada.get(i));
+           //COLOCAR LA CANTIDAD DE MENSAJES SIN LEER
+           mensajesSinLeer(listaFiltrada.get(i));
 
        }
        if(!chatSinMensajes.isEmpty()){
            for (int i = 0; i < chatSinMensajes.size();i++){
               //PARA LOS CHAT QUE TENGAN CODIGO NULL
-                  asignarFotoChat(chatSinMensajes.get(i),i);
-
+                  asignarFotoChat(chatSinMensajes.get(i));
            }
            listaFiltrada.addAll(chatSinMensajes);
        }
@@ -62,6 +63,11 @@ public class GrupoUsuarioController {
     @GetMapping("/asignarUserChat/{idU}/{idG}")
     public GrupoUsuario asignarUserChat(@PathVariable Integer idU,@PathVariable Integer idG){
         return grupoUsuarioService.asignarUserChat(idU, idG);
+    }
+
+    @GetMapping("/numMessageNews/{idG}/{idU}")
+    public Integer numMessageNews(@PathVariable Integer idG, @PathVariable Integer idU){
+        return grupoUsuarioService.numMessageNews(idG, idU);
     }
 
     @GetMapping("/getById/{id}")
@@ -110,12 +116,16 @@ public class GrupoUsuarioController {
         grupoUsuarioService.salirGrupo(idGrupoUsuario, fecha);
     }
 
-    public void asignarFotoChat(ChatListUser chat, int i){
+    public void asignarFotoChat(ChatListUser chat){
         if(chat.getChat().getId().getGrupo().getCodigo() == null){
             chat.getChat().getId().getGrupo().setFoto
                     (grupoUsuarioService.pathFotoUserChat(chat.getChat().getId().getIdusuario(),
                             chat.getChat().getId().getIdgrupo()));
         }
 
+    }
+
+    public void mensajesSinLeer(ChatListUser chat){
+        chat.setNumNewMessage(grupoUsuarioService.numMessageNews(chat.getChat().getId().getIdgrupo(), chat.getChat().getId().getIdusuario()));
     }
 }
