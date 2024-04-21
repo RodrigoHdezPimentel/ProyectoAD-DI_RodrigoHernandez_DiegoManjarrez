@@ -27,8 +27,8 @@ public interface ConversacionInterface {
     @GET("getLastMessage/{id}")
     Call <LoadConversation> getLastMessage(@Path("id") Integer id);
 
-    @GET("readMessage/{idUsuario}/{idConversacion}")
-    Call<Void> readMessage(@Path("idUsuario") Integer idUsuario, @Path("idConversacion") Integer idConversacion);
+    @GET("readMessages/{idUsuario}/{idGU}")
+    Call<Void> readMessages(@Path("idUsuario") Integer idUsuario, @Path("idGU") Integer idGU );
 
     @GET("updateContent/{idConv}/{contenido}")
     Call<Void> updateContent(@Path("idConv") Integer idConv, @Path("contenido") String contenido);

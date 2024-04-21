@@ -29,14 +29,27 @@ public interface ConversacionRepository extends JpaRepository<Conversacion, Inte
 //SELECT c.*,u.idUsuario,u.Us_Nombre FROM conversaciones c JOIN grupo_usuario gu on gu.idGrupoUsuario = c.idGrupoUsuario
 // JOIN usuarios u ON gu.idUsuario = u.idUsuario WHERE gu.idGrupo = 20 ORDER BY c.fecha DESC LIMIT 1;
 
-//SELECT c.* FROM conversaciones c INNER JOIN grupo_usuario g ON c.idGrupoUsuario = g.idGrupoUsuario  WHERE g.idGrupo = 2 AND
-//c.fecha = (SELECT MAx(c.fecha) FROM conversaciones c INNER JOIN grupo_usuario g ON c.idGrupoUsuario = g.idGrupoUsuario  WHERE g.idGrupo = 2 );
+
+    //UPDATE DE LAS MENSAJES
+// UPDATE conversaciones c JOIN grupo_usuario g ON g.idGrupoUsuario = c.idGrupoUsuario set c.idLeido =
+//    CONCAT((SELECT idLeido FROM conversaciones c JOIN grupo_usuario g ON g.idGrupoUsuario = c.idGrupoUsuario
+//    WHERE g.idGrupo = 101 ORDER BY c.fecha DESC LIMIT 1), ',', '2')
+//    WHERE  g.idGrupo = 101 AND
+//            (c.idLeido NOT LIKE CONCAT('%,', '2', ',%') OR c.idLeido IS NULL) AND
+//            (c.idLeido NOT LIKE CONCAT('%,', '2') OR c.idLeido IS NULL) AND
+//            (c.idLeido NOT LIKE '2' OR c.idLeido IS NULL);
+
     @Transactional
     @Modifying//Cambiar idLeido de la conversacion
     @Query(value = "UPDATE Conversacion c " +
-            "           SET c.idleido = CONCAT(" +
-            "               (SELECT c1.idleido from Conversacion c1 where c1.idconversacion = ?2), ',', ?1) WHERE c.idconversacion = ?2")
-    void readMessage(Integer idUsuario, Integer idConversacion);
+            " SET c.idleido = CONCAT((SELECT c.idleido FROM Conversacion c JOIN GrupoUsuario g ON g.idgrupousuario = c.idgrupousuario" +
+            " WHERE g.id.idgrupo = ?2 ORDER BY c.fecha DESC LIMIT 1), ',', ?1)" +
+            " WHERE c.idgrupousuario IN (SELECT g.idgrupousuario FROM Conversacion c JOIN GrupoUsuario g ON g.idgrupousuario = c.idgrupousuario " +
+            " WHERE g.id.idgrupo = ?2)" +
+            " AND (c.idleido NOT LIKE '%,' || ?1 || ',%' OR c.idleido IS NULL)" +
+            " AND (c.idleido NOT LIKE '%,' || ?1 OR c.idleido IS NULL)" +
+            " AND (c.idleido NOT LIKE ?1 OR c.idleido IS NULL) ")
+    void readMessages(Integer idUsuario, Integer idGrupo);
 
     @Transactional
     @Modifying//Cambiar idLeido de la conversacion

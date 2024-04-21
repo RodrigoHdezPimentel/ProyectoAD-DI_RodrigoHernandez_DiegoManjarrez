@@ -14,16 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
-import com.prueba.fragments.Class.ChatLastMessage;
+import com.prueba.fragments.Class.ChatListUser;
 import com.prueba.fragments.R;
 
 import java.util.ArrayList;
 
 public class ListaGruposShareCodeRvAdapter extends RecyclerView.Adapter<ListaGruposShareCodeRvAdapter.MyViewHolder> {
     Context context;
-    ArrayList<ChatLastMessage> listaGrupos;
+    ArrayList<ChatListUser> listaGrupos;
 
-    public ListaGruposShareCodeRvAdapter(Context context, ArrayList<ChatLastMessage> listaGrupos) {
+    public ListaGruposShareCodeRvAdapter(Context context, ArrayList<ChatListUser> listaGrupos) {
         this.context = context;
         this.listaGrupos = listaGrupos;
     }

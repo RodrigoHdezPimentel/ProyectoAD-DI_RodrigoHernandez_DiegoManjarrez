@@ -96,8 +96,8 @@ public class Profile extends Fragment {
         enviarMensaje();
 
         //Coloco las fotos de perfil
-        Usuario.getInstance().fotoPerfil(iconMyProfile, getContext());
-        Profile.perfil.fotoPerfil(iconProfile, getContext());
+        MainActivity.addPicture(iconMyProfile, getContext(),Usuario.getInstance().getFoto());
+        MainActivity.addPicture(iconProfile, getContext(),Profile.perfil.getFoto());
 
         userName.setText(perfil.getName());
         descripcion.setText(perfil.getDescripcion());
@@ -193,68 +193,59 @@ public class Profile extends Fragment {
             }
         });
     }
+
+    //getCommonGroups, grupoUsuarioInterface.getNumberUsers
+    //                Intent toChat = new Intent(getContext(), ChatActivity.class);
+    //if (response2.body() || !response2.body()) {
+    //                                        if(response2.body()){
+    //                                            Toast.makeText(getContext(), "CARGAR EL CHAT ANTERIOR", Toast.LENGTH_SHORT).show();
+    //                                            //enviamos los datos a ChatActivity para cargar la connversacion
+    //                                        toChat.putExtra("idGrupo", response1.body().get(finalI).get(0));
+    //                                        toChat.putExtra("idGrupoUsuario", response1.body().get(finalI).get(1));
+    //                                        startActivity(toChat);
+    //                                        }
+    //
+    //                                        if(!response2.body()&& ((finalI+1)==response1.body().size())){
+    //                                            Toast.makeText(getContext(), "Crear chat", Toast.LENGTH_SHORT).show();
+    //                                            crearConversacion();
+    //                                        }
+    //                                    }
     public void enviarMensaje(){
         iconEnviarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toChat = new Intent(getContext(), ChatActivity.class);
-                //Se saca los idGrupos (Integer) en común del usuario presente y al usario que queremos enviar el mensaje
-                Call <List<List<Integer>>> call = MainActivity.grupoUsuarioInterface.getCommonGroups(Usuario.getInstance().getId(), perfil.getId());
+                Call<List<List<Integer>>> call = MainActivity.grupoUsuarioInterface.getLoadChat(Usuario.getInstance().getId(), perfil.getId());
                 call.enqueue(new Callback<List<List<Integer>>>() {
                     @Override
-                    public void onResponse(Call<List<List<Integer>>> call, Response<List<List<Integer>>> response1) {
-                        if(!response1.isSuccessful()){
+                    public void onResponse(Call<List<List<Integer>>> call, Response<List<List<Integer>>> response) {
+                        if(!response.isSuccessful()){
                             return;
                         }
-
-                        //Ahora nos encargamos de verificar si el numero de miembros del grupo son 2 (yo y él)
-                        for (int i = 0; i < response1.body().size() ; i++ ) {
-                           // Toast.makeText(getContext(), chatNuevo.toString()+"", Toast.LENGTH_SHORT).show();
-                            //La primera posicion es la lista de idGrupo y idGrupoUsuario, y el otro .get()
-                            //es acceder a esos valores.
-
-                            Call <Boolean> call2 = MainActivity.grupoUsuarioInterface.getNumberUsers(response1.body().get(i).get(0));
-                            int finalI = i;
-
-                            call2.enqueue(new Callback<Boolean>() {
-                                @Override
-                                public void onResponse(Call<Boolean> call, Response<Boolean> response2) {
-                                    if(!response2.isSuccessful()){
-                                        return;
-                                    }
-                                    //REALIZAR LA VERIFICACION SI NUMERO DE MIEMBROS ES 2
-                                    if (response2.body() || !response2.body()) {
-                                        if(response2.body()){
-                                            Toast.makeText(getContext(), "CARGAR EL CHAT ANTERIOR", Toast.LENGTH_SHORT).show();
-                                            //enviamos los datos a ChatActivity para cargar la connversacion
-                                        toChat.putExtra("idGrupo", response1.body().get(finalI).get(0));
-                                        toChat.putExtra("idGrupoUsuario", response1.body().get(finalI).get(1));
-                                        startActivity(toChat);
-                                        }
-
-                                        if(!response2.body()&& ((finalI+1)==response1.body().size())){
-                                            Toast.makeText(getContext(), "Crear chat", Toast.LENGTH_SHORT).show();
-                                            crearConversacion();
-                                        }
-                                    }
-                                }
-                                @Override
-                                public void onFailure(Call<Boolean> call, Throwable t) {
-
-                                }
-                            });
+                        Toast.makeText(getContext(), response.body().toString()+"", Toast.LENGTH_SHORT).show();
+                        if(response.body().isEmpty()){
+                            Toast.makeText(getContext(), "Chat cuevo", Toast.LENGTH_SHORT).show();
+                            crearConversacion();
+                        }else {
+                            Toast.makeText(getContext(), "Cargar chat", Toast.LENGTH_SHORT).show();
+                            Intent toChat = new Intent(getContext(), ChatActivity.class);
+                            toChat.putExtra("idGrupo", response.body().get(0).get(0));
+                            toChat.putExtra("idGrupoUsuario",response.body().get(0).get(1));
+                            startActivity(toChat);
                         }
                     }
+
                     @Override
-                    public void onFailure(Call<List<List<Integer>>> call, Throwable t) {}});
+                    public void onFailure(Call<List<List<Integer>>> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }
 
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        GrupoInterface grupoInterface = MainActivity.retrofitGrupo.create(GrupoInterface.class);
-        Call<Grupo> call = grupoInterface.create(new Grupo(null,"Ruta",null));
+        Call<Grupo> call =  MainActivity.grupoInterface.create(new Grupo(null,"Ruta",null));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -315,4 +306,5 @@ public class Profile extends Fragment {
             }
         });
     }
+
 }

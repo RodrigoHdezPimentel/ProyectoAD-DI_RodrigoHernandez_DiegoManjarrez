@@ -1,6 +1,6 @@
 package dam.prueba.springPrueba.servicies;
 
-import dam.prueba.springPrueba.Class.ChatLastMessage;
+import dam.prueba.springPrueba.Class.ChatListUser;
 import dam.prueba.springPrueba.models.GrupoUsuario;
 import dam.prueba.springPrueba.models.Usuario;
 import dam.prueba.springPrueba.repositories.GrupoUsuarioRepository;
@@ -21,15 +21,18 @@ public class GrupoUsuarioService {
         return grupoUsuarioRepository.save(grupoUser);
     }
 
-    public List<ChatLastMessage> getListChatFromUser(Integer id) {
+    public List<ChatListUser> getListChatFromUser(Integer id) {
         return grupoUsuarioRepository.getListChatFromUser(id);
     }
-    public List<ChatLastMessage> getListChatUserWhitoutMessage(Integer id) {
+    public List<ChatListUser> getListChatUserWhitoutMessage(Integer id) {
         return grupoUsuarioRepository.getListChatUserWhitoutMessage(id);
     }
 
     public GrupoUsuario asignarUserChat(Integer idU, Integer idG) {
         return grupoUsuarioRepository.asignarUserChat(idU, idG);
+    }
+    public Integer numMessageNews(Integer idG, Integer idU) {
+        return grupoUsuarioRepository.numMessageNews(idG, idU);
     }
 
     public GrupoUsuario getById(Integer id) {
@@ -39,12 +42,13 @@ public class GrupoUsuarioService {
     public List<Usuario> getGroupUsers(Integer id) {
         return grupoUsuarioRepository.getGroupUsers(id);
     }
-    public List<List<Integer>> getCommonGroups(Integer idU, Integer idV) {
-        return grupoUsuarioRepository.getCommonGroups(idU, idV);
+    public List<List<Integer>> getLoadChat(Integer idU, Integer idV) {
+        return grupoUsuarioRepository.getLoadChat(idU, idV);
     }
-    public Integer getNumberUsers(Integer id) {
-        return grupoUsuarioRepository.getNumberUsers(id);
+    public String pathFotoUserChat(Integer idU,Integer idG) {
+        return grupoUsuarioRepository.pathFotoUserChat(idU,idG);
     }
+
 
     public List<String> getGroupName(Integer idGr, Integer idUs) {
         return grupoUsuarioRepository.getGroupName(idGr, idUs);

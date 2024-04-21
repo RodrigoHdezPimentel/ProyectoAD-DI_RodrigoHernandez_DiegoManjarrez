@@ -3,11 +3,12 @@ package com.prueba.fragments.Class;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
 
-public class ChatLastMessage {
+public class ChatListUser {
     private GrupoUsuario chat;
     private Conversacion mensaje;
+    private int numNewMessage;
 
-    public ChatLastMessage(GrupoUsuario chat, Conversacion mensaje) {
+    public ChatListUser(GrupoUsuario chat, Conversacion mensaje) {
         this.chat = chat;
         this.mensaje = mensaje;
     }
@@ -26,5 +27,9 @@ public class ChatLastMessage {
 
     public void setMensaje(Conversacion mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public int getNumNewMessage() {
+        return numNewMessage;
     }
 }

@@ -251,6 +251,33 @@ LOCK TABLES `usuarios` WRITE;
 INSERT INTO `usuarios` VALUES (1,2012,'a',1,'Morafenobe Airport','ddikles0@prlog.org','a',NULL,NULL),(2,1916,'Olivier',1,'Cross City Airport','omacconneely1@sun.com','zK7&bcc~p',NULL,NULL),(3,2007,'Trstram',1,'Bundaberg Airport','teltun2@reverbnation.com','yF6+!?FVB<B>faB',NULL,NULL),(4,1944,'Lilas',0,'Indulkana Airport','lharlowe3@netscape.com','yD9`4Ler',NULL,NULL),(5,1961,'Carlyn',0,'Přerov Air Base','cwibrow4@ebay.com','wY9=t200UAtF~',NULL,NULL),(6,2001,'Octavius',1,'Campo Grande Airport','oblenkinsopp5@washingtonpost.com','fP0($6r<12',NULL,NULL),(7,1983,'Kaylee',0,'Minnipa Airport','kpiff6@163.com','gE8_sk@p9',NULL,NULL),(8,1919,'Marwin',1,'Washington Dulles International Airport','mkelsell7@gnu.org','zQ1~?@U`)u(0*',NULL,NULL),(9,2005,'Hedvig',0,'Dubuque Regional Airport','hmougel8@nhs.uk','rB2_%7>E>',NULL,NULL),(10,1958,'Tamera',0,'Mornington Island Airport','tswindells9@trellian.com','uT7,l%Y',NULL,NULL),(11,2010,'Berenice',0,'Borgarfjörður eystri Airport','bscripturea@harvard.edu','kS6~+a8dt',NULL,NULL),(12,1975,'Brandi',0,'Sub Teniente Nestor Arias Airport','bduckersb@mozilla.com','qH9)zf<|yg>8Guo',NULL,NULL),(13,2006,'Leesa',0,'Brewarrina Airport','lyurukhinc@intel.com','gZ0!p=wl',NULL,NULL),(14,1942,'Judye',0,'Donaldson Field Airport','jcreanyd@thetimes.co.uk','kZ4(t*pVJj.sePb',NULL,NULL),(15,2002,'Sly',1,'Chacalluta Airport','seckharde@engadget.com','fI3{7X*NM',NULL,NULL),(16,2003,'Fidelia',0,'Ivanof Bay Seaplane Base','frubinf@lulu.com','jN4_.|OK}!Lzy4pR',NULL,NULL),(17,1926,'Rowland',1,'Cartwright Airport','rarmitageg@bigcartel.com','eR2{d&b{*c93$',NULL,NULL),(18,1967,'Reilly',NULL,'St. Lewis (Fox Harbour) Airport','rgilffillandh@cisco.com','oA9~DT(yXG?$',NULL,NULL),(19,1999,'Brittney',NULL,'Potchefstroom Airport','bspadaroi@moonfruit.com','iC9Fm~9+Hn*&$4',NULL,NULL),(20,1926,'Riobard',1,'Apalapsili Airport','rstampferj@unicef.org','cQ9<JKhz49k',NULL,NULL),(21,1992,'Barton',1,'Dr Juan Plate Airport','bsimysonk@businesswire.com','bT4,d8La',NULL,NULL),(22,1921,'Thorin',1,'Tri State Steuben County Airport','tbraml@wordpress.com','jQ5|ToT.g@>U{j',NULL,NULL),(23,1944,'Corney',1,'Yamaguchi Ube Airport','crillstonem@ftc.gov','lM7.8zz9s!YA1z',NULL,NULL),(24,1910,'Addi',0,'Bolovip Airstrip','ahayhown@mit.edu','hM4=vf#,`4k&t',NULL,NULL),(25,1951,'Gregg',1,'Bristol Airport','gvogto@bigcartel.com','zF4+mmKZMXj',NULL,NULL),(26,1911,'Vikky',0,'Ingham Airport','vhakeyp@dyndns.org','bK1%+3JeH3@JYm',NULL,NULL),(27,1924,'Marcellina',0,'Hotel Transamérica Airport','mpottesq@berkeley.edu','aF20!LcW',NULL,NULL),(28,1939,'Everett',1,'Tindouf Airport','eobreenr@canalblog.com','wP4.tFz`H',NULL,NULL),(29,1922,'Nollie',1,'Mosul International Airport','nfitzpatricks@tamu.edu','oU0pNS',NULL,NULL),(30,2012,'Flinn',1,'Bayannur Tianjitai Airport','froyant@imgur.com','lK5?ZgDs{8',NULL,NULL),(31,1942,'Niccolo',1,'Concórdia Airport','nanyeneu@fastcompany.com','vW3+8!)Z&4Q4',NULL,NULL),(32,1987,'Nick',1,'Merritt Island Airport','nstebbingsv@umn.edu','fV7(Q@EWX',NULL,NULL),(33,1941,'Dav',1,'Shannon Airport','dgledew@dion.ne.jp','qZ4y`mJ52cm(uA',NULL,NULL),(34,1979,'Brandyn',1,'Saint John Airport','bheartfieldx@shutterfly.com','zP7a&Rw',NULL,NULL),(35,1957,'Ellary',1,'Gol Airport','eneedsy@hostgator.com','oB1%.!ST{_s',NULL,NULL),(36,1933,'Terrill',1,'Augusto C. Sandino (Managua) International Airport','twhorltonz@cnbc.com','dU8${m#nR',NULL,NULL),(37,1928,'Torin',NULL,'Guilin Liangjiang International Airport','ttownsend10@boston.com','vV7)*U<',NULL,NULL),(38,1916,'Jase',1,'Monroe Regional Airport','jmonkeman11@nps.gov','pM5,oW`y*d8lO7',NULL,NULL),(39,1938,'Celie',0,'Barra Airport','cgiacobilio12@reddit.com','fS8,CwNeQe',NULL,NULL),(40,1933,'Rosalyn',0,'Lake Manyara Airport','rwastie13@prweb.com','vF3*#x!p6ycH<',NULL,NULL),(41,1921,'Maressa',0,'Cape Newenham LRRS Airport','mfelder14@independent.co.uk','wM7%r6?3b.w@',NULL,NULL),(42,1985,'Herbert',0,'Pellston Regional Airport of Emmet County Airport','hgoodliffe15@alibaba.com','oQ6|,1(X_2',NULL,NULL),(43,1956,'Ellyn',0,'Landivisiau Air Base','eremington16@example.com','cY6lWSGoRLg',NULL,NULL),(44,1935,'Tann',1,'Shageluk Airport','tgittose17@sfgate.com','pU5@Zb@(oj_70',NULL,NULL),(45,2007,'Allyce',0,'Goose Bay Airport','achallen18@wordpress.org','aA4+d*6DU)Iq',NULL,NULL),(46,1976,'Rona',0,'Olbia Costa Smeralda Airport','rbonavia19@nhs.uk','gT0&bHIkmi8',NULL,NULL),(47,2012,'Simeon',1,'Kerang Airport','sroxburgh1a@drupal.org','lR8H.6R3_!<sVBq',NULL,NULL),(48,1958,'Fredric',NULL,'Swansea Airport','fhadgraft1b@list-manage.com','jE7@Hnx84o',NULL,NULL),(49,2004,'Valenka',0,'Travis Air Force Base','vbrearton1c@tinyurl.com','qQ2)hN{!N{7',NULL,NULL),(50,1927,'Stacy',NULL,'Tanah Grogot Airport','ssongist1d@imdb.com','gS2+ZWH2W8%Tfw~',NULL,NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+DELIMITER //
+
+CREATE TRIGGER actualizar_likes AFTER INSERT ON likes
+FOR EACH ROW
+BEGIN
+    UPDATE publicaciones
+    SET numLikes = numLikes + 1
+    WHERE idPublicacion = NEW.idPublicacion;
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER restar_like AFTER DELETE ON likes
+FOR EACH ROW
+BEGIN
+    UPDATE publicaciones
+    SET numLikes = numLikes - 1
+    WHERE idPublicacion = OLD.idPublicacion;
+END;
+//
+
+DELIMITER ;
+ UPDATE conversaciones set idLeido = "0";
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

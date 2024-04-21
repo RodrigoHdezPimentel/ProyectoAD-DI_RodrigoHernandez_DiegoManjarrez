@@ -68,6 +68,8 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
             constraintSet.connect(holder.cv.getId(), ConstraintSet.RIGHT, holder.constraintLayout.getId(), ConstraintSet.RIGHT, 16);
             constraintSet.applyTo(holder.constraintLayout);
 
+            //Hacer esto dentro de un alert dialogo para que se vea más bonito pero quitar el modo modificar el mensaje
+            //solamente dejar el delete mensaje.
             holder.cv.setOnLongClickListener(new View.OnLongClickListener() {
                 public boolean onLongClick(View v) {
                     ChatActivity.editConversacion( conversacionModels.get(position).getConversacion(), holder.Contenido, position);
@@ -83,26 +85,6 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         holder.fecha.setText(conversacionModels.get(position).getConversacion().getFecha().toString());
         holder.Contenido.setText(conversacionModels.get(position).getConversacion().getContenido());
 
-        //Marcar mensajes como leidos
-        ArrayList<Integer> idLeido = new ArrayList<>();
-        for(String id : conversacionModels.get(position).getConversacion().getIdleido()){
-            idLeido.add(Integer.parseInt(id));
-        }
-        if(!idLeido.contains(Usuario.getInstance().getId())){
-            Call<Void> callUpdate = MainActivity.conversacionInterface.readMessage(Usuario.getInstance().getId(), conversacionModels.get(position).getConversacion().getIdConversacion());
-            callUpdate.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (!response.isSuccessful()) {
-                        Log.e("Response err: ", response.message());
-                        return;
-                    }
-                }
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                }
-            });
-        }
     }
 
     @Override

@@ -21,13 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.prueba.fragments.Class.ChatLastMessage;
+import com.prueba.fragments.Class.ChatListUser;
 import com.prueba.fragments.Class.LoadConversation;
 import com.prueba.fragments.Class.ThreadChat;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
@@ -56,7 +55,7 @@ public class ChatActivity extends AppCompatActivity {
     GrupoUsuario grupoUsuario;
     ArrayList<LoadConversation> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
-    ArrayList<ChatLastMessage> listaGrupos = new ArrayList<>();
+    ArrayList<ChatListUser> listaGrupos = new ArrayList<>();
     static TextInputEditText texto;
     TextView title;
     ImageView iconUserChat;
@@ -145,6 +144,7 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.makeText(ChatActivity.this, "updated", Toast.LENGTH_SHORT).show();
                         textoActualizar.setText(texto.getText().toString());
                         texto.setText("");
+                        cargarConversacion();
                     }
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
@@ -173,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
                         Toast.makeText(ChatActivity.this, "eliminado", Toast.LENGTH_SHORT).show();
                         texto.setText("");
-
+                        cargarConversacion();
                     }
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
@@ -236,9 +236,11 @@ public class ChatActivity extends AppCompatActivity {
                 //BUSCAR ALGUNA MANERA PARA OPTIMIZAR LA VISTA DEL ULTIMO MENSAJE
                 RecyclerView.LayoutManager layoutManager = MyRecyclerView.getLayoutManager();
                 if (layoutManager != null && layoutManager instanceof LinearLayoutManager) {
-                    int ultimoElemento = layoutManager.getItemCount() - 1;
-                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(ultimoElemento, 0);
+                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(layoutManager.getItemCount() - 1, 0);
                 }
+                    //Se ecnarga de leer los mensajes que aun estaban sin leer por el user
+                    UpdateIdLeido();
+
                 //Arranco el hilo caundo se carga la conversación
                 hiloChat = new ThreadChat(adapter, idGrupo,ChatActivity.this);
                 hiloChat.start();
@@ -285,7 +287,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void GuardarConversacion(){
 
-        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), texto.getText().toString(), "0," + Usuario.getInstance().getId().toString());
+        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), texto.getText().toString(),  Usuario.getInstance().getId().toString());
         Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
         call.enqueue(new Callback<Conversacion>() {
             @Override
@@ -449,14 +451,10 @@ public class ChatActivity extends AppCompatActivity {
     }
     public void enviarCodigo(){
         Conversacion newConversacion;
-        Date date = new Date();
-        long timeInMilliSeconds = date.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
 
         for (Integer i : idsGrupoUsuarioShareedCodeGroups) {
             newConversacion = new Conversacion(
-                    null, i, formattedDate.toString(),
+                    null, i, getDateSpain(),
                     "Unete a mi grupo:\n" + infoGrupo.getCodigo().toString(),
                     "0," + Usuario.getInstance().getId().toString());
 
@@ -479,15 +477,15 @@ public class ChatActivity extends AppCompatActivity {
         idsGrupoUsuarioShareedCodeGroups.removeAll(idsGrupoUsuarioShareedCodeGroups);
     }
     public void getMyGroups(){
-        Call<List<ChatLastMessage>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
-        call.enqueue(new Callback<List<ChatLastMessage>>() {
+        Call<List<ChatListUser>> call = MainActivity.grupoUsuarioInterface.getListChatFromUser(Usuario.getInstance().getId());
+        call.enqueue(new Callback<List<ChatListUser>>() {
             @Override
-            public void onResponse(Call<List<ChatLastMessage>> call, Response<List<ChatLastMessage>> response) {
+            public void onResponse(Call<List<ChatListUser>> call, Response<List<ChatListUser>> response) {
                 if(!response.isSuccessful()){
                     return;
                 }
 
-                for (ChatLastMessage c : response.body()){
+                for (ChatListUser c : response.body()){
                     if(c.getChat().getGrupoUsuarioFK().getIdgrupo() != idGrupo){
                         listaGrupos.add(c);
                     }
@@ -495,18 +493,13 @@ public class ChatActivity extends AppCompatActivity {
                 mostrarListaChats();
             }
             @Override
-            public void onFailure(Call<List<ChatLastMessage>> call, Throwable t) {
+            public void onFailure(Call<List<ChatListUser>> call, Throwable t) {
 
             }
         });
     }
     public void salirGrupo(){
-        Date date = new Date();
-        long timeInMilliSeconds = date.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String formattedDate = sdf.format(new Date(timeInMilliSeconds));
-
-        Call<Void> call = MainActivity.grupoUsuarioInterface.salitGrupo(idGrupoUsuario, formattedDate);
+        Call<Void> call = MainActivity.grupoUsuarioInterface.salitGrupo(idGrupoUsuario, getDateSpain());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -544,5 +537,18 @@ public class ChatActivity extends AppCompatActivity {
 
        return sdf.format(date).toString();
 
+    }
+    public void UpdateIdLeido(){
+        Call<Void> call = MainActivity.conversacionInterface.readMessages(Usuario.getInstance().getId(), idGrupo);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+            }});
     }
 }

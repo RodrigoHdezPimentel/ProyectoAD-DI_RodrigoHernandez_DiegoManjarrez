@@ -123,8 +123,4 @@ public class Usuario implements Serializable {
         this.foto = foto;
     }
 
-    public void fotoPerfil(ImageView imageView, Context contex){
-        Log.d("nombre", "http://localhost:8086/file/image/"+ getFoto());
-        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+getFoto()).fitCenter().error(R.drawable.ic_mujer).into(imageView);
-    }
 }

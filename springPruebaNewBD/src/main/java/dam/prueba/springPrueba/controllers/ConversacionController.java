@@ -36,9 +36,9 @@ public class ConversacionController {
         return conversacionService.getLastMessage(id);
     }
 
-    @GetMapping("/readMessage/{idUsuario}/{idConversacion}")
-    public void readMessage(@PathVariable Integer idUsuario, @PathVariable Integer idConversacion){
-        conversacionService.readMessage(idUsuario, idConversacion);
+    @GetMapping("/readMessages/{idUsuario}/{idGrupo}")
+    public void readMessage(@PathVariable Integer idUsuario, @PathVariable Integer idGrupo){
+        conversacionService.readMessages(idUsuario, idGrupo);
     }
 
     @GetMapping("/updateContent/{idConv}/{contenido}")

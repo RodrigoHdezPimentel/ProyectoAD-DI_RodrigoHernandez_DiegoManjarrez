@@ -3,8 +3,6 @@ package com.prueba.fragments.RecyclerViews.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,28 +14,18 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.fragments.ChatActivity;
-import com.prueba.fragments.Class.ChatLastMessage;
-import com.prueba.fragments.Login_SignUP;
+import com.prueba.fragments.Class.ChatListUser;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
-import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
-import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapter.MyViewHolder> {
     Context context;
-    ArrayList<ChatLastMessage> groupModels;
+    ArrayList<ChatListUser> groupModels;
     Intent toChat = null;
 
-    public ListaChatsRvAdapter(Context context, ArrayList<ChatLastMessage> chatModels) {
+    public ListaChatsRvAdapter(Context context, ArrayList<ChatListUser> chatModels) {
         this.context = context;
         this.groupModels = chatModels;
     }
@@ -60,8 +48,14 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         toChat = new Intent(context, ChatActivity.class);
     try {
         holder.personaChat.setText(groupModels.get(position).getChat().getNombre());
+        //CANTIDAD DE MENSAJES SIN LEER
+        if(groupModels.get(position).getNumNewMessage() != 0){
+            holder.newMessage.setText(groupModels.get(position).getNumNewMessage()+"");
+        }else {
+            holder.newMessage.setVisibility(View.INVISIBLE);
+        }
+        MainActivity.addPicture(holder.iconChat,context,groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getFoto());
 
-        iconAdd(groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero(), holder);
         //Para Controlar los Objetos Conversacion vacios que no tengan mensajes
         if (groupModels.get(position).getMensaje() != null) {
             holder.fechaUltimoMensaje.setText(groupModels.get(position).getMensaje().getFecha().toString());
@@ -70,31 +64,13 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
             holder.fechaUltimoMensaje.setText("");
             holder.ultimoContenido.setText("");
         }
-
-        //---------------VOY A CAMBIAR ESTO-------------------
-        ArrayList<Integer> idLeido = new ArrayList<>();
-        for (String id : groupModels.get(position).getMensaje().getIdleido()) {
-            //-----HE PUESTO QUE SI ES NULL, TENGA VALOR DE 0---
-            if (groupModels.get(position).getMensaje().getIdleido() == null){
-                idLeido.add(0);
-            }else {
-                idLeido.add(Integer.parseInt(id));
-            }
-        }
-        if (idLeido.contains(Usuario.getInstance().getId())) {
-            holder.newMessage.setVisibility(View.INVISIBLE);
-        } else {
-            holder.newMessage.setVisibility(View.VISIBLE);
-        }
-    //-------------------------------------------------------------
+        
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toChat.putExtra("gender", groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero());
                 toChat.putExtra("idGrupo", groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getIdGrupo());
                 toChat.putExtra("idGrupoUsuario", groupModels.get(position).getChat().getIdGrupoUsuario());
-
-
                 context.startActivity(toChat);
             }
         });
@@ -112,12 +88,12 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         TextView ultimoContenido;
         TextView fechaUltimoMensaje;
         CardView cv;
-       ImageView iconUser;
+       ImageView iconChat;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             this.newMessage = itemView.findViewById(R.id.newMessage);
-            this.iconUser = itemView.findViewById(R.id.iconListChat);
+            this.iconChat = itemView.findViewById(R.id.iconListChat);
             this.cv = itemView.findViewById(R.id.cardChat);
             this.personaChat = itemView.findViewById(R.id.personaChat);
             this.ultimoContenido = itemView.findViewById(R.id.contenidoMensaje);
@@ -126,17 +102,6 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         }
 
     }
-    public void iconAdd(Boolean gender, MyViewHolder holder) {
 
-        if(gender == null){
-            holder.iconUser.setImageResource(R.drawable.ic_app);
-        } else {
-            if (!gender) {
-                holder.iconUser.setImageResource(R.drawable.ic_mujer);
-            } else {
-                holder.iconUser.setImageResource(R.drawable.ic_hombre);
-            }
-        }
-    }
 
 }
