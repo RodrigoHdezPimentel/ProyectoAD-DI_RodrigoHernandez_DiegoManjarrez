@@ -68,6 +68,7 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View view) {
                 Intent toMain = new Intent(EditProfile.this, MainActivity.class);
                 toMain.putExtra("numFrgMain", 3);
+                toMain.putExtra("isRegister", true);
                 startActivity(toMain);
             }
         });
@@ -81,6 +82,7 @@ public class EditProfile extends AppCompatActivity {
                 updateUser();
                 Intent toMain = new Intent(EditProfile.this, MainActivity.class);
                 toMain.putExtra("numFrgMain", 3);
+                toMain.putExtra("isRegister", true);
                 startActivity(toMain);
             }
         });

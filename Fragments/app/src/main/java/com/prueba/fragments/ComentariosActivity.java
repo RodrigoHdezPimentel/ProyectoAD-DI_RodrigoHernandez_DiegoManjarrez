@@ -132,6 +132,7 @@ ImageView back;
                 Intent back;
                 if(newPublication.getIdpublirefer() == null){
                     back = new Intent(ComentariosActivity.this, MainActivity.class);
+                    back.putExtra("isRegister", true);
                 }else{
                     back = new Intent(ComentariosActivity.this, ComentariosActivity.class);
                     back.putExtra("id", newPublication.getIdpublirefer());
