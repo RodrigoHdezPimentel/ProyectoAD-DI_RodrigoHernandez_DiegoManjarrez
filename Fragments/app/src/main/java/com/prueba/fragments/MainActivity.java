@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static void addPicture(ImageView imageView, Context contex, String pathFoto){
         Log.d("nombre", "http://localhost:8086/file/image/"+ pathFoto);
-        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+pathFoto).fitCenter().error(R.drawable.ic_mujer).into(imageView);
+        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+pathFoto).fitCenter().error(R.drawable.ic_app).into(imageView);
 
     }
 }

@@ -58,7 +58,7 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<ChatListUser> listaGrupos = new ArrayList<>();
     static TextInputEditText texto;
     TextView title;
-    ImageView iconUserChat;
+    ImageView iconChat;
     static Integer messagePosition;
     static TextView textoActualizar;
     static ImageView cross;
@@ -78,16 +78,16 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
-        Boolean gender = getId.getBooleanExtra("gender", false);
+        String pathFoto = getId.getStringExtra("foto");
 
-        iconUserChat = findViewById(R.id.iconChat);
+        iconChat = findViewById(R.id.iconChat);
 
         editConsLay = findViewById(R.id.linearLayoutEditMessage);
         editConsLay.setVisibility(View.GONE);
         defaultLinLay = findViewById(R.id.linearLayout);
         defaultLinLay.setVisibility(View.VISIBLE);
 
-        iconAdd(gender);
+        MainActivity.addPicture(iconChat, ChatActivity.this, pathFoto);
         idGrupo = getId.getIntExtra("idGrupo",0);
         idGrupoUsuario = getId.getIntExtra("idGrupoUsuario",0);
         texto = findViewById(R.id.editText);
@@ -98,7 +98,7 @@ public class ChatActivity extends AppCompatActivity {
         cross = findViewById(R.id.closeEditMessage);
         rubish = findViewById(R.id.deleteMessage);
 
-        iconUserChat.setOnClickListener(new View.OnClickListener() {
+        iconChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mostrarAlertDialog();
@@ -304,17 +304,6 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    public void iconAdd(Boolean gender){
-        if(gender == null){
-            iconUserChat.setImageResource(R.drawable.ic_app);
-        } else {
-            if (!gender) {
-                iconUserChat.setImageResource(R.drawable.ic_mujer);
-            } else {
-                iconUserChat.setImageResource(R.drawable.ic_hombre);
-            }
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private void mostrarAlertDialog() {

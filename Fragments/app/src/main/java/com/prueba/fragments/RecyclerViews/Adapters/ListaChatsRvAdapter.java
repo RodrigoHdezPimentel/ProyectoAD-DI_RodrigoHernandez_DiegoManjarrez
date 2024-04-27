@@ -68,7 +68,7 @@ public class ListaChatsRvAdapter extends RecyclerView.Adapter<ListaChatsRvAdapte
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toChat.putExtra("gender", groupModels.get(position).getChat().getGrupoUsuarioFK().getUsuario().getGenero());
+                toChat.putExtra("foto", groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getFoto());
                 toChat.putExtra("idGrupo", groupModels.get(position).getChat().getGrupoUsuarioFK().getGrupo().getIdGrupo());
                 toChat.putExtra("idGrupoUsuario", groupModels.get(position).getChat().getIdGrupoUsuario());
                 context.startActivity(toChat);
