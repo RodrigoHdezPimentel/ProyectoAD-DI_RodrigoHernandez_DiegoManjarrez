@@ -297,6 +297,9 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //ACA SE DEBE COLOCAR EL ENVIO DEL MENSAJE AL SERVIDOR SOCKET
+                mensaje = new LoadConversation(new Conversacion(null,1,"","holaaaaa",""),1,"a");
+
                 texto.setText("");
             }
             @Override

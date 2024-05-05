@@ -17,7 +17,7 @@ import retrofit2.Response;
 public class ThreadChat extends Thread{
     //valor por default por si no hay respuesta en la query de ultimo mensaje
     private LoadConversation ultimoMensaje = new LoadConversation(new Conversacion(0), 0, "");
-    ;
+
     private ChatRvAdapter chat;
     private boolean hiloEnded;
     private Integer idGrupo;

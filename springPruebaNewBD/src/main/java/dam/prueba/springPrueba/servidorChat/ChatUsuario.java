@@ -1,63 +1,73 @@
 package dam.prueba.springPrueba.servidorChat;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
+import dam.prueba.springPrueba.Class.LoadConversation;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.ArrayList;
+
+@Getter
+@Setter
 public class ChatUsuario extends Thread {
+
     private Socket socket;
-    public ChatUsuario(Socket socketr) {
+    private long idGrupo;
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
+
+    public ChatUsuario(Socket socket, long idGrupo) {
         this.socket = socket;
+        this.idGrupo = idGrupo;
+        try {
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            ois = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void run() {
         try {
+            System.out.println("hola");
 
-            DataInputStream dis = new DataInputStream(socket.getInputStream());
-            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-            String read;
+            LoadConversation mensaje;
+            System.out.println("hola");
+
 
             do {
-                read =dis.readUTF();
-                System.out.println("mensaje recibido: "+ read);
-                break;
-            }while(true);
 
-            for(int i = 0; i < Servidor.listaConexiones.size(); i++) {
+                mensaje = (LoadConversation) ois.readObject();
+                System.out.println("mensaje recibido de : " + mensaje.getNombreUsuario());
+                enviarMensaje(mensaje);
 
-                if(Servidor.listaConexiones.get(i).getSocket().getInetAddress().getHostName().equals(
-                        socket.getInetAddress().getHostName())) {
-                    Servidor.listaConexiones.get(i).enviarMensaje("haz ganado");;
-                }
-                Servidor.listaConexiones.get(i).enviarMensaje("haz perdido");;
-            }
-            dos.close();
-            dis.close();
+            } while (!mensaje.getConversacion().getContenido().equals("fin"));
+
+            Servidor.eliminarUsuarioChat(this);
+            oos.close();
+            ois.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
 
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-    public void enviarMensaje(String texto) {
+    public void enviarMensaje(LoadConversation mensaje) {
         try {
-            DataOutputStream dos;
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(texto);
-            dos.close();
+            ArrayList<ChatUsuario> listaUsuarios = new ArrayList<>(Servidor.chatConexiones.get(idGrupo));
+            for (ChatUsuario usuario: listaUsuarios){
+                oos.writeObject(mensaje);
+                oos.flush(); // Asegurar que los datos se envíen
+            }
+
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-
     }
-
 }

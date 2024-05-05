@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Conversacion {
+public class Conversacion implements Serializable {
     @Id
     @Column(name = "idconversacion")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,13 +1,17 @@
 package dam.prueba.springPrueba.servidorChat;
 
+import dam.prueba.springPrueba.models.Usuario;
+
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Servidor {
 
-    public static ArrayList<ChatUsuario> listaConexiones = new ArrayList<>();
+    public static HashMap<Long, ArrayList<ChatUsuario>> chatConexiones = new HashMap<Long, ArrayList<ChatUsuario>>() ;
     public static boolean endServidor;
     public static void main(String[] args) {
 
@@ -16,24 +20,46 @@ public class Servidor {
             while (!endServidor) {
 
                 Socket socketCliente = serverSocket.accept();
-                ChatUsuario newHilo = new ChatUsuario(socketCliente);
-                for (int x = 0; x < listaConexiones.size(); x++) {
+                //Acá recibe el idgrupo para colocarselo al hilo
+                DataInputStream dis = new DataInputStream(socketCliente.getInputStream());
+                long idGrupo = dis.readLong();
 
-                    if (newHilo.getSocket().getInetAddress().getHostName()
-                            .equals(listaConexiones.get(x).getSocket().getInetAddress().getHostName())) {
+                ChatUsuario newHilo = new ChatUsuario(socketCliente,idGrupo);
 
-                        listaConexiones.remove(x);
-                        break;
-                    }
-                }
-                listaConexiones.add(newHilo);
+                agregarUsuarioChat(newHilo);
+//                System.out.println("mensaje recibido de : " + mensaje.getNombreUsuario());
+
                 newHilo.start();
+                System.out.println("Hola, mundo!");
+
 
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static void agregarUsuarioChat(ChatUsuario chatUsuario){
+        if(!chatConexiones.containsKey(chatUsuario.getIdGrupo())){
+            chatConexiones.put(chatUsuario.getIdGrupo(), new ArrayList<>());
+            chatConexiones.get(chatUsuario.getIdGrupo()).add(chatUsuario);
+
+        }else {
+            chatConexiones.get(chatUsuario.getIdGrupo()).add(chatUsuario);
+        }
+    }
+
+
+    public static void eliminarUsuarioChat(ChatUsuario chatUsuario){
+       if(chatConexiones.containsKey(chatUsuario.getIdGrupo())){
+            chatConexiones.get(chatUsuario.getIdGrupo()).remove(chatUsuario);
+
+            if(!chatConexiones.containsKey(chatUsuario.getIdGrupo())){
+                chatConexiones.remove(chatUsuario.getIdGrupo());
+            }
+       }
 
     }
+
+
 }
