@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
     static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251", "192.168.243.6"};//clase-casa-movil
 
-    public static final String IP = IP_RODRIGO[0];
+    public static final String IP = IP_DIEGO[1];
     FrameLayout frameLayout;
     TabLayout tabLayout;
 
@@ -253,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static void addPicture(ImageView imageView, Context contex, String pathFoto){
         Log.d("nombre", "http://localhost:8086/file/image/"+ pathFoto);
-        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+pathFoto).fitCenter().error(R.drawable.ic_app).into(imageView);
-
+            Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+pathFoto).fitCenter().error(R.drawable.ic_mujer).into(imageView);
     }
 }
