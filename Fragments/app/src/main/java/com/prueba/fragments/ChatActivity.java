@@ -118,6 +118,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent listChat = new Intent(ChatActivity.this, MainActivity.class);
+                listChat.putExtra("isRegister", true);
                 listChat.putExtra("numFrgMain", 2);
                 //para detener el hilo
                 hiloChat.setHiloEnded(true);
@@ -498,6 +499,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 Toast.makeText(ChatActivity.this, "Saliste del grupo", Toast.LENGTH_SHORT).show();
                 Intent toListChat = new Intent(ChatActivity.this, MainActivity.class);
+                toListChat.putExtra("isRegister", true);
                 startActivity(toListChat);
             }
             @Override
