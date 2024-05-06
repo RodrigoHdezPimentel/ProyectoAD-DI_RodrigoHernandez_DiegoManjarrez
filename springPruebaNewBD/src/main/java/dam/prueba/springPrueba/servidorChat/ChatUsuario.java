@@ -32,19 +32,17 @@ public class ChatUsuario extends Thread {
 
     public void run() {
         try {
-            System.out.println("hola");
 
+            DataInputStream dis = new DataInputStream(socket.getInputStream());
             LoadConversation mensaje;
-            System.out.println("hola");
-
 
             do {
-
                 mensaje = (LoadConversation) ois.readObject();
                 System.out.println("mensaje recibido de : " + mensaje.getNombreUsuario());
                 enviarMensaje(mensaje);
 
-            } while (!mensaje.getConversacion().getContenido().equals("fin"));
+            } while (!dis.readBoolean());
+            //BUSCAR UNA MANERA MAS COMODA DE TERMINAR EL BUCLE
 
             Servidor.eliminarUsuarioChat(this);
             oos.close();

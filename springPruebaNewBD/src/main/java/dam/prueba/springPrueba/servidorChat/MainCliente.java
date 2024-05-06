@@ -15,16 +15,14 @@ public class MainCliente {
 
         try {
             //HAGA va colocada el retofit de guardar la conversaicon cuando se envia el mensaje por el chat
-            ConversacionController conversacionController = new ConversacionController();
-            Conversacion conversacion = new Conversacion();
+            //ConversacionController conversacionController = new ConversacionController();
+            //Conversacion conversacion = new Conversacion();
 
-            Socket socket = new Socket("192.168.56.1", 6565);
+            Socket socket = new Socket("10.94.30.45", 6565);
 
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             //se envia el idGrupo al servidor
-
             dos.writeLong(1L);
-            System.out.println("Hola, mundo!");
 
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -32,9 +30,11 @@ public class MainCliente {
             LoadConversation respuesta;
             LoadConversation mensaje;
 
-            do {
-                mensaje = new LoadConversation(new Conversacion(null,1,"","holaaaaa",""),1,"a");
-//                System.out.print("Introduzca el mensaje que vas a enviar al chat");
+
+
+                System.out.println("Introduzca el mensaje que vas a enviar al chat:");
+                mensaje = new LoadConversation(new Conversacion(null,1,"",s.nextLine(),"1"),1,"a");
+
                 oos.writeObject(mensaje);
                 oos.flush();
 
@@ -43,17 +43,10 @@ public class MainCliente {
                 System.out.println(respuesta.getNombreUsuario());
                 System.out.println("Este es el contenido del mensaje: "+respuesta.getConversacion().getContenido());
 
-                //Para guardar la conversación
-                //conversacionController.saveConversacion(conversacion);
-                break;
-            }while(true);
-
-            //System.out.println("Respuesta del server: "+ respuesta);
-            // Leemos del teclado y enviamos el mensaje al server
-
-
 
             // Cierre de todas las conexiones o streams de datos
+            //terminar el bucle
+            dos.writeBoolean(true);
             s.close();
             oos.close();
             socket.close();
