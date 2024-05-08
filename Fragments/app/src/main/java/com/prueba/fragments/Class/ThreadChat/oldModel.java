@@ -1,10 +1,9 @@
-package com.prueba.fragments.Class;
+package com.prueba.fragments.Class.ThreadChat;
 
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
+import com.prueba.fragments.Class.Message;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
@@ -14,10 +13,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ThreadChat extends Thread{
+public class oldModel extends Thread{
     //valor por default por si no hay respuesta en la query de ultimo mensaje
-    private LoadConversation ultimoMensaje = new LoadConversation(new Conversacion(0), 0, "");
-
+    private Message ultimoMensaje = new Message(new Conversacion(0), 0, "");
     private ChatRvAdapter chat;
     private boolean hiloEnded;
     private Integer idGrupo;
@@ -27,10 +25,10 @@ public class ThreadChat extends Thread{
 
     public void run(){
         //primero obtengo los datos del ultimo mensaje cuando se carga la conversación
-        Call<LoadConversation> call = MainActivity.conversacionInterface.getLastMessage(idGrupo);
-        call.enqueue(new Callback<LoadConversation>() {
+        Call<Message> call = MainActivity.conversacionInterface.getLastMessage(idGrupo);
+        call.enqueue(new Callback<Message>() {
             @Override
-            public void onResponse(Call<LoadConversation> call, Response<LoadConversation> response) {
+            public void onResponse(Call<Message> call, Response<Message> response) {
                 if(!response.isSuccessful()){
                     return;
                 }
@@ -38,15 +36,15 @@ public class ThreadChat extends Thread{
                 newMensaje();
             }
             @Override
-            public void onFailure(Call<LoadConversation> call, Throwable t) {
+            public void onFailure(Call<Message> call, Throwable t) {
                 newMensaje();
             }});
     }
     public void newMensaje() {
-        Call<LoadConversation> call2 = MainActivity.conversacionInterface.getLastMessage(idGrupo);
-        call2.enqueue(new Callback<LoadConversation>() {
+        Call<Message> call2 = MainActivity.conversacionInterface.getLastMessage(idGrupo);
+        call2.enqueue(new Callback<Message>() {
             @Override
-            public void onResponse(Call<LoadConversation> call, Response<LoadConversation> response) {
+            public void onResponse(Call<Message> call, Response<Message> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
@@ -67,7 +65,7 @@ public class ThreadChat extends Thread{
                 }//El Hilo terminará cuando ya no vuelva a entrar en el if
             }
             @Override
-            public void onFailure(Call<LoadConversation> call, Throwable t) {
+            public void onFailure(Call<Message> call, Throwable t) {
                 //Para asegurarnos que aunque no haya ningun mensaje en el chat vuelva hacer
                 //la comprobacion hasta que llegue un mensaje nuevo
                 if(!hiloEnded){
@@ -76,7 +74,7 @@ public class ThreadChat extends Thread{
             }});
 
     }
-    public ThreadChat(ChatRvAdapter chat, Integer idGrupo,Context context){
+    public oldModel(ChatRvAdapter chat, Integer idGrupo, Context context){
         this.chat = chat;
         this.idGrupo = idGrupo;
         this.context = context;

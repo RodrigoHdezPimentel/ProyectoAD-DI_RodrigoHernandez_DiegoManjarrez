@@ -17,8 +17,6 @@ public class SpringPruebaApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(SpringPruebaApplication.class, args);
 
-		UsuarioController usuarioController = context.getBean(UsuarioController.class);
-		System.out.println(usuarioController);
 	}
 	@Bean
 	CommandLineRunner init(StorageService storageService) {

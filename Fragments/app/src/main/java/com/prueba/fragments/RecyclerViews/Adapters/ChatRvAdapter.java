@@ -2,14 +2,10 @@ package com.prueba.fragments.RecyclerViews.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -19,24 +15,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.prueba.fragments.ChatActivity;
-import com.prueba.fragments.Class.LoadConversation;
-import com.prueba.fragments.MainActivity;
+import com.prueba.fragments.Class.Message;
 import com.prueba.fragments.R;
-import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
-    static ArrayList<LoadConversation> conversacionModels;
+    static ArrayList<Message> conversacionModels;
     RecyclerView recyclerView;
 
-    public ChatRvAdapter(Context context, ArrayList<LoadConversation> conversacionModels,RecyclerView recyclerView) {
+    public ChatRvAdapter(Context context, ArrayList<Message> conversacionModels, RecyclerView recyclerView) {
         this.context = context;
         this.conversacionModels = conversacionModels;
         this.recyclerView = recyclerView;
@@ -107,7 +97,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         }
     }
     //Este método se encarga de recibir el mensaje desde el hilo y cargalo en el adapter
-    public void mensajeNuevo(LoadConversation newMensaje) {
+    public void mensajeNuevo(Message newMensaje) {
 
         conversacionModels.add(newMensaje);
         notifyItemInserted(conversacionModels.size() - 1);

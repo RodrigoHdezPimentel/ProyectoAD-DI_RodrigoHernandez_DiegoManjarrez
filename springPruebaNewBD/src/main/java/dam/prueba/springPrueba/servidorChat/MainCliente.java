@@ -1,8 +1,6 @@
 package dam.prueba.springPrueba.servidorChat;
 
-import dam.prueba.springPrueba.Class.LoadConversation;
-import dam.prueba.springPrueba.controllers.ConversacionController;
-import dam.prueba.springPrueba.controllers.UsuarioController;
+import dam.prueba.springPrueba.Class.Message;
 import dam.prueba.springPrueba.models.Conversacion;
 
 import java.io.*;
@@ -14,9 +12,6 @@ public class MainCliente {
     public static void main(String[] args) {
 
         try {
-            //HAGA va colocada el retofit de guardar la conversaicon cuando se envia el mensaje por el chat
-            //ConversacionController conversacionController = new ConversacionController();
-            //Conversacion conversacion = new Conversacion();
 
             Socket socket = new Socket("10.94.30.45", 6565);
 
@@ -27,24 +22,31 @@ public class MainCliente {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             Scanner s = new Scanner(System.in);
-            LoadConversation respuesta;
-            LoadConversation mensaje;
+            Message respuesta;
+            Message mensaje;
 
-
-
+            //esto será colOcado en el lugar donde se envia mensajes
                 System.out.println("Introduzca el mensaje que vas a enviar al chat:");
-                mensaje = new LoadConversation(new Conversacion(null,1,"",s.nextLine(),"1"),1,"a");
+                mensaje = new Message(new Conversacion(null,1,"",s.nextLine(),"1"),1,"a");
 
+                //CUANDO SE EVNIA UN MENSAJE VENDRA ACOMPAÑADO DEL BOOLEANO FALSE
+                dos.writeBoolean(false);
                 oos.writeObject(mensaje);
                 oos.flush();
 
-                respuesta = (LoadConversation) ois.readObject();
-                System.out.println("Mensajerecibido del servidor");
+            //--------------------------------------------------------------------
+
+            //Esto será colocado en el hilo que se encargará de recibir los mensajes nuevos en el chat.
+                respuesta = (Message) ois.readObject();
+                System.out.print("Mensaje recibido del servidor con el nombre: ");
                 System.out.println(respuesta.getNombreUsuario());
                 System.out.println("Este es el contenido del mensaje: "+respuesta.getConversacion().getContenido());
+            //------------------------------------------------------------------------
 
 
             // Cierre de todas las conexiones o streams de datos
+
+            //CUANDO SALGAMOS DEl CHAT SE ENVIARA EL BOOLEAO TRUE PA
             //terminar el bucle
             dos.writeBoolean(true);
             s.close();

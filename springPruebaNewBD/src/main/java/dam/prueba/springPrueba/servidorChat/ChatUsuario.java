@@ -1,6 +1,6 @@
 package dam.prueba.springPrueba.servidorChat;
 
-import dam.prueba.springPrueba.Class.LoadConversation;
+import dam.prueba.springPrueba.Class.Message;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +18,7 @@ public class ChatUsuario extends Thread {
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
 
+
     public ChatUsuario(Socket socket, long idGrupo) {
         this.socket = socket;
         this.idGrupo = idGrupo;
@@ -34,16 +35,21 @@ public class ChatUsuario extends Thread {
         try {
 
             DataInputStream dis = new DataInputStream(socket.getInputStream());
-            LoadConversation mensaje;
+            Message mensaje;
 
-            do {
-                mensaje = (LoadConversation) ois.readObject();
+            while(!dis.readBoolean()){
+                mensaje = (Message) ois.readObject();
                 System.out.println("mensaje recibido de : " + mensaje.getNombreUsuario());
-                enviarMensaje(mensaje);
 
-            } while (!dis.readBoolean());
-            //BUSCAR UNA MANERA MAS COMODA DE TERMINAR EL BUCLE
+                //Se envía los mensajes a todos los conectados qe estén presentes en el chat y en ese gurpo(chat)
+                ArrayList<ChatUsuario> listaUsuarios = new ArrayList<>(Servidor.chatConexiones.get(idGrupo));
+                for (ChatUsuario usuario: listaUsuarios){
+                    System.out.println("mensaje para el grupo:"+usuario.idGrupo);
+                    usuario.enviarMensaje(mensaje);
+                }
+            }
 
+            System.out.println("Cerrado");
             Servidor.eliminarUsuarioChat(this);
             oos.close();
             ois.close();
@@ -56,14 +62,10 @@ public class ChatUsuario extends Thread {
         }
     }
 
-    public void enviarMensaje(LoadConversation mensaje) {
+    public void enviarMensaje(Message mensaje) {
         try {
-            ArrayList<ChatUsuario> listaUsuarios = new ArrayList<>(Servidor.chatConexiones.get(idGrupo));
-            for (ChatUsuario usuario: listaUsuarios){
-                oos.writeObject(mensaje);
-                oos.flush(); // Asegurar que los datos se envíen
-            }
-
+            oos.writeObject(mensaje);
+            oos.flush(); // Asegurar que los datos se envíen
         } catch (Exception e) {
             e.printStackTrace();
         }

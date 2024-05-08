@@ -9,6 +9,7 @@ public class Conversacion {
     private String contenido;
     private String idleido;
     public Conversacion() {
+
     }
 
     public Conversacion(Integer idConversacion, Integer idgrupoUsuario, String fecha, String contenido, String idleido) {

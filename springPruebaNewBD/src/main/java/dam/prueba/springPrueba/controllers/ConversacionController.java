@@ -1,6 +1,6 @@
 package dam.prueba.springPrueba.controllers;
 
-import dam.prueba.springPrueba.Class.LoadConversation;
+import dam.prueba.springPrueba.Class.Message;
 import dam.prueba.springPrueba.models.Conversacion;
 import dam.prueba.springPrueba.servicies.ConversacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class ConversacionController {
         return conversacionService.getConversacionById(id);
     }
     @GetMapping("/getConversacionesByGroupId/{id}")
-    public ArrayList<LoadConversation> getConversacionesByGroupId(@PathVariable Integer id){
+    public ArrayList<Message> getConversacionesByGroupId(@PathVariable Integer id){
         return conversacionService.getConversacionesByGroupId(id);
     }
     @PostMapping("/save")
@@ -32,7 +32,7 @@ public class ConversacionController {
         return conversacionService.saveConversacion(conversacion);
     }
     @GetMapping("/getLastMessage/{id}")
-    public LoadConversation getLastMessage(@PathVariable Integer id){
+    public Message getLastMessage(@PathVariable Integer id){
         return conversacionService.getLastMessage(id);
     }
 

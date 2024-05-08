@@ -23,12 +23,16 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Class.ChatListUser;
-import com.prueba.fragments.Class.LoadConversation;
-import com.prueba.fragments.Class.ThreadChat;
+import com.prueba.fragments.Class.Message;
+import com.prueba.fragments.Class.ThreadChat.ConnectionChat;
+import com.prueba.fragments.Class.ThreadChat.ReciveMessage;
+import com.prueba.fragments.Class.ThreadChat.SendMessage;
+import com.prueba.fragments.Class.ThreadChat.oldModel;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatUsersRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ListaGruposShareCodeRvAdapter;
@@ -46,6 +50,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
+    SendMessage sendMessageThread;
+    ReciveMessage reciveMessageThread;
+
     public static ArrayList<Integer> idsGrupoUsuarioShareedCodeGroups = new ArrayList<>();
     RecyclerView MyRecyclerView;
     Integer idGrupo;
@@ -53,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
     static Conversacion conversacionSeleccionada;
     Integer idGrupoUsuario;
     GrupoUsuario grupoUsuario;
-    ArrayList<LoadConversation> Conversation = new ArrayList<>();
+    ArrayList<Message> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
     ArrayList<ChatListUser> listaGrupos = new ArrayList<>();
     static TextInputEditText texto;
@@ -70,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
 
     AlertDialog alertDialogGroups;
     ChatRvAdapter adapter;
-    ThreadChat hiloChat;
+    oldModel hiloChat;
     static ConstraintLayout editConsLay;
     static LinearLayout defaultLinLay;
     @Override
@@ -107,11 +114,8 @@ public class ChatActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!texto.getText().toString().equals("")){
-
-                    GuardarConversacion();
-
-                }
+                if(!Objects.requireNonNull(texto.getText()).toString().isEmpty()){
+                    GuardarConversacion();}
             }
         });
         arrow.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +125,7 @@ public class ChatActivity extends AppCompatActivity {
                 listChat.putExtra("isRegister", true);
                 listChat.putExtra("numFrgMain", 2);
                 //para detener el hilo
+                reciveMessageThread.interrupt();
                 hiloChat.setHiloEnded(true);
                 startActivity(listChat);
             }
@@ -217,11 +222,11 @@ public class ChatActivity extends AppCompatActivity {
 
     public void cargarConversacion(){
 
-        Call<ArrayList<LoadConversation>> call = MainActivity.conversacionInterface.getConversacionesByGroupId(idGrupo);
-        call.enqueue(new Callback<ArrayList<LoadConversation>>() {
+        Call<ArrayList<Message>> call = MainActivity.conversacionInterface.getConversacionesByGroupId(idGrupo);
+        call.enqueue(new Callback<ArrayList<Message>>() {
 
             @Override
-            public void onResponse(Call<ArrayList<LoadConversation>> call, Response<ArrayList<LoadConversation>> response) {
+            public void onResponse(Call<ArrayList<Message>> call, Response<ArrayList<Message>> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
@@ -241,14 +246,19 @@ public class ChatActivity extends AppCompatActivity {
                 }
                     //Se ecnarga de leer los mensajes que aun estaban sin leer por el user
                     UpdateIdLeido();
+                 ConnectionChat connectionChat = new ConnectionChat();
+                 sendMessageThread = new SendMessage(connectionChat,send,texto,idGrupoUsuario);
+                 reciveMessageThread = new ReciveMessage(connectionChat,adapter);
+                 sendMessageThread.start();
+                 reciveMessageThread.start();
 
                 //Arranco el hilo caundo se carga la conversación
-                hiloChat = new ThreadChat(adapter, idGrupo,ChatActivity.this);
-                hiloChat.start();
+               // hiloChat = new oldModel(adapter, idGrupo,ChatActivity.this);
+                //hiloChat.start();
             }
 
             @Override
-            public void onFailure(Call<ArrayList<LoadConversation>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Message>> call, Throwable t) {
 
             }
         });
@@ -298,7 +308,7 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 }
                 //ACA SE DEBE COLOCAR EL ENVIO DEL MENSAJE AL SERVIDOR SOCKET
-                mensaje = new LoadConversation(new Conversacion(null,1,"","holaaaaa",""),1,"a");
+                //mensaje = new LoadConversation(new Conversacion(null,1,"","holaaaaa",""),1,"a");
 
                 texto.setText("");
             }
@@ -345,7 +355,7 @@ public class ChatActivity extends AppCompatActivity {
             codigoGrupo.setVisibility(View.INVISIBLE);
             shareCode.setVisibility(View.INVISIBLE);
         }else{
-            codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo().toString());
+            codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo());
             //Cuando lo clique, muestra el listado de tus grupos
             shareCode.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -388,7 +398,7 @@ public class ChatActivity extends AppCompatActivity {
                         confirmName.setVisibility(View.GONE);
                     }
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                     }
                 });
             }

@@ -64,7 +64,7 @@ public class UsuarioController {
         if(Carpeta.isDirectory()){
             String nombreImagenes[] = Carpeta.list();
 
-            for(;numId < nombreImagenes.length;numId++){
+            for(;numId < 50 ;numId++){
                 fotosUsuarios(numId+1,nombreImagenes[numId]);
             }
 

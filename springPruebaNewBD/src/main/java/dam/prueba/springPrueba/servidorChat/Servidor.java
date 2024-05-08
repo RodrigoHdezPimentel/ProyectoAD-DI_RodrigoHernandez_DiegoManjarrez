@@ -16,12 +16,12 @@ public class Servidor {
     public static void main(String[] args) {
 
         try (ServerSocket serverSocket = new ServerSocket(6565)) {
-
+            DataInputStream dis;
             while (!endServidor) {
 
                 Socket socketCliente = serverSocket.accept();
                 //Acá recibe el idgrupo para colocarselo al hilo
-                DataInputStream dis = new DataInputStream(socketCliente.getInputStream());
+                dis = new DataInputStream(socketCliente.getInputStream());
                 long idGrupo = dis.readLong();
 
                 ChatUsuario newHilo = new ChatUsuario(socketCliente,idGrupo);
@@ -36,7 +36,7 @@ public class Servidor {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     public static void agregarUsuarioChat(ChatUsuario chatUsuario){

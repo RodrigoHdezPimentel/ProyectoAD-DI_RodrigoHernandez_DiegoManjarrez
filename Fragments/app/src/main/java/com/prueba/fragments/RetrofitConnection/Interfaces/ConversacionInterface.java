@@ -1,9 +1,7 @@
 package com.prueba.fragments.RetrofitConnection.Interfaces;
 
-import com.prueba.fragments.Class.LoadConversation;
+import com.prueba.fragments.Class.Message;
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
-
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +17,13 @@ public interface ConversacionInterface {
     Call<List<Conversacion>> getAll();
 
     @GET("getConversacionesByGroupId/{id}")
-    Call <ArrayList<LoadConversation>> getConversacionesByGroupId(@Path("id") Integer id);
+    Call <ArrayList<Message>> getConversacionesByGroupId(@Path("id") Integer id);
     @POST("save")
     Call<Conversacion> save(@Body Conversacion conversacion);
 
     //PARA SACAR EL ULTIMO MENSAJE DEL GRUPO
     @GET("getLastMessage/{id}")
-    Call <LoadConversation> getLastMessage(@Path("id") Integer id);
+    Call <Message> getLastMessage(@Path("id") Integer id);
 
     @GET("readMessages/{idUsuario}/{idGU}")
     Call<Void> readMessages(@Path("idUsuario") Integer idUsuario, @Path("idGU") Integer idGU );

@@ -1,6 +1,6 @@
 package dam.prueba.springPrueba.servicies;
 
-import dam.prueba.springPrueba.Class.LoadConversation;
+import dam.prueba.springPrueba.Class.Message;
 import dam.prueba.springPrueba.models.Conversacion;
 import dam.prueba.springPrueba.repositories.ConversacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ public class ConversacionService {
     public Optional<Conversacion> getConversacionById(Integer id) {
         return conversacionRepository.findById(id);
     }
-    public ArrayList<LoadConversation> getConversacionesByGroupId(Integer id) {
+    public ArrayList<Message> getConversacionesByGroupId(Integer id) {
         return conversacionRepository.getConversacionesByGroupId(id);
     }
     public Conversacion saveConversacion(Conversacion conversacion){
         return conversacionRepository.save(conversacion);
     }
-    public LoadConversation getLastMessage(Integer id){
+    public Message getLastMessage(Integer id){
         return conversacionRepository.getLastMessage(id);
     }
 
