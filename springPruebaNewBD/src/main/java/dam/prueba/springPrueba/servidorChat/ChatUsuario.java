@@ -2,12 +2,14 @@ package dam.prueba.springPrueba.servidorChat;
 
 import dam.prueba.springPrueba.Class.Message;
 
+import dam.prueba.springPrueba.models.Like;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -26,7 +28,7 @@ public class ChatUsuario extends Thread {
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }
@@ -34,40 +36,41 @@ public class ChatUsuario extends Thread {
     public void run() {
         try {
 
-            DataInputStream dis = new DataInputStream(socket.getInputStream());
-            Message mensaje;
+            String [] mensaje;
 
-            while(!dis.readBoolean()){
-                mensaje = (Message) ois.readObject();
-                System.out.println("mensaje recibido de : " + mensaje.getNombreUsuario());
+            while(!ois.readBoolean()){
+                System.out.println("hola");
+
+                mensaje =  (String [])ois.readObject();
+
+                System.out.println("mensaje recibido de : " + Arrays.toString(mensaje));
+
 
                 //Se envía los mensajes a todos los conectados qe estén presentes en el chat y en ese gurpo(chat)
-                ArrayList<ChatUsuario> listaUsuarios = new ArrayList<>(Servidor.chatConexiones.get(idGrupo));
-                for (ChatUsuario usuario: listaUsuarios){
-                    System.out.println("mensaje para el grupo:"+usuario.idGrupo);
-                    usuario.enviarMensaje(mensaje);
-                }
+
             }
 
             System.out.println("Cerrado");
+            oos.writeObject(null);
             Servidor.eliminarUsuarioChat(this);
             oos.close();
             ois.close();
             socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        } catch (ClassNotFoundException e) {
+        }  catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void enviarMensaje(Message mensaje) {
+    public void enviarMensaje(String [] mensaje ) {
+        ArrayList<ChatUsuario> listaUsuarios = new ArrayList<>(Servidor.chatConexiones.get(idGrupo));
         try {
-            oos.writeObject(mensaje);
-            oos.flush(); // Asegurar que los datos se envíen
+            for (ChatUsuario usuario: listaUsuarios){
+                System.out.println("mensaje para el grupo:"+usuario.idGrupo);
+                oos.writeObject(mensaje);
+                oos.flush(); // Asegurar que los datos se envíen
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

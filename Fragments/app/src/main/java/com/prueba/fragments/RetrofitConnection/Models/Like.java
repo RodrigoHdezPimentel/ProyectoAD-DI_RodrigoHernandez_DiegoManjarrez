@@ -1,6 +1,8 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
-public class Like {
+import java.io.Serializable;
+
+public class Like implements Serializable {
     private Integer idLike;
     private Integer idPublicacion;
     private Integer idUsuario;

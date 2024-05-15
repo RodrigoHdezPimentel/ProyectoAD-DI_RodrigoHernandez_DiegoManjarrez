@@ -2,6 +2,8 @@ package com.prueba.fragments.Class;
 
 import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 
+import java.io.Serializable;
+
 public class Message {
 
     private Conversacion conversacion;
@@ -13,7 +15,6 @@ public class Message {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
     }
-
     public Conversacion getConversacion() {
         return conversacion;
     }
@@ -25,5 +26,5 @@ public class Message {
     public String getNombreUsuario() {
         return nombreUsuario;
     }
-
 }
+

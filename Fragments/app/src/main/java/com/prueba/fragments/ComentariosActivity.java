@@ -132,7 +132,7 @@ ImageView back;
                 Intent back;
                 if(newPublication.getIdpublirefer() == null){
                     back = new Intent(ComentariosActivity.this, MainActivity.class);
-                    back.putExtra("isRegister", true);
+
                 }else{
                     back = new Intent(ComentariosActivity.this, ComentariosActivity.class);
                     back.putExtra("id", newPublication.getIdpublirefer());
@@ -269,17 +269,6 @@ ImageView back;
 
     }
 
-    public void iconAdd(Boolean gender){
-        if(gender == null){
-            iconUserPublish.setImageResource(R.drawable.ic_app);
-        } else {
-            if (!gender) {
-                iconUserPublish.setImageResource(R.drawable.ic_mujer);
-            } else {
-                iconUserPublish.setImageResource(R.drawable.ic_hombre);
-            }
-        }
-    }
     //visitar el perfil del usuario cuando le das click a la foto de su perfil en la publicacion
     public void visitarPerfil(){
         iconUserPublish.setOnClickListener(new View.OnClickListener() {

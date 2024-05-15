@@ -23,10 +23,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
+import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -68,7 +70,6 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View view) {
                 Intent toMain = new Intent(EditProfile.this, MainActivity.class);
                 toMain.putExtra("numFrgMain", 3);
-                toMain.putExtra("isRegister", true);
                 startActivity(toMain);
             }
         });
@@ -82,7 +83,6 @@ public class EditProfile extends AppCompatActivity {
                 updateUser();
                 Intent toMain = new Intent(EditProfile.this, MainActivity.class);
                 toMain.putExtra("numFrgMain", 3);
-                toMain.putExtra("isRegister", true);
                 startActivity(toMain);
             }
         });
@@ -189,7 +189,7 @@ public class EditProfile extends AppCompatActivity {
 
             progressBar = dialog.findViewById(R.id.progressBar);
             //cargamos los chips del usuarioRegistrado
-            cargarChips(chipGroup);
+            getTemas(chipGroup);
 
             Button cancellButton = dialog.findViewById(R.id.cancellButtonEditTheme);
             Button confirmarButton = dialog.findViewById(R.id.confirmarButtoneEditTheme);
@@ -214,7 +214,7 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
-    public void cargarChips(ChipGroup chipGroup){
+    public void cargarChips(ChipGroup chipGroup, ArrayList<Tema> temas){
 
         Call<List<UsuarioTema>> call = MainActivity.usuarioTemaInterface.getAllTemaFromId(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<UsuarioTema>>() {
@@ -223,19 +223,19 @@ public class EditProfile extends AppCompatActivity {
                 if(response.isSuccessful()){
                     //comparacion de iDTema del user para colocar los ischecked de los chips
 
-                    for (int i = 0; i < Login_SignUP.listaTemas.size(); i++){
+                    for (int i = 0; i < temas.size(); i++){
                         //Personalizacion de los chips
                         Chip newChip = new Chip(EditProfile.this);
                         ChipDrawable chipDrawable = ChipDrawable.createFromAttributes(EditProfile.this, null, 0, com.google.android.material.R.style.Widget_Material3_Chip_Filter);
-                        newChip.setText(Login_SignUP.listaTemas.get(i).getTitulo());
-                        newChip.setText(Login_SignUP.listaTemas.get(i).getTitulo());
-                        newChip.setId(Login_SignUP.listaTemas.get(i).getId());
+                        newChip.setText(temas.get(i).getTitulo());
+                        newChip.setText(temas.get(i).getTitulo());
+                        newChip.setId(temas.get(i).getId());
                         newChip.setChipDrawable(chipDrawable);
 
                         UsuarioTemasIds = response.body();
                         for(int u = 0; u < UsuarioTemasIds.size(); u++){
                             //colocar el ischecked
-                            if(UsuarioTemasIds.get(u).getId().getIdTema() == Login_SignUP.listaTemas.get(i).getId()){
+                            if(UsuarioTemasIds.get(u).getId().getIdTema() == temas.get(i).getId()){
                                 newChip.setChecked(true);
                             }
                         }
@@ -253,6 +253,27 @@ public class EditProfile extends AppCompatActivity {
         });
 
     }
+    public void getTemas(ChipGroup chipGroup){
+        //Se obteine los temas de la database
+        Call<List<Tema>> call = MainActivity.temaInterface.getAll();
+        call.enqueue(new Callback<List<Tema>>() {
+
+            @Override
+            public void onResponse(Call<List<Tema>> call, Response<List<Tema>> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Response err: ", response.message());
+                    return;
+                }
+                   cargarChips(chipGroup, (ArrayList<Tema>) response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Tema>> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void editarTemas(ChipGroup chipGroup){
         //Para que me busque los que no coinciden
         boolean idTemaChipEncontrado;

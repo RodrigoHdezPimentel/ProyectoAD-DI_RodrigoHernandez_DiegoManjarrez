@@ -72,11 +72,11 @@ public class MisTemas extends Fragment {
         //La barra de progreso
         progressBar = view.findViewById(R.id.progressBar);
 
-        getAllPubliacionFromUser(Usuario.getInstance().getId());
+        getAllPubliacionFromUser();
         return view;
     }
 
-    private void getAllPubliacionFromUser(int id) {
+    private void getAllPubliacionFromUser() {
         Call<List<Publicacion>> call = MainActivity.usuarioInterface.getPublicationsFromUserTema(Usuario.getInstance().getId());
         call.enqueue(new Callback<List<Publicacion>>() {
             @Override

@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Conversacion implements Serializable {
+public class Conversacion {
     @Id
     @Column(name = "idconversacion")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

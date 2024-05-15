@@ -97,10 +97,10 @@ public class Login_SignUP extends AppCompatActivity {
                     if(recuerdame.isChecked()){
                         AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
                         AutoLogin.setUserName(Login_SignUP.this, userName.getText().toString());
-                    }
+                        Usuario.getInstance().setAutoLogin(true);
 
+                    }
                     Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
-                    goMain.putExtra("isRegister", true);
                     startActivity(goMain);
                 }else{
                     Toast.makeText(Login_SignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();

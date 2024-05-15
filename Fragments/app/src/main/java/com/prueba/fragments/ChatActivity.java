@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -30,8 +31,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Class.ChatListUser;
 import com.prueba.fragments.Class.Message;
 import com.prueba.fragments.Class.ThreadChat.ConnectionChat;
-import com.prueba.fragments.Class.ThreadChat.ReciveMessage;
-import com.prueba.fragments.Class.ThreadChat.SendMessage;
 import com.prueba.fragments.Class.ThreadChat.oldModel;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatUsersRvAdapter;
@@ -50,8 +49,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
-    SendMessage sendMessageThread;
-    ReciveMessage reciveMessageThread;
+    ConnectionChat connectionChat;
+
 
     public static ArrayList<Integer> idsGrupoUsuarioShareedCodeGroups = new ArrayList<>();
     RecyclerView MyRecyclerView;
@@ -122,11 +121,10 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent listChat = new Intent(ChatActivity.this, MainActivity.class);
-                listChat.putExtra("isRegister", true);
                 listChat.putExtra("numFrgMain", 2);
                 //para detener el hilo
-                reciveMessageThread.interrupt();
-                hiloChat.setHiloEnded(true);
+                connectionChat.setEndChat(true);
+               // hiloChat.setHiloEnded(true);
                 startActivity(listChat);
             }
         });
@@ -246,15 +244,16 @@ public class ChatActivity extends AppCompatActivity {
                 }
                     //Se ecnarga de leer los mensajes que aun estaban sin leer por el user
                     UpdateIdLeido();
-                 ConnectionChat connectionChat = new ConnectionChat();
-                 sendMessageThread = new SendMessage(connectionChat,send,texto,idGrupoUsuario);
-                 reciveMessageThread = new ReciveMessage(connectionChat,adapter);
-                 sendMessageThread.start();
-                 reciveMessageThread.start();
+
+                    connectionChat = new ConnectionChat(send,texto,idGrupoUsuario,adapter);
+                    connectionChat.start();
+
 
                 //Arranco el hilo caundo se carga la conversación
-               // hiloChat = new oldModel(adapter, idGrupo,ChatActivity.this);
-                //hiloChat.start();
+               /*  hiloChat = new oldModel(adapter, idGrupo,ChatActivity.this);
+                hiloChat.start();
+
+                */
             }
 
             @Override
@@ -512,7 +511,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 Toast.makeText(ChatActivity.this, "Saliste del grupo", Toast.LENGTH_SHORT).show();
                 Intent toListChat = new Intent(ChatActivity.this, MainActivity.class);
-                toListChat.putExtra("isRegister", true);
                 startActivity(toListChat);
             }
             @Override
