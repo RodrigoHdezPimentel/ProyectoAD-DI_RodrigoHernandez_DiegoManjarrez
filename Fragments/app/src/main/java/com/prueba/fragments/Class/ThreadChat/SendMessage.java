@@ -20,9 +20,11 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -36,48 +38,43 @@ public class SendMessage extends Thread{
     private final ImageView sendMess;
     private  TextInputEditText text;
     private final Integer idGrupoUsuario;
-    protected String[] mensaje = new String[6];
-    protected ObjectOutputStream oos;
+    protected String[] mensaje;
     private final Socket socket;
     private boolean newMensaje;
 
-    @Override
     public void run() {
 
-       // sendMessage();
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            sendButton();
 
-                try {
-                    oos = new ObjectOutputStream(socket.getOutputStream());
+            while (!ConnectionChat.endChat){
+                    if(newMensaje){
+                        oos.writeBoolean(false);
+                        oos.flush();
 
-                    //CUANDO SE ENVÍA UN MENSAJE VENDRÁ ACOMPAÑADO DEL BOOLEANO FALSE
-                    //CUANDO SALGAMOS DEL CHAT SE ENVIARÁ EL BOOLEANO TRUE PARA
-                    //terminar el bucle (servidor hilo)
+                        Log.d("Entre", Arrays.toString(mensaje));
 
-                    mensaje[0] = "1";
-                    mensaje[1] = "1";
-                    mensaje[2] = "1";
-                    mensaje[3] = "1";
-                    mensaje[4] = Usuario.getInstance().getId().toString();
-                    mensaje[5] = Usuario.getInstance().getName();
+                        oos.writeObject(mensaje);
+                        oos.flush();
 
-                    // new Message(new Conversacion(null,1,"","aasasasas","1"),1,"a");
-                    oos.writeBoolean(false);
-                    oos.flush();
+                        newMensaje=false;
+                    }
 
-                    oos.writeObject(mensaje);
-                    oos.flush();
-
-                    oos.writeBoolean(true);
-                    oos.flush();
-
-                    socket.close();
-                    oos.close();
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
             }
-    public void GuardarConversacion(){
+            oos.writeBoolean(true);
+            oos.flush();
+
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    public void guardarConversacion(){
         Log.d("PRUEBA", "hola 1 ");
         Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), Objects.requireNonNull(text.getText()).toString(),  Usuario.getInstance().getId().toString());
         Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
@@ -88,33 +85,21 @@ public class SendMessage extends Thread{
                     return;
                 }
 
-                new Message(response.body(),Usuario.getInstance().getId(),Usuario.getInstance().getName());
-                try {
-
-                    Log.d("PRUEBA", "hola 3 ");
-
-                    mensaje[0] = response.body().getIdGrupoUsuario().toString();
-                    mensaje[1] = response.body().getFecha();
-                    mensaje[2] = response.body().getIdleido();
-                    mensaje[3] = response.body().getContenido();
-                    mensaje[4] = Usuario.getInstance().getId().toString();
-                    mensaje[5] = Usuario.getInstance().getName();
-
-                  // new Message(new Conversacion(null,1,"","aasasasas","1"),1,"a");
-                    oos.writeBoolean(false);
-                    oos.flush();
-
-                    oos.writeObject(mensaje);
-                    oos.flush();
+                    String[] mensajeToSend = new String[6];
+                    mensajeToSend[0] = response.body().getIdGrupoUsuario().toString();
+                    mensajeToSend[1] = response.body().getFecha();
+                    mensajeToSend[2] = response.body().getContenido();
+                    mensajeToSend[3] = response.body().getIdleido();
+                    mensajeToSend[4] = Usuario.getInstance().getId().toString();
+                    mensajeToSend[5] = Usuario.getInstance().getName();
                     newMensaje = true;
+                    mensaje = Arrays.copyOf(mensajeToSend, mensajeToSend.length);
+                    text.setText("");
 
-                    Log.d("PRUEBA", "hola 4 ");
+//                new Message(response.body(),Usuario.getInstance().getId(),Usuario.getInstance().getName());
+                // Actualizar la interfaz de usuario en el hilo principal
 
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
                 //ACA SE DEBE COLOCAR EL ENVIO DEL MENSAJE AL SERVIDOR SOCKET
-                text.setText("");
             }
             @Override
             public void onFailure(@NonNull Call<Conversacion> call, @NonNull Throwable t) {
@@ -141,10 +126,14 @@ public SendMessage(Socket socket,ImageView sendMess, TextInputEditText text, Int
 
     }
 
-    public void sendMessage(){
+    public void sendButton(){
         sendMess.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {GuardarConversacion();}});
+            public void onClick(View v) {
+                if(!text.getText().toString().isEmpty()){
+                    guardarConversacion();
+                }
+            }});
     }
 
     public ImageView getSendMess() {
@@ -165,13 +154,5 @@ public SendMessage(Socket socket,ImageView sendMess, TextInputEditText text, Int
         return idGrupoUsuario;
     }
 
-
-    public ObjectOutputStream getOos() {
-        return oos;
-    }
-
-    public void setOos(ObjectOutputStream oos) {
-        this.oos = oos;
-    }
 
 }

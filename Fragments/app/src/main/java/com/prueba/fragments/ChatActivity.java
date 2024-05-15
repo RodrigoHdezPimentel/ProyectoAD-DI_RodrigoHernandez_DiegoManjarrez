@@ -50,8 +50,6 @@ import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
     ConnectionChat connectionChat;
-
-
     public static ArrayList<Integer> idsGrupoUsuarioShareedCodeGroups = new ArrayList<>();
     RecyclerView MyRecyclerView;
     Integer idGrupo;
@@ -125,6 +123,7 @@ public class ChatActivity extends AppCompatActivity {
                 //para detener el hilo
                 connectionChat.setEndChat(true);
                // hiloChat.setHiloEnded(true);
+                finish();
                 startActivity(listChat);
             }
         });
@@ -245,7 +244,7 @@ public class ChatActivity extends AppCompatActivity {
                     //Se ecnarga de leer los mensajes que aun estaban sin leer por el user
                     UpdateIdLeido();
 
-                    connectionChat = new ConnectionChat(send,texto,idGrupoUsuario,adapter);
+                    connectionChat = new ConnectionChat(idGrupo,send,texto,idGrupoUsuario,adapter);
                     connectionChat.start();
 
 

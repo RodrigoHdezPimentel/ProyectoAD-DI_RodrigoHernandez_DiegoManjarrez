@@ -1,5 +1,6 @@
 package com.prueba.fragments.Class.ThreadChat;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,44 +20,59 @@ public class ConnectionChat extends Thread{
     private final TextInputEditText text;
     private final Integer idGrupoUsuario;
     private SendMessage sendMessageThread;
+    private Socket socket;
+    private final long IDGRUPO;
     private final ChatRvAdapter chat;
 
 
     public void run(){
 
         try {
-            Socket socket = new Socket(MainActivity.IP, 6565);
+
+            socket = new Socket(MainActivity.IP, 6565);
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             //se envia el idGrupo al servidor
-            dos.writeLong(1L);
+            dos.writeLong(IDGRUPO);
             dos.flush();
+
             sendMessageThread = new SendMessage(socket,sendMess,text,idGrupoUsuario );
             sendMessageThread.start();
             //ReciveMessage reciveMessageThread = new ReciveMessage(socket,chat);
 
 
+            sendMessageThread.join();
+            socket.close();
+            Log.d("KIIIIIIIIII", "run: ");
+
+
 
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
 
     }
-    public ConnectionChat (ImageView sendMess, TextInputEditText text, Integer idGrupoUsuario, ChatRvAdapter chat)  {
+    public ConnectionChat (long IDGRUPO,ImageView sendMess, TextInputEditText text, Integer idGrupoUsuario, ChatRvAdapter chat)  {
+        this.IDGRUPO=IDGRUPO;
         this.sendMess=sendMess;
         this.text=text;
         this.idGrupoUsuario=idGrupoUsuario;
         this.chat=chat;
+        setEndChat(false);
     }
     public boolean isEndChat() {
         return endChat;
     }
 
     public void setEndChat(boolean endChat) {
-        ConnectionChat.endChat = endChat;
+        this.endChat = endChat;
     }
 
     public SendMessage getSendMessageThread() {
         return sendMessageThread;
     }
+
+
 }

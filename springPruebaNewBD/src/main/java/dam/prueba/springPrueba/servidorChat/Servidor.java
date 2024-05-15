@@ -46,9 +46,9 @@ public class Servidor {
         if(!chatConexiones.containsKey(chatUsuario.getIdGrupo())){
             chatConexiones.put(chatUsuario.getIdGrupo(), new ArrayList<>());
             chatConexiones.get(chatUsuario.getIdGrupo()).add(chatUsuario);
-
         }else {
             chatConexiones.get(chatUsuario.getIdGrupo()).add(chatUsuario);
+
         }
     }
 
@@ -57,8 +57,9 @@ public class Servidor {
        if(chatConexiones.containsKey(chatUsuario.getIdGrupo())){
             chatConexiones.get(chatUsuario.getIdGrupo()).remove(chatUsuario);
 
-            if(!chatConexiones.containsKey(chatUsuario.getIdGrupo())){
+            if(chatConexiones.get(chatUsuario.getIdGrupo()).isEmpty()){
                 chatConexiones.remove(chatUsuario.getIdGrupo());
+
             }
        }
 

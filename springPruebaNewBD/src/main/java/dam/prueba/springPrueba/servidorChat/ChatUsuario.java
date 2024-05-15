@@ -39,19 +39,15 @@ public class ChatUsuario extends Thread {
             String [] mensaje;
 
             while(!ois.readBoolean()){
-                System.out.println("hola");
-
-                mensaje =  (String [])ois.readObject();
-
+                mensaje =  (String []) ois.readObject();
                 System.out.println("mensaje recibido de : " + Arrays.toString(mensaje));
 
-
                 //Se envía los mensajes a todos los conectados qe estén presentes en el chat y en ese gurpo(chat)
-
             }
 
             System.out.println("Cerrado");
-            oos.writeObject(null);
+            //oos.writeObject(null);
+//            oos.flush();
             Servidor.eliminarUsuarioChat(this);
             oos.close();
             ois.close();

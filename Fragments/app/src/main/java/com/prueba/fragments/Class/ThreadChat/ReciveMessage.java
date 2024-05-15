@@ -28,7 +28,6 @@ public class ReciveMessage extends Thread{
                 }
             }
             ois.close();
-            socket.close();
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
         }
