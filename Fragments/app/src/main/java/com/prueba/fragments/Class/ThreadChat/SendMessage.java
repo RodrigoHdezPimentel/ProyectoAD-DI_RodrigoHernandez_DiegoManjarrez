@@ -35,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SendMessage extends Thread{
-    private final ImageView sendMess;
+    private ImageView sendMess;
     private  TextInputEditText text;
     private final Integer idGrupoUsuario;
     protected String[] mensaje;
@@ -64,7 +64,7 @@ public class SendMessage extends Thread{
             }
             oos.writeBoolean(true);
             oos.flush();
-
+            oos.close();
 
 
         } catch (IOException e) {
@@ -85,13 +85,14 @@ public class SendMessage extends Thread{
                     return;
                 }
 
-                    String[] mensajeToSend = new String[6];
-                    mensajeToSend[0] = response.body().getIdGrupoUsuario().toString();
-                    mensajeToSend[1] = response.body().getFecha();
-                    mensajeToSend[2] = response.body().getContenido();
-                    mensajeToSend[3] = response.body().getIdleido();
-                    mensajeToSend[4] = Usuario.getInstance().getId().toString();
-                    mensajeToSend[5] = Usuario.getInstance().getName();
+                    String[] mensajeToSend = new String[7];
+                    mensajeToSend[0] = response.body().getIdConversacion().toString();
+                    mensajeToSend[1] = response.body().getIdGrupoUsuario().toString();
+                    mensajeToSend[2] = response.body().getFecha();
+                    mensajeToSend[3] = response.body().getContenido();
+                    mensajeToSend[4] = response.body().getIdleido();
+                    mensajeToSend[5] = Usuario.getInstance().getId().toString();
+                    mensajeToSend[6] = Usuario.getInstance().getName();
                     newMensaje = true;
                     mensaje = Arrays.copyOf(mensajeToSend, mensajeToSend.length);
                     text.setText("");

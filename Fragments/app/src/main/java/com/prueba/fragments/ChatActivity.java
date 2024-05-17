@@ -122,8 +122,7 @@ public class ChatActivity extends AppCompatActivity {
                 listChat.putExtra("numFrgMain", 2);
                 //para detener el hilo
                 connectionChat.setEndChat(true);
-               // hiloChat.setHiloEnded(true);
-                finish();
+                //hiloChat.setHiloEnded(true);
                 startActivity(listChat);
             }
         });
@@ -247,12 +246,12 @@ public class ChatActivity extends AppCompatActivity {
                     connectionChat = new ConnectionChat(idGrupo,send,texto,idGrupoUsuario,adapter);
                     connectionChat.start();
 
-
+/*
                 //Arranco el hilo caundo se carga la conversación
-               /*  hiloChat = new oldModel(adapter, idGrupo,ChatActivity.this);
+                 hiloChat = new oldModel(adapter, idGrupo,ChatActivity.this);
                 hiloChat.start();
+*/
 
-                */
             }
 
             @Override

@@ -24,10 +24,8 @@ public class Servidor {
                 dis = new DataInputStream(socketCliente.getInputStream());
 
                 long idGrupo = dis.readLong();
-                System.out.println("Hola, mundo!");
 
                 ChatUsuario newHilo = new ChatUsuario(socketCliente,idGrupo);
-                System.out.println("Hola, mundo!");
 
                 agregarUsuarioChat(newHilo);
 //                System.out.println("mensaje recibido de : " + mensaje.getNombreUsuario());

@@ -16,11 +16,9 @@ import java.net.Socket;
 
 public class ConnectionChat extends Thread{
     public static boolean endChat;
-    private ImageView sendMess;
+    private final ImageView sendMess;
     private final TextInputEditText text;
     private final Integer idGrupoUsuario;
-    private SendMessage sendMessageThread;
-    private Socket socket;
     private final long IDGRUPO;
     private final ChatRvAdapter chat;
 
@@ -29,26 +27,24 @@ public class ConnectionChat extends Thread{
 
         try {
 
-            socket = new Socket(MainActivity.IP, 6565);
+            Socket socket = new Socket(MainActivity.IP, 6565);
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             //se envia el idGrupo al servidor
             dos.writeLong(IDGRUPO);
             dos.flush();
 
-            sendMessageThread = new SendMessage(socket,sendMess,text,idGrupoUsuario );
-            sendMessageThread.start();
-            //ReciveMessage reciveMessageThread = new ReciveMessage(socket,chat);
+            SendMessage sendMessageThread = new SendMessage(socket,sendMess,text,idGrupoUsuario );
+            ReciveMessage reciveMessageThread = new ReciveMessage(socket,chat);
 
+            sendMessageThread.start();
+            reciveMessageThread.start();
 
             sendMessageThread.join();
             socket.close();
-            Log.d("KIIIIIIIIII", "run: ");
 
 
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
@@ -69,10 +65,5 @@ public class ConnectionChat extends Thread{
     public void setEndChat(boolean endChat) {
         this.endChat = endChat;
     }
-
-    public SendMessage getSendMessageThread() {
-        return sendMessageThread;
-    }
-
 
 }
