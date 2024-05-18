@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.33","10.94.30.45"};
     static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251", "192.168.243.6"};//clase-casa-movil
 
-    public static String IP = IP_DIEGO[1];
+    public static String IP = IP_DIEGO[0];
     FrameLayout frameLayout;
     TabLayout tabLayout;
 
