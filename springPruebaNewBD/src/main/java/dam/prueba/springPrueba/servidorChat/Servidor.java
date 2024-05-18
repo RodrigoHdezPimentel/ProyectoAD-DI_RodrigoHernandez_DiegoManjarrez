@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Servidor {
 
@@ -32,6 +33,12 @@ public class Servidor {
 
                 newHilo.start();
                 System.out.println("Hola, mundo!");
+                for (Map.Entry<Long, ArrayList<ChatUsuario>> entry : chatConexiones.entrySet()) {
+                    Long id = entry.getKey();
+                    System.out.println("chat: "+id);
+                        System.out.println("usuarios: "+entry.getValue().size());
+
+                }
 
 
             }

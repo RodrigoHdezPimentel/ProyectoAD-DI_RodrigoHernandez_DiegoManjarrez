@@ -40,14 +40,14 @@ public class ConnectionChat extends Thread{
             reciveMessageThread.start();
 
             sendMessageThread.join();
+            reciveMessageThread.join();
             socket.close();
-
 
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
+        Log.d("HILO", "run: MUERTO");
 
     }
     public ConnectionChat (long IDGRUPO,ImageView sendMess, TextInputEditText text, Integer idGrupoUsuario, ChatRvAdapter chat)  {

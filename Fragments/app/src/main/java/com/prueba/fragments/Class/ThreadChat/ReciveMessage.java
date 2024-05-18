@@ -14,6 +14,7 @@ import com.prueba.fragments.RetrofitConnection.Models.Conversacion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 
 public class ReciveMessage extends Thread{
@@ -26,22 +27,24 @@ public class ReciveMessage extends Thread{
 
         try {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                    while (!ConnectionChat.endChat) {
+                        try {
+                        if ((respuesta = (String[]) ois.readObject()) != null) {
+                            Log.d("LLEGO", "hola");
 
-            while (!ConnectionChat.endChat){
+                            handler.post(() -> chat.mensajeNuevo(new Message(new Conversacion(
+                                    Integer.valueOf(respuesta[0]), Integer.valueOf(respuesta[1]),
+                                    respuesta[2], respuesta[3], respuesta[4]),
+                                    Integer.valueOf(respuesta[5]), respuesta[6])));
 
-                if((respuesta = (String[]) ois.readObject()) != null){
-                    Log.d("LLEGO", "hola");
-
-                   handler.post(()-> chat.mensajeNuevo(new Message(new Conversacion(
-                            Integer.valueOf(respuesta[0]), Integer.valueOf(respuesta[1]),
-                            respuesta[2], respuesta[3], respuesta[4]),
-                            Integer.valueOf(respuesta[5]),respuesta[6])));
-                  //  chat.mensajeNuevo(new Message(new Conversacion(1,1,"22","sss","2"),2,"hola"));
-                    // Message message = new Message((new Conversacion(1,1,"22","sss","2"),2,"hola"));
-                }
-
-
+                                   }
+                        }catch (SocketException e) {
+                            break;
+                    }
+                //ME CANSË DE INTENTARLO DURANTE 5 HORAS
             }
+
+
             Log.d("SALIDO", "siuuuuuuuuuuuu");
             ois.close();
         } catch (ClassNotFoundException | IOException e) {
