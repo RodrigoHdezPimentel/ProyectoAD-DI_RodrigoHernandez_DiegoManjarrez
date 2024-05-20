@@ -92,7 +92,11 @@ public class Login_SignUP extends AppCompatActivity {
                 }
                 Usuario userData = response.body();
                 if(userData != null){
-                    Usuario.setInstance(userData);
+                    if (userData.getFechaBaja() == null){
+                        Usuario.setInstance(userData);
+                    }else{
+                        Toast.makeText(Login_SignUP.this, "La cuenta no existe", Toast.LENGTH_SHORT).show();
+                    }
 
                     if(recuerdame.isChecked()){
                         AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
@@ -137,17 +141,17 @@ public class Login_SignUP extends AppCompatActivity {
     }
     //Cargo los diferentes idiomas que tenemos hasta ahora
     public void cargarIdioma(){
-    listLanguages = findViewById(R.id.listaLanguages);
-    LanguageItemAdapter languageAdapter = new LanguageItemAdapter(Login_SignUP.this);
-    listLanguages.setAdapter(languageAdapter);
-    listLanguages.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            // actualizamos el idioma del elemento seleccionado
-            setAppLanguage(parent.getItemAtPosition(position).toString().toLowerCase());
+        listLanguages = findViewById(R.id.listaLanguages);
+        LanguageItemAdapter languageAdapter = new LanguageItemAdapter(Login_SignUP.this);
+        listLanguages.setAdapter(languageAdapter);
+        listLanguages.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // actualizamos el idioma del elemento seleccionado
+                setAppLanguage(parent.getItemAtPosition(position).toString().toLowerCase());
 
-        }
-        @Override
+            }
+            @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
         }

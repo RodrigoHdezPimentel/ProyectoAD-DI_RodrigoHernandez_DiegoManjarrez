@@ -42,9 +42,9 @@ public class UsuarioController {
         return usuarioService.updateUsuario(usuario);
     }
 
-    @DeleteMapping("/deleteById/{id}")
-    public Boolean deleteUsuario(@PathVariable Integer id){
-        return usuarioService.deleteUsuario(id);
+    @DeleteMapping("/deleteById/{id}/{fecha}")
+    public void deleteUsuario(@PathVariable Integer id, @PathVariable String fecha){
+        usuarioService.deleteUsuario(id, fecha);
     }
 
     //-----------------------------COLOCAR EL NOMBRE DE LA FOTO A TODOS LOS USER EN LA DB------------------------------------------------//

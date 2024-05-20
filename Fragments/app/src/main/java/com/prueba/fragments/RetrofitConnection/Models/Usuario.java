@@ -21,7 +21,7 @@ public class Usuario implements Serializable {
     private String mail;
     private String pass;
     private String foto;
-
+    private String fechabaja;
     private boolean autoLogin;
 
     public Usuario(Integer idusuario, Integer year, String name, boolean genero, String descripcion, String mail, String pass,String foto) {
@@ -134,6 +134,9 @@ public class Usuario implements Serializable {
 
     public boolean isAutoLogin() {
         return autoLogin;
+    }
+    public String getFechaBaja(){
+        return fechabaja;
     }
 
     public void setAutoLogin(boolean autoLogin) {

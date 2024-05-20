@@ -30,9 +30,8 @@ public class UsuarioService {
     public Usuario updateUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
     }
-    public Boolean deleteUsuario(Integer id){
-        usuarioRepository.deleteById(id);
-        return usuarioRepository.findById(id).isEmpty();
+    public void deleteUsuario(Integer id, String fecha){
+        usuarioRepository.deleteUsuario(id, fecha);
     }
     public List<String> getByName(String nombre) {
        return usuarioRepository.getByNombre(nombre);

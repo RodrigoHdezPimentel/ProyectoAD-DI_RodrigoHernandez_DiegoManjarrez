@@ -1,5 +1,6 @@
 package com.prueba.fragments;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,6 +21,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.prueba.fragments.Class.AutoLogin;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
@@ -28,8 +30,12 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -123,23 +129,36 @@ public class EditProfile extends AppCompatActivity {
         });
 
     }
+    public String getDateSpain(){
+        Date date = new Date();
+        //Zona
+        TimeZone tz = TimeZone.getTimeZone("Europe/Madrid");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(tz);
+
+        return sdf.format(date).toString();
+
+    }
 
     public void deleteUser(){
-        Call<Boolean> call = MainActivity.usuarioInterface.delete(Usuario.getInstance().getId());
-        call.enqueue(new Callback<Boolean>() {
+        Call<Void> call = MainActivity.usuarioInterface.delete(Usuario.getInstance().getId(), getDateSpain());
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(EditProfile.this, "Error en la Respuesta", Toast.LENGTH_SHORT).show();
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(EditProfile.this, "error", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(EditProfile.this, response.body().toString(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(EditProfile.this, "Cuenta eliminada", Toast.LENGTH_SHORT).show();
+                Usuario.setInstance(null);
+                AutoLogin.setUserName(EditProfile.this, null);
+                AutoLogin.setPrefUserPass(EditProfile.this, null);
+                Intent toListChat = new Intent(EditProfile.this, Login_SignUP.class);
+                startActivity(toListChat);
             }
-
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Log.e("Thorw err: ", t.getMessage());
+            public void onFailure(Call<Void> call, Throwable t) {
             }
         });
     }

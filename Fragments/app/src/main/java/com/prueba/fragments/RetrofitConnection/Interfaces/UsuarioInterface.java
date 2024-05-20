@@ -41,7 +41,7 @@ public interface UsuarioInterface {
 
     @GET("userLikedPublish/{idU}/{idP}")
     Call <Boolean> userLikedPublish(@Path("idU") Integer idU, @Path("idP") Integer idP);
-    @DELETE("deleteById/{id}")
-    Call<Boolean> delete(@Path("id") Integer id);
+    @DELETE("deleteById/{id}/{fecha}")
+    Call<Void> delete(@Path("id") Integer id, @Path("fecha") String fecha);
 
 }
