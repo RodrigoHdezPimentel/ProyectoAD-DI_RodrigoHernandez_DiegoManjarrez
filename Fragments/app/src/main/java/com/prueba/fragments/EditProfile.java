@@ -108,6 +108,17 @@ public class EditProfile extends AppCompatActivity {
                 con.setAlpha(0.5f);
                 showDialogThemes();}
         });
+        Button logOut = findViewById(R.id.logOutBut);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Usuario.setInstance(null);
+                AutoLogin.setUserName(EditProfile.this, null);
+                AutoLogin.setPrefUserPass(EditProfile.this, null);
+                Intent toListChat = new Intent(EditProfile.this, Login_SignUP.class);
+                startActivity(toListChat);
+            }
+        });
     }
 
     public void updateUser(){
