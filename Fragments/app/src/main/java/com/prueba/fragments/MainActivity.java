@@ -20,6 +20,8 @@ import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Fragments.MainFragment.Publish;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.LikeInterface;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     public static Retrofit retrofitConversacion;
     public static Retrofit retrofitGrupo;
     public static Retrofit retrofitGrupoUsuario;
+    public static Retrofit retrofitFile;
+    public static FileInterface fileInterface;
     public static ConversacionInterface conversacionInterface;
     public static GrupoInterface grupoInterface;
     public static GrupoUsuarioInterface grupoUsuarioInterface;
@@ -69,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        retrofitFile = new Retrofit.Builder()
+                .baseUrl("http://" + IP +":8086/file/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         retrofitPublicacion = new Retrofit.Builder()
                 .baseUrl("http://" + IP +":8086/publicacion/")
@@ -102,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl("http://" + IP +":8086/grupoUsuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        fileInterface = retrofitFile.create(FileInterface.class);
         conversacionInterface = retrofitConversacion.create(ConversacionInterface.class);
         grupoUsuarioInterface = retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         grupoInterface = retrofitGrupo.create(GrupoInterface.class);

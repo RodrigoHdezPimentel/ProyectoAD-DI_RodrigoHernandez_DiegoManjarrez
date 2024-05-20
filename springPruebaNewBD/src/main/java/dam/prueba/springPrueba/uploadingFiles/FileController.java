@@ -16,14 +16,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Controller
 @RequestMapping("/file")
 
 public class FileController {
+    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     private final StorageService storageService;
 
@@ -61,11 +64,35 @@ public class FileController {
         return ResponseEntity.ok("Archivo subido correctamente");
         // Resource newFile = storageService.loadAsResource(fileName);
     }
-    @PostMapping("/saveImage")
+    @PostMapping("/saveImagePC")
     public ResponseEntity<String> saveImage(@RequestParam("image") MultipartFile file) {
      storageService.storeImage(file);
         return ResponseEntity.ok("Archivo subido correctamente");
      // Resource newFile = storageService.loadAsResource(fileName);
+    }
+    @PostMapping("/saveImageApp")
+    public ResponseEntity<String> saveImageApp(@RequestParam("image") MultipartFile file) {
+        logger.info("Solicitud recibida para guardar la imagen: {}", file.getOriginalFilename());
+        try {
+            storageService.storeImage(file);
+            return ResponseEntity.ok("Archivo subido correctamente");
+        } catch (Exception e) {
+            logger.error("Error al guardar la imagen", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la imagen");
+        }
+    }
+    @GetMapping("/prueba")
+    @ResponseBody
+    public String prueba() throws IOException {
+
+        File fi = new File("hola1.png");
+        if(!fi.exists()){
+            fi.createNewFile();
+        }
+        storageService.storeImageApp(fi);
+
+        return "SIIIIIUUUUUUUUUUUUU";
+        // Resource newFile = storageService.loadAsResource(fileName);
     }
        @PostMapping("/save")
     public ResponseEntity<String> saveFile(@RequestParam("file") MultipartFile file) {

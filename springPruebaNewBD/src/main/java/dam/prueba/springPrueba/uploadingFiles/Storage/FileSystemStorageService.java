@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -87,6 +88,34 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Failed to store file.", e);
         }
     }
+    @Override
+    public void storeImageApp(File file) {
+        try {
+            if (!file.exists()) {
+                throw new StorageException("Archivo no encontrado");
+            }
+            String fileName = UUID.randomUUID().toString();
+//        Para ponerle un nombre únicopara que n haya archivos con los nombre iguales o que se sobreescriba
+            String fileExtension = getFileExtensionApp(file);
+
+//        guardamos el archivo en la ruta
+            Path destinationFile = this.rootLocation.resolve(
+                            Paths.get(fileName + fileExtension))
+                    .normalize().toAbsolutePath();
+
+
+//        Para verificar la ubicacion del archivo
+            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+                // This is a security check
+                throw new StorageException(
+                        "Cannot store file outside current directory.");
+            }
+                Files.copy(file.toPath(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
+
+        }catch (IOException e) {
+            throw new StorageException("Failed to store file.", e);
+        }
+    }
     private static String getFileExtension(MultipartFile file) {
         String fileOriginalName = file.getOriginalFilename();
 
@@ -101,6 +130,21 @@ public class FileSystemStorageService implements StorageService {
         //Le Ponemos el nombre del archivo con un identificadro unico usando el UUID
         return fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
     }
+    private static String getFileExtensionApp(File file) {
+        String fileOriginalName = file.getName();
+
+        if (!(
+                fileOriginalName.endsWith(".jpeg") ||
+                        fileOriginalName.endsWith(".jpg") ||
+                        fileOriginalName.endsWith(".png")
+        )) {
+            throw new StorageException("Only JPG, JPEG, PNG files are allowed!");
+        }
+
+        //Le Ponemos el nombre del archivo con un identificadro unico usando el UUID
+        return fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+    }
+
 
     @Override
     public Stream<Path> loadAll() {
@@ -119,7 +163,6 @@ public class FileSystemStorageService implements StorageService {
     public Path load(String filename) {
         return rootLocation.resolve(filename);
     }
-
     @Override
     public Resource loadAsResource(String filename) {
         try {

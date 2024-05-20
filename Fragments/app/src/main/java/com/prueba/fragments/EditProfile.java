@@ -1,11 +1,15 @@
 package com.prueba.fragments;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,16 +25,25 @@ import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
-import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
-import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
+
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
+import org.springframework.http.ResponseEntity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +59,7 @@ public class EditProfile extends AppCompatActivity {
     //los ids de los temas que ya tiene el usaurio regsitrado en la tabla
     List<UsuarioTema> UsuarioTemasIds;
     ImageView fotoPerfil;
+    ImageView updateFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +70,15 @@ public class EditProfile extends AppCompatActivity {
         password = findViewById(R.id.inputPasswordUpdate);
         descripcion = findViewById(R.id.inputDescripcionUpdate);
         fotoPerfil = findViewById(R.id.fotoEditProfle);
-
+        updateFoto = findViewById(R.id.updatePicture);
         //se rellena los datos en los texView
         userName.setText(Usuario.getInstance().getName());
         password.setText(Usuario.getInstance().getPass());
         descripcion.setText(Usuario.getInstance().getDescripcion());
 
         MainActivity.addPicture(fotoPerfil, EditProfile.this,Profile.perfil.getFoto());
+        cambiarFoto();
+
 
         ImageView back = findViewById(R.id.backEditProfile);
         back.setOnClickListener(new View.OnClickListener() {
@@ -354,4 +370,78 @@ public class EditProfile extends AppCompatActivity {
         });
 
     }
+
+    // PARA ESCOGER UNAFOTO DESDE LA GALERIA DEL MOVIL
+    public void cambiarFoto() {
+        ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    if (uri != null) {
+                        Log.d("PhotoPicker", "Selected URI: " + uri);
+                        fotoPerfil.setImageURI(uri);
+
+                        try {
+                            actualizarFotoUser(getFileFromUri(uri));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    } else {
+                        Log.d("PhotoPicker", "No media selected");
+                    }
+                });
+        updateFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
+        });
+    }
+
+    // Convierte la imagen seleccionada en un archivo
+    private File getFileFromUri(Uri uri) throws IOException {
+        File file = new File(getCacheDir(), "temp_image");
+        try (InputStream inputStream = getContentResolver().openInputStream(uri);
+             OutputStream outputStream = new FileOutputStream(file)) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+        }
+        return file;
+    }
+
+    // Actualiza la foto del usuario en el servidor
+    // Actualiza la foto del usuario en el servidor
+    public void actualizarFotoUser(File file) {
+        // Crear un RequestBody de archivo
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part está utilizado para enviar el archivo real con su nombre
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+        // Realizar la llamada a Retrofit
+        Call<String> call = MainActivity.fileInterface.saveImageApp(body);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Upload", "Success: " + response.body());
+                    Toast.makeText(EditProfile.this, response.body() + " VAMOOOS", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d("Upload", "Failed: " + response.message());
+                    Toast.makeText(EditProfile.this, " NOOOOOOOO", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("Upload error:", t.getMessage());
+            }
+        });
+    }
+
 }
