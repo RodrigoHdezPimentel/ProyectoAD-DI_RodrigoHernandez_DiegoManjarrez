@@ -8,6 +8,7 @@
     tools:context=".EditProfile">
 
 
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -25,40 +26,34 @@
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:padding="7dp"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tituloEditProfile"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/caviardreams"
             android:gravity="center"
-            android:padding="7dp"
+
             android:text="@string/app_name"
             android:textSize="25sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/check"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:padding="4dp"
-            android:src="@drawable/check"
-            app:tint="@color/black" />
+
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fotoEditProfle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="30dp"
+        android:layout_width="200dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/ic_hombre"
         app:civ_border_color="@color/black"
         app:civ_border_width="1dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline19"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline26"
+        app:layout_constraintStart_toStartOf="@+id/guideline24"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -157,6 +152,9 @@
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+
+        android:text="@string/boton_eliminar_cuenta"
+        android:textColor="@color/button_Cancelar"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
         android:text="@string/boton_eliminar_cuenta"
@@ -164,7 +162,36 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline26"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline24"
-        app:layout_constraintTop_toBottomOf="@+id/logOutBut" />
+
+        app:layout_constraintTop_toBottomOf="@+id/editTemasProfile" />
+    <Button
+        android:id="@+id/buttonCancellUpdates"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/boton_cancelar"
+        android:visibility="invisible"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline26"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/guideline24"
+        app:layout_constraintTop_toBottomOf="@+id/editTemasProfile" />
+
+    <Button
+        android:id="@+id/buttonConfirmarUpdates"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:text="@string/boton_confirmar"
+        app:layout_constraintBottom_toTopOf="@+id/deleteBut"
+        app:layout_constraintEnd_toStartOf="@+id/guideline26"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/guideline24"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText4" />
 
 
     <Button
@@ -194,6 +221,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.8" />
+
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoEditProfle"
+        app:layout_constraintEnd_toEndOf="@+id/fotoEditProfle"
+>
+
+        <!-- Fondo circular -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/circle_bc_ic_camera"
+            android:scaleType="centerCrop" />
+
+        <!-- Imagen superpuesta -->
+        <ImageView
+            android:id="@+id/updatePicture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/update_foto_3"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

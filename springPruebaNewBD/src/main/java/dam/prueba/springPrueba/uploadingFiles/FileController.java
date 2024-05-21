@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.uploadingFiles;
 
+import dam.prueba.springPrueba.controllers.UsuarioController;
 import dam.prueba.springPrueba.models.Conversacion;
 import dam.prueba.springPrueba.uploadingFiles.Storage.StorageFileNotFoundException;
 import dam.prueba.springPrueba.uploadingFiles.Storage.StorageService;
@@ -16,10 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Controller
 @RequestMapping("/file")
 
@@ -61,11 +65,38 @@ public class FileController {
         return ResponseEntity.ok("Archivo subido correctamente");
         // Resource newFile = storageService.loadAsResource(fileName);
     }
-    @PostMapping("/saveImage")
+    @PostMapping("/saveImagePC")
     public ResponseEntity<String> saveImage(@RequestParam("image") MultipartFile file) {
      storageService.storeImage(file);
         return ResponseEntity.ok("Archivo subido correctamente");
      // Resource newFile = storageService.loadAsResource(fileName);
+    }
+    @PostMapping("/saveImageApp")
+    public ResponseEntity<String> saveImageApp(@RequestParam("image") MultipartFile file) {
+        return ResponseEntity.ok(storageService.saveImageApp(file));
+
+    }
+
+    @DeleteMapping("/deleteImage/{namePhoto}")
+    public ResponseEntity<String> deleteImage (@PathVariable String namePhoto) throws IOException {
+        Resource file = storageService.loadAsResource(namePhoto);
+        if (file == null){
+            return ResponseEntity.notFound().build();
+        }
+        file.getFile().delete();
+        return ResponseEntity.ok("borrado exitosamente");
+    }
+    @GetMapping("/prueba")
+    @ResponseBody
+    public String prueba() throws IOException {
+
+        File fi = new File("hola1.png");
+        if(!fi.exists()){
+            fi.createNewFile();
+        }
+
+        return "SIIIIIUUUUUUUUUUUUU";
+        // Resource newFile = storageService.loadAsResource(fileName);
     }
        @PostMapping("/save")
     public ResponseEntity<String> saveFile(@RequestParam("file") MultipartFile file) {

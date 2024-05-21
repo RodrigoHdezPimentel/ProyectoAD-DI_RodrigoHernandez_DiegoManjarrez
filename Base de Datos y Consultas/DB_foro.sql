@@ -278,7 +278,7 @@ END;
 DELIMITER ;
 
 UPDATE conversaciones set idLeido = "0";
-UPDATE grupos set foto = "ic_grupo_app.png" WHERE codigo is not null; 
+UPDATE grupos set foto = "ic_grupo_app.jpg" WHERE codigo is not null; 
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

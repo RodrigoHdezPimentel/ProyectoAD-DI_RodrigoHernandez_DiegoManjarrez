@@ -52,6 +52,7 @@ public class UsuarioController {
     public void fotosUsuarios(@PathVariable Integer idU,@PathVariable String image){
       usuarioService.fotosUsuarios(idU, image);
     }
+
     @GetMapping("/fotosUsuarios/actualizar")
     public String colocarFotos(){
         int numId=0;

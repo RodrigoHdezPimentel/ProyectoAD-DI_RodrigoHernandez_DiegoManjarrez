@@ -20,6 +20,8 @@ import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Fragments.MainFragment.Publish;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.LikeInterface;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static Retrofit retrofitConversacion;
     public static Retrofit retrofitGrupo;
     public static Retrofit retrofitGrupoUsuario;
+
     public static ConversacionInterface conversacionInterface;
     public static GrupoInterface grupoInterface;
     public static GrupoUsuarioInterface grupoUsuarioInterface;
@@ -61,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
     static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.33","10.94.30.45"};
     static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251", "192.168.243.6"};//clase-casa-movil
 
-    public static String IP = IP_RODRIGO[1];
+
+    public static String IP = IP_DIEGO[2];
     FrameLayout frameLayout;
     TabLayout tabLayout;
 
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         retrofitPublicacion = new Retrofit.Builder()
                 .baseUrl("http://" + IP +":8086/publicacion/")
@@ -102,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl("http://" + IP +":8086/grupoUsuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         conversacionInterface = retrofitConversacion.create(ConversacionInterface.class);
         grupoUsuarioInterface = retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         grupoInterface = retrofitGrupo.create(GrupoInterface.class);
@@ -114,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         if(Usuario.getInstance().getId() == null){
             if (AutoLogin.getUserName(MainActivity.this).isEmpty()) {
                 //Si no hay registro previo, va a login
-                Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
                 Intent toLogin = new Intent(this, Login_SignUP.class);
                 startActivity(toLogin);
             } else {

@@ -48,6 +48,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE Usuario u SET u.foto = ?2 WHERE u.idusuario = ?1")
-    void fotosUsuarios(Integer idU, String image);
+    void fotoUsuario(Integer idU, String image);
     //--------------------------------------------------------------------
 }

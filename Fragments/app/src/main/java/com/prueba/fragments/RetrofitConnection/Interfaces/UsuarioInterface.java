@@ -3,6 +3,7 @@ package com.prueba.fragments.RetrofitConnection.Interfaces;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,5 +44,10 @@ public interface UsuarioInterface {
     Call <Boolean> userLikedPublish(@Path("idU") Integer idU, @Path("idP") Integer idP);
     @DELETE("deleteById/{id}/{fecha}")
     Call<Void> delete(@Path("id") Integer id, @Path("fecha") String fecha);
+
+    @PUT("fotosUsuarios/{idU}/{image}")
+    Call<Void> updateFotoUser(@Path("idU") Integer id, @Path("image") String image);
+
+
 
 }
