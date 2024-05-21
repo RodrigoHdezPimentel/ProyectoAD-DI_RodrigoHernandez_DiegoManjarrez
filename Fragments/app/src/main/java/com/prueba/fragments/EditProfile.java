@@ -63,7 +63,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class EditProfile extends AppCompatActivity {
     TextInputEditText userName, password, descripcion;
-    Button botonConfirmarCambios, botonCancelarCambios, botonUpdateTema, botoDeleteCuenta;
+    Button botonConfirmarCambios, botonCancelarCambios, botonUpdateTema,
+            botoDeleteCuenta, buttonLoginOut;
     FileInterface fileInterface;
     ConstraintLayout con;
     ProgressBar progressBar;
@@ -89,6 +90,7 @@ public class EditProfile extends AppCompatActivity {
         botonUpdateTema = findViewById(R.id.editTemasProfile);
         botonConfirmarCambios = findViewById(R.id.buttonConfirmarUpdates);
         botonCancelarCambios = findViewById(R.id.buttonCancellUpdates);
+        buttonLoginOut = findViewById(R.id.logOutBut);
 
         //se rellena los datos en los texView
         userName.setText(Usuario.getInstance().getName());
@@ -185,6 +187,17 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
                 deshabilitarBotonesCambios();
                 restaurarValoresOriginales();
+            }
+        });
+        buttonLoginOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+                Usuario.setInstance(null);
+                AutoLogin.setUserName(EditProfile.this, null);
+                AutoLogin.setPrefUserPass(EditProfile.this, null);
+                Intent toListChat = new Intent(EditProfile.this, Login_SignUP.class);
+                startActivity(toListChat);
             }
         });
     }

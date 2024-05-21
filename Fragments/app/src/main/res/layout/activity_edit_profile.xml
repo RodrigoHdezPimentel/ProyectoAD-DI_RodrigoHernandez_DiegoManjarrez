@@ -199,7 +199,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:text="Cerrar sesion"
+        android:text="@string/boton_cerrar_sesion"
         app:layout_constraintBottom_toTopOf="@+id/deleteBut"
         app:layout_constraintEnd_toStartOf="@+id/guideline26"
         app:layout_constraintHorizontal_bias="0.0"

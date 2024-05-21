@@ -11,6 +11,7 @@
     <string name="resgistro_mensaje">Seleccione los temas que te gustan</string>
     <string name="boton_iniciar_sesion" >Iniciar sesión</string>
     <string name="boton_resgistrarse" >Resgistrarse</string>
+    <string name="boton_cerrar_sesion" >Cerrar sesión</string>
 
     <string name="mis_temas">Mis temas</string>
     <string name="tendencias">Tendencias</string>
