@@ -152,12 +152,10 @@
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:text="@string/boton_eliminar_cuenta"
         android:textColor="@color/button_Cancelar"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:text="@string/boton_eliminar_cuenta"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline26"
         app:layout_constraintHorizontal_bias="0.5"

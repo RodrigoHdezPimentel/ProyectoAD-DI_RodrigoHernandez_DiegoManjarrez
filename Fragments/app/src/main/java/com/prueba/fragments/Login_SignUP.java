@@ -94,18 +94,17 @@ public class Login_SignUP extends AppCompatActivity {
                 if(userData != null){
                     if (userData.getFechaBaja() == null){
                         Usuario.setInstance(userData);
+
+                        if(recuerdame.isChecked()){
+                            AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
+                            AutoLogin.setUserName(Login_SignUP.this, userName.getText().toString());
+                            Usuario.getInstance().setAutoLogin(true);
+                        }
+                        Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
+                        startActivity(goMain);
                     }else{
                         Toast.makeText(Login_SignUP.this, "La cuenta no existe", Toast.LENGTH_SHORT).show();
                     }
-
-                    if(recuerdame.isChecked()){
-                        AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
-                        AutoLogin.setUserName(Login_SignUP.this, userName.getText().toString());
-                        Usuario.getInstance().setAutoLogin(true);
-
-                    }
-                    Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
-                    startActivity(goMain);
                 }else{
                     Toast.makeText(Login_SignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();
                 }
