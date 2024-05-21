@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         if(Usuario.getInstance().getId() == null){
             if (AutoLogin.getUserName(MainActivity.this).isEmpty()) {
                 //Si no hay registro previo, va a login
-                Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
                 Intent toLogin = new Intent(this, Login_SignUP.class);
                 startActivity(toLogin);
             } else {

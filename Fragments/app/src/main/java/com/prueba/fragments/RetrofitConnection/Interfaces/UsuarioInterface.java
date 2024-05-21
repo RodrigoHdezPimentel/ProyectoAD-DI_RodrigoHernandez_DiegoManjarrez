@@ -3,11 +3,7 @@ package com.prueba.fragments.RetrofitConnection.Interfaces;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;

@@ -11,6 +11,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.prueba.fragments.Class.AutoLogin;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 
 import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
@@ -32,7 +35,6 @@ import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTemaFK;
 
-import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,19 +55,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class EditProfile extends AppCompatActivity {
-    TextInputEditText userName;
-    TextInputEditText password;
-    TextInputEditText descripcion;
+    TextInputEditText userName, password, descripcion;
+    Button botonConfirmarCambios, botonCancelarCambios, botonUpdateTema, botoDeleteCuenta;
     FileInterface fileInterface;
-
-
-    //para el fondo de la activity
     ConstraintLayout con;
     ProgressBar progressBar;
     //los ids de los temas que ya tiene el usaurio regsitrado en la tabla
     List<UsuarioTema> UsuarioTemasIds;
-    ImageView fotoPerfil;
-    ImageView updateFoto;
+    ImageView fotoPerfil, updateFoto, back;
+    String originalUserName, originalPassword, originalDescripcion;
+    TextWatcher textWatcher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,54 +77,29 @@ public class EditProfile extends AppCompatActivity {
         descripcion = findViewById(R.id.inputDescripcionUpdate);
         fotoPerfil = findViewById(R.id.fotoEditProfle);
         updateFoto = findViewById(R.id.updatePicture);
+        back = findViewById(R.id.backEditProfile);
+        botoDeleteCuenta = findViewById(R.id.deleteBut);
+        botonUpdateTema = findViewById(R.id.editTemasProfile);
+        botonConfirmarCambios = findViewById(R.id.buttonConfirmarUpdates);
+        botonCancelarCambios = findViewById(R.id.buttonCancellUpdates);
+
         //se rellena los datos en los texView
         userName.setText(Usuario.getInstance().getName());
         password.setText(Usuario.getInstance().getPass());
         descripcion.setText(Usuario.getInstance().getDescripcion());
 
+        //guardamos los valores inicialess
+        originalUserName = Usuario.getInstance().getName();
+        originalPassword = Usuario.getInstance().getPass();
+        originalDescripcion = Usuario.getInstance().getDescripcion();
+
         MainActivity.addPicture(fotoPerfil, EditProfile.this,Profile.perfil.getFoto());
         cambiarFoto();
         FileRetrofit();
+        buttonListener();
+        deteccionCambios();
+        nuevosValores();
 
-
-        ImageView back = findViewById(R.id.backEditProfile);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent toMain = new Intent(EditProfile.this, MainActivity.class);
-                toMain.putExtra("numFrgMain", 3);
-                startActivity(toMain);
-            }
-        });
-        ImageView confirm = findViewById(R.id.check);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Usuario.getInstance().setName(userName.getText().toString());
-                Usuario.getInstance().setDescripcion(descripcion.getText().toString());
-                Usuario.getInstance().setPass(password.getText().toString());
-                updateUser();
-                Intent toMain = new Intent(EditProfile.this, MainActivity.class);
-                toMain.putExtra("numFrgMain", 3);
-                startActivity(toMain);
-            }
-        });
-        Button delete = findViewById(R.id.deleteBut);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mostrarAlertDialog();
-            }
-        });
-
-        Button updateTema = findViewById(R.id.editTemasProfile);
-        updateTema.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                con = findViewById(R.id.fondoAppEditProfile);
-                con.setAlpha(0.5f);
-                showDialogThemes();}
-        });
     }
 
     public void updateUser(){
@@ -146,7 +121,118 @@ public class EditProfile extends AppCompatActivity {
         });
 
     }
+    public void buttonListener(){
+        botonUpdateTema.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                con = findViewById(R.id.fondoAppEditProfile);
+                con.setAlpha(0.5f);
+                showDialogThemes();}
+        });
 
+        botoDeleteCuenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarAlertDialog();
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toMain = new Intent(EditProfile.this, MainActivity.class);
+                toMain.putExtra("numFrgMain", 3);
+                startActivity(toMain);
+            }
+        });
+
+        botonConfirmarCambios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deshabilitarBotonesCambios();
+                Usuario.getInstance().setName(userName.getText().toString());
+                Usuario.getInstance().setDescripcion(descripcion.getText().toString());
+                Usuario.getInstance().setPass(password.getText().toString());
+                AutoLogin.setPrefUserPass(EditProfile.this, password.getText().toString());
+                AutoLogin.setUserName(EditProfile.this, userName.getText().toString());
+                updateUser();
+                nuevosValores();
+
+
+            }
+        });
+        botonCancelarCambios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deshabilitarBotonesCambios();
+                restaurarValoresOriginales();
+            }
+        });
+    }
+    public void deteccionCambios(){
+       textWatcher = new TextWatcher() {
+          @Override
+          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+          }
+
+          @Override
+          public void onTextChanged(CharSequence s, int start, int before, int count) {
+              habilitarBotonesCambios();
+
+          }
+
+          @Override
+          public void afterTextChanged(Editable s) {
+
+          }
+      };
+        userName.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher);
+        descripcion.addTextChangedListener(textWatcher);
+    }
+public void habilitarBotonesCambios(){
+    botonCancelarCambios.setVisibility(View.VISIBLE);
+    botonConfirmarCambios.setVisibility(View.VISIBLE);
+    botonUpdateTema.setVisibility(View.INVISIBLE);
+    botoDeleteCuenta.setVisibility(View.INVISIBLE);
+}
+    public void deshabilitarBotonesCambios(){
+        botonCancelarCambios.setVisibility(View.INVISIBLE);
+        botonConfirmarCambios.setVisibility(View.INVISIBLE);
+        botonUpdateTema.setVisibility(View.VISIBLE);
+        botoDeleteCuenta.setVisibility(View.VISIBLE);
+    }
+    public void restaurarValoresOriginales() {
+        // Deshabilitar temporalmente el TextWatcher
+        userName.removeTextChangedListener(textWatcher);
+        password.removeTextChangedListener(textWatcher);
+        descripcion.removeTextChangedListener(textWatcher);
+
+        // Restaurar los valores originales
+        userName.setText(originalUserName);
+        password.setText(originalPassword);
+        descripcion.setText(originalDescripcion);
+
+        // Habilitar nuevamente el TextWatcher
+        userName.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher);
+        descripcion.addTextChangedListener(textWatcher);
+    }
+    public void nuevosValores(){
+        //guardamos los valores inicialess
+        originalUserName = Usuario.getInstance().getName();
+        originalPassword = Usuario.getInstance().getPass();
+        originalDescripcion = Usuario.getInstance().getDescripcion();
+    }
+    public void reiniciarDeteccionCambios(){
+        userName.removeTextChangedListener(textWatcher);
+        password.removeTextChangedListener(textWatcher);
+        descripcion.removeTextChangedListener(textWatcher);
+       deteccionCambios();
+
+    }
+    // Método para deshabilitar el TextWatcher
     public void deleteUser(){
         Call<Boolean> call = MainActivity.usuarioInterface.delete(Usuario.getInstance().getId());
         call.enqueue(new Callback<Boolean>() {
@@ -385,17 +471,16 @@ public class EditProfile extends AppCompatActivity {
                     if (uri != null) {
                         Log.d("PhotoPicker", "Selected URI: " + uri);
                         fotoPerfil.setImageURI(uri);
-
                         try {
                             actualizarFotoUser(getFileFromUri(uri));
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-
                     } else {
                         Log.d("PhotoPicker", "No media selected");
                     }
                 });
+
         updateFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -465,14 +550,14 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()){
-                    Toast.makeText(EditProfile.this, "SIUUU", Toast.LENGTH_SHORT).show();
+                    Log.d("PHOTO", "onResponse: "+response.body());
+                }else {
+                    Toast.makeText(EditProfile.this, "Fallos en la ruta", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
+            public void onFailure(Call<String> call, Throwable t) {}
         });
     }
     public void atualizarFotoUseDB(String namePhoto){
