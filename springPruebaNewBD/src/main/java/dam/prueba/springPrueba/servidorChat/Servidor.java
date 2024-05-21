@@ -1,6 +1,5 @@
 package dam.prueba.springPrueba.servidorChat;
 
-import dam.prueba.springPrueba.models.Usuario;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -9,10 +8,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Servidor {
 
-    public static HashMap<Long, ArrayList<ChatUsuario>> chatConexiones = new HashMap<Long, ArrayList<ChatUsuario>>() ;
+    public static ConcurrentHashMap<Long, ArrayList<ChatUsuario>> chatConexiones = new ConcurrentHashMap<>();
     public static boolean endServidor;
     public static void main(String[] args) {
 
@@ -47,18 +47,13 @@ public class Servidor {
             throw new RuntimeException(e);
         }
     }
-    public static void agregarUsuarioChat(ChatUsuario chatUsuario){
-        if(!chatConexiones.containsKey(chatUsuario.getIdGrupo())){
-            chatConexiones.put(chatUsuario.getIdGrupo(), new ArrayList<>());
-            chatConexiones.get(chatUsuario.getIdGrupo()).add(chatUsuario);
-        }else {
-            chatConexiones.get(chatUsuario.getIdGrupo()).add(chatUsuario);
+    public synchronized static void agregarUsuarioChat(ChatUsuario chatUsuario){
+        chatConexiones.computeIfAbsent(chatUsuario.getIdGrupo(), k -> new ArrayList<>()).add(chatUsuario);
 
-        }
     }
 
 
-    public static void eliminarUsuarioChat(ChatUsuario chatUsuario){
+    public synchronized static void eliminarUsuarioChat(ChatUsuario chatUsuario){
        if(chatConexiones.containsKey(chatUsuario.getIdGrupo())){
             chatConexiones.get(chatUsuario.getIdGrupo()).remove(chatUsuario);
 

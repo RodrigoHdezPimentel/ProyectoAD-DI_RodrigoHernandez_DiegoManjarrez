@@ -26,6 +26,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 
+import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Tema;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 import com.prueba.fragments.RetrofitConnection.Models.UsuarioTema;
@@ -47,13 +48,18 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class EditProfile extends AppCompatActivity {
     TextInputEditText userName;
     TextInputEditText password;
     TextInputEditText descripcion;
+    FileInterface fileInterface;
 
-   //para el fondo de la activity
+
+    //para el fondo de la activity
     ConstraintLayout con;
     ProgressBar progressBar;
     //los ids de los temas que ya tiene el usaurio regsitrado en la tabla
@@ -78,6 +84,7 @@ public class EditProfile extends AppCompatActivity {
 
         MainActivity.addPicture(fotoPerfil, EditProfile.this,Profile.perfil.getFoto());
         cambiarFoto();
+        FileRetrofit();
 
 
         ImageView back = findViewById(R.id.backEditProfile);
@@ -401,7 +408,7 @@ public class EditProfile extends AppCompatActivity {
 
     // Convierte la imagen seleccionada en un archivo
     private File getFileFromUri(Uri uri) throws IOException {
-        File file = new File(getCacheDir(), "temp_image");
+        File file = new File(getCacheDir(), "temp_image.jpg");
         try (InputStream inputStream = getContentResolver().openInputStream(uri);
              OutputStream outputStream = new FileOutputStream(file)) {
             byte[] buffer = new byte[1024];
@@ -412,6 +419,14 @@ public class EditProfile extends AppCompatActivity {
         }
         return file;
     }
+    public void FileRetrofit(){
+        Retrofit retrofitFile;
+        retrofitFile = new Retrofit.Builder()
+                .baseUrl("http://" + MainActivity.IP + ":8086/file/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        fileInterface = retrofitFile.create(FileInterface.class);
+    }
 
     // Actualiza la foto del usuario en el servidor
     // Actualiza la foto del usuario en el servidor
@@ -420,26 +435,60 @@ public class EditProfile extends AppCompatActivity {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
         // MultipartBody.Part está utilizado para enviar el archivo real con su nombre
-        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
         // Realizar la llamada a Retrofit
-        Call<String> call = MainActivity.fileInterface.saveImageApp(body);
-
+        Call<String> call = fileInterface.saveImageApp(image);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    Log.d("Upload", "Success: " + response.body());
-                    Toast.makeText(EditProfile.this, response.body() + " VAMOOOS", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d("Upload", "Failed: " + response.message());
-                    Toast.makeText(EditProfile.this, " NOOOOOOOO", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()){
+                    atualizarFotoUseDB(response.body());
+                    String beforeUpdate = Usuario.getInstance().getFoto();
+                    deleteFotoServidor(beforeUpdate);
+                    Usuario.getInstance().setFoto(response.body());
+                }else {
+                    Toast.makeText(EditProfile.this, "Error en la ruta", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.e("Upload error:", t.getMessage());
+                Log.d("ERROR", "onFailure: "+t.getMessage());
+            }
+        });
+
+    }
+    public void deleteFotoServidor(String nameFile){
+        Call<String> call = fileInterface.deleteImage(nameFile);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(EditProfile.this, "SIUUU", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+    public void atualizarFotoUseDB(String namePhoto){
+
+       Call<Void> call = MainActivity.usuarioInterface.updateFotoUser(Usuario.getInstance().getId(),namePhoto );
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(EditProfile.this, "foto actualizada", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
             }
         });
     }

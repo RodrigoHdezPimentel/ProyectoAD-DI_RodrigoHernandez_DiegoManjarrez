@@ -1,5 +1,6 @@
 package dam.prueba.springPrueba.uploadingFiles;
 
+import dam.prueba.springPrueba.controllers.UsuarioController;
 import dam.prueba.springPrueba.models.Conversacion;
 import dam.prueba.springPrueba.uploadingFiles.Storage.StorageFileNotFoundException;
 import dam.prueba.springPrueba.uploadingFiles.Storage.StorageService;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,6 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/file")
 
 public class FileController {
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     private final StorageService storageService;
 
@@ -72,14 +73,18 @@ public class FileController {
     }
     @PostMapping("/saveImageApp")
     public ResponseEntity<String> saveImageApp(@RequestParam("image") MultipartFile file) {
-        logger.info("Solicitud recibida para guardar la imagen: {}", file.getOriginalFilename());
-        try {
-            storageService.storeImage(file);
-            return ResponseEntity.ok("Archivo subido correctamente");
-        } catch (Exception e) {
-            logger.error("Error al guardar la imagen", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la imagen");
+        return ResponseEntity.ok(storageService.saveImageApp(file));
+
+    }
+
+    @DeleteMapping("/deleteImage/{namePhoto}")
+    public ResponseEntity<String> deleteImage (@PathVariable String namePhoto) throws IOException {
+        Resource file = storageService.loadAsResource(namePhoto);
+        if (file == null){
+            return ResponseEntity.notFound().build();
         }
+        file.getFile().delete();
+        return ResponseEntity.ok("borrado exitosamente");
     }
     @GetMapping("/prueba")
     @ResponseBody
@@ -89,7 +94,6 @@ public class FileController {
         if(!fi.exists()){
             fi.createNewFile();
         }
-        storageService.storeImageApp(fi);
 
         return "SIIIIIUUUUUUUUUUUUU";
         // Resource newFile = storageService.loadAsResource(fileName);

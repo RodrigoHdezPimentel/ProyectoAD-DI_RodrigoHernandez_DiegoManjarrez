@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static Retrofit retrofitConversacion;
     public static Retrofit retrofitGrupo;
     public static Retrofit retrofitGrupoUsuario;
-    public static Retrofit retrofitFile;
-    public static FileInterface fileInterface;
+
     public static ConversacionInterface conversacionInterface;
     public static GrupoInterface grupoInterface;
     public static GrupoUsuarioInterface grupoUsuarioInterface;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.33","10.94.30.45"};
     static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251", "192.168.243.6"};//clase-casa-movil
 
-    public static String IP = IP_DIEGO[0];
+    public static String IP = IP_DIEGO[2];
     FrameLayout frameLayout;
     TabLayout tabLayout;
 
@@ -74,10 +73,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        retrofitFile = new Retrofit.Builder()
-                .baseUrl("http://" + IP +":8086/file/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
         retrofitPublicacion = new Retrofit.Builder()
                 .baseUrl("http://" + IP +":8086/publicacion/")
@@ -112,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        fileInterface = retrofitFile.create(FileInterface.class);
         conversacionInterface = retrofitConversacion.create(ConversacionInterface.class);
         grupoUsuarioInterface = retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         grupoInterface = retrofitGrupo.create(GrupoInterface.class);

@@ -1,6 +1,9 @@
 package dam.prueba.springPrueba.uploadingFiles.Storage;
 
 
+import dam.prueba.springPrueba.controllers.UsuarioController;
+import dam.prueba.springPrueba.repositories.UsuarioRepository;
+import dam.prueba.springPrueba.servicies.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -8,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -74,7 +76,6 @@ public class FileSystemStorageService implements StorageService {
                             Paths.get(fileName + fileExtension))
                     .normalize().toAbsolutePath();
 
-
 //        Para verificar la ubicacion del archivo
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
@@ -88,21 +89,23 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Failed to store file.", e);
         }
     }
+
+
+
     @Override
-    public void storeImageApp(File file) {
+    public String saveImageApp(MultipartFile file) {
         try {
-            if (!file.exists()) {
-                throw new StorageException("Archivo no encontrado");
+            if (file.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
             }
             String fileName = UUID.randomUUID().toString();
 //        Para ponerle un nombre únicopara que n haya archivos con los nombre iguales o que se sobreescriba
-            String fileExtension = getFileExtensionApp(file);
+            String fileExtension = getFileExtension(file);
 
 //        guardamos el archivo en la ruta
             Path destinationFile = this.rootLocation.resolve(
                             Paths.get(fileName + fileExtension))
                     .normalize().toAbsolutePath();
-
 
 //        Para verificar la ubicacion del archivo
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
@@ -110,12 +113,18 @@ public class FileSystemStorageService implements StorageService {
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
-                Files.copy(file.toPath(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+            return fileName+fileExtension;
 
         }catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
         }
+
     }
+
+
     private static String getFileExtension(MultipartFile file) {
         String fileOriginalName = file.getOriginalFilename();
 
@@ -130,20 +139,7 @@ public class FileSystemStorageService implements StorageService {
         //Le Ponemos el nombre del archivo con un identificadro unico usando el UUID
         return fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
     }
-    private static String getFileExtensionApp(File file) {
-        String fileOriginalName = file.getName();
 
-        if (!(
-                fileOriginalName.endsWith(".jpeg") ||
-                        fileOriginalName.endsWith(".jpg") ||
-                        fileOriginalName.endsWith(".png")
-        )) {
-            throw new StorageException("Only JPG, JPEG, PNG files are allowed!");
-        }
-
-        //Le Ponemos el nombre del archivo con un identificadro unico usando el UUID
-        return fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-    }
 
 
     @Override

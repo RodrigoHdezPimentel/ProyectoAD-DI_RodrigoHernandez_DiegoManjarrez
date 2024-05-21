@@ -4,6 +4,7 @@ import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
@@ -47,5 +48,10 @@ public interface UsuarioInterface {
     Call <Boolean> userLikedPublish(@Path("idU") Integer idU, @Path("idP") Integer idP);
     @DELETE("deleteById/{id}")
     Call<Boolean> delete(@Path("id") Integer id);
+
+    @PUT("fotosUsuarios/{idU}/{image}")
+    Call<Void> updateFotoUser(@Path("idU") Integer id, @Path("image") String image);
+
+
 
 }

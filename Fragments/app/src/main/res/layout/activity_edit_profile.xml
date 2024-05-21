@@ -193,7 +193,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/circle_background"
+            android:src="@drawable/circle_bc_ic_camera"
             android:scaleType="centerCrop" />
 
         <!-- Imagen superpuesta -->

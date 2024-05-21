@@ -5,6 +5,7 @@ import dam.prueba.springPrueba.Class.Message;
 import dam.prueba.springPrueba.models.Like;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Synchronized;
 
 import java.io.*;
 import java.net.Socket;
@@ -58,7 +59,7 @@ public class ChatUsuario extends Thread {
         }
     }
 
-    public void enviarMensaje(String [] mensaje ) {
+    public synchronized void enviarMensaje(String [] mensaje ) {
         ArrayList<ChatUsuario> listaUsuarios = new ArrayList<>(Servidor.chatConexiones.get(idGrupo));
         try {
             for (ChatUsuario usuario: listaUsuarios){

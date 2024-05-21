@@ -43,11 +43,15 @@ public class UsuarioService {
     public List<Publicacion> getUserPublicacionFromLike(Integer id){ return  usuarioRepository.getUserPublicacionFromLike(id);}
 
     public Optional<Usuario> getUserRegister(String name, String pass){ return  usuarioRepository.getUserRegister(name, pass);}
+    public void actualizarFoto(Integer id, String nombreFoto){
+        usuarioRepository.fotoUsuario(id, nombreFoto);
+    }
 
     //------poner fotos Usuarios---
     public void fotosUsuarios(Integer idU, String image){
-         usuarioRepository.fotosUsuarios(idU,image);
+         usuarioRepository.fotoUsuario(idU,image);
     }
+
 
     //-----------------------
 
