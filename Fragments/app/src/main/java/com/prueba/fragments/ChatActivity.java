@@ -102,6 +102,14 @@ public class ChatActivity extends AppCompatActivity {
         cross = findViewById(R.id.closeEditMessage);
         rubish = findViewById(R.id.deleteMessage);
 
+        buttonListener();
+        getGrupoUsuario();
+        cargarConversacion();
+        cargarGrupo();
+        cargarUsuarios();
+
+    }
+    public void buttonListener(){
         iconChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,11 +200,6 @@ public class ChatActivity extends AppCompatActivity {
                 texto.setText("");
             }
         });
-
-        getGrupoUsuario();
-        cargarConversacion();
-        cargarGrupo();
-        cargarUsuarios();
 
     }
     public void getGrupoUsuario() {
@@ -304,8 +307,6 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //ACA SE DEBE COLOCAR EL ENVIO DEL MENSAJE AL SERVIDOR SOCKET
-                //mensaje = new LoadConversation(new Conversacion(null,1,"","holaaaaa",""),1,"a");
 
                 texto.setText("");
             }

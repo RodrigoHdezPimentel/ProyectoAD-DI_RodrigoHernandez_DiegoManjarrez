@@ -28,7 +28,7 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
             " WHERE c.fecha IN (SELECT MAX(c.fecha) FROM GrupoUsuario g JOIN Conversacion c ON c.idgrupousuario = g.idgrupousuario" +
             " WHERE g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1)" +
             " GROUP BY g.id.idgrupo) AND g.id.idgrupo IN (SELECT g.id.idgrupo FROM GrupoUsuario g WHERE g.id.idusuario = ?1) " +
-            " ORDER BY c.fecha DESC")
+            " GROUP BY g.id.idgrupo ORDER BY c.fecha DESC")
    List<ChatListUser> getListChatFromUser (Integer id);
     //UNION
    @Query(value = "SELECT new dam.prueba.springPrueba.Class.ChatListUser(g,c) FROM GrupoUsuario g LEFT JOIN Conversacion c" +

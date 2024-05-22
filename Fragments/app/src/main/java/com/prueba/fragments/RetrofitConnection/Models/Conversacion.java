@@ -20,11 +20,6 @@ public class Conversacion {
         this.contenido = contenido;
         this.idleido = idleido;
     }
-    public Conversacion(Integer idgrupoUsuario, String fecha, String contenido) {
-        this.idgrupousuario = idgrupoUsuario;
-        this.fecha = fecha;
-        this.contenido = contenido;
-    }
     public Conversacion(Integer idconversacion) {
         this.idconversacion = idconversacion;
 
