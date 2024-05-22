@@ -228,12 +228,14 @@ public void habilitarBotonesCambios(){
     botonConfirmarCambios.setVisibility(View.VISIBLE);
     botonUpdateTema.setVisibility(View.INVISIBLE);
     botoDeleteCuenta.setVisibility(View.INVISIBLE);
+    buttonLoginOut.setVisibility(View.VISIBLE);
 }
     public void deshabilitarBotonesCambios(){
         botonCancelarCambios.setVisibility(View.INVISIBLE);
         botonConfirmarCambios.setVisibility(View.INVISIBLE);
         botonUpdateTema.setVisibility(View.VISIBLE);
         botoDeleteCuenta.setVisibility(View.VISIBLE);
+        buttonLoginOut.setVisibility(View.INVISIBLE);
     }
     public void restaurarValoresOriginales() {
         // Deshabilitar temporalmente el TextWatcher
