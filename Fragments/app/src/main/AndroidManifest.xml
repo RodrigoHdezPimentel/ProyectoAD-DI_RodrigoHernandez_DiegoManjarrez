@@ -37,6 +37,14 @@
             android:exported="false"
             android:windowSoftInputMode="adjustNothing" />
         <activity
+            android:name=".Fragments.HomeFragment.Tendencias"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name=".Fragments.HomeFragment.MisTemas"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing">

@@ -1,6 +1,7 @@
 package com.prueba.fragments.Fragments.HomeFragment;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.prueba.fragments.EditProfile;
@@ -23,9 +26,9 @@ import com.prueba.fragments.Login_SignUP;
 import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
 import com.prueba.fragments.RecyclerViews.Adapters.PublicacionRvAdapter;
-import com.prueba.fragments.RetrofitConnection.Interfaces.PublicacionInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Publicacion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,13 +87,13 @@ public class Tendencias extends Fragment {
     //Cambiar esto por los datos retornados de la BD
     ProgressBar progressBar;
     List<Publicacion> listaPublicaciones;
-    LinearLayout l;
+    FloatingActionButton searchFilter;
     View view;
-    TextInputEditText searchInput;
-    ImageView searchButt;
-    ImageView searchInfo;
-    String cuerpoBusqueda;
-    String[] syntaxisCode = {"title", "publication", "user", "topic"};
+    TextInputEditText inputTitulo;
+    TextInputEditText inputContenido;
+    TextInputEditText inputAutor;
+    TextInputEditText inputTema;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,39 +102,47 @@ public class Tendencias extends Fragment {
         view = inflater.inflate(R.layout.fragment_tendencias, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
-        searchInput = view.findViewById(R.id.searchInput);
-        searchButt = view.findViewById(R.id.searchTrend);
-        searchInfo = view.findViewById(R.id.searchInfo);
+        searchFilter = view.findViewById(R.id.showFilter);
 
-        searchButt.setOnClickListener(new View.OnClickListener() {
+        searchFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(cuerpoBusqueda = searchInput.getText().toString()).equals("")){
-                    search();
-                }else{
-                    getPublishTrending();
-                }
-            }
-        });
-        searchInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarInfo();
+                mostrarFiltro();
             }
         });
         getPublishTrending();
         return view;
     }
     private AlertDialog alertDialog;
-    private void mostrarInfo(){
+    private void mostrarFiltro(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         // Inflar el diseño personalizado
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_search_info, null);
+        View dialogView = inflater.inflate(R.layout.dialog_search_filter, null);
         builder.setView(dialogView);
 
         ImageView cerrar = dialogView.findViewById(R.id.cerrar);
+        Button applyFilter = dialogView.findViewById(R.id.applyFilters);
+
+        inputTitulo = dialogView.findViewById(R.id.inputTitulo);
+        inputContenido = dialogView.findViewById(R.id.inputContenido);
+        inputAutor = dialogView.findViewById(R.id.inputAutor);
+        inputTema = dialogView.findViewById(R.id.inputTema);
+
+        inputTitulo.setText(titulo.trim());
+        inputContenido.setText(contenido.trim());
+        inputAutor.setText(user.trim());
+        inputTema.setText(tema.trim());
+
+        applyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+                alertDialog.dismiss();
+            }
+        });
+
 
         // Configurar controladores de clic para los botones
         cerrar.setOnClickListener(new View.OnClickListener() {
@@ -144,65 +155,36 @@ public class Tendencias extends Fragment {
         alertDialog = builder.create();
         alertDialog.show();
     }
-
+    String titulo = "";
+    String contenido = "";
+    String user = "";
+    String tema = "";
     @SuppressLint("ResourceAsColor")
     private void search(){
-        String titulo = " ";
-        String contenido = " ";
-        String user = " ";
-        String tema = " ";
-        boolean syntaxOk = false;
-        String[] separador = cuerpoBusqueda.split(";");
-        String[][] datos = new String[separador.length][2];
 
-        for (int x = 0; x < separador.length; x ++) {
-            String[] dato = separador[x].split("::");
-            if (dato.length == 2) {
-                //busqueda filtrada
-                if (!dato[1].equals("")) {
-                    //El filttro no esté vacio
-                    for (String s : syntaxisCode) {
-                        //sintaxis correcta
-                        if (s.equals(dato[0])) {
-                            syntaxOk = true;
-                            break;
-                        }
-                    }
-                }
-                if (syntaxOk) {
-                    datos[x] = dato;
-                } else {
-                    searchInput.setTextColor(R.color.md_theme_dark_error);
-                }
-            } else if (dato.length == 1) {
-                if (separador.length == 1) {
-                    titulo = separador[x];
-                }
-            }else {
-                //error
-                searchInput.setTextColor(R.color.md_theme_dark_error);
-            }
+        if(inputTitulo.getText().toString().equals("")){
+            titulo = " ";
         }
-
-        for(String[] s: datos){
-            if (s[0] != null || s[1] != null){
-                switch (s[0]) {
-                    case "title":
-                        titulo = s[1];
-                        break;
-                    case "publication":
-                        contenido = s[1];
-                        break;
-                    case "user":
-                        user = s[1];
-                        break;
-                    case "topic":
-                        tema = s[1];
-                        break;
-                    default:
-                        break;
-                }
-            }
+        else{
+            titulo = inputTitulo.getText().toString();
+        }
+        if(inputContenido.getText().toString().equals("")){
+            contenido = " ";
+        }
+        else{
+            contenido = inputContenido.getText().toString();
+        }
+        if(inputAutor.getText().toString().equals("")){
+            user = " ";
+        }
+        else{
+            user = inputAutor.getText().toString();
+        }
+        if(inputTema.getText().toString().equals("")){
+            tema = " ";
+        }
+        else{
+            tema = inputTema.getText().toString();
         }
 
         Call<List<Publicacion>> call = MainActivity.publicacionInterface.getFiltroPublication(titulo, contenido, user, tema);
