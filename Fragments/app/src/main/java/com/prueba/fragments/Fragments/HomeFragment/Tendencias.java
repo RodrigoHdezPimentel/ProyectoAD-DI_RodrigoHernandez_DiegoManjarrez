@@ -130,10 +130,10 @@ public class Tendencias extends Fragment {
         inputAutor = dialogView.findViewById(R.id.inputAutor);
         inputTema = dialogView.findViewById(R.id.inputTema);
 
-        inputTitulo.setText(titulo);
-        inputContenido.setText(contenido);
-        inputAutor.setText(user);
-        inputTema.setText(tema);
+        inputTitulo.setText(titulo.trim());
+        inputContenido.setText(contenido.trim());
+        inputAutor.setText(user.trim());
+        inputTema.setText(tema.trim());
 
         applyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
