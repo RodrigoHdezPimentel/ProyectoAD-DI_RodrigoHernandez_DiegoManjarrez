@@ -280,6 +280,17 @@ DELIMITER ;
 UPDATE conversaciones set idLeido = "0";
 UPDATE grupos set foto = "ic_grupo_app.jpg" WHERE codigo is not null; 
 
+
+UPDATE grupos g
+JOIN (
+    SELECT gu.idGrupo
+    FROM grupo_usuario gu
+    WHERE gu.nombre != "Nombre Grupo"
+    GROUP BY gu.idGrupo
+    HAVING COUNT(gu.idGrupo) = 2
+) subquery ON g.idGrupo = subquery.idGrupo
+SET g.codigo = NULL;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
