@@ -42,9 +42,9 @@ public class UsuarioController {
         return usuarioService.updateUsuario(usuario);
     }
 
-    @DeleteMapping("/deleteById/{id}")
-    public Boolean deleteUsuario(@PathVariable Integer id){
-        return usuarioService.deleteUsuario(id);
+    @DeleteMapping("/deleteById/{id}/{fecha}")
+    public void deleteUsuario(@PathVariable Integer id, @PathVariable String fecha){
+        usuarioService.deleteUsuario(id, fecha);
     }
 
     //-----------------------------COLOCAR EL NOMBRE DE LA FOTO A TODOS LOS USER EN LA DB------------------------------------------------//
@@ -52,6 +52,7 @@ public class UsuarioController {
     public void fotosUsuarios(@PathVariable Integer idU,@PathVariable String image){
       usuarioService.fotosUsuarios(idU, image);
     }
+
     @GetMapping("/fotosUsuarios/actualizar")
     public String colocarFotos(){
         int numId=0;
@@ -64,7 +65,7 @@ public class UsuarioController {
         if(Carpeta.isDirectory()){
             String nombreImagenes[] = Carpeta.list();
 
-            for(;numId < nombreImagenes.length;numId++){
+            for(;numId < 50 ;numId++){
                 fotosUsuarios(numId+1,nombreImagenes[numId]);
             }
 

@@ -20,15 +20,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prueba.fragments.Class.ChatListUser;
-import com.prueba.fragments.Class.LoadConversation;
-import com.prueba.fragments.Class.ThreadChat;
+import com.prueba.fragments.Class.Message;
+import com.prueba.fragments.Class.ThreadChat.ConnectionChat;
+import com.prueba.fragments.Class.ThreadChat.oldModel;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ChatUsersRvAdapter;
 import com.prueba.fragments.RecyclerViews.Adapters.ListaGruposShareCodeRvAdapter;
@@ -46,6 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
+    ConnectionChat connectionChat;
     public static ArrayList<Integer> idsGrupoUsuarioShareedCodeGroups = new ArrayList<>();
     RecyclerView MyRecyclerView;
     Integer idGrupo;
@@ -53,12 +57,12 @@ public class ChatActivity extends AppCompatActivity {
     static Conversacion conversacionSeleccionada;
     Integer idGrupoUsuario;
     GrupoUsuario grupoUsuario;
-    ArrayList<LoadConversation> Conversation = new ArrayList<>();
+    ArrayList<Message> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
     ArrayList<ChatListUser> listaGrupos = new ArrayList<>();
     static TextInputEditText texto;
     TextView title;
-    ImageView iconUserChat;
+    ImageView iconChat;
     static Integer messagePosition;
     static TextView textoActualizar;
     static ImageView cross;
@@ -70,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
 
     AlertDialog alertDialogGroups;
     ChatRvAdapter adapter;
-    ThreadChat hiloChat;
+    oldModel hiloChat;
     static ConstraintLayout editConsLay;
     static LinearLayout defaultLinLay;
     @Override
@@ -78,16 +82,16 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent getId = getIntent();
-        Boolean gender = getId.getBooleanExtra("gender", false);
+        String pathFoto = getId.getStringExtra("foto");
 
-        iconUserChat = findViewById(R.id.iconChat);
+        iconChat = findViewById(R.id.iconChat);
 
         editConsLay = findViewById(R.id.linearLayoutEditMessage);
         editConsLay.setVisibility(View.GONE);
         defaultLinLay = findViewById(R.id.linearLayout);
         defaultLinLay.setVisibility(View.VISIBLE);
 
-        iconAdd(gender);
+        MainActivity.addPicture(iconChat, ChatActivity.this, pathFoto);
         idGrupo = getId.getIntExtra("idGrupo",0);
         idGrupoUsuario = getId.getIntExtra("idGrupoUsuario",0);
         texto = findViewById(R.id.editText);
@@ -98,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
         cross = findViewById(R.id.closeEditMessage);
         rubish = findViewById(R.id.deleteMessage);
 
-        iconUserChat.setOnClickListener(new View.OnClickListener() {
+        iconChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mostrarAlertDialog();
@@ -107,11 +111,8 @@ public class ChatActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!texto.getText().toString().equals("")){
-
-                    GuardarConversacion();
-
-                }
+                if(!Objects.requireNonNull(texto.getText()).toString().isEmpty()){
+                    GuardarConversacion();}
             }
         });
         arrow.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +121,8 @@ public class ChatActivity extends AppCompatActivity {
                 Intent listChat = new Intent(ChatActivity.this, MainActivity.class);
                 listChat.putExtra("numFrgMain", 2);
                 //para detener el hilo
-                hiloChat.setHiloEnded(true);
+                connectionChat.setEndChat(true);
+                //hiloChat.setHiloEnded(true);
                 startActivity(listChat);
             }
         });
@@ -216,11 +218,11 @@ public class ChatActivity extends AppCompatActivity {
 
     public void cargarConversacion(){
 
-        Call<ArrayList<LoadConversation>> call = MainActivity.conversacionInterface.getConversacionesByGroupId(idGrupo);
-        call.enqueue(new Callback<ArrayList<LoadConversation>>() {
+        Call<ArrayList<Message>> call = MainActivity.conversacionInterface.getConversacionesByGroupId(idGrupo);
+        call.enqueue(new Callback<ArrayList<Message>>() {
 
             @Override
-            public void onResponse(Call<ArrayList<LoadConversation>> call, Response<ArrayList<LoadConversation>> response) {
+            public void onResponse(Call<ArrayList<Message>> call, Response<ArrayList<Message>> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
@@ -241,13 +243,19 @@ public class ChatActivity extends AppCompatActivity {
                     //Se ecnarga de leer los mensajes que aun estaban sin leer por el user
                     UpdateIdLeido();
 
+                    connectionChat = new ConnectionChat(idGrupo,send,texto,idGrupoUsuario,adapter);
+                    connectionChat.start();
+
+/*
                 //Arranco el hilo caundo se carga la conversación
-                hiloChat = new ThreadChat(adapter, idGrupo,ChatActivity.this);
+                 hiloChat = new oldModel(adapter, idGrupo,ChatActivity.this);
                 hiloChat.start();
+*/
+
             }
 
             @Override
-            public void onFailure(Call<ArrayList<LoadConversation>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Message>> call, Throwable t) {
 
             }
         });
@@ -296,6 +304,9 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //ACA SE DEBE COLOCAR EL ENVIO DEL MENSAJE AL SERVIDOR SOCKET
+                //mensaje = new LoadConversation(new Conversacion(null,1,"","holaaaaa",""),1,"a");
+
                 texto.setText("");
             }
             @Override
@@ -304,17 +315,6 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    public void iconAdd(Boolean gender){
-        if(gender == null){
-            iconUserChat.setImageResource(R.drawable.ic_app);
-        } else {
-            if (!gender) {
-                iconUserChat.setImageResource(R.drawable.ic_mujer);
-            } else {
-                iconUserChat.setImageResource(R.drawable.ic_hombre);
-            }
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private void mostrarAlertDialog() {
@@ -352,7 +352,7 @@ public class ChatActivity extends AppCompatActivity {
             codigoGrupo.setVisibility(View.INVISIBLE);
             shareCode.setVisibility(View.INVISIBLE);
         }else{
-            codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo().toString());
+            codigoGrupo.setText("Codigo de invitacion:\n" + infoGrupo.getCodigo());
             //Cuando lo clique, muestra el listado de tus grupos
             shareCode.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -395,7 +395,7 @@ public class ChatActivity extends AppCompatActivity {
                         confirmName.setVisibility(View.GONE);
                     }
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                     }
                 });
             }

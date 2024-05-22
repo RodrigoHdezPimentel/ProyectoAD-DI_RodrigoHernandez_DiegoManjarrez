@@ -92,16 +92,19 @@ public class Login_SignUP extends AppCompatActivity {
                 }
                 Usuario userData = response.body();
                 if(userData != null){
-                    Usuario.setInstance(userData);
+                    if (userData.getFechaBaja() == null){
+                        Usuario.setInstance(userData);
 
-                    if(recuerdame.isChecked()){
-                        AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
-                        AutoLogin.setUserName(Login_SignUP.this, userName.getText().toString());
+                        if(recuerdame.isChecked()){
+                            AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
+                            AutoLogin.setUserName(Login_SignUP.this, userName.getText().toString());
+                            Usuario.getInstance().setAutoLogin(true);
+                        }
+                        Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
+                        startActivity(goMain);
+                    }else{
+                        Toast.makeText(Login_SignUP.this, "La cuenta no existe", Toast.LENGTH_SHORT).show();
                     }
-
-                    Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
-                    goMain.putExtra("isRegister", true);
-                    startActivity(goMain);
                 }else{
                     Toast.makeText(Login_SignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();
                 }
@@ -137,17 +140,17 @@ public class Login_SignUP extends AppCompatActivity {
     }
     //Cargo los diferentes idiomas que tenemos hasta ahora
     public void cargarIdioma(){
-    listLanguages = findViewById(R.id.listaLanguages);
-    LanguageItemAdapter languageAdapter = new LanguageItemAdapter(Login_SignUP.this);
-    listLanguages.setAdapter(languageAdapter);
-    listLanguages.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            // actualizamos el idioma del elemento seleccionado
-            setAppLanguage(parent.getItemAtPosition(position).toString().toLowerCase());
+        listLanguages = findViewById(R.id.listaLanguages);
+        LanguageItemAdapter languageAdapter = new LanguageItemAdapter(Login_SignUP.this);
+        listLanguages.setAdapter(languageAdapter);
+        listLanguages.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // actualizamos el idioma del elemento seleccionado
+                setAppLanguage(parent.getItemAtPosition(position).toString().toLowerCase());
 
-        }
-        @Override
+            }
+            @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
         }

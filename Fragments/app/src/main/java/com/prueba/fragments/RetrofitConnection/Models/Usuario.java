@@ -16,12 +16,13 @@ public class Usuario implements Serializable {
     private Integer idusuario;
     private Integer year;
     private String name;
-
     private Boolean genero;
     private String descripcion = "";
     private String mail;
     private String pass;
     private String foto;
+    private String fechabaja;
+    private boolean autoLogin;
 
     public Usuario(Integer idusuario, Integer year, String name, boolean genero, String descripcion, String mail, String pass,String foto) {
         this.idusuario = idusuario;
@@ -123,4 +124,22 @@ public class Usuario implements Serializable {
         this.foto = foto;
     }
 
+    public Integer getIdusuario() {
+        return idusuario;
+    }
+
+    public void setIdusuario(Integer idusuario) {
+        this.idusuario = idusuario;
+    }
+
+    public boolean isAutoLogin() {
+        return autoLogin;
+    }
+    public String getFechaBaja(){
+        return fechabaja;
+    }
+
+    public void setAutoLogin(boolean autoLogin) {
+        this.autoLogin = autoLogin;
+    }
 }

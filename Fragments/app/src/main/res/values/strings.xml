@@ -12,6 +12,7 @@
     <string name="resgistro_mensaje" translatable="false"></string>
     <string name="boton_iniciar_sesion" translatable="false"></string>
     <string name="boton_resgistrarse" translatable="false"></string>
+    <string name="boton_cerrar_sesion" translatable="false"></string>
 
     <string name="mis_temas" translatable="false"></string>
     <string name="tendencias" translatable="false"></string>

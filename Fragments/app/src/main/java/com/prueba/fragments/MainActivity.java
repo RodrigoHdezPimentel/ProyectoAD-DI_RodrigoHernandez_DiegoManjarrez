@@ -20,6 +20,8 @@ import com.prueba.fragments.Fragments.MainFragment.Home;
 import com.prueba.fragments.Fragments.MainFragment.Profile;
 import com.prueba.fragments.Fragments.MainFragment.Publish;
 import com.prueba.fragments.RetrofitConnection.Interfaces.ConversacionInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
+import com.prueba.fragments.RetrofitConnection.Interfaces.FileInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.GrupoUsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.LikeInterface;
@@ -29,6 +31,9 @@ import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioInterface;
 import com.prueba.fragments.RetrofitConnection.Interfaces.UsuarioTemaInterface;
 import com.prueba.fragments.RetrofitConnection.Models.Like;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static Retrofit retrofitConversacion;
     public static Retrofit retrofitGrupo;
     public static Retrofit retrofitGrupoUsuario;
+
     public static ConversacionInterface conversacionInterface;
     public static GrupoInterface grupoInterface;
     public static GrupoUsuarioInterface grupoUsuarioInterface;
@@ -55,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
     public static UsuarioTemaInterface usuarioTemaInterface;
 
 
-    static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.178"};
+    static final String[] IP_DIEGO = {"192.168.56.1","192.168.0.33","10.94.30.45"};
     static final String[] IP_RODRIGO = {"192.168.128.250", "192.168.0.251", "192.168.243.6"};//clase-casa-movil
 
-    public static final String IP = IP_DIEGO[1];
+
+    public static String IP = IP_RODRIGO[0];
     FrameLayout frameLayout;
     TabLayout tabLayout;
 
@@ -66,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         retrofitPublicacion = new Retrofit.Builder()
                 .baseUrl("http://" + IP_RODRIGO[2] +":8086/publicacion/")
@@ -99,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl("http://" + IP_RODRIGO[2] +":8086/grupoUsuario/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         conversacionInterface = retrofitConversacion.create(ConversacionInterface.class);
         grupoUsuarioInterface = retrofitGrupoUsuario.create(GrupoUsuarioInterface.class);
         grupoInterface = retrofitGrupo.create(GrupoInterface.class);
@@ -108,25 +117,24 @@ public class MainActivity extends AppCompatActivity {
         usuarioInterface = retrofitUser.create(UsuarioInterface.class);
         usuarioTemaInterface = retrofitUserTema.create(UsuarioTemaInterface.class);
 
-
-
-        Intent getIntent = getIntent();
-        if(!getIntent.getBooleanExtra("isRegister", false)) {
-            if (AutoLogin.getUserName(MainActivity.this).length() == 0) {
+        if(Usuario.getInstance().getId() == null){
+            if (AutoLogin.getUserName(MainActivity.this).isEmpty()) {
                 //Si no hay registro previo, va a login
+                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
                 Intent toLogin = new Intent(this, Login_SignUP.class);
                 startActivity(toLogin);
             } else {
                 // Stay at the current activity.
                 iniciarSesion();
             }
-        }else{
-            cargarActivity();
+        }else {
+                cargarActivity();
         }
+
     }
 
     private void iniciarSesion(){
-        Call<Usuario> call = usuarioInterface.getUserRegister(AutoLogin.getUserName(MainActivity.this).toString(),AutoLogin.getPassord(MainActivity.this).toString() );
+        Call<Usuario> call = usuarioInterface.getUserRegister(AutoLogin.getUserName(MainActivity.this),AutoLogin.getPassord(MainActivity.this) );
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -137,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 Usuario userData = response.body();
                 if (userData != null) {
                     Usuario.setInstance(userData);
+                    Usuario.getInstance().setAutoLogin(true);
                     cargarActivity();
 
                 } else {
@@ -253,7 +262,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static void addPicture(ImageView imageView, Context contex, String pathFoto){
         Log.d("nombre", "http://localhost:8086/file/image/"+ pathFoto);
-        Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+pathFoto).fitCenter().error(R.drawable.ic_mujer).into(imageView);
-
+            Glide.with(contex).load("http://"+ MainActivity.IP+":8086/file/image/"+pathFoto).fitCenter().error(R.drawable.ic_mujer).into(imageView);
+    }
+    public String getIPDispositivo() throws UnknownHostException {
+        InetAddress localHost = InetAddress.getLocalHost();
+        return localHost.getHostAddress().toString();
     }
 }

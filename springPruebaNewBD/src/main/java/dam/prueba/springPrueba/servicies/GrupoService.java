@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GrupoService {
+public class    GrupoService {
     @Autowired
     private GrupoRepository grupoRepository;
 

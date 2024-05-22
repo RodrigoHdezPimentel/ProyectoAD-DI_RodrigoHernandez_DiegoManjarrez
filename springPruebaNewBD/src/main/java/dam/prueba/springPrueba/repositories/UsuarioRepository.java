@@ -35,6 +35,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SElECT c FROM Usuario c WHERE c.name = ?1 AND c.pass = ?2")
     Optional<Usuario> getUserRegister(String name, String pass);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Usuario u set u.fechabaja = ?2 WHERE u.idusuario = ?1")
+    void deleteUsuario(Integer id, String fecha);
+
     //-------FALTA COLOCAR LOS UPDATE CUANDO SE ACTUALIZA EL USER EN EL EDITPROFILE--//
 
 
@@ -43,6 +48,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE Usuario u SET u.foto = ?2 WHERE u.idusuario = ?1")
-    void fotosUsuarios(Integer idU, String image);
+    void fotoUsuario(Integer idU, String image);
     //--------------------------------------------------------------------
 }

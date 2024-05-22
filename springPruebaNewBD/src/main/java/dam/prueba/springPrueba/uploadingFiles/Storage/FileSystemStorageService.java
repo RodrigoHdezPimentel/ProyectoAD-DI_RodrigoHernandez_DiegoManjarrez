@@ -1,6 +1,9 @@
 package dam.prueba.springPrueba.uploadingFiles.Storage;
 
 
+import dam.prueba.springPrueba.controllers.UsuarioController;
+import dam.prueba.springPrueba.repositories.UsuarioRepository;
+import dam.prueba.springPrueba.servicies.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -73,7 +76,6 @@ public class FileSystemStorageService implements StorageService {
                             Paths.get(fileName + fileExtension))
                     .normalize().toAbsolutePath();
 
-
 //        Para verificar la ubicacion del archivo
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
@@ -87,6 +89,42 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Failed to store file.", e);
         }
     }
+
+
+
+    @Override
+    public String saveImageApp(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
+            }
+            String fileName = UUID.randomUUID().toString();
+//        Para ponerle un nombre únicopara que n haya archivos con los nombre iguales o que se sobreescriba
+            String fileExtension = getFileExtension(file);
+
+//        guardamos el archivo en la ruta
+            Path destinationFile = this.rootLocation.resolve(
+                            Paths.get(fileName + fileExtension))
+                    .normalize().toAbsolutePath();
+
+//        Para verificar la ubicacion del archivo
+            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+                // This is a security check
+                throw new StorageException(
+                        "Cannot store file outside current directory.");
+            }
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+            return fileName+fileExtension;
+
+        }catch (IOException e) {
+            throw new StorageException("Failed to store file.", e);
+        }
+
+    }
+
+
     private static String getFileExtension(MultipartFile file) {
         String fileOriginalName = file.getOriginalFilename();
 
@@ -101,6 +139,8 @@ public class FileSystemStorageService implements StorageService {
         //Le Ponemos el nombre del archivo con un identificadro unico usando el UUID
         return fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
     }
+
+
 
     @Override
     public Stream<Path> loadAll() {
@@ -119,7 +159,6 @@ public class FileSystemStorageService implements StorageService {
     public Path load(String filename) {
         return rootLocation.resolve(filename);
     }
-
     @Override
     public Resource loadAsResource(String filename) {
         try {

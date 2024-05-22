@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
@@ -154,12 +155,7 @@ public class Profile extends Fragment {
         return view;
     }
 
-    public void iconAdd(){
-            Log.d("nombre", "http://localhost:8086/file/image/"+Profile.perfil.getFoto());
-//            Toast.makeText(getContext(), Profile.perfil.getFoto(), Toast.LENGTH_SHORT).show();
-            Glide.with(getContext()).load("http://"+MainActivity.IP+":8086/file/image/"+Profile.perfil.getFoto()).error(R.drawable.ic_mujer).into(iconProfile);
-//            iconProfile.setImageResource(R.drawable.ic_app);
-    }
+
     public void cargarPerfil(){
 
         //Recibir el objeto Usuario desde otras fragments o activitis
@@ -194,22 +190,7 @@ public class Profile extends Fragment {
         });
     }
 
-    //getCommonGroups, grupoUsuarioInterface.getNumberUsers
-    //                Intent toChat = new Intent(getContext(), ChatActivity.class);
-    //if (response2.body() || !response2.body()) {
-    //                                        if(response2.body()){
-    //                                            Toast.makeText(getContext(), "CARGAR EL CHAT ANTERIOR", Toast.LENGTH_SHORT).show();
-    //                                            //enviamos los datos a ChatActivity para cargar la connversacion
-    //                                        toChat.putExtra("idGrupo", response1.body().get(finalI).get(0));
-    //                                        toChat.putExtra("idGrupoUsuario", response1.body().get(finalI).get(1));
-    //                                        startActivity(toChat);
-    //                                        }
-    //
-    //                                        if(!response2.body()&& ((finalI+1)==response1.body().size())){
-    //                                            Toast.makeText(getContext(), "Crear chat", Toast.LENGTH_SHORT).show();
-    //                                            crearConversacion();
-    //                                        }
-    //                                    }
+
     public void enviarMensaje(){
         iconEnviarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,10 +209,12 @@ public class Profile extends Fragment {
                         }else {
                             Toast.makeText(getContext(), "Cargar chat", Toast.LENGTH_SHORT).show();
                             Intent toChat = new Intent(getContext(), ChatActivity.class);
+                            toChat.putExtra("foto",perfil.getFoto());
                             toChat.putExtra("idGrupo", response.body().get(0).get(0));
                             toChat.putExtra("idGrupoUsuario",response.body().get(0).get(1));
                             startActivity(toChat);
                         }
+
                     }
 
                     @Override
@@ -245,7 +228,7 @@ public class Profile extends Fragment {
 
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        Call<Grupo> call =  MainActivity.grupoInterface.create(new Grupo(null,"Ruta",null));
+        Call<Grupo> call =  MainActivity.grupoInterface.create(new Grupo(null,"ic_grupo_app.png",null));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -287,8 +270,7 @@ public class Profile extends Fragment {
 
                         //enviamos los datos al ChatActivity
                     Intent toChat = new Intent(getContext(),ChatActivity.class);
-//                        Toast.makeText(getContext(), idGrupo+"", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(getContext(), response.body().getIdGrupoUsuario()+"", Toast.LENGTH_SHORT).show();
+                    toChat.putExtra("foto",perfil.getFoto());
                     toChat.putExtra("idGrupo", idGrupo);
                     toChat.putExtra("idGrupoUsuario", response1.body().getIdGrupoUsuario());
                     startActivity(toChat);

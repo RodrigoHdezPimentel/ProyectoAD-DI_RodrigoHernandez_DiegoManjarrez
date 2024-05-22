@@ -99,7 +99,7 @@ public class Chats extends Fragment {
     }
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        Call<Grupo> call = MainActivity.grupoInterface.create(new Grupo(null,"Ruta",generarCodigoDeGrupo()));
+        Call<Grupo> call = MainActivity.grupoInterface.create(new Grupo(null,"ic_grupo_app.png",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {

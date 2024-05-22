@@ -1,5 +1,6 @@
 package com.prueba.fragments.RetrofitConnection.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Conversacion {
@@ -9,6 +10,7 @@ public class Conversacion {
     private String contenido;
     private String idleido;
     public Conversacion() {
+
     }
 
     public Conversacion(Integer idConversacion, Integer idgrupoUsuario, String fecha, String contenido, String idleido) {
@@ -36,16 +38,20 @@ public class Conversacion {
         return idgrupousuario;
     }
 
-    public String getFecha() {
-        return fecha;
-    }
 
     public String getContenido() {
         return contenido;
     }
 
+    public Integer getIdgrupousuario() {
+        return idgrupousuario;
+    }
 
-    public String[] getIdleido() {
-        return idleido.split(",");
+    public String getFecha() {
+        return fecha;
+    }
+
+    public String getIdleido() {
+        return idleido;
     }
 }
