@@ -18,8 +18,10 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
 // (SELECT g.idGrupo FROM grupo_usuario g WHERE g.idUsuario = 1) GROUP BY g.idGrupo)
 // AND g.idGrupo IN (SELECT g.idGrupo FROM grupo_usuario g WHERE g.idUsuario = 1)
 //  UNION
-//SELECT c.contenido, c.fecha, g.* FROM grupo_usuario g LEFT JOIN conversaciones c
-// ON g.idGrupoUsuario = c.idGrupoUsuario WHERE c.idGrupoUsuario IS NULL;
+//SELECT COUNT(c.idConversacion), g.idGrupo from  grupo_usuario g
+//LEFT JOIN conversaciones c ON g.idGrupoUsuario = c.idGrupoUsuario
+//WHERE  g.idGrupo in (SELECT idGrupo from grupo_usuario WHERE idUsuario = 1)
+//GROUP BY g.idGrupo HAVING COUNT(c.idConversacion)=0;
 
 
 //  lista los grupos al que pertenece el usuario
@@ -32,7 +34,8 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
    List<ChatListUser> getListChatFromUser (Integer id);
     //UNION
    @Query(value = "SELECT new dam.prueba.springPrueba.Class.ChatListUser(g,c) FROM GrupoUsuario g LEFT JOIN Conversacion c" +
-           " ON c.idgrupousuario = g.idgrupousuario WHERE c.idgrupousuario IS NULL AND g.id.idusuario = ?1")
+           " ON c.idgrupousuario = g.idgrupousuario WHERE g.id.idgrupo IN (SELECT g.id.idgrupo from GrupoUsuario g WHERE " +
+           " g.id.idusuario = ?1) GROUP BY g.id.idgrupo HAVING COUNT(c.idconversacion)=0")
    List<ChatListUser> getListChatUserWhitoutMessage(Integer id);
 
    //Para Complementar el metodo de listar los chats del user

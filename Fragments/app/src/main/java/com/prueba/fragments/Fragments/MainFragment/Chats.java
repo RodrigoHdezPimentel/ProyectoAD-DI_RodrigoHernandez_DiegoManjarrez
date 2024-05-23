@@ -99,7 +99,7 @@ public class Chats extends Fragment {
     }
     public void crearConversacion(){
         //Se crea primero el grupo y luego se asigna el user al grupo. (debido al spring xd)
-        Call<Grupo> call = MainActivity.grupoInterface.create(new Grupo(null,"ic_grupo_app.png",generarCodigoDeGrupo()));
+        Call<Grupo> call = MainActivity.grupoInterface.create(new Grupo(null,"ic_grupo_app.jpg",generarCodigoDeGrupo()));
         call.enqueue(new Callback<Grupo>() {
             @Override
             public void onResponse(Call<Grupo> call, Response<Grupo> response) {
@@ -108,7 +108,7 @@ public class Chats extends Fragment {
                 }
                 Toast.makeText(getContext(), response.body().getIdGrupo()+"id Grupo nuevo", Toast.LENGTH_SHORT).show();
                 //Ahora Asignamos los usuarios al grupo para chatear
-                asignarChat(response.body().getIdGrupo(),response.body());
+                asignarChat(response.body().getIdGrupo());
             }
             @Override
             public void onFailure(Call<Grupo> call, Throwable t) {
@@ -117,10 +117,10 @@ public class Chats extends Fragment {
         });
     }
 
-    public void asignarChat(int idGrupo, Grupo grupo){
+    public void asignarChat(int idGrupo){
         //Primero nos asignamos al grupo
         Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null,"Nuevo grupo", null,
-                new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo,Usuario.getInstance(),grupo)));
+                new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo)));
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override
             public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response1) {
@@ -132,6 +132,7 @@ public class Chats extends Fragment {
 
                 //enviamos los datos al ChatActivity
                 Intent toChat = new Intent(getContext(), ChatActivity.class);
+                toChat.putExtra("foto",response1.body().getGrupoUsuarioFK().getGrupo().getFoto());
                 toChat.putExtra("idGrupo", idGrupo);
                 toChat.putExtra("idGrupoUsuario", response1.body().getIdGrupoUsuario());
                 startActivity(toChat);
@@ -228,8 +229,7 @@ public class Chats extends Fragment {
     public void joinGrupo() {
         GrupoUsuario newGrupoUsuario =
                 new GrupoUsuario(null, "Nombre Grupo", null,
-                    new GrupoUsuarioFK(Usuario.getInstance().getId(), grupoDestino.getIdGrupo(),
-                        Usuario.getInstance(), grupoDestino));
+                    new GrupoUsuarioFK(Usuario.getInstance().getId(), grupoDestino.getIdGrupo()));
         Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(newGrupoUsuario);
         call.enqueue(new Callback<GrupoUsuario>() {
             @Override

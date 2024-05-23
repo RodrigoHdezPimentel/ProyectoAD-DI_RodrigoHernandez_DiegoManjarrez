@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,5 @@ public interface ConversacionRepository extends JpaRepository<Conversacion, Inte
     @Modifying//Cambiar idLeido de la conversacion
     @Query(value = "UPDATE Conversacion c SET contenido = ?2 WHERE idconversacion = ?1")
     void updateContent(Integer idConv, String contenido);
-
 
 }

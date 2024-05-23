@@ -391,6 +391,7 @@ public class ChatActivity extends AppCompatActivity {
                             Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        title.setText(nombreGrupo.getText().toString());
                         unlockNameField.setVisibility(View.VISIBLE);
                         nombreGrupo.setEnabled(false);
                         confirmName.setVisibility(View.GONE);
@@ -456,7 +457,7 @@ public class ChatActivity extends AppCompatActivity {
         for (Integer i : idsGrupoUsuarioShareedCodeGroups) {
             newConversacion = new Conversacion(
                     null, i, getDateSpain(),
-                    "Unete a mi grupo:\n" + infoGrupo.getCodigo().toString(),
+                    "Unete a mi grupo:\n" + "http//:localhost:8086/chat/join/"+infoGrupo.getCodigo().toString(),
                     "0," + Usuario.getInstance().getId().toString());
 
             Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);

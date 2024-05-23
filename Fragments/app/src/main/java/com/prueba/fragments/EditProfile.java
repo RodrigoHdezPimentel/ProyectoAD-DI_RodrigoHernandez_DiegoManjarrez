@@ -228,14 +228,14 @@ public void habilitarBotonesCambios(){
     botonConfirmarCambios.setVisibility(View.VISIBLE);
     botonUpdateTema.setVisibility(View.INVISIBLE);
     botoDeleteCuenta.setVisibility(View.INVISIBLE);
-    buttonLoginOut.setVisibility(View.VISIBLE);
+    buttonLoginOut.setVisibility(View.INVISIBLE);
 }
     public void deshabilitarBotonesCambios(){
         botonCancelarCambios.setVisibility(View.INVISIBLE);
         botonConfirmarCambios.setVisibility(View.INVISIBLE);
         botonUpdateTema.setVisibility(View.VISIBLE);
         botoDeleteCuenta.setVisibility(View.VISIBLE);
-        buttonLoginOut.setVisibility(View.INVISIBLE);
+        buttonLoginOut.setVisibility(View.VISIBLE);
     }
     public void restaurarValoresOriginales() {
         // Deshabilitar temporalmente el TextWatcher
@@ -588,7 +588,7 @@ public void habilitarBotonesCambios(){
                 if (response.isSuccessful()){
                     Log.d("PHOTO", "onResponse: "+response.body());
                 }else {
-                    Toast.makeText(EditProfile.this, "Fallos en la ruta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfile.this, "Fallos en la ruta eliminar foto", Toast.LENGTH_SHORT).show();
                 }
             }
 

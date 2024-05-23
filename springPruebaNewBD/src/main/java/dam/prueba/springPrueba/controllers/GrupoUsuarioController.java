@@ -128,4 +128,5 @@ public class GrupoUsuarioController {
     public void mensajesSinLeer(ChatListUser chat){
         chat.setNumNewMessage(grupoUsuarioService.numMessageNews(chat.getChat().getId().getIdgrupo(), chat.getChat().getId().getIdusuario()));
     }
+
 }

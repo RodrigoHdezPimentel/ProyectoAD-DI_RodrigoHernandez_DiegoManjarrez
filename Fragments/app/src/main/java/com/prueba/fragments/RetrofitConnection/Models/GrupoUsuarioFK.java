@@ -16,6 +16,11 @@ public class GrupoUsuarioFK {
         this.grupo = grupo;
     }
 
+    public GrupoUsuarioFK(Integer idusuario, Integer idgrupo) {
+        this.idusuario = idusuario;
+        this.idgrupo = idgrupo;
+    }
+
     public Integer getIdusuario() {
         return idusuario;
     }

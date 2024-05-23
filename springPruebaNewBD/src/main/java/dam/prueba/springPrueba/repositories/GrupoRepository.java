@@ -13,4 +13,7 @@ public interface GrupoRepository extends JpaRepository<Grupo, Integer> {
     @Query(value = "SELECT g FROM Grupo g " +
             "WHERE g.codigo = ?1")
     Grupo findGroup(String codigo);
+
+
+
 }

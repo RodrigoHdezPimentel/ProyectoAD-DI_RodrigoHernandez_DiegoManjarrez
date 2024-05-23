@@ -2,10 +2,12 @@ package com.prueba.fragments.RecyclerViews.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -16,10 +18,19 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.prueba.fragments.ChatActivity;
 import com.prueba.fragments.Class.Message;
+import com.prueba.fragments.MainActivity;
 import com.prueba.fragments.R;
+import com.prueba.fragments.RetrofitConnection.Models.Grupo;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuario;
+import com.prueba.fragments.RetrofitConnection.Models.GrupoUsuarioFK;
 import com.prueba.fragments.RetrofitConnection.Models.Usuario;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHolder> {
     Context context;
@@ -73,8 +84,9 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
 
         holder.cv.setElevation(10f);
         holder.fecha.setText(conversacionModels.get(position).getConversacion().getFecha().toString());
-        holder.Contenido.setText(conversacionModels.get(position).getConversacion().getContenido());
 
+        holder.Contenido.setText(conversacionModels.get(position).getConversacion().getContenido());
+        linkJoinChat(holder, position);
     }
 
     @Override
@@ -104,4 +116,63 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
         recyclerView.smoothScrollToPosition(conversacionModels.size() - 1);
 
     }
+    public void linkJoinChat(MyViewHolder holder, int position){
+        if(holder.Contenido.getText().toString().contains("http//:localhost:8086/chat/join/") &&
+                !Objects.equals(conversacionModels.get(position).getIdUsuario(), Usuario.getInstance().getId())){
+         holder.cv.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 int longitud = holder.Contenido.getText().toString().length();
+                String obtenerCodigo = holder.Contenido.getText().toString().substring(longitud - 10,longitud);
+                 Call<Grupo> call = MainActivity.grupoInterface.findGroup(obtenerCodigo);
+                 call.enqueue(new Callback<Grupo>() {
+                     @Override
+                     public void onResponse(Call<Grupo> call, Response<Grupo> response) {
+                         if (response.isSuccessful()){
+                             Toast.makeText(context, "grupo encontrado", Toast.LENGTH_SHORT).show();
+                             asignarChat(response.body().getIdGrupo(), response.body());
+                         }else {
+                             Toast.makeText(context, "Error en el link", Toast.LENGTH_SHORT).show();
+                         }
+
+                     }
+
+                     @Override
+                     public void onFailure(Call<Grupo> call, Throwable t) {
+
+                     }
+                 });
+             }
+         });
+        }
+    }
+
+        public void asignarChat(Integer idGrupo, Grupo grupo){
+            //Primero nos asignamos al grupo
+            Call<GrupoUsuario> call = MainActivity.grupoUsuarioInterface.create(new GrupoUsuario(null, "Nombre Grupo", null,
+                    new GrupoUsuarioFK(Usuario.getInstance().getId(), idGrupo, Usuario.getInstance(), grupo)));
+            call.enqueue(new Callback<GrupoUsuario>() {
+                @Override
+                public void onResponse(Call<GrupoUsuario> call, Response<GrupoUsuario> response1) {
+                    if(!response1.isSuccessful()){
+                        return;
+                    }
+                            //enviamos los datos al ChatActivity
+                            Intent toChat = new Intent(context,ChatActivity.class);
+                            toChat.putExtra("foto",grupo.getFoto());
+                            toChat.putExtra("idGrupo", idGrupo);
+                            toChat.putExtra("idGrupoUsuario", response1.body().getIdGrupoUsuario());
+                            Toast.makeText(context, response1.body().getIdGrupoUsuario()+"", Toast.LENGTH_SHORT).show();
+                            context.startActivity(toChat);
+
+                }
+                @Override
+                public void onFailure(Call<GrupoUsuario> call, Throwable t) {
+
+                }
+            });
+        }
+
+
+
 }
