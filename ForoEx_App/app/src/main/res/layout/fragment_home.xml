@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.MainFragment.Home">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="HOME" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/homeFragmentManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/seed"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="15dp">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/misTemasTabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mis_temas"
+            tools:layout_editor_absoluteX="-92dp"
+            tools:layout_editor_absoluteY="24dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/TendenciasTabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tendencias" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentView"
+        android:name="com.prueba.foroex_app.Fragments.HomeFragment.MisTemas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeFragmentManager" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
