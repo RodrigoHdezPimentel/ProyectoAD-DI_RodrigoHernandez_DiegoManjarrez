@@ -22,5 +22,8 @@ public interface GrupoInterface {
     Call<Grupo> create(@Body Grupo grupo);
     @DELETE("deleteGroup/{id}")
     Call<Boolean> delete(@Path("id") Integer id);
+    @GET("findUserInGroup/{codigo}/{idU}")
+    Call<Boolean> findUserInGroup(@Path("codigo") String codigo, @Path("idU") Integer idU);
+
 
 }

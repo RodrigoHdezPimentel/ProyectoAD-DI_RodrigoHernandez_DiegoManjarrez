@@ -34,6 +34,11 @@ public class GrupoController {
     public Grupo findGroup(@PathVariable String codigo){
         return grupoService.findGroup(codigo);
     }
+    @GetMapping("/findUserInGroup/{codigo}/{idU}")
+    public boolean findUserInGroup(@PathVariable String codigo, @PathVariable Integer idU){
+        return grupoService.findUserInGroup(codigo,idU);
+    }
+
 
 
     //QUERY PARA COLOCAR UNA FOTO A TODO LOS GRUPOS

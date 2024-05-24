@@ -32,7 +32,9 @@ public class    GrupoService {
     public Grupo findGroup(String codigo){
         return grupoRepository.findGroup(codigo);
     }
-
+    public boolean findUserInGroup(String codigo, Integer idU){
+        return grupoRepository.findUserInGroup(codigo, idU)>0;
+    }
 
 
 }

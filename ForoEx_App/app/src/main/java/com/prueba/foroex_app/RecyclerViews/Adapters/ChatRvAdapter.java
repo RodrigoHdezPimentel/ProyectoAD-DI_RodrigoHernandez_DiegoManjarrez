@@ -39,7 +39,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
 
     public ChatRvAdapter(Context context, ArrayList<Message> conversacionModels, RecyclerView recyclerView) {
         this.context = context;
-        this.conversacionModels = conversacionModels;
+        ChatRvAdapter.conversacionModels = conversacionModels;
         this.recyclerView = recyclerView;
     }
     @Override
@@ -122,26 +122,7 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
          holder.cv.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 int longitud = holder.Contenido.getText().toString().length();
-                String obtenerCodigo = holder.Contenido.getText().toString().substring(longitud - 10,longitud);
-                 Call<Grupo> call = MainActivity.grupoInterface.findGroup(obtenerCodigo);
-                 call.enqueue(new Callback<Grupo>() {
-                     @Override
-                     public void onResponse(Call<Grupo> call, Response<Grupo> response) {
-                         if (response.isSuccessful()){
-                             Toast.makeText(context, "grupo encontrado", Toast.LENGTH_SHORT).show();
-                             asignarChat(response.body().getIdGrupo(), response.body());
-                         }else {
-                             Toast.makeText(context, "Error en el link", Toast.LENGTH_SHORT).show();
-                         }
-
-                     }
-
-                     @Override
-                     public void onFailure(Call<Grupo> call, Throwable t) {
-
-                     }
-                 });
+                 comprobarLink(holder,position);
              }
          });
         }
@@ -162,7 +143,6 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
                             toChat.putExtra("foto",grupo.getFoto());
                             toChat.putExtra("idGrupo", idGrupo);
                             toChat.putExtra("idGrupoUsuario", response1.body().getIdGrupoUsuario());
-                            Toast.makeText(context, response1.body().getIdGrupoUsuario()+"", Toast.LENGTH_SHORT).show();
                             context.startActivity(toChat);
 
                 }
@@ -173,6 +153,49 @@ public class ChatRvAdapter extends RecyclerView.Adapter<ChatRvAdapter.MyViewHold
             });
         }
 
+public  void comprobarLink(MyViewHolder holder, int position){
+    int longitud = holder.Contenido.getText().toString().length();
+    String obtenerCodigo = holder.Contenido.getText().toString().substring(longitud - 10,longitud);
 
+    Call<Boolean> call = MainActivity.grupoInterface.findUserInGroup(obtenerCodigo, Usuario.getInstance().getId());
+       call.enqueue(new Callback<Boolean>() {
+           @Override
+           public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if(response.isSuccessful()){
+                    if (Boolean.TRUE.equals(response.body())){
+                        Toast.makeText(context, "Ya estás en el grupo", Toast.LENGTH_SHORT).show();
 
+                    }else {
+                        findGroupUser(obtenerCodigo);
+                    }
+                }
+           }
+
+           @Override
+           public void onFailure(Call<Boolean> call, Throwable t) {
+
+           }
+       });
+}
+public void findGroupUser(String codigo){
+    Call<Grupo> call = MainActivity.grupoInterface.findGroup(codigo);
+    call.enqueue(new Callback<Grupo>() {
+        @Override
+        public void onResponse(Call<Grupo> call, Response<Grupo> response) {
+            if (response.isSuccessful()){
+               // Toast.makeText(context, "grupo encontrado", Toast.LENGTH_SHORT).show();
+                asignarChat(response.body().getIdGrupo(), response.body());
+                Toast.makeText(context, "¡Bienvenido al chat!", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(context, "Error en el link", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        @Override
+        public void onFailure(Call<Grupo> call, Throwable t) {
+
+        }
+    });
+}
 }
