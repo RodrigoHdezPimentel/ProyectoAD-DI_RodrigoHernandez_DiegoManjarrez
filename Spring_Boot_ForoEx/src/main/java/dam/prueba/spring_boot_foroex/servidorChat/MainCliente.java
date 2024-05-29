@@ -18,7 +18,7 @@ public class MainCliente {
 
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             //se envia el idGrupo al servidor
-            dos.writeLong(1L);
+            dos.writeLong(37L);
 
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());

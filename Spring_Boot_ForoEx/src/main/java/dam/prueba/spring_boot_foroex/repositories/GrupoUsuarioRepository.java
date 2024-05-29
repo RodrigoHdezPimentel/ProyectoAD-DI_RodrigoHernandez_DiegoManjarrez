@@ -58,6 +58,7 @@ public interface GrupoUsuarioRepository extends JpaRepository<GrupoUsuario, Grup
            " WHERE g.id.idgrupo = ?1" +
            " AND (c.idleido NOT LIKE '%,' || ?2 || ',%' OR c.idleido IS NULL)" +
            " AND (c.idleido NOT LIKE '%,' || ?2 OR c.idleido IS NULL)" +
+           " AND (c.idleido NOT LIKE ?2 || ',%'  OR c.idleido IS NULL)" +
            " AND (c.idleido NOT LIKE ?2 OR c.idleido IS NULL)")
       Integer numMessageNews(Integer idG, Integer idU);
 

@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Login_SignUP extends AppCompatActivity {
+public class LoginSignUP extends AppCompatActivity {
     public static ArrayList<Tema> listaTemas = new ArrayList<>();
 
 
@@ -74,7 +74,7 @@ public class Login_SignUP extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goMRegister = new Intent(Login_SignUP.this, Registro.class);
+                Intent goMRegister = new Intent(LoginSignUP.this, Registro.class);
                 startActivity(goMRegister);
             }
         });
@@ -94,17 +94,17 @@ public class Login_SignUP extends AppCompatActivity {
                         Usuario.setInstance(userData);
 
                         if(recuerdame.isChecked()){
-                            AutoLogin.setPrefUserPass(Login_SignUP.this, password.getText().toString());
-                            AutoLogin.setUserName(Login_SignUP.this, userName.getText().toString());
+                            AutoLogin.setPrefUserPass(LoginSignUP.this, password.getText().toString());
+                            AutoLogin.setUserName(LoginSignUP.this, userName.getText().toString());
                             Usuario.getInstance().setAutoLogin(true);
                         }
-                        Intent goMain = new Intent(Login_SignUP.this,MainActivity.class);
+                        Intent goMain = new Intent(LoginSignUP.this,MainActivity.class);
                         startActivity(goMain);
                     }else{
-                        Toast.makeText(Login_SignUP.this, "La cuenta no existe", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginSignUP.this, "La cuenta no existe", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(Login_SignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginSignUP.this, "Error. Comprueba los datos", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -139,7 +139,7 @@ public class Login_SignUP extends AppCompatActivity {
     //Cargo los diferentes idiomas que tenemos hasta ahora
     public void cargarIdioma(){
         listLanguages = findViewById(R.id.listaLanguages);
-        LanguageItemAdapter languageAdapter = new LanguageItemAdapter(Login_SignUP.this);
+        LanguageItemAdapter languageAdapter = new LanguageItemAdapter(LoginSignUP.this);
         listLanguages.setAdapter(languageAdapter);
         listLanguages.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

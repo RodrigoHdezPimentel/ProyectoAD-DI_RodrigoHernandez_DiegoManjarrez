@@ -11,7 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.prueba.foroex_app.Login_SignUP;
+import com.prueba.foroex_app.LoginSignUP;
 import com.prueba.foroex_app.R;
 import com.prueba.foroex_app.RetrofitConnection.Models.Usuario;
 
@@ -66,7 +66,7 @@ AutoCompleteTextView  gender;
         buttonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toLoginSignUp = new Intent(Registro.this, Login_SignUP.class);
+                Intent toLoginSignUp = new Intent(Registro.this, LoginSignUP.class);
                 startActivity(toLoginSignUp);
             }
         });

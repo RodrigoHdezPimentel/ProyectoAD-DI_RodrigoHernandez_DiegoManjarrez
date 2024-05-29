@@ -51,31 +51,26 @@ public class ChatActivity extends AppCompatActivity {
     ConnectionChat connectionChat;
     public static ArrayList<Integer> idsGrupoUsuarioShareedCodeGroups = new ArrayList<>();
     RecyclerView MyRecyclerView;
-    Integer idGrupo;
     Grupo infoGrupo;
     static Conversacion conversacionSeleccionada;
-    Integer idGrupoUsuario;
     GrupoUsuario grupoUsuario;
     ArrayList<Message> Conversation = new ArrayList<>();
     ArrayList<Usuario> usuariosGrupo = new ArrayList<>();
     ArrayList<ChatListUser> listaGrupos = new ArrayList<>();
-    static TextInputEditText texto;
+     static TextInputEditText texto;
+     static Integer messagePosition;
+    Integer idGrupoUsuario;
+    Integer idGrupo;
+     static TextView textoActualizar;
     TextView title;
-    ImageView iconChat;
-    static Integer messagePosition;
-    static TextView textoActualizar;
-    static ImageView cross;
-    static ImageView rubish;
-    static ImageView confirm;
+    ImageView cross,arrow, iconChat, rubish, confirm;
     static ImageView send;
-    ImageView arrow;
-    AlertDialog alertDialog;
 
-    AlertDialog alertDialogGroups;
+    AlertDialog alertDialog, alertDialogGroups;
     ChatRvAdapter adapter;
     oldModel hiloChat;
-    static ConstraintLayout editConsLay;
-    static LinearLayout defaultLinLay;
+     static ConstraintLayout editConsLay;
+     static LinearLayout defaultLinLay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,8 +113,7 @@ public class ChatActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!Objects.requireNonNull(texto.getText()).toString().isEmpty()){
-                    GuardarConversacion();}
+
             }
         });
         arrow.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +138,7 @@ public class ChatActivity extends AppCompatActivity {
                 Call<Void> callUpdate = MainActivity.conversacionInterface.updateContent(conversacionSeleccionada.getIdConversacion(), texto.getText().toString());
                 callUpdate.enqueue(new Callback<Void>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (!response.isSuccessful()) {
                             Log.e("Response err: ", response.message());
                             Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
@@ -291,26 +285,6 @@ public class ChatActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<Grupo> call, Throwable t) {
-            }
-        });
-    }
-
-    public void GuardarConversacion(){
-
-        Conversacion newConversacion = new Conversacion(null, idGrupoUsuario, getDateSpain(), texto.getText().toString(),  Usuario.getInstance().getId().toString());
-        Call<Conversacion> call = MainActivity.conversacionInterface.save(newConversacion);
-        call.enqueue(new Callback<Conversacion>() {
-            @Override
-            public void onResponse(@NonNull Call<Conversacion> call, @NonNull Response<Conversacion> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                texto.setText("");
-            }
-            @Override
-            public void onFailure(Call<Conversacion> call, Throwable t) {
             }
         });
     }

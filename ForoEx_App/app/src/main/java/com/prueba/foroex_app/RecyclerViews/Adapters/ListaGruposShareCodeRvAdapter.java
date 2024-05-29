@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.prueba.foroex_app.ChatActivity;
 import com.prueba.foroex_app.Class.ChatListUser;
+import com.prueba.foroex_app.MainActivity;
 import com.prueba.foroex_app.R;
 
 import java.util.ArrayList;
@@ -43,7 +45,29 @@ public class ListaGruposShareCodeRvAdapter extends RecyclerView.Adapter<ListaGru
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         //Nombre y Foto perfil
-        holder.nombre.setText(listaGrupos.get(position).getChat().getNombre().toString());
+        holder.nombre.setText(listaGrupos.get(position).getChat().getNombre());
+        enviarCodigo(holder, position);
+        MainActivity.addPicture(holder.iconListaChatShaer, context, listaGrupos.get(position).getChat().getGrupoUsuarioFK().getGrupo().getFoto());
+
+    }
+
+    @Override
+    public int getItemCount() {return listaGrupos.size();}
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView nombre;
+        CheckBox checkBox;
+
+        ImageView iconListaChatShaer;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.nombre = itemView.findViewById(R.id.personaChat);
+            this.checkBox = itemView.findViewById(R.id.chatCheckBox);
+            this.iconListaChatShaer= itemView.findViewById(R.id.iconListChat);
+        }
+    }
+    public void  enviarCodigo(MyViewHolder holder, int position){
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -59,19 +83,5 @@ public class ListaGruposShareCodeRvAdapter extends RecyclerView.Adapter<ListaGru
                 }
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {return listaGrupos.size();}
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView nombre;
-        CheckBox checkBox;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.nombre = itemView.findViewById(R.id.personaChat);
-            this.checkBox = itemView.findViewById(R.id.chatCheckBox);
-        }
     }
 }

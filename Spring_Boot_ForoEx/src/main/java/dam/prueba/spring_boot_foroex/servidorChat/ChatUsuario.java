@@ -60,6 +60,7 @@ public class ChatUsuario extends Thread {
         try {
             for (ChatUsuario usuario: listaUsuarios){
                 System.out.println("mensaje para el grupo:"+usuario.idGrupo);
+                System.out.println("Con socket: "+ socket.getInetAddress().getHostName());
                 oos.writeObject(mensaje);
                 oos.flush(); // Asegurar que los datos se envíen
             }

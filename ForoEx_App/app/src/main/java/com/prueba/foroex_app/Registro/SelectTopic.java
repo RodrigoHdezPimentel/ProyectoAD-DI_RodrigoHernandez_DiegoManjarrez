@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
-import com.prueba.foroex_app.Login_SignUP;
+import com.prueba.foroex_app.LoginSignUP;
 import com.prueba.foroex_app.MainActivity;
 import com.prueba.foroex_app.R;
 import com.prueba.foroex_app.RetrofitConnection.Models.Tema;
@@ -85,7 +85,7 @@ public class SelectTopic extends AppCompatActivity {
 
     @SuppressLint("ResourceAsColor")
     public void cargarThemes(){
-        for(Tema t : Login_SignUP.listaTemas){
+        for(Tema t : LoginSignUP.listaTemas){
             Chip newChip = new Chip(this);
             newChip.setText(t.getTitulo());
             ChipDrawable chipDrawable = ChipDrawable.createFromAttributes(this, null, 0, com.google.android.material.R.style.Widget_Material3_Chip_Filter);

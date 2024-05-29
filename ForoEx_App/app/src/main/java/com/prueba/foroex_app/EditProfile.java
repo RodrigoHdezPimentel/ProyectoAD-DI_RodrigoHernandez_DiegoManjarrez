@@ -195,7 +195,7 @@ public class EditProfile extends AppCompatActivity {
                 Usuario.setInstance(null);
                 AutoLogin.setUserName(EditProfile.this, null);
                 AutoLogin.setPrefUserPass(EditProfile.this, null);
-                Intent toListChat = new Intent(EditProfile.this, Login_SignUP.class);
+                Intent toListChat = new Intent(EditProfile.this, LoginSignUP.class);
                 startActivity(toListChat);
             }
         });
@@ -279,7 +279,7 @@ public void habilitarBotonesCambios(){
                 Usuario.setInstance(null);
                 AutoLogin.setUserName(EditProfile.this, null);
                 AutoLogin.setPrefUserPass(EditProfile.this, null);
-                Intent toListChat = new Intent(EditProfile.this, Login_SignUP.class);
+                Intent toListChat = new Intent(EditProfile.this, LoginSignUP.class);
                 startActivity(toListChat);
             }
             @Override
@@ -308,7 +308,7 @@ public void habilitarBotonesCambios(){
                 // Acciones al confirmar
                 // Por ejemplo: actualizarPerfil();
                 deleteUser();
-                Intent toLogIn = new Intent(EditProfile.this, Login_SignUP.class);
+                Intent toLogIn = new Intent(EditProfile.this, LoginSignUP.class);
                 startActivity(toLogIn);
             }
         });
