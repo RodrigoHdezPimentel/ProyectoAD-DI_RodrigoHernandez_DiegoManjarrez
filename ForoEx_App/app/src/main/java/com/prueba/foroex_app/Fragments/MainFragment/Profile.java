@@ -195,12 +195,9 @@ public class Profile extends Fragment {
                         if(!response.isSuccessful()){
                             return;
                         }
-                        Toast.makeText(getContext(), response.body().toString()+"", Toast.LENGTH_SHORT).show();
                         if(response.body().isEmpty()){
-                            Toast.makeText(getContext(), "Chat cuevo", Toast.LENGTH_SHORT).show();
                             crearConversacion();
                         }else {
-                            Toast.makeText(getContext(), "Cargar chat", Toast.LENGTH_SHORT).show();
                             Intent toChat = new Intent(getContext(), ChatActivity.class);
                             toChat.putExtra("foto",perfil.getFoto());
                             toChat.putExtra("idGrupo", response.body().get(0).get(0));
@@ -228,7 +225,6 @@ public class Profile extends Fragment {
                 if(!response.isSuccessful()){
                     return;
                 }
-                Toast.makeText(getContext(), response.body().getIdGrupo()+"id Grupo nuevo", Toast.LENGTH_SHORT).show();
                 //Ahora Asignamos los usuarios al grupo para chatear
                 asignarChat(response.body().getIdGrupo(),response.body());
 

@@ -144,7 +144,6 @@ public class ChatActivity extends AppCompatActivity {
                             Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        Toast.makeText(ChatActivity.this, "updated", Toast.LENGTH_SHORT).show();
                         textoActualizar.setText(texto.getText().toString());
                         texto.setText("");
                         cargarConversacion();
@@ -441,7 +440,6 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.makeText(ChatActivity.this, "error", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(ChatActivity.this, "creado", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
